@@ -1,0 +1,22 @@
+Take field and aperture values from the design file
+
+A hand-maintained summary is not a source. The collection's
+lens_properties_list.txt disagrees with the ZMX on some field rows because its
+convention is not consistent across rows: an angle-typed row may give a full
+field or a half field, and two angle-typed rows carry an object height instead.
+
+Read the field type and the field points from the design file itself (FTYP and
+YFLN) and the system aperture from FNUM or ENPD, with the upstream dump's stated
+f-number used only where the ZMX states no aperture. The property list is kept as
+property_list_comparison and is never used as a value, so no record describes a
+summary-versus-design difference as a source disagreement.
+
+Add IMAGE_HEIGHT for real and paraxial image heights, keep the on-axis field
+point, and record the dump cross-check per record: all 40 accepted records match
+their dump's field table.
+
+The engine cannot settle a field-value difference and this batch does not ask it
+to: the committed Projects carry one on-axis source and no pupil sampling, and
+probing both candidate values returns OUT_OF_MODEL_SCOPE either way. The engine's
+verdict covers first-order geometry (EFL, BFL), which is unchanged: 40/40 still
+pass check, solids and the paraxial comparison.

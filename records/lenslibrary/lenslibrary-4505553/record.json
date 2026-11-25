@@ -98,27 +98,33 @@
   }
  },
  "aperture": {
-  "numerical_aperture": {
-   "value": 0.64,
-   "definition": "object-space numerical aperture as stated by the source",
-   "basis": "SOURCE_STATED (LensLibrary property list)"
-  },
   "f_number": {
    "value": 0.6,
-   "definition": "image-space f-number (paraxial working f-number of the dump)",
-   "basis": "SOURCE_STATED (the upstream prescription dump)"
+   "definition": "image-space f-number, the system aperture the design file states",
+   "basis": "SOURCE_STATED (the design file's FNUM)"
+  },
+  "property_list_comparison": {
+   "quantity": "numerical_aperture",
+   "value": 0.64,
+   "note": "the property list states a numerical aperture for this object-space design; an f-number and an NA are different quantities and are not converted"
   }
  },
  "field": {
   "kind": "IMAGE_HEIGHT",
-  "definition": "image-space field height, the largest stated field point; it is an image quantity, not an object-space field or an angle",
+  "definition": "image-space field height, the largest stated field point; an image quantity, not an object-space field and not an angle",
+  "image_height_kind": "REAL_IMAGE_HEIGHT",
   "max_image_height_mm": 0.12592,
   "field_points_mm": [
    0.0,
    0.06288,
    0.12592
   ],
-  "basis": "SOURCE_STATED (the upstream prescription dump's field table)"
+  "basis": "SOURCE_STATED (the design file's FTYP field type and YFLN field points)",
+  "prescription_dump_check": "MATCHES",
+  "property_list_comparison": {
+   "value": 0.514,
+   "note": "the collection's hand-maintained property list; its field convention is not consistent across rows (full field, half field, or an object height on an angle-typed design), so it is not used as a field value"
+  }
  },
  "materials": {
   "model_glasses": [
@@ -441,5 +447,5 @@
    "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
   ]
  },
- "record_hash": "2bdc298f665c3389f755d48109f7f4768d2c435f9067ed01131dc4c5c08b70fd"
+ "record_hash": "c674333b149661409f89483d569ca5f01f964e8a864e073a64567ade31d900b9"
 }

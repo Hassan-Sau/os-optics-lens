@@ -91,15 +91,15 @@
   }
  },
  "aperture": {
-  "numerical_aperture": {
-   "value": 0.4,
-   "definition": "object-space numerical aperture as stated by the source",
-   "basis": "SOURCE_STATED (LensLibrary property list)"
-  },
   "f_number": {
    "value": 0.3768878,
-   "definition": "image-space f-number (paraxial working f-number of the dump)",
+   "definition": "image-space f-number, from the upstream prescription dump",
    "basis": "SOURCE_STATED (the upstream prescription dump)"
+  },
+  "property_list_comparison": {
+   "quantity": "numerical_aperture",
+   "value": 0.4,
+   "note": "the property list states a numerical aperture for this object-space design; an f-number and an NA are different quantities and are not converted"
   }
  },
  "field": {
@@ -111,9 +111,12 @@
    0.0625,
    0.125
   ],
-  "basis": "SOURCE_STATED (the upstream prescription dump's field table)",
-  "full_object_height_mm": 0.25,
-  "convention": "the property list states the full object-space field; the prescription dump's field table states the largest field point, which is half of it"
+  "basis": "SOURCE_STATED (the design file's FTYP field type and YFLN field points)",
+  "prescription_dump_check": "MATCHES",
+  "property_list_comparison": {
+   "value": 0.25,
+   "note": "the collection's hand-maintained property list; its field convention is not consistent across rows (full field, half field, or an object height on an angle-typed design), so it is not used as a field value"
+  }
  },
  "materials": {
   "model_glasses": [],
@@ -207,5 +210,5 @@
    "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
   ]
  },
- "record_hash": "4a9b1761615e08f092cb4e16ff2f5785ce1919c8977196a1b4bb3ca1ece6d53e"
+ "record_hash": "13fa94f3b4a68bb85a0835fac4d7f090bd6ac1878f2ed349b4f210c004623d38"
 }

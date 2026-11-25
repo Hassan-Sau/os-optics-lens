@@ -78,20 +78,43 @@ corresponding constraint unconfirmed.
 
 ## Aperture
 
-`f_number` and `numerical_aperture` are different quantities and never share a field. An
-image-space design records `f_number` (image-space f-number as the source states it); an
-object-space design records `numerical_aperture`. A record with neither leaves both out.
+`f_number` and `numerical_aperture` are different quantities and never share a field, and the
+import never converts one into the other.
+
+The design file states the system aperture directly — `FNUM` for an f-number, `ENPD` for an
+entrance pupil diameter — and those values are used when present. Where the ZMX states neither,
+the value comes from the upstream dump's stated f-number. The property list is kept as
+`property_list_comparison` only: for an object-space design it states a numerical aperture, which
+is a different quantity from an f-number.
+
+A record with no stated aperture leaves both out rather than inferring one.
 
 ## Field
 
-`field.kind` decides the meaning:
+The **design file is authoritative**: the ZMX states the field type in `FTYP` and the field points
+in `YFLN`. `FTYP`'s first code maps to the kind — `0` angle, `1` object height, `2` paraxial image
+height, `3` real image height — and the record keeps that kind:
 
 | `kind` | Fields | Meaning |
 |---|---|---|
-| `ANGULAR` | `full_field_deg`, `half_field_deg`, `field_points_deg` | Field angles. The full field is twice the largest half field. |
+| `ANGULAR` | `full_field_deg`, `half_field_deg`, `field_points_deg` | Field angles. The full field is twice the largest stated half field. |
 | `OBJECT_HEIGHT` | `max_object_height_mm`, `field_points_mm` | Object-space field size in millimetres, not an angle. |
+| `IMAGE_HEIGHT` | `max_image_height_mm`, `image_height_kind`, `field_points_mm` | Image-space field size. An image quantity: neither an object-space field nor an angle. |
 
-The two are not interchangeable and are never converted into each other by the import.
+The three are not interchangeable and the import never converts one into another.
+
+Two checks sit beside the value and are **not** values:
+
+- `prescription_dump_check` — the upstream dump prints the same field table. `MATCHES` when it
+  agrees, otherwise `FIELD_TABLE_DIFFERS` with both numbers. Across this batch it is `MATCHES` for
+  all 40 accepted records.
+- `property_list_comparison` — the collection's `lens_properties_list.txt` is a hand-maintained
+  summary whose field convention is **not consistent across rows**: an angle-typed row may give the
+  full field (`528155`: 53.2) or a half field (`5852515a`: 4.0), and two angle-typed rows carry an
+  object height instead (`6016226`: 1.673, `Kidger2004`: 0.315). It is therefore never used as a
+  field value and never described as a source disagreement.
+
+A missing value is left out. An unknown field leaves the field constraint unconfirmed.
 
 ## Materials
 

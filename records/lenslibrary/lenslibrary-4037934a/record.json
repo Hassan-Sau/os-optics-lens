@@ -94,20 +94,22 @@
  "aperture": {
   "f_number": {
    "value": 0.55,
-   "definition": "image-space f-number (paraxial working f-number of the dump)",
-   "basis": "SOURCE_STATED (the upstream prescription dump)"
+   "definition": "image-space f-number, the system aperture the design file states",
+   "basis": "SOURCE_STATED (the design file's FNUM)"
   }
  },
  "field": {
   "kind": "IMAGE_HEIGHT",
-  "definition": "image-space field height, the largest stated field point; it is an image quantity, not an object-space field or an angle",
+  "definition": "image-space field height, the largest stated field point; an image quantity, not an object-space field and not an angle",
+  "image_height_kind": "REAL_IMAGE_HEIGHT",
   "max_image_height_mm": 0.0556,
   "field_points_mm": [
    0.0,
    0.037,
    0.0556
   ],
-  "basis": "SOURCE_STATED (the upstream prescription dump's field table)"
+  "basis": "SOURCE_STATED (the design file's FTYP field type and YFLN field points)",
+  "prescription_dump_check": "MATCHES"
  },
  "materials": {
   "model_glasses": [
@@ -346,5 +348,5 @@
    "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
   ]
  },
- "record_hash": "9e253504fa9d15f6b0ec694ec6d7fc66cf224734d6097e446dbfa8af42cbc6f3"
+ "record_hash": "7ff8fc0d287b81cb585a0623c7d608a9fe29fb3b3de9e7d8945399780dac985d"
 }

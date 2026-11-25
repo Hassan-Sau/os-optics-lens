@@ -98,20 +98,25 @@
   }
  },
  "aperture": {
-  "numerical_aperture": {
-   "value": 0.56,
-   "definition": "object-space numerical aperture as stated by the source",
-   "basis": "SOURCE_STATED (LensLibrary property list)"
-  },
   "f_number": {
    "value": 0.7437107,
-   "definition": "image-space f-number (paraxial working f-number of the dump)",
+   "definition": "image-space f-number, from the upstream prescription dump",
    "basis": "SOURCE_STATED (the upstream prescription dump)"
+  },
+  "entrance_pupil_diameter_mm": {
+   "value": 1.35,
+   "definition": "entrance pupil diameter, the system aperture the design file states",
+   "basis": "SOURCE_STATED (the design file's ENPD)"
+  },
+  "property_list_comparison": {
+   "quantity": "numerical_aperture",
+   "value": 0.56,
+   "note": "the property list states a numerical aperture for this object-space design; an f-number and an NA are different quantities and are not converted"
   }
  },
  "field": {
   "kind": "ANGULAR",
-  "definition": "full field of view, the largest stated field angle",
+  "definition": "field angle; the full field is twice the largest stated half field",
   "full_field_deg": 6.0,
   "half_field_deg": 3.0,
   "field_points_deg": [
@@ -119,7 +124,12 @@
    2.1,
    3.0
   ],
-  "basis": "SOURCE_STATED (the upstream prescription dump's field table)"
+  "basis": "SOURCE_STATED (the design file's FTYP field type and YFLN field points)",
+  "prescription_dump_check": "MATCHES",
+  "property_list_comparison": {
+   "value": 1.673,
+   "note": "the collection's hand-maintained property list; its field convention is not consistent across rows (full field, half field, or an object height on an angle-typed design), so it is not used as a field value"
+  }
  },
  "materials": {
   "model_glasses": [
@@ -457,5 +467,5 @@
    "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
   ]
  },
- "record_hash": "229dba92b3f894a371bd1f88aca6e91ab356515fd2865c1fb83291ba8705b8b7"
+ "record_hash": "dbd86717f70b9c7dc562423ca9ef1de94070232449d5e265b30cdb0257094ada"
 }

@@ -96,13 +96,18 @@
  "aperture": {
   "f_number": {
    "value": 6.0,
-   "definition": "image-space f-number as stated by the source",
-   "basis": "SOURCE_STATED (LensLibrary property list)"
+   "definition": "image-space f-number, the system aperture the design file states",
+   "basis": "SOURCE_STATED (the design file's FNUM)"
+  },
+  "property_list_comparison": {
+   "quantity": "f_number",
+   "value": 6.0,
+   "note": "the collection's hand-maintained property list, kept for comparison only"
   }
  },
  "field": {
   "kind": "ANGULAR",
-  "definition": "full field of view, the largest stated field angle",
+  "definition": "field angle; the full field is twice the largest stated half field",
   "full_field_deg": 50.0,
   "half_field_deg": 25.0,
   "field_points_deg": [
@@ -110,7 +115,12 @@
    18.0,
    25.0
   ],
-  "basis": "SOURCE_STATED (the upstream prescription dump's field table)"
+  "basis": "SOURCE_STATED (the design file's FTYP field type and YFLN field points)",
+  "prescription_dump_check": "MATCHES",
+  "property_list_comparison": {
+   "value": 50.0,
+   "note": "the collection's hand-maintained property list; its field convention is not consistent across rows (full field, half field, or an object height on an angle-typed design), so it is not used as a field value"
+  }
  },
  "materials": {
   "model_glasses": [
@@ -308,5 +318,5 @@
    "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
   ]
  },
- "record_hash": "4c9dd426c002caa2e191a89c46724f1eb3856b38f1b39c2576f3531dd784cfbd"
+ "record_hash": "d505301eb711b225c4574fc9db7cfeb91682ffdecfee154df4748fe61bdd6070"
 }

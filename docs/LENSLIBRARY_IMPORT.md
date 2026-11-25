@@ -27,6 +27,11 @@ the inventory, the accepted records and the deferrals reconcile.
 record cites the dump it used and its SHA-256. A dump is the source of the per-surface index
 table and of the source-stated EFL, BFL and total track.
 
+`lens_properties_list.txt` is a hand-maintained summary of the collection. It is **not** a second
+source: its field convention is not consistent across rows (some rows give a full field, others a
+half field, and two angle-typed rows carry an object height), so field and aperture values come
+from the design file and the property list is recorded as a comparison only.
+
 ## Conversion method
 
 The conversion is source-specific preparation and lives in a scratch workspace outside this
@@ -122,6 +127,28 @@ conversion a second time.
   geometry.
 - **Image plane:** the last surface's thickness gives it; the Project puts an observation plane
   there.
+
+## Source disagreements, and what can settle them
+
+One rule decided every case: **a value comes from the design file**, and a summary is not a source.
+
+The design file (`zemax_files/*.zmx`) states the field type and field points itself (`FTYP`,
+`YFLN`) and the system aperture itself (`FNUM` or `ENPD`). The upstream dump prints the same field
+table, so it serves as a cross-check: across all 40 accepted records the two agree
+(`prescription_dump_check: MATCHES`). Where the ZMX states no aperture (`5000548a` is one), the
+dump's stated f-number is used and the record names that basis.
+
+The collection's `lens_properties_list.txt` disagrees with the design file on some rows. That is a
+property of the summary, not a conflict in the optics, so it is recorded as
+`property_list_comparison` and never as a value.
+
+**The engine cannot settle a field-value difference**, and this batch does not use it to. The
+committed Projects carry one on-axis source and one observation plane: they have no field points
+and no pupil sampling, so a field angle is not something `project evaluate` assesses. Probing both
+candidate field values on the affected records returned `OUT_OF_MODEL_SCOPE` in either case — the
+engine reports the model boundary, not a verdict on which field value is right. The engine settles
+what it can settle here, which is the first-order geometry (EFL and BFL, see below), not the
+interpretation of a stated field.
 
 ## Verification
 

@@ -94,20 +94,20 @@
   }
  },
  "aperture": {
-  "numerical_aperture": {
-   "value": 0.27,
-   "definition": "object-space numerical aperture as stated by the source",
-   "basis": "SOURCE_STATED (LensLibrary property list)"
-  },
   "f_number": {
    "value": 1.8,
-   "definition": "image-space f-number (paraxial working f-number of the dump)",
-   "basis": "SOURCE_STATED (the upstream prescription dump)"
+   "definition": "image-space f-number, the system aperture the design file states",
+   "basis": "SOURCE_STATED (the design file's FNUM)"
+  },
+  "property_list_comparison": {
+   "quantity": "numerical_aperture",
+   "value": 0.27,
+   "note": "the property list states a numerical aperture for this object-space design; an f-number and an NA are different quantities and are not converted"
   }
  },
  "field": {
   "kind": "ANGULAR",
-  "definition": "full field of view, the largest stated field angle",
+  "definition": "field angle; the full field is twice the largest stated half field",
   "full_field_deg": 24.0,
   "half_field_deg": 12.0,
   "field_points_deg": [
@@ -115,7 +115,12 @@
    6.0,
    12.0
   ],
-  "basis": "SOURCE_STATED (the upstream prescription dump's field table)"
+  "basis": "SOURCE_STATED (the design file's FTYP field type and YFLN field points)",
+  "prescription_dump_check": "MATCHES",
+  "property_list_comparison": {
+   "value": 12.0,
+   "note": "the collection's hand-maintained property list; its field convention is not consistent across rows (full field, half field, or an object height on an angle-typed design), so it is not used as a field value"
+  }
  },
  "materials": {
   "model_glasses": [
@@ -315,5 +320,5 @@
    "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
   ]
  },
- "record_hash": "43be8a39e802d17f718aed974817168b7c0de10c1f21609772c21d1884a3f353"
+ "record_hash": "244d56ba4a6dc0ce91d05b89e77c0b6e67bbc350ea67b376d5b03d7e6072ea95"
 }
