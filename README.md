@@ -30,12 +30,30 @@ Read the Project directly, or start from a record:
 os-optics project check records/lenslibrary/lenslibrary-528155/project.json
 os-optics project solids records/lenslibrary/lenslibrary-528155/project.json
 os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
-    --components LENS --wavelength-nm 587.72485
+    --components LENS --wavelength-nm 587.7220645720764
 ```
 
 [Record layout and field semantics](docs/RECORD_FORMAT.md) defines the metadata.
 [Importing the LensLibrary seed collection](docs/LENSLIBRARY_IMPORT.md) records the conversion
 method, the material and surface decisions, the verification run and the known limits.
+
+### Spectral band boundaries
+
+`band_facets` in a record uses these boundaries, in vacuum nanometres:
+
+| Facet | Interval (nm) |
+|---|---|
+| `extreme_ultraviolet` | 0.1 – 10 |
+| `ultraviolet` | 10 – 380 |
+| `visible` | 380 – 780 |
+| `near_infrared` | 780 – 3000 |
+| `mid_wave_infrared` | 3000 – 8000 |
+| `long_wave_infrared` | 8000 – 15000 |
+
+A facet is a **discovery** label derived from the record's sampling span. It never asserts that the
+design is usable across the interval: a record's `spectrum.continuous_coverage_nm` is `UNCONFIRMED`
+unless the source states a range, so only established continuous coverage can satisfy a hard band
+constraint.
 
 ## Status and contributions
 

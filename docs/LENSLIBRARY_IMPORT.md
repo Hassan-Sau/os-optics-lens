@@ -122,7 +122,7 @@ once to vacuum with **the engine's own air model**
 (`material_physics.air_index_exact`: the 6432.8 / 2949810 / 25540 form scaled by pressure and
 temperature), and the surface table is written in vacuum wavelengths. Using the Edlén 1953
 8342.13 form instead — a natural-looking choice — shifts every wavelength by about 0.003 nm
-(587.5618 nm air becomes 587.72485 nm instead of the engine's 587.7218645 nm), so the record's
+(587.5618 nm air becomes 587.7246495679807 nm instead of the engine's 587.7218645720764 nm), so the record's
 wavelength would not be the one the engine evaluates. Declaring the values as air would have
 made the engine convert a second time.
 
@@ -150,10 +150,13 @@ made the engine convert a second time.
 One rule decided every case: **a value comes from the design file**, and a summary is not a source.
 
 The design file (`zemax_files/*.zmx`) states the field type and field points itself (`FTYP`,
-`YFLN`) and the system aperture itself (`FNUM` or `ENPD`). The upstream dump prints the same field
-table, so it serves as a cross-check: across all 39 accepted records the two agree
-(`prescription_dump_check: MATCHES`). Where the ZMX states no aperture (`5000548a` is one), the
-dump's stated f-number is used and the record names that basis.
+`YFLN`) and the system aperture itself (`FNUM`, `ENPD` or `OBNA`, with the `FNUM` type flag naming
+which f-number it is). The upstream dump prints the same field table, so it serves as a cross-check:
+across all 39 accepted records the two agree (`prescription_dump_check: MATCHES`). Where the design
+file states no aperture at all, the dump's stated value is used and the record names that basis with
+`why_not_design_file`. (`5000548a` is *not* such a case: it states `OBNA 0.25`, and the record
+carries that as its system aperture. The dump's other f-number conventions appear separately, each
+with its own locator, never merged into it.)
 
 The collection's `lens_properties_list.txt` disagrees with the design file on some rows. That is a
 property of the summary, not a conflict in the optics, so it is recorded as
@@ -215,13 +218,13 @@ atol = 1e-5 mm,  rtol = 1e-4
 
 | Quantity | Condition | Result | Tightest record |
 |---|---|---|---|
-| Signed EFL | primary vacuum wavelength, image space | 39/39 within the rule | 0.4 % of its allowance |
-| BFL | same | 39/39 within the rule | 41 % of its allowance |
+| Signed EFL | primary vacuum wavelength, image space | 39/39 within the rule | 0.43 % of its allowance |
+| BFL | same | 39/39 within the rule | 0.43 % of its allowance (EFL, `1792917`) |
 
 `first_order.engine_check.comparison` records both values, the difference, the tolerance and
 `fraction_of_tolerance` per record, so a reviewer recomputes the verdict rather than trusting it.
-The rule is not tuned to pass: the tightest BFL case uses 41 % of its allowance and the tightest EFL
-case 0.4 %.
+The rule is not tuned to pass: the tightest case in the batch is `1792917`, whose EFL uses 0.43 % of
+its allowance.
 
 The largest EFL difference in absolute terms is now 4.3 × 10⁻⁷ relative
 (`lenslibrary-1792917`), after the air model was corrected. The remaining residual is expected: the
@@ -232,7 +235,7 @@ uses the source's printed index samples.
 
 ```
 os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
-    --components LENS --wavelength-nm 587.72206
+    --components LENS --wavelength-nm 587.7220645720764
 ```
 
 ## Path checks
@@ -254,9 +257,11 @@ Run in the scratch workspace, because they need the source files:
   is recorded: the source states none with interpretable conditions, and this batch built no
   per-field configurations, so no field-dependent quantity is asserted. The engine can evaluate a
   field point (see above); the records simply do not claim one.
-- **No operating range claimed.** `spectrum.operating_range_nm` is the span of the enabled sampling
-  wavelengths (or a 1 nm numerical band for a single-wavelength design), labelled as such. A set of
-  enabled wavelengths is sampling evidence, not a specified range.
+- **No operating range claimed.** `spectrum.sampling_span_nm` is the span of the enabled sampling
+  wavelengths and is marked `eligible_for: DISCOVERY_ONLY`; `spectrum.continuous_coverage_nm` is
+  `UNCONFIRMED` with null bounds. A set of enabled wavelengths is sampling evidence, not a specified
+  range, so **only established continuous coverage can satisfy a hard band constraint** — a record
+  with `continuous_coverage_nm: UNCONFIRMED` leaves such a constraint unconfirmed.
 - **Single configuration.** Every accepted record is one configuration. The seven
   multi-configuration inputs are deferred rather than split.
 - **No mechanical data.** The source gives clear apertures only, so no edge thickness, flange or

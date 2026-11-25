@@ -89,14 +89,19 @@ there: `lenslibrary-4037934a` has a BFL of −0.0059 mm, and a 1 × 10⁻⁴ rel
 long back focus behind a short focal length needs its own length too. The rule is therefore:
 
 ```
-|engine − source| ≤ atol + rtol · max(|BFL|, |EFL|)
+per quantity:  |engine − source| ≤ atol + rtol · scale
 atol = 1e-5 mm,  rtol = 1e-4
+scale = |EFL|               for the effective focal length
+scale = max(|BFL|, |EFL|)   for the back focal length
 ```
+
+Each quantity carries its own `scale_mm` and `scale_basis` in `comparison`, so the rule stated here
+is the rule that was applied.
 
 `comparison` records the rule, both values, the absolute difference, the tolerance and
 `fraction_of_tolerance` for each quantity, so a reviewer recomputes the verdict instead of trusting
-it. The tightest record in the seed batch uses 0.4 % of its allowance on EFL and 41 % on BFL, so the
-rule is not tuned to pass.
+it. The tightest record in the seed batch uses 0.43 % of its allowance (`1792917`, EFL), so the rule
+is not tuned to pass.
 
 `validation.paraxial` is `MATCHED` only when both quantities are within tolerance.
 
@@ -135,7 +140,7 @@ Two checks sit beside the value and are **not** values:
 
 - `prescription_dump_check` — the upstream dump prints the same field table. `MATCHES` when it
   agrees, otherwise `FIELD_TABLE_DIFFERS` with both numbers. Across this batch it is `MATCHES` for
-  all 40 accepted records.
+  all 39 accepted records.
 - `property_list_comparison` — the collection's `lens_properties_list.txt` is a hand-maintained
   summary whose field convention is **not consistent across rows**: an angle-typed row may give the
   full field (`528155`: 53.2) or a half field (`5852515a`: 4.0), and two angle-typed rows carry an

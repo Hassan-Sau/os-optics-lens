@@ -26,6 +26,12 @@
   "lens_type": "endoscope_objective",
   "design_family_id": "lenslibrary-liang2002",
   "design_scope": "COMPLETE_SYSTEM",
+  "aperture_validity": {
+   "state": "STOP_BLOCKING",
+   "stop_blocks_light": true,
+   "basis": "the aperture stop's plate extends beyond its opening",
+   "satisfies_stop_dependent_constraints": true
+  },
   "structure_tags": [
    "fixed_focal_length"
   ],
@@ -47,13 +53,14 @@
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
-   640.17389
+   640.1738891256621
   ],
   "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the engine's own air model (6432.8 / 2949810 / 25540, material_physics.air_index_exact)",
   "sampling_wavelengths_air_nm": [
    640.0
   ],
-  "primary_wavelength_nm": 640.17389,
+  "wavelength_precision": "full precision as used by the Project and its material models; a reviewer may pass these values to the engine unchanged. Rounded values in this document or in prose are for display only",
+  "primary_wavelength_nm": 640.1738891256621,
   "sampling_span_nm": {
    "min_nm": 639.6738891256621,
    "max_nm": 640.6738891256621,
@@ -75,7 +82,7 @@
   "effective_focal_length_mm": {
    "value": 1.493325,
    "basis": "SOURCE_STATED",
-   "conditions": "primary wavelength 640.17389 nm (vacuum), image space"
+   "conditions": "primary wavelength 640.1738891256621 nm (vacuum), image space"
   },
   "back_focal_length_mm": {
    "value": -2.363561,
@@ -90,18 +97,20 @@
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
-   "wavelength_nm": 640.17389,
+   "wavelength_nm": 640.1738891256621,
    "effective_focal_length_mm": 1.4933253147146064,
    "back_focal_length_mm": -2.3635610512404446,
    "comparison": {
-    "rule": "|engine - source| <= atol + rtol * max(|BFL|, |EFL|)",
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
     "atol_mm": 1e-05,
     "rtol": 0.0001,
-    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
+    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length. The effective focal length is judged against itself, since it is the quantity that defines the system scale",
     "effective_focal_length": {
      "source_mm": 1.493325,
      "engine_mm": 1.4933253147146064,
      "absolute_difference_mm": 3.1471460637533255e-07,
+     "scale_mm": 1.493325,
+     "scale_basis": "|EFL|",
      "tolerance_mm": 0.00015933250000000002,
      "within_tolerance": true,
      "fraction_of_tolerance": 0.001975206604900648
@@ -110,6 +119,8 @@
      "source_mm": -2.363561,
      "engine_mm": -2.3635610512404446,
      "absolute_difference_mm": 5.124044477611278e-08,
+     "scale_mm": 2.363561,
+     "scale_basis": "max(|BFL|, |EFL|)",
      "tolerance_mm": 0.0002463561,
      "within_tolerance": true,
      "fraction_of_tolerance": 0.0002079934078194645
@@ -122,7 +133,26 @@
   "object_numerical_aperture": {
    "value": 0.4,
    "definition": "object-side numerical aperture, the system aperture the design file states; an NA is not an f-number and is not converted to one",
-   "basis": "SOURCE_STATED (the design file's OBNA)"
+   "basis": "SOURCE_STATED (the design file's OBNA)",
+   "system_aperture": true
+  },
+  "image_space_f_number": {
+   "value": 0.3768878,
+   "basis": "SOURCE_STATED (the upstream prescription dump)",
+   "source_locator": "prescription dump: the dump's stated image-space F/#; a different quantity from the paraxial working F/# and from the working F/#",
+   "system_aperture": false
+  },
+  "paraxial_working_f_number_from_dump": {
+   "value": 4.799595,
+   "basis": "SOURCE_STATED (the upstream prescription dump)",
+   "source_locator": "prescription dump: the dump's stated paraxial working F/#",
+   "system_aperture": false
+  },
+  "working_f_number": {
+   "value": 5.005707,
+   "basis": "SOURCE_STATED (the upstream prescription dump)",
+   "source_locator": "prescription dump: the dump's stated working F/#, computed by tracing rays",
+   "system_aperture": false
   },
   "property_list_comparison": {
    "quantity": "numerical_aperture",
@@ -240,6 +270,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted (follow-up: issue #7)"
   ]
  },
- "record_hash": "e2d87ce7a17de755c163335a4f3ad4dfef5806b0df57ad7108d1f822bc5d168d",
+ "record_hash": "449e8221782ae0a88b95501cba7d502ccd44ae10fac9b1f9f11bb1ced4eb74bd",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }
