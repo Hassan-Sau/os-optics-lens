@@ -13,7 +13,7 @@ During repository setup, propose source collections and the intake format in iss
 ## Prepare a prescription
 
 - Supply the editable native `os-optics` Project with the material and configuration information it needs. Record the engine version used to check it.
-- Supply the search facts relevant to the design, with units, conditions and their source or calculation basis. Record any substitutions or assumptions that affect the interpretation. Mark unknown values and state what was actually checked.
+- Supply the search facts relevant to the design, with units, conditions and their source or calculation basis. Use the [optical search vocabulary](SEARCH_VOCABULARY.md) to assign supported labels and propose new terms with a source record or a concrete search task. Record any substitutions or assumptions that affect the interpretation. Mark unknown values and state what was actually checked.
 - Give a precise source reference and identify the design within it. Include the attribution and applicable license or other redistribution permission. For an original design, identify its contributor and confirm the terms for publishing it. Keep source files upstream and link to them.
 - Report the checks you ran, starting with opening the Project in `os-optics`. Record relevant comparisons if you ran optical validation. If conversion fails, attach the failure details to the intake issue so the blocker is visible without adding an incomplete prescription to the corpus.
 
