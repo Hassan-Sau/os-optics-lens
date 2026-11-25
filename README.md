@@ -14,4 +14,4 @@ A planned library of optical prescriptions for AI agents. An agent uses an optic
 
 The repository is in setup. The first usable PyPI release is planned to ship the search interface and a searchable collection together. The proposed seed is a batch conversion of supported LensLibrary prescriptions with their source records, attribution and conversion outcomes. [LensLibrary](https://github.com/nzhagen/LensLibrary)
 
-Use [AGENTS.md](AGENTS.md) for repository rules and [CONTRIBUTING.md](CONTRIBUTING.md) for proposals, single-record contributions and batch intake. The project uses the [MIT License](LICENSE).
+Use [ARCHITECTURE.md](ARCHITECTURE.md) for the design, [AGENTS.md](AGENTS.md) for repository rules, and [CONTRIBUTING.md](CONTRIBUTING.md) for proposals, single-record contributions and batch intake. The project uses the [MIT License](LICENSE).

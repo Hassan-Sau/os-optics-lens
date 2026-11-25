@@ -22,4 +22,6 @@ Help an agent find a usable optical design starting point or reference structure
 
 ## Changes
 
-Follow [CONTRIBUTING.md](CONTRIBUTING.md). Use a focused pull request linked to the relevant issue when one exists. Keep shared decisions in issues or repository rules so later contributors can find them. The initial setup defines the scope, data boundary and collaboration rules. Design the concrete schema, index format and commands in subsequent work.
+Use English by default for repository documentation, agent-facing text, issues and pull requests. Preserve source titles and original identifiers in citations.
+
+Follow the architecture and field semantics in [ARCHITECTURE.md](ARCHITECTURE.md) and the workflow in [CONTRIBUTING.md](CONTRIBUTING.md). Use a focused pull request linked to the relevant issue when one exists. Keep shared decisions in issues or repository rules so later contributors can find them.
