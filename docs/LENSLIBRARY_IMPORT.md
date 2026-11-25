@@ -142,13 +142,21 @@ The collection's `lens_properties_list.txt` disagrees with the design file on so
 property of the summary, not a conflict in the optics, so it is recorded as
 `property_list_comparison` and never as a value.
 
-**The engine cannot settle a field-value difference**, and this batch does not use it to. The
-committed Projects carry one on-axis source and one observation plane: they have no field points
-and no pupil sampling, so a field angle is not something `project evaluate` assesses. Probing both
-candidate field values on the affected records returned `OUT_OF_MODEL_SCOPE` in either case — the
-engine reports the model boundary, not a verdict on which field value is right. The engine settles
-what it can settle here, which is the first-order geometry (EFL and BFL, see below), not the
-interpretation of a stated field.
+**The engine does evaluate a field angle** — a field point is the source pose turned about the axis
+across the beam, and the field point at the plane is the chief-ray hit point. Verified on
+`lenslibrary-528155` (EFL 239.8934 mm, half field 26.6°): a source turned 5° puts the chief ray at
+20.8661 mm, against `f·tan θ` = 20.9880 mm, a 0.58 % difference (distortion). So the engine can
+settle a field question in principle.
+
+It does not settle *this* one, for a narrower reason: the batch did not build per-field
+configurations, so the committed Projects carry one on-axis source and one observation plane. A
+field value is therefore not a quantity the records assert from the engine — it stays
+`SOURCE_STATED`, and the records do not claim a field verification.
+
+Turning a source into a field point has traps that cost me two wrong attempts (a laterally shifted
+source, and a plane aperture that clips the off-axis beam); the method is not documented in the
+engine's user docs. That gap is filed as
+[os-optics#87](https://github.com/JunLin615/os-optics/issues/87).
 
 ## Verification
 
@@ -210,8 +218,9 @@ Run in the scratch workspace, because they need the source files:
 ## Known limits
 
 - **First-order only.** The optical verification is paraxial. No MTF, chief-ray angle or distortion
-  is recorded: the source states none with interpretable conditions, and the engine computes them
-  only from a run with a defined pupil and field sampling, which this batch does not claim.
+  is recorded: the source states none with interpretable conditions, and this batch built no
+  per-field configurations, so no field-dependent quantity is asserted. The engine can evaluate a
+  field point (see above); the records simply do not claim one.
 - **No operating range claimed.** `spectrum.operating_range_nm` is the span of the enabled sampling
   wavelengths (or a 1 nm numerical band for a single-wavelength design), labelled as such. A set of
   enabled wavelengths is sampling evidence, not a specified range.

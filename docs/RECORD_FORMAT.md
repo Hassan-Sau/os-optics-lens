@@ -83,9 +83,10 @@ import never converts one into the other.
 
 The design file states the system aperture directly — `FNUM` for an f-number, `ENPD` for an
 entrance pupil diameter — and those values are used when present. Where the ZMX states neither,
-the value comes from the upstream dump's stated f-number. The property list is kept as
-`property_list_comparison` only: for an object-space design it states a numerical aperture, which
-is a different quantity from an f-number.
+the value comes from the upstream dump's stated f-number, and `why_not_design_file` records that
+the design file states no aperture (17 of the 40 accepted records take this route). The property
+list is kept as `property_list_comparison` only: for an object-space design it states a numerical
+aperture, which is a different quantity from an f-number.
 
 A record with no stated aperture leaves both out rather than inferring one.
 
