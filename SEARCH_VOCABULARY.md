@@ -31,7 +31,7 @@ Shared fields such as wavelength and clear aperture can be used across tasks. Ea
 
 | Agent task | Useful search facts |
 | --- | --- |
-| Camera or projection imaging | Effective focal length, f-number, image circle or image dimensions, total length, back focal length and conjugates. Use condition-specific MTF, chief ray angle or distortion when available. |
+| Camera or projection imaging | Effective focal length, f-number, image circle or image dimensions, total length, back focal length and conjugates. Use condition-specific MTF, chief ray angle, distortion or relative illumination when available. See the [camera search evidence proposal](docs/CAMERA_SEARCH_EVIDENCE.md) for field-interval, radiometry and analysis evidence semantics. |
 | Microscope objective | Object-side numerical aperture, working distance and its reference, magnification and tube-lens basis, object-space field, immersion medium, cover-glass thickness and conjugate. |
 | Illumination or collection | Source size and angular distribution or collection NA, target dimensions and distance, and output angular distribution. State the source, target region, definition and normalization for reported uniformity or efficiency. |
 | Beam expansion, scanning or coupling | Beam expansion ratio and beam diameter convention, scan field and spot criterion, or fiber type, mode-field diameter or core diameter and NA as applicable. Attach coupling efficiency to the input beam, fiber and alignment conditions. |

@@ -24,11 +24,15 @@ Assign a controlled term when a source statement, native Project property or doc
 | Design type | The kind of prescription, such as a microscope objective, projection lens, condenser or spectrometer. |
 | Application | A documented use, such as microscopy, machine vision, endoscopy or projection display. |
 | Structure | A supported layout or optical property, such as zoom, catadioptric, cemented or image-space telecentric. |
-| First-order properties and size | Record effective focal length, back focal length, f-number, clear aperture and total length with units, definitions and applicable configuration. Identify the conjugate and f-number convention where relevant. State the endpoints and measurement convention for total length, especially for folded designs. |
-| MTF | Record spatial frequency and units, field position, wavelength or spectral weighting, and sagittal or tangential direction where applicable. Compare values under matching conditions. |
+| First-order properties and size | Record effective focal length, back focal length, f-number, clear aperture and total length with units, definitions and applicable configuration. Identify the conjugate and f-number convention where relevant. State the optical axis, measurement endpoints and convention for back focus and total length, including whether a specified cover plate is in the measured working distance. |
+| MTF | Record spatial frequency and units, field position, wavelength or spectral weighting, and sagittal or tangential direction where applicable. Compare values under matching conditions. For a field-interval minimum, record the field coordinate, bounds, sampled positions and included orientations. |
 | Chief ray angle and distortion | For CRA, record the image-plane field position and angle convention. For distortion, record the field position, the reference projection and the sign or absolute-value convention. |
+| Relative illumination | Record image-plane position and field mapping, the image-circle diameter, reference irradiance, source and transmission assumptions, and the spectral conditions. |
+| Analysis evidence | Index available tolerance and ghost studies with source locators, method, scope and simulation or measurement status. Keep physical qualification and trace completeness explicit. |
 
 Prioritize wavelength range and configuration, with image circle, effective focal length, f-number, total length and back focal length for the initial imaging records. Expose optional task-specific fields where records support them. For example, a microscope objective can supply object-side NA and working distance. Illumination can supply source and target conditions and output distribution. Attach each value to its configuration and, where relevant, its optical path or output. Keep missing or inapplicable values explicit when requested. Use MTF, CRA, distortion and other condition-specific quantities for general ranking once the collection contains comparable data.
+
+The [camera search evidence proposal](docs/CAMERA_SEARCH_EVIDENCE.md) and its Yutong Cup fixture exercise these distinctions on a frozen record.
 
 ## Collection scope
 

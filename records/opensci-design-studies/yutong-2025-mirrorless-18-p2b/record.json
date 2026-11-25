@@ -2,7 +2,7 @@
   "schema": "opensci.lens.record",
   "record_schema_version": "1.0",
   "record_id": "yutong-2025-mirrorless-18-p2b",
-  "record_revision": 1,
+  "record_revision": 2,
   "title": "18 mm f/2 full-frame mirrorless P2b",
   "collection": {
     "collection_id": "opensci-design-studies",
@@ -17,7 +17,11 @@
       "url": "https://patents.google.com/patent/WO2020213337A1/en"
     },
     "redistribution": "The contributor requested submission to os-optics-lens. A downstream reuse license for the prescription has not been specified.",
-    "brief_url": "https://cxcy.ahu.edu.cn/_upload/article/files/21/a1/7d4dfbf34aa688bd48a2b6d2d5e5/68b1a0e1-454f-4a41-ad44-451597974eab.pdf"
+    "brief_url": "https://cxcy.ahu.edu.cn/_upload/article/files/21/a1/7d4dfbf34aa688bd48a2b6d2d5e5/68b1a0e1-454f-4a41-ad44-451597974eab.pdf",
+    "evidence_archive": {
+      "filename": "Mirrorless-18mm-P2b-prototype.zip",
+      "sha256": "794e6d42c4c17bd48a7cfcfafa69ac08f79d032c5f305d8f1830fa888f52bbce"
+    }
   },
   "design": {
     "source_reference": "P2b finite-film and coated engineering model",
@@ -40,7 +44,8 @@
     "configuration_count": 1,
     "powered_element_count": 14,
     "powered_group_count": 12,
-    "aspheric_element_count": 8
+    "aspheric_element_count": 8,
+    "powered_element_material_class": "glass_only"
   },
   "native_project": {
     "path": "records/opensci-design-studies/yutong-2025-mirrorless-18-p2b/project.json",
@@ -84,7 +89,12 @@
     "cover_glass": {
       "material": "H-K9",
       "thickness_mm": 1
-    }
+    },
+    "pixel_pitch_um": [
+      12,
+      12
+    ],
+    "pixel_pitch_basis": "SOURCE_STATED in the design brief. The OpenSci receiver is a continuous optical image plane."
   },
   "first_order": {
     "effective_focal_length_mm": {
@@ -95,17 +105,37 @@
     "back_focal_length_mm": {
       "value": 1.0390024256495436,
       "basis": "ENGINE_COMPUTED",
-      "definition": "Paraxial distance from the final modeled optical surface to the rear focal point at 587 nm. The finite-conjugate or optimized fixed sensor plane is described by the separate vertex-to-sensor distance."
+      "definition": "Paraxial distance from the final modeled optical surface to the rear focal point at 587 nm. The finite-conjugate or optimized fixed sensor plane is described by the separate vertex-to-sensor distance.",
+      "conditions": {
+        "distance_kind": "paraxial_focal_distance",
+        "from": "final_optical_surface_vertex",
+        "to": "paraxial_rear_focal_point",
+        "wavelength_nm": 587
+      }
     },
     "final_powered_vertex_to_sensor_mm": {
       "value": 17.052748732264,
       "basis": "SOURCE_STATED",
-      "definition": "Last powered surface vertex to the fixed sensor plane, including the H-K9 plate"
+      "definition": "Last powered surface vertex to the fixed sensor plane, including the H-K9 plate",
+      "conditions": {
+        "distance_kind": "geometric_axial_distance",
+        "from": "last_powered_surface_vertex",
+        "to": "fixed_image_plane",
+        "includes_cover_glass": true
+      },
+      "source": {
+        "archive_member": "mirrorless18/implementation/P2b_native/nominal.json",
+        "sha256": "f7f6215643fac76413eb012054f40814211432d714e941ea3d998073570cad45"
+      }
     },
     "total_track_mm": {
       "value": 109.55620708818527,
       "basis": "SOURCE_STATED",
-      "definition": "Axial distance from the first surface vertex to the fixed image plane"
+      "definition": "Axial distance from the first surface vertex to the fixed image plane",
+      "conditions": {
+        "from": "first_optical_surface_vertex",
+        "to": "fixed_image_plane"
+      }
     },
     "engine_check": {
       "engine_version": "0.14.0",
@@ -122,7 +152,10 @@
     "f_number": {
       "value": 1.9789,
       "basis": "SOURCE_STATED",
-      "definition": "Upper bracket of EFL divided by the physically admitted on-axis entrance-pupil diameter at infinity focus"
+      "definition": "Upper bracket of EFL divided by the physically admitted on-axis entrance-pupil diameter at infinity focus",
+      "conditions": {
+        "convention": "efl_over_admitted_entrance_pupil_diameter"
+      }
     }
   },
   "field": {
@@ -159,25 +192,124 @@
       "condition": "Fixed detector, same vector-pupil method as the 0.8-field sample."
     },
     {
+      "metric": "mtf_field_minimum",
+      "basis": "DERIVED",
+      "engine_version": "0.13.0",
+      "value": 0.7228471580223309,
+      "conditions": {
+        "frequency_lp_mm": 40,
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0.0,
+        "field_end": 0.8,
+        "sampling": "discrete",
+        "directions": [
+          "sagittal",
+          "tangential"
+        ],
+        "image_plane": "fixed_image_plane",
+        "mtf_kind": "optical",
+        "spectrum": {
+          "sampling_wavelengths_nm": [
+            486,
+            587,
+            656
+          ],
+          "incident_weights": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "sampled_field_fractions": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.55,
+        0.6,
+        0.7,
+        0.75,
+        0.8
+      ],
+      "limiting_sample": {
+        "field_fraction": 0.8,
+        "direction": "tangential"
+      },
+      "source": {
+        "archive_member": "mirrorless18/implementation/P2b_native/performance.csv",
+        "sha256": "1185219065059fe995496ab269197628d7e67ac7c85bd38d3bf181b452957f30"
+      }
+    },
+    {
       "metric": "cra",
       "basis": "ENGINE_COMPUTED",
       "value_deg": 17.735875245937606,
       "image_height_mm": 21.635,
-      "condition": "Maximum chief-ray angle relative to the image-plane normal across the sampled wavelengths."
+      "condition": "Maximum chief-ray angle relative to the image-plane normal across the sampled wavelengths.",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 1,
+        "aggregation": "maximum_over_sampled_fields_and_wavelengths",
+        "angle_reference": "image_plane_normal",
+        "sampling_wavelengths_nm": [
+          486,
+          587,
+          656
+        ]
+      },
+      "source": {
+        "archive_member": "mirrorless18/implementation/P2b_native/performance.csv",
+        "sha256": "1185219065059fe995496ab269197628d7e67ac7c85bd38d3bf181b452957f30"
+      }
     },
     {
       "metric": "relative_illumination",
       "basis": "ENGINE_COMPUTED",
       "value_percent": 33.54749616187194,
       "image_height_mm": 21.635,
-      "condition": "Modeled coatings, center-normalized projected transmitted pupil solid angle."
+      "condition": "Modeled coatings, center-normalized projected transmitted pupil solid angle.",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_fraction": 1.0,
+        "image_circle_diameter_mm": 43.27,
+        "normalization": "on_axis_irradiance",
+        "object_radiance": "uniform",
+        "transmission_model": "design_coatings",
+        "spectrum": {
+          "sampling_wavelengths_nm": [
+            486,
+            587,
+            656
+          ],
+          "incident_weights": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "source": {
+        "archive_member": "mirrorless18/implementation/P2b_native/performance.csv",
+        "sha256": "1185219065059fe995496ab269197628d7e67ac7c85bd38d3bf181b452957f30"
+      }
     },
     {
       "metric": "distortion_range",
       "basis": "DERIVED",
       "min_percent": -1.516770430825709,
       "max_percent": 0.6591635163021525,
-      "condition": "587 nm chief-ray height relative to rectilinear EFL × tan(angle), through full diagonal."
+      "condition": "587 nm chief-ray height relative to rectilinear EFL × tan(angle), through full diagonal.",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 1,
+        "reference_projection": "rectilinear",
+        "wavelength_nm": 587
+      }
     }
   ],
   "approximations": [
@@ -201,5 +333,96 @@
       "A replayed 96-build finite-film tolerance study gave 92 MTF passes under a three-cell active alignment process. Physical first-article performance and production yield are unverified."
     ]
   },
-  "record_hash": "a7229b2cbeb1378fd1a3855e26b058a12dd64fb09cc38fe7b3e47e70fa827a01"
+  "cost_proxy": {
+    "basis": "DERIVED",
+    "weighted_spherical_element_count": 30,
+    "spherical_element_weight": 1,
+    "aspheric_element_weight": 3,
+    "scope": "powered_glass_elements",
+    "source": {
+      "archive_member": "mirrorless18/implementation/shop_branch/P2b/identity.json",
+      "sha256": "c0913201e21c4dbba593197a152cc61cc0e7a59a767a1c2586307dc4f5987592"
+    }
+  },
+  "analysis_evidence": {
+    "tolerance": {
+      "status": "simulated",
+      "method": "finite-film Monte Carlo with three actively aligned cells and a common focus shim",
+      "mtf_gate": {
+        "frequency_lp_mm": 40,
+        "minimum_mtf_exclusive": 0.6,
+        "channels": 114,
+        "passed": 92,
+        "samples": 96,
+        "source": {
+          "archive_member": "mirrorless18/implementation/assembly_branch/P2b_film_confirmation/refined_summary.json",
+          "sha256": "a0679d9e71b357b2e52c30115a94d24c84d115da5ea64c990a157f4f93ff16dc"
+        }
+      },
+      "geometry_gate": {
+        "passed": 96,
+        "samples": 96,
+        "transmission_model": "uniform",
+        "source": {
+          "archive_member": "mirrorless18/implementation/assembly_branch/P2b_film_confirmation/geometric_summary.json",
+          "sha256": "a87eaa3c0037100af74642ce607a5fe2d2289b1cbfa568d7c330a78777c50d54"
+        }
+      },
+      "physical_lot_yield": "unmeasured"
+    },
+    "ghost": {
+      "status": "simulated",
+      "methods": [
+        {
+          "method": "native_on_axis_ghost_trace",
+          "wavelength_nm": 587,
+          "outcome": "PARTIAL",
+          "termination": "BUDGET_EXHAUSTED",
+          "unlisted_power_bound_proven": false,
+          "source": {
+            "archive_member": "mirrorless18/implementation/P2b_ghosts/native/opensci_ghost_summary.json",
+            "sha256": "a4d66aa3c8754a23ae2a96a2eb6698f79d9778bdb0932095f0e78b5989ad2618"
+          }
+        },
+        {
+          "method": "two_specular_bounce_surface_pair_screen",
+          "surface_pairs_per_angle": 435,
+          "field_angles_deg": [
+            0.0,
+            35.0,
+            45.0,
+            48.8,
+            49.4,
+            55.0,
+            65.0
+          ],
+          "assumed_air_glass_power_reflectance": 0.005,
+          "normalization": "on_axis_primary_power",
+          "on_axis_ghost_power_ratio": 0.004247490143543154,
+          "source": {
+            "archive_member": "mirrorless18/implementation/P2b_ghosts/interface_sweep_summary.json",
+            "sha256": "00955b84c63a850877c7b1ce51247c22aa7b4f93e3c3f0e0a849e513e3673f6d"
+          }
+        },
+        {
+          "method": "sensor_return_screen",
+          "field_angles_deg": [
+            0.0,
+            38.90142390008783,
+            47.95655480724208
+          ],
+          "assumed_air_glass_power_reflectance": 0.005,
+          "assumed_sensor_power_reflectance": 0.1,
+          "normalization": "same_field_primary_power",
+          "on_axis_ghost_power_ratio": 0.007583941895406788,
+          "source": {
+            "archive_member": "mirrorless18/implementation/P2b_ghosts/sensor_ghosts_summary.json",
+            "sha256": "9fc03a61d374edb8a8d2ab5afd6b480c6a0435382423cd632eac002aff6cff0a"
+          }
+        }
+      ],
+      "physical_validation": "unverified"
+    }
+  },
+  "record_hash": "354ae388938759ba7d22e4beada81b9cbfeace457632f9f7a72478d84fcb4bbb"
 }

@@ -1,0 +1,477 @@
+{
+  "case_id": "yutong-2025-mirrorless-problem-2",
+  "title": "2025 Yutong Cup problem 2, full-frame mirrorless camera lens",
+  "brief_url": "https://cxcy.ahu.edu.cn/_upload/article/files/21/a1/7d4dfbf34aa688bd48a2b6d2d5e5/68b1a0e1-454f-4a41-ad44-451597974eab.pdf#page=5",
+  "evaluation_scope": "one_nominal_configuration",
+  "record": {
+    "id": "yutong-2025-mirrorless-18-p2b",
+    "revision": 2,
+    "path": "records/opensci-design-studies/yutong-2025-mirrorless-18-p2b/record.json"
+  },
+  "constraints": [
+    {
+      "id": "infinity_configuration",
+      "scope": [
+        "design"
+      ],
+      "predicates": [
+        {
+          "path": "conjugate",
+          "op": "eq",
+          "value": "INFINITE_TO_FINITE"
+        }
+      ]
+    },
+    {
+      "id": "efl",
+      "scope": [
+        "first_order",
+        "effective_focal_length_mm"
+      ],
+      "predicates": [
+        {
+          "path": "value",
+          "op": "between_inclusive",
+          "value": [
+            17.1,
+            18.9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f_number",
+      "scope": [
+        "aperture",
+        "f_number"
+      ],
+      "predicates": [
+        {
+          "path": "value",
+          "op": "lte",
+          "value": 2.0
+        }
+      ],
+      "conditions": {
+        "convention": "efl_over_admitted_entrance_pupil_diameter"
+      }
+    },
+    {
+      "id": "optical_back_focus",
+      "scope": [
+        "first_order",
+        "final_powered_vertex_to_sensor_mm"
+      ],
+      "predicates": [
+        {
+          "path": "value",
+          "op": "gte",
+          "value": 16.5
+        }
+      ],
+      "conditions": {
+        "distance_kind": "geometric_axial_distance",
+        "from": "last_powered_surface_vertex",
+        "to": "fixed_image_plane",
+        "includes_cover_glass": true
+      }
+    },
+    {
+      "id": "total_track",
+      "scope": [
+        "first_order",
+        "total_track_mm"
+      ],
+      "predicates": [
+        {
+          "path": "value",
+          "op": "lte",
+          "value": 110
+        }
+      ],
+      "conditions": {
+        "from": "first_optical_surface_vertex",
+        "to": "fixed_image_plane"
+      }
+    },
+    {
+      "id": "sensor",
+      "scope": [
+        "image_format"
+      ],
+      "predicates": [
+        {
+          "path": "width_mm",
+          "op": "eq",
+          "value": 36
+        },
+        {
+          "path": "height_mm",
+          "op": "eq",
+          "value": 24
+        },
+        {
+          "path": "pixel_pitch_um",
+          "op": "eq",
+          "value": [
+            12,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "id": "image_circle",
+      "scope": [
+        "image_format"
+      ],
+      "predicates": [
+        {
+          "path": "image_circle_diameter_mm",
+          "op": "gte",
+          "value": 43.27
+        }
+      ]
+    },
+    {
+      "id": "cover_glass",
+      "scope": [
+        "image_format",
+        "cover_glass"
+      ],
+      "predicates": [
+        {
+          "path": "material",
+          "op": "eq",
+          "value": "H-K9"
+        },
+        {
+          "path": "thickness_mm",
+          "op": "eq",
+          "value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "spectral_sampling",
+      "scope": [
+        "spectrum"
+      ],
+      "predicates": [
+        {
+          "path": "sampling_wavelengths_nm",
+          "op": "eq",
+          "value": [
+            486,
+            587,
+            656
+          ]
+        },
+        {
+          "path": "incident_weights",
+          "op": "eq",
+          "value": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "distortion",
+      "scope": [
+        "performance"
+      ],
+      "predicates": [
+        {
+          "path": "min_percent",
+          "op": "gte",
+          "value": -2
+        },
+        {
+          "path": "max_percent",
+          "op": "lte",
+          "value": 1
+        }
+      ],
+      "metric": "distortion_range",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 1,
+        "reference_projection": "rectilinear",
+        "wavelength_nm": 587
+      }
+    },
+    {
+      "id": "cra",
+      "scope": [
+        "performance"
+      ],
+      "predicates": [
+        {
+          "path": "value_deg",
+          "op": "lte",
+          "value": 18
+        }
+      ],
+      "metric": "cra",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 1,
+        "aggregation": "maximum_over_sampled_fields_and_wavelengths",
+        "angle_reference": "image_plane_normal",
+        "sampling_wavelengths_nm": [
+          486,
+          587,
+          656
+        ]
+      }
+    },
+    {
+      "id": "corner_relative_illumination",
+      "scope": [
+        "performance"
+      ],
+      "predicates": [
+        {
+          "path": "value_percent",
+          "op": "gte",
+          "value": 30
+        }
+      ],
+      "metric": "relative_illumination",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_fraction": 1,
+        "image_circle_diameter_mm": 43.27,
+        "normalization": "on_axis_irradiance",
+        "object_radiance": "uniform",
+        "transmission_model": "design_coatings",
+        "spectrum": {
+          "sampling_wavelengths_nm": [
+            486,
+            587,
+            656
+          ],
+          "incident_weights": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": "mtf_0_to_0p8",
+      "scope": [
+        "performance"
+      ],
+      "predicates": [
+        {
+          "path": "value",
+          "op": "gt",
+          "value": 0.6
+        }
+      ],
+      "metric": "mtf_field_minimum",
+      "conditions": {
+        "frequency_lp_mm": 40,
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 0.8,
+        "sampling": "discrete",
+        "directions": [
+          "sagittal",
+          "tangential"
+        ],
+        "image_plane": "fixed_image_plane",
+        "mtf_kind": "optical",
+        "spectrum": {
+          "sampling_wavelengths_nm": [
+            486,
+            587,
+            656
+          ],
+          "incident_weights": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": "glass_only",
+      "scope": [
+        "design"
+      ],
+      "predicates": [
+        {
+          "path": "powered_element_material_class",
+          "op": "eq",
+          "value": "glass_only"
+        }
+      ]
+    },
+    {
+      "id": "tolerance_evidence",
+      "scope": [
+        "analysis_evidence",
+        "tolerance"
+      ],
+      "predicates": [
+        {
+          "path": "status",
+          "op": "in",
+          "value": [
+            "simulated",
+            "measured"
+          ]
+        },
+        {
+          "path": "mtf_gate.source",
+          "op": "has_source",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "ghost_evidence",
+      "scope": [
+        "analysis_evidence",
+        "ghost"
+      ],
+      "predicates": [
+        {
+          "path": "status",
+          "op": "in",
+          "value": [
+            "simulated",
+            "measured"
+          ]
+        },
+        {
+          "path": "methods",
+          "op": "has_sourced_method",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "ranking_preference": {
+    "scope": [
+      "cost_proxy"
+    ],
+    "direction": "ascending",
+    "metric": "weighted_spherical_element_count",
+    "spherical_element_weight": 1,
+    "aspheric_element_weight": 3,
+    "scope_of_cost": "powered_glass_elements"
+  },
+  "expected": {
+    "outcome": "MATCH",
+    "confirmed_constraints": 16,
+    "cost_proxy": 30
+  },
+  "counterexamples": [
+    {
+      "id": "rear_focal_point_cannot_replace_sensor_distance",
+      "constraint": "optical_back_focus",
+      "path": "",
+      "expected": "UNCONFIRMED",
+      "copy_from": [
+        "first_order",
+        "back_focal_length_mm"
+      ]
+    },
+    {
+      "id": "comparable_back_focus_below_limit",
+      "constraint": "optical_back_focus",
+      "path": "value",
+      "expected": "DOES_NOT_MATCH",
+      "value": 16.49
+    },
+    {
+      "id": "single_mtf_point_is_not_a_sweep",
+      "constraint": "mtf_0_to_0p8",
+      "path": "metric",
+      "expected": "UNCONFIRMED",
+      "value": "mtf"
+    },
+    {
+      "id": "sweep_without_center",
+      "constraint": "mtf_0_to_0p8",
+      "path": "sampled_field_fractions",
+      "expected": "UNCONFIRMED",
+      "value": [
+        0.1,
+        0.2,
+        0.4,
+        0.8
+      ]
+    },
+    {
+      "id": "mtf_wavelength_weights_differ",
+      "constraint": "mtf_0_to_0p8",
+      "path": "conditions.spectrum.incident_weights",
+      "expected": "UNCONFIRMED",
+      "value": [
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "mtf_limit_is_strict",
+      "constraint": "mtf_0_to_0p8",
+      "path": "value",
+      "expected": "DOES_NOT_MATCH",
+      "value": 0.6
+    },
+    {
+      "id": "illumination_at_inner_field",
+      "constraint": "corner_relative_illumination",
+      "path": "conditions.field_fraction",
+      "expected": "UNCONFIRMED",
+      "value": 0.8
+    },
+    {
+      "id": "illumination_at_wrong_image_circle",
+      "constraint": "corner_relative_illumination",
+      "path": "conditions.image_circle_diameter_mm",
+      "expected": "UNCONFIRMED",
+      "value": 40
+    },
+    {
+      "id": "geometric_throughput_cannot_substitute_for_irradiance",
+      "constraint": "corner_relative_illumination",
+      "path": "conditions.transmission_model",
+      "expected": "UNCONFIRMED",
+      "value": "uniform"
+    },
+    {
+      "id": "illumination_with_wrong_normalization",
+      "constraint": "corner_relative_illumination",
+      "path": "conditions.normalization",
+      "expected": "UNCONFIRMED",
+      "value": "incident_irradiance"
+    },
+    {
+      "id": "missing_tolerance_source",
+      "constraint": "tolerance_evidence",
+      "path": "mtf_gate.source",
+      "expected": "UNCONFIRMED",
+      "remove": true
+    },
+    {
+      "id": "missing_ghost_sources",
+      "constraint": "ghost_evidence",
+      "path": "methods",
+      "expected": "UNCONFIRMED",
+      "value": []
+    }
+  ]
+}
