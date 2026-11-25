@@ -228,8 +228,19 @@ Run in the scratch workspace, because they need the source files:
   multi-configuration inputs are deferred rather than split.
 - **No mechanical data.** The source gives clear apertures only, so no edge thickness, flange or
   mounting geometry is claimed.
+- **No field verification.** `validation` has four outcomes (conversion, project check, optical
+  solids, paraxial) and none is a field. Every record states its field with its provenance
+  (`SOURCE_STATED`, design file, cross-checked against the dump on 40/40), but nothing has checked
+  that the stated field produces a sane image point. The engine can do that check (see above); this
+  batch did not run it.
 - **Image circle not recorded.** The source states field angles or field heights, not a sensor
   format; an image circle would have to be derived from a field definition the source does not fix.
+  With no field verification there is no basis for one. Follow-up:
+  [os-optics-lens#7](https://github.com/JunLin615/os-optics-lens/issues/7).
+- **CRA and edge MTF not recorded**, for the same reason: both are per-field-point quantities and
+  this batch asserts no field point. `ARCHITECTURE.md` prioritises image circle for the initial
+  collection, so this is the largest gap in the seed batch, and it is the subject of
+  [os-optics-lens#7](https://github.com/JunLin615/os-optics-lens/issues/7).
 - **Deferred constructs** belong to the engine, not to this repository: reflecting rows, coordinate
   breaks, gratings, paraxial surfaces, the `a2` term and immersed spaces are the import gaps tracked
   in [os-optics#57](https://github.com/JunLin615/os-optics/issues/57); model-glass records that name
