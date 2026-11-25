@@ -1,0 +1,591 @@
+{
+ "schema": "opensci.project",
+ "project_schema_version": "2.0",
+ "components": [
+  {
+   "instance_id": "LENS",
+   "optical_role": "lens",
+   "custom_part": {
+    "custom_part_key": "LENS",
+    "description": "7558005c: imported from a csv-surface-table/1 prescription (5 elements, 0 aperture stops)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     0.5,
+     0.5,
+     0.5,
+     0.5
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "optical_model_id": "LENS"
+  },
+  {
+   "instance_id": "SRC",
+   "optical_role": "source",
+   "custom_part": {
+    "custom_part_key": "lenslibrary-7558005c-source",
+    "description": "Evaluation source derived from the source's stated wavelength and conjugate."
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     0.5,
+     0.5,
+     0.5,
+     0.5
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 587.72485,
+    "power_w": 0.001,
+    "waist_radius_mm": 0.442264,
+    "waist_position_mm": 100.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "LINEAR",
+     "angle_deg": 0.0
+    }
+   }
+  }
+ ],
+ "observations": [
+  {
+   "observation_id": "image_plane",
+   "pose": {
+    "position_mm": [
+     4.9,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     0.5,
+     0.5,
+     0.5,
+     0.5
+    ]
+   },
+   "aperture": {
+    "shape": "circle",
+    "radius_mm": 1.326791,
+    "center_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "obstruction_radius_mm": 0.0
+   },
+   "absorbing": false,
+   "medium": "air"
+  }
+ ],
+ "targets": [],
+ "optical_models": [
+  {
+   "model_id": "LENS",
+   "display_name": "7558005c (csv-surface-table/1, source SHA-256 c90db0afa0d428531d8b6ab2898552a0b08be91c4030600543387bb1a635cbca)",
+   "model": {
+    "model_kind": "COMPOUND",
+    "model_version": "1",
+    "members": [
+     {
+      "member_id": "L1",
+      "model_id": "LENS-L1",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        0.0
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L2",
+      "model_id": "LENS-L2",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        0.812
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L3",
+      "model_id": "LENS-L3",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        1.781
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L4",
+      "model_id": "LENS-L4",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        3.03
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L5",
+      "model_id": "LENS-L5",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        4.15
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     }
+    ],
+    "envelope": {
+     "kind": "CYLINDER",
+     "diameter_mm": "5.5",
+     "z_min_mm": "0",
+     "z_max_mm": "4.45",
+     "status": "DERIVED"
+    },
+    "ports": [
+     {
+      "port_id": "IN",
+      "role": "INPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "0"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     },
+     {
+      "port_id": "OUT",
+      "role": "OUTPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "4.45"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     }
+    ]
+   }
+  },
+  {
+   "model_id": "LENS-L1",
+   "display_name": "7558005c: element L1, surfaces STO-2 (rows 9-10, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "1.50432",
+      "conic": "-0.07531",
+      "aspheric_coefficients": [
+       "0.00758325",
+       "-0.0122299",
+       "0.0349701",
+       "-0.0458337"
+      ],
+      "clear_radius_mm": "0.8845273585584",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.67",
+      "radius_mm": "5.066",
+      "aspheric_coefficients": [
+       "-0.0405709",
+       "-0.0969446",
+       "0.0161929",
+       "-0.116837"
+      ],
+      "clear_radius_mm": "0.8565939393209",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "LL-MODEL-1.69008-53.20"
+    ],
+    "edge_radius_mm": "0.8845273585584",
+    "valid_band_nm": {
+     "min_nm": "486.2687972434527",
+     "max_nm": "656.4542885765853",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L2",
+   "display_name": "7558005c: element L2, surfaces 3-4 (rows 11-12, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "-9.31311",
+      "aspheric_coefficients": [
+       "-0.00907281",
+       "-0.120741",
+       "0.0801632",
+       "-0.154025"
+      ],
+      "clear_radius_mm": "0.8191533353901",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.4",
+      "radius_mm": "6.60083",
+      "conic": "29.18577",
+      "aspheric_coefficients": [
+       "0.0977258",
+       "0.0308518",
+       "-0.0132978",
+       "0.112021"
+      ],
+      "clear_radius_mm": "0.7720724752447",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "LL-MODEL-1.63200-23.40"
+    ],
+    "edge_radius_mm": "0.8191533353901",
+    "valid_band_nm": {
+     "min_nm": "486.2687972434527",
+     "max_nm": "656.4542885765853",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L3",
+   "display_name": "7558005c: element L3, surfaces 5-6 (rows 13-14, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "-1.88655",
+      "conic": "1.323874",
+      "aspheric_coefficients": [
+       "-0.023112",
+       "0.0233887",
+       "0.00769382",
+       "-0.0111013"
+      ],
+      "clear_radius_mm": "0.9293863021461",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.496",
+      "radius_mm": "-1.41742",
+      "conic": "0.144271",
+      "aspheric_coefficients": [
+       "0.0425056",
+       "0.00618286",
+       "0.0323716",
+       "-0.00121572"
+      ],
+      "clear_radius_mm": "1.189000796286",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "LL-MODEL-1.53318-57.00"
+    ],
+    "edge_radius_mm": "1.189000796286",
+    "valid_band_nm": {
+     "min_nm": "486.2687972434527",
+     "max_nm": "656.4542885765853",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L4",
+   "display_name": "7558005c: element L4, surfaces 7-8 (rows 15-16, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "-3.92321",
+      "conic": "0.628952",
+      "aspheric_coefficients": [
+       "-0.024893",
+       "0.0113065",
+       "-0.000571092",
+       "-0.0000660843"
+      ],
+      "clear_radius_mm": "1.9",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.7",
+      "radius_mm": "14.330399999999997",
+      "aspheric_coefficients": [
+       "-0.0510307",
+       "0.00739725",
+       "-0.00139838",
+       "0.000105302"
+      ],
+      "clear_radius_mm": "2.2",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "LL-MODEL-1.53318-57.00"
+    ],
+    "edge_radius_mm": "2.2",
+    "valid_band_nm": {
+     "min_nm": "486.2687972434527",
+     "max_nm": "656.4542885765853",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L5",
+   "display_name": "7558005c: element L5, surfaces 9-10 (rows 17-18, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "clear_radius_mm": "2.75",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.3",
+      "clear_radius_mm": "2.75",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "LL-MODEL-1.51680-64.20"
+    ],
+    "edge_radius_mm": "2.75",
+    "valid_band_nm": {
+     "min_nm": "486.2687972434527",
+     "max_nm": "656.4542885765853",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  }
+ ],
+ "model_materials": [
+  {
+   "material_id": "LL-MODEL-1.51680-64.20",
+   "display_name": "LL-MODEL-1.51680-64.20",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "0.5395947403717246",
+     "0.7324810244346164",
+     "0.8146554844920061"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "486.2687972434527",
+    "max_nm": "656.4542885765853",
+    "status": "SPECIFIED"
+   },
+   "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 6.66e-16)"
+  },
+  {
+   "material_id": "LL-MODEL-1.53318-57.00",
+   "display_name": "LL-MODEL-1.53318-57.00",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "0.35478270031460846",
+     "0.9599838486209292",
+     "0.64691826427793"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "486.2687972434527",
+    "max_nm": "656.4542885765853",
+    "status": "SPECIFIED"
+   },
+   "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 8.88e-16)"
+  },
+  {
+   "material_id": "LL-MODEL-1.63200-23.40",
+   "display_name": "LL-MODEL-1.63200-23.40",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "-2.8721255843320037",
+     "4.391324950652275",
+     "-2.657620378493692"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "486.2687972434527",
+    "max_nm": "656.4542885765853",
+    "status": "SPECIFIED"
+   },
+   "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 7.55e-15)"
+  },
+  {
+   "material_id": "LL-MODEL-1.69008-53.20",
+   "display_name": "LL-MODEL-1.69008-53.20",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "0.22660484438094988",
+     "1.5727959144967627",
+     "0.7295183137582857"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "486.2687972434527",
+    "max_nm": "656.4542885765853",
+    "status": "SPECIFIED"
+   },
+   "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 1.78e-15)"
+  }
+ ]
+}

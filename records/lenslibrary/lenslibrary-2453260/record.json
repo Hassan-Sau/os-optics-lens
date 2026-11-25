@@ -1,0 +1,232 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "lenslibrary-2453260",
+ "record_revision": 1,
+ "collection": {
+  "collection_id": "lenslibrary",
+  "source": "Nathan Hagen's LensLibrary",
+  "source_url": "https://github.com/nzhagen/LensLibrary",
+  "source_revision": "86b2c0cac5a67e2112d58518230c4d8728154f4e",
+  "source_input": "zemax_files/2453260.zmx",
+  "source_input_sha256": "57c210028771e2c2de0a5e05e1199de19d6a461c26120131db7a631fabe6b16a",
+  "source_prescription_dump": "prescription_files/2453260.txt",
+  "source_prescription_dump_sha256": "fdcf0f173be3a2814578825b850ec731977694344cba86ec7ba6a72c05d8988e",
+  "redistribution": "MIT (see licenses/LensLibrary-MIT.txt)",
+  "attribution": "Nathan Hagen, LensLibrary; original design cited below when the source states it",
+  "source_links": {
+   "source_file_url": "https://raw.githubusercontent.com/nzhagen/LensLibrary/86b2c0cac5a67e2112d58518230c4d8728154f4e/zemax_files/2453260.zmx",
+   "source_tree_url": "https://github.com/nzhagen/LensLibrary/tree/86b2c0cac5a67e2112d58518230c4d8728154f4e/zemax_files"
+  },
+  "original_publication": {
+   "publication": "2453260",
+   "url": "https://raw.githubusercontent.com/nzhagen/LensLibrary/86b2c0cac5a67e2112d58518230c4d8728154f4e/patent_files/2453260.pdf",
+   "note": "the upstream collection bundles this patent publication with the design"
+  }
+ },
+ "title": "2453260",
+ "design": {
+  "source_reference": "Pestrekov1948",
+  "lens_type": "camera",
+  "design_family_id": "lenslibrary-2453260",
+  "design_scope": "COMPLETE_SYSTEM",
+  "structure_tags": [
+   "fixed_focal_length"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1
+ },
+ "native_project": {
+  "path": "records/lenslibrary/lenslibrary-2453260/project.json",
+  "sha256": "62ad2cc8651a0858c3f92ca8f324e9fb96455b9fe8bf1b21b4d77f4cb42dc93d",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "model_id": "LENS",
+  "opening_outcome": "ACCEPTED",
+  "optical_validation": "PARAXIAL_MATCH"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   486.2688,
+   587.72485,
+   656.45429
+  ],
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the Edlen 1953 air model",
+  "sampling_wavelengths_air_nm": [
+   486.133,
+   587.562,
+   656.273
+  ],
+  "primary_wavelength_nm": 587.72485,
+  "operating_range_nm": {
+   "min_nm": 486.2687972434527,
+   "max_nm": 656.4542885765853,
+   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+   "note": "the span of the stated sampling wavelengths; the source states no separate operating range"
+  },
+  "band_facets": [
+   "visible"
+  ]
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 100.0044,
+   "basis": "SOURCE_STATED",
+   "conditions": "primary wavelength 587.72485 nm (vacuum), image space"
+  },
+  "back_focal_length_mm": {
+   "value": 79.33565,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
+  },
+  "total_track_mm": {
+   "value": 119.0756,
+   "basis": "SOURCE_STATED",
+   "definition": "first surface vertex to the image plane along the axis"
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
+   "wavelength_nm": 587.72485,
+   "effective_focal_length_mm": 100.00297736282691,
+   "back_focal_length_mm": 79.33415788827058,
+   "efl_relative_difference": 1.4225745798112549e-05,
+   "basis": "ENGINE_COMPUTED"
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 2.7,
+   "definition": "image-space f-number as stated by the source",
+   "basis": "SOURCE_STATED (LensLibrary property list)"
+  }
+ },
+ "field": {
+  "kind": "ANGULAR",
+  "definition": "full field of view, the largest stated field angle",
+  "full_field_deg": 28.0,
+  "half_field_deg": 14.0,
+  "field_points_deg": [
+   0.0,
+   10.0,
+   14.0
+  ],
+  "basis": "SOURCE_STATED (the upstream prescription dump's field table)"
+ },
+ "materials": {
+  "model_glasses": [
+   {
+    "name": "LL-MODEL-1.61700-55.00",
+    "source": "SOURCE_INDEX_TABLE",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 1.11e-15)",
+    "samples_vacuum_nm": [
+     486.2688,
+     587.72485,
+     656.45429
+    ],
+    "indices_absolute": [
+     1.62527373,
+     1.617450393,
+     1.614051913
+    ],
+    "kind": "SELLMEIER",
+    "b": [
+     0.30722130448305257,
+     1.2611462875017903,
+     0.7055290405928917
+    ],
+    "c_um2": [
+     0.0035,
+     0.0125,
+     90.0
+    ],
+    "min_nm": 486.2687972434527,
+    "max_nm": 656.4542885765853
+   },
+   {
+    "name": "LL-MODEL-1.64900-33.80",
+    "source": "SOURCE_INDEX_TABLE",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 4.44e-15)",
+    "samples_vacuum_nm": [
+     486.2688,
+     587.72485,
+     656.45429
+    ],
+    "indices_absolute": [
+     1.663050372,
+     1.649460772,
+     1.643846595
+    ],
+    "kind": "SELLMEIER",
+    "b": [
+     -1.2153217808832932,
+     2.838671320525861,
+     -0.8382279528088944
+    ],
+    "c_um2": [
+     0.0035,
+     0.0125,
+     90.0
+    ],
+    "min_nm": 486.2687972434527,
+    "max_nm": 656.4542885765853
+   }
+  ],
+  "named_glasses": [],
+  "policy": "Every glass is defined from the source's own per-surface index table in the upstream prescription dump: a 3-term Sellmeier with fixed poles solved to those samples, or a constant index when the source states one wavelength. Published catalog glasses are compared, never substituted.",
+  "catalog_comparisons": []
+ },
+ "approximations": [
+  {
+   "code": "STOP_PLATE_OUTER_RADIUS",
+   "detail": "the source gives no stop-plate outer radius; the plate reaches the largest clear semi-diameter beside the stop"
+  },
+  {
+   "code": "NO_MECHANICAL_EDGE_DATA",
+   "detail": "the source gives clear semi-diameters only, so each surface is edged at its own clear semi-diameter"
+  },
+  {
+   "code": "SURFACE_FIGURE_NOMINAL",
+   "detail": "nominal prescription surfaces; no figure, centring or surface-roughness error is modelled"
+  }
+ ],
+ "unsupported_constructs": [],
+ "conversion": {
+  "format": "csv-surface-table/1",
+  "intermediate_sha256": "8236bd92016a213d1fdcc454537cf12f687efab928044ebd910267444171a1a2",
+  "source_sha256": "8236bd92016a213d1fdcc454537cf12f687efab928044ebd910267444171a1a2",
+  "counts": {
+   "surfaces": 7,
+   "elements": 3,
+   "cemented_elements": 0,
+   "aperture_stops": 1,
+   "dummy_surfaces": 0,
+   "members": 4,
+   "materials": 2,
+   "materials_from_catalog": 0,
+   "materials_defined_in_file": 2,
+   "coatings": 0
+  },
+  "image_plane_z_mm": "119.07564592789",
+  "warnings": [],
+  "wavelength_band_nm": {
+   "min_nm": 486.2687972434527,
+   "max_nm": 656.4542885765853
+  }
+ },
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "MATCHED",
+  "notes": [
+   "project check accepted the committed Project with os-optics 0.14.0",
+   "project solids reported no error-severity finding",
+   "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
+  ]
+ },
+ "record_hash": "d374eb3686e63a46d1f34b1ad583bc182a89ec4a3941c266bbcfcea472aa949e"
+}

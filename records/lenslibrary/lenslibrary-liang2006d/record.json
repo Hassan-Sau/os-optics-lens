@@ -1,0 +1,224 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "lenslibrary-liang2006d",
+ "record_revision": 1,
+ "collection": {
+  "collection_id": "lenslibrary",
+  "source": "Nathan Hagen's LensLibrary",
+  "source_url": "https://github.com/nzhagen/LensLibrary",
+  "source_revision": "86b2c0cac5a67e2112d58518230c4d8728154f4e",
+  "source_input": "zemax_files/Liang2006d.zmx",
+  "source_input_sha256": "bb48373e6ef86a0e9813ba9cbc895594f0df70968c7f4110357b55a2bc00f8f6",
+  "source_prescription_dump": "prescription_files/Liang2006d.txt",
+  "source_prescription_dump_sha256": "117d857c7aafa5cf4c6862c4cc4bde6b3c1cef855fa2564bb778617e6e7d30d0",
+  "redistribution": "MIT (see licenses/LensLibrary-MIT.txt)",
+  "attribution": "Nathan Hagen, LensLibrary; original design cited below when the source states it",
+  "source_links": {
+   "source_file_url": "https://raw.githubusercontent.com/nzhagen/LensLibrary/86b2c0cac5a67e2112d58518230c4d8728154f4e/zemax_files/Liang2006d.zmx",
+   "source_tree_url": "https://github.com/nzhagen/LensLibrary/tree/86b2c0cac5a67e2112d58518230c4d8728154f4e/zemax_files"
+  },
+  "original_publication": null
+ },
+ "title": "liang2006d",
+ "design": {
+  "source_reference": "Liang2006",
+  "lens_type": "endoscope_objective",
+  "design_family_id": "lenslibrary-liang2006",
+  "design_scope": "COMPLETE_SYSTEM",
+  "structure_tags": [
+   "fixed_focal_length"
+  ],
+  "application_tags": [
+   "endoscopy",
+   "medical_imaging"
+  ],
+  "conjugate": "FINITE_TO_FINITE",
+  "configuration_count": 1
+ },
+ "native_project": {
+  "path": "records/lenslibrary/lenslibrary-liang2006d/project.json",
+  "sha256": "991a4c94903523d96f37d2d06460afa065f6d8c09e2b09b4266a6a69f1d4b619",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "model_id": "LENS",
+  "opening_outcome": "ACCEPTED",
+  "optical_validation": "PARAXIAL_MATCH"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   550.1528
+  ],
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the Edlen 1953 air model",
+  "sampling_wavelengths_air_nm": [
+   550.0
+  ],
+  "primary_wavelength_nm": 550.1528,
+  "operating_range_nm": {
+   "min_nm": 549.6528032022565,
+   "max_nm": 550.6528032022565,
+   "basis": "SINGLE_WAVELENGTH_BAND",
+   "note": "one stated sampling wavelength; the band is a 1 nm numerical interval around it, not a claimed operating range"
+  },
+  "band_facets": [
+   "visible"
+  ]
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 0.3730534,
+   "basis": "SOURCE_STATED",
+   "conditions": "primary wavelength 550.1528 nm (vacuum), image space"
+  },
+  "back_focal_length_mm": {
+   "value": -0.8579084,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
+  },
+  "total_track_mm": {
+   "value": 8.727621,
+   "basis": "SOURCE_STATED",
+   "definition": "first surface vertex to the image plane along the axis"
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
+   "wavelength_nm": 550.1528,
+   "effective_focal_length_mm": 0.3730480257154086,
+   "back_focal_length_mm": -0.8579007868969807,
+   "efl_relative_difference": 1.4406207238301322e-05,
+   "basis": "ENGINE_COMPUTED"
+  }
+ },
+ "aperture": {
+  "numerical_aperture": {
+   "value": 0.6,
+   "definition": "object-space numerical aperture as stated by the source",
+   "basis": "SOURCE_STATED (LensLibrary property list)"
+  },
+  "f_number": {
+   "value": 0.001224793,
+   "definition": "image-space f-number (paraxial working f-number of the dump)",
+   "basis": "SOURCE_STATED (the upstream prescription dump)"
+  }
+ },
+ "field": {
+  "kind": "OBJECT_HEIGHT",
+  "definition": "object-space field height, the largest stated field point",
+  "max_object_height_mm": 0.11,
+  "field_points_mm": [
+   0.0,
+   0.055,
+   0.11
+  ],
+  "basis": "SOURCE_STATED (the upstream prescription dump's field table)",
+  "full_object_height_mm": 0.22,
+  "convention": "the property list states the full object-space field; the prescription dump's field table states the largest field point, which is half of it"
+ },
+ "materials": {
+  "model_glasses": [],
+  "named_glasses": [
+   {
+    "name": "BK7",
+    "source": "SOURCE_INDEX_TABLE",
+    "basis": "constant index 1.5189442695700426 at the single stated wavelength 550.152803 nm",
+    "samples_vacuum_nm": [
+     550.1528
+    ],
+    "indices_absolute": [
+     1.51894427
+    ],
+    "kind": "CONSTANT_INDEX",
+    "index": 1.5189442695700426,
+    "min_nm": 549.6528032022565,
+    "max_nm": 550.6528032022565
+   },
+   {
+    "name": "COC",
+    "source": "SOURCE_INDEX_TABLE",
+    "basis": "constant index 1.5361529314214815 at the single stated wavelength 550.152803 nm",
+    "samples_vacuum_nm": [
+     550.1528
+    ],
+    "indices_absolute": [
+     1.536152931
+    ],
+    "kind": "CONSTANT_INDEX",
+    "index": 1.5361529314214815,
+    "min_nm": 549.6528032022565,
+    "max_nm": 550.6528032022565
+   },
+   {
+    "name": "POLYSTYR",
+    "source": "SOURCE_INDEX_TABLE",
+    "basis": "constant index 1.5949735834716776 at the single stated wavelength 550.152803 nm",
+    "samples_vacuum_nm": [
+     550.1528
+    ],
+    "indices_absolute": [
+     1.594973583
+    ],
+    "kind": "CONSTANT_INDEX",
+    "index": 1.5949735834716776,
+    "min_nm": 549.6528032022565,
+    "max_nm": 550.6528032022565
+   }
+  ],
+  "policy": "Every glass is defined from the source's own per-surface index table in the upstream prescription dump: a 3-term Sellmeier with fixed poles solved to those samples, or a constant index when the source states one wavelength. Published catalog glasses are compared, never substituted.",
+  "catalog_comparisons": []
+ },
+ "approximations": [
+  {
+   "code": "STOP_PLATE_OUTER_RADIUS",
+   "detail": "the source gives no stop-plate outer radius; the plate reaches the largest clear semi-diameter beside the stop"
+  },
+  {
+   "code": "NO_MECHANICAL_EDGE_DATA",
+   "detail": "the source gives clear semi-diameters only, so each surface is edged at its own clear semi-diameter"
+  },
+  {
+   "code": "SURFACE_FIGURE_NOMINAL",
+   "detail": "nominal prescription surfaces; no figure, centring or surface-roughness error is modelled"
+  }
+ ],
+ "unsupported_constructs": [],
+ "conversion": {
+  "format": "csv-surface-table/1",
+  "intermediate_sha256": "dede8afedb393a44a2d0b41ac51a38393b0519e34d4440a2a2d8af57621dd53c",
+  "source_sha256": "dede8afedb393a44a2d0b41ac51a38393b0519e34d4440a2a2d8af57621dd53c",
+  "counts": {
+   "surfaces": 9,
+   "elements": 4,
+   "cemented_elements": 0,
+   "aperture_stops": 0,
+   "dummy_surfaces": 1,
+   "members": 4,
+   "materials": 2,
+   "materials_from_catalog": 0,
+   "materials_defined_in_file": 2,
+   "coatings": 0
+  },
+  "image_plane_z_mm": "8.7276208",
+  "warnings": [
+   "MATERIAL_UNUSED",
+   "DUMMY_SURFACE",
+   "EDGE_THICKNESS_IMPLAUSIBLE"
+  ],
+  "wavelength_band_nm": {
+   "min_nm": 549.6528032022565,
+   "max_nm": 550.6528032022565
+  }
+ },
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "MATCHED",
+  "notes": [
+   "project check accepted the committed Project with os-optics 0.14.0",
+   "project solids reported no error-severity finding",
+   "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
+  ]
+ },
+ "record_hash": "fbf6cf228293a80c6855c58886dd410525ba3704c47bd4aab81c4e8b54f041a2"
+}
