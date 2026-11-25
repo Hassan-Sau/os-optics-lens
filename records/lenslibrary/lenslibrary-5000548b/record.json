@@ -11,7 +11,7 @@
   "source_input": "zemax_files/5000548b.zmx",
   "source_input_sha256": "8148e70a7b34deda2f4d420d0974b24d100d4b0fa858aba4de0977dbb32b47a2",
   "source_prescription_dump": "prescription_files/5000548b.txt",
-  "source_prescription_dump_sha256": "6d35f17f13ce279965b0dc683b0242174c61676c04f79dd56c9b3a60945aab99",
+  "source_prescription_dump_sha256": "5ce8b336b5e1cedc0dc4d6abd6f3089f798bc79f777da08287f58afbb9374cb3",
   "redistribution": "MIT (see licenses/LensLibrary-MIT.txt)",
   "attribution": "Nathan Hagen, LensLibrary; original design cited below when the source states it",
   "source_links": {
@@ -37,7 +37,7 @@
  },
  "native_project": {
   "path": "records/lenslibrary/lenslibrary-5000548b/project.json",
-  "sha256": "6710c71bdf607c5b198f14a6c83fab45e2b6a97d08514dcf3950e4584c093c17",
+  "sha256": "134f2bed31888d59b349957211c003b6e7ccf865a90184f35aaf881ec3a72073",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -46,22 +46,29 @@
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
-   486.2688,
-   587.72485,
-   656.45429
+   486.26648,
+   587.72206,
+   656.45119
   ],
-  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the Edlen 1953 air model",
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the engine's own air model (6432.8 / 2949810 / 25540, material_physics.air_index_exact)",
   "sampling_wavelengths_air_nm": [
    486.133,
    587.562,
    656.273
   ],
-  "primary_wavelength_nm": 587.72485,
-  "operating_range_nm": {
-   "min_nm": 486.2687972434527,
-   "max_nm": 656.4542885765853,
+  "primary_wavelength_nm": 587.72206,
+  "sampling_span_nm": {
+   "min_nm": 486.26647615134164,
+   "max_nm": 656.4511870828724,
+   "eligible_for": "DISCOVERY_ONLY",
    "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
    "note": "the span of the stated sampling wavelengths; the source states no separate operating range"
+  },
+  "continuous_coverage_nm": {
+   "min_nm": null,
+   "max_nm": null,
+   "state": "UNCONFIRMED",
+   "note": "a set of enabled wavelengths is sampling evidence; nothing in the source establishes continuous coverage between them, so no range is claimed"
   },
   "band_facets": [
    "visible"
@@ -71,7 +78,7 @@
   "effective_focal_length_mm": {
    "value": 17.79015,
    "basis": "SOURCE_STATED",
-   "conditions": "primary wavelength 587.72485 nm (vacuum), image space"
+   "conditions": "primary wavelength 587.72206 nm (vacuum), image space"
   },
   "back_focal_length_mm": {
    "value": -7.91062,
@@ -86,19 +93,39 @@
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
-   "wavelength_nm": 587.72485,
-   "effective_focal_length_mm": 17.790015595239186,
-   "back_focal_length_mm": -7.911031194859945,
-   "efl_relative_difference": 7.555009981044416e-06,
+   "wavelength_nm": 587.72206,
+   "effective_focal_length_mm": 17.790153323700636,
+   "back_focal_length_mm": -7.910620124026174,
+   "comparison": {
+    "rule": "|engine - source| <= atol + rtol * max(|BFL|, |EFL|)",
+    "atol_mm": 1e-05,
+    "rtol": 0.0001,
+    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
+    "effective_focal_length": {
+     "source_mm": 17.79015,
+     "engine_mm": 17.790153323700636,
+     "absolute_difference_mm": 3.3237006356046095e-06,
+     "tolerance_mm": 0.0017890150000000001,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.0018578383275738937
+    },
+    "back_focal_length": {
+     "source_mm": -7.91062,
+     "engine_mm": -7.910620124026174,
+     "absolute_difference_mm": 1.2402617421969353e-07,
+     "tolerance_mm": 0.0017890150000000001,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 6.932651443374902e-05
+    }
+   },
    "basis": "ENGINE_COMPUTED"
   }
  },
  "aperture": {
-  "f_number": {
-   "value": 0.6057047,
-   "definition": "image-space f-number, from the upstream prescription dump",
-   "basis": "SOURCE_STATED (the upstream prescription dump)",
-   "why_not_design_file": "the design file states no FNUM or ENPD, so the dump's stated f-number is the only source value; it is recorded with that basis"
+  "object_numerical_aperture": {
+   "value": 0.25,
+   "definition": "object-side numerical aperture, the system aperture the design file states; an NA is not an f-number and is not converted to one",
+   "basis": "SOURCE_STATED (the design file's OBNA)"
   },
   "property_list_comparison": {
    "quantity": "numerical_aperture",
@@ -128,63 +155,63 @@
    {
     "name": "CAF2",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 8.88e-16)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 4.44e-16)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.437426471,
-     1.434246687,
-     1.432853718
+     1.43741961,
+     1.43423989,
+     1.432846948
     ],
     "catalog_comparison": {
      "material_id": "CAF2",
-     "max_abs_index_delta": 0.00040704461196061636,
+     "max_abs_index_delta": 0.0004000875211931376,
      "note": "the source's own index table is used; the published catalog glass is a comparison only"
     },
     "kind": "SELLMEIER",
     "b": [
-     0.7581974937290198,
-     0.2816551182080181,
-     0.29208761106618825
+     0.7581958010679267,
+     0.28163781714373387,
+     0.2920938143805439
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "LAC7",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 1.11e-15)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 8.88e-16)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.659826721,
-     1.652056543,
-     1.648661725
+     1.659818799,
+     1.652048714,
+     1.648653935
     ],
     "kind": "SELLMEIER",
     "b": [
-     0.44673207373991236,
-     1.2348963235682457,
-     0.8504208711235608
+     0.4467503364952779,
+     1.234853149900325,
+     0.850434464448173
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    }
   ],
   "policy": "Every glass is defined from the source's own per-surface index table in the upstream prescription dump: a 3-term Sellmeier with fixed poles solved to those samples, or a constant index when the source states one wavelength. Published catalog glasses are compared, never substituted.",
@@ -192,7 +219,7 @@
    {
     "material": "CAF2",
     "material_id": "CAF2",
-    "max_abs_index_delta": 0.00040704461196061636,
+    "max_abs_index_delta": 0.0004000875211931376,
     "note": "the source's own index table is used; the published catalog glass is a comparison only"
    }
   ]
@@ -214,8 +241,8 @@
  "unsupported_constructs": [],
  "conversion": {
   "format": "csv-surface-table/1",
-  "intermediate_sha256": "f2543073cc39b049bc3f218f955b0f2a4974b3f13d630848f3f9f8a07a0e4106",
-  "source_sha256": "f2543073cc39b049bc3f218f955b0f2a4974b3f13d630848f3f9f8a07a0e4106",
+  "intermediate_sha256": "3d210372fc8893fb2a60f74b8b2979d5f29553ffe5a3bca763c012cf7d4e71d8",
+  "source_sha256": "3d210372fc8893fb2a60f74b8b2979d5f29553ffe5a3bca763c012cf7d4e71d8",
   "counts": {
    "surfaces": 8,
    "elements": 4,
@@ -231,8 +258,8 @@
   "image_plane_z_mm": "196.369",
   "warnings": [],
   "wavelength_band_nm": {
-   "min_nm": 486.2687972434527,
-   "max_nm": 656.4542885765853
+   "min_nm": 486.26647615134164,
+   "max_nm": 656.4511870828724
   }
  },
  "validation": {
@@ -240,11 +267,14 @@
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
   "paraxial": "MATCHED",
+  "field": "NOT_CHECKED",
   "notes": [
    "project check accepted the committed Project with os-optics 0.14.0",
    "project solids reported no error-severity finding",
-   "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
+   "the engine's paraxial EFL and BFL meet the stated tolerance rule",
+   "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted (follow-up: issue #7)"
   ]
  },
- "record_hash": "cc7df53a4ab61318e677153c8c8e743c45a56dc3ca74734b6d05c9b5e0f09c96"
+ "record_hash": "d5b836d980f3a5394333a163c511f6daa19039e2e05cd834370c5bc63ed93531",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

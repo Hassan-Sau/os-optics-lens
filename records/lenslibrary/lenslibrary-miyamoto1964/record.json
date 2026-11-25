@@ -11,7 +11,7 @@
   "source_input": "zemax_files/Miyamoto1964.zmx",
   "source_input_sha256": "a13bb4c51cb4f03c70af85a14d4f14b075f6d63544d17bc2585edd81f9e3e8c4",
   "source_prescription_dump": "prescription_files/Miyamoto1964.txt",
-  "source_prescription_dump_sha256": "ccf7d951fad70717320a59a67d359d552ea00d5fd22d0c07fce040e5f3a54fec",
+  "source_prescription_dump_sha256": "39acd183400ab64f5590a2a23f98a35523b7fa23830215cb81952e72ccb46613",
   "redistribution": "MIT (see licenses/LensLibrary-MIT.txt)",
   "attribution": "Nathan Hagen, LensLibrary; original design cited below when the source states it",
   "source_links": {
@@ -38,7 +38,7 @@
  },
  "native_project": {
   "path": "records/lenslibrary/lenslibrary-miyamoto1964/project.json",
-  "sha256": "28c216bf20a953cadc2e79feab5fbd9a058f5e6c53e7e4f1f6d61aea2a83f256",
+  "sha256": "4b4ed647be7664ab6b5a88ac150f68e5971e18122fd7b97e94494025a421bbcd",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -47,18 +47,25 @@
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
-   587.72485
+   587.72206
   ],
-  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the Edlen 1953 air model",
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the engine's own air model (6432.8 / 2949810 / 25540, material_physics.air_index_exact)",
   "sampling_wavelengths_air_nm": [
    587.562
   ],
-  "primary_wavelength_nm": 587.72485,
-  "operating_range_nm": {
-   "min_nm": 587.2248496215444,
-   "max_nm": 588.2248496215444,
+  "primary_wavelength_nm": 587.72206,
+  "sampling_span_nm": {
+   "min_nm": 587.2220645720764,
+   "max_nm": 588.2220645720764,
+   "eligible_for": "DISCOVERY_ONLY",
    "basis": "SINGLE_WAVELENGTH_BAND",
-   "note": "one stated sampling wavelength; the band is a 1 nm numerical interval around it, not a claimed operating range"
+   "note": "one stated sampling wavelength; the interval is a 1 nm numerical band around it"
+  },
+  "continuous_coverage_nm": {
+   "min_nm": null,
+   "max_nm": null,
+   "state": "UNCONFIRMED",
+   "note": "a set of enabled wavelengths is sampling evidence; nothing in the source establishes continuous coverage between them, so no range is claimed"
   },
   "band_facets": [
    "visible"
@@ -68,7 +75,7 @@
   "effective_focal_length_mm": {
    "value": 7.999497,
    "basis": "SOURCE_STATED",
-   "conditions": "primary wavelength 587.72485 nm (vacuum), image space"
+   "conditions": "primary wavelength 587.72206 nm (vacuum), image space"
   },
   "back_focal_length_mm": {
    "value": 12.07646,
@@ -83,20 +90,35 @@
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
-   "wavelength_nm": 587.72485,
-   "effective_focal_length_mm": 7.999325940972135,
-   "back_focal_length_mm": 12.076201789505426,
-   "efl_relative_difference": 2.138372298473061e-05,
+   "wavelength_nm": 587.72206,
+   "effective_focal_length_mm": 7.999496796895376,
+   "back_focal_length_mm": 12.07646356424368,
+   "comparison": {
+    "rule": "|engine - source| <= atol + rtol * max(|BFL|, |EFL|)",
+    "atol_mm": 1e-05,
+    "rtol": 0.0001,
+    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
+    "effective_focal_length": {
+     "source_mm": 7.999497,
+     "engine_mm": 7.999496796895376,
+     "absolute_difference_mm": 2.0310462378603233e-07,
+     "tolerance_mm": 0.0008099497,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.0002507620211304879
+    },
+    "back_focal_length": {
+     "source_mm": 12.07646,
+     "engine_mm": 12.07646356424368,
+     "absolute_difference_mm": 3.564243678866319e-06,
+     "tolerance_mm": 0.0012176460000000002,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.0029271591898354025
+    }
+   },
    "basis": "ENGINE_COMPUTED"
   }
  },
  "aperture": {
-  "f_number": {
-   "value": 3.999748,
-   "definition": "image-space f-number, from the upstream prescription dump",
-   "basis": "SOURCE_STATED (the upstream prescription dump)",
-   "why_not_design_file": "the design file states no FNUM or ENPD, so the dump's stated f-number is the only source value; it is recorded with that basis"
-  },
   "entrance_pupil_diameter_mm": {
    "value": 2.0,
    "definition": "entrance pupil diameter, the system aperture the design file states",
@@ -130,107 +152,107 @@
    {
     "name": "LL-MODEL-1.48830-70.40",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.4887138928890695 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.4887068383263127 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.488713893
+     1.488706838
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.4887138928890695,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.4887068383263127,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    },
    {
     "name": "LL-MODEL-1.51680-64.20",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.5172220069541116 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.517214817300065 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.517222007
+     1.517214817
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.5172220069541116,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.517214817300065,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    },
    {
     "name": "LL-MODEL-1.51740-59.00",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.51782230898868 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.5178151164899845 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.517822309
+     1.517815116
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.51782230898868,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.5178151164899845,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    },
    {
     "name": "LL-MODEL-1.66860-41.90",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.6690655968046122 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.6690576876099348 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.669065597
+     1.669057688
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.6690655968046122,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.6690576876099348,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    },
    {
     "name": "LL-MODEL-1.70230-41.00",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.7027751640132507 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.7027670950791778 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.702775164
+     1.702767095
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.7027751640132507,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.7027670950791778,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    },
    {
     "name": "LL-MODEL-1.74450-45.00",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.7449867575041285 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.7449784885421409 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.744986758
+     1.744978489
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.7449867575041285,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.7449784885421409,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    },
    {
     "name": "LL-MODEL-1.78650-26.00",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "constant index 1.7870009882087783 at the single stated wavelength 587.72485 nm",
+    "basis": "constant index 1.7869925201541186 at the single stated wavelength 587.722065 nm",
     "samples_vacuum_nm": [
-     587.72485
+     587.72206
     ],
     "indices_absolute": [
-     1.787000988
+     1.78699252
     ],
     "kind": "CONSTANT_INDEX",
-    "index": 1.7870009882087783,
-    "min_nm": 587.2248496215444,
-    "max_nm": 588.2248496215444
+    "index": 1.7869925201541186,
+    "min_nm": 587.2220645720764,
+    "max_nm": 588.2220645720764
    }
   ],
   "named_glasses": [],
@@ -254,8 +276,8 @@
  "unsupported_constructs": [],
  "conversion": {
   "format": "csv-surface-table/1",
-  "intermediate_sha256": "2d21469b918c5ef6e1fb75066fbb1d09df44e4f54a83f013a8726a471e41ee32",
-  "source_sha256": "2d21469b918c5ef6e1fb75066fbb1d09df44e4f54a83f013a8726a471e41ee32",
+  "intermediate_sha256": "64d5c00a42a7c877d3de72f7b6c4cd63adcd2345a45673a3168df5cd3caf0e07",
+  "source_sha256": "64d5c00a42a7c877d3de72f7b6c4cd63adcd2345a45673a3168df5cd3caf0e07",
   "counts": {
    "surfaces": 17,
    "elements": 6,
@@ -271,8 +293,8 @@
   "image_plane_z_mm": "88.77646356299",
   "warnings": [],
   "wavelength_band_nm": {
-   "min_nm": 587.2248496215444,
-   "max_nm": 588.2248496215444
+   "min_nm": 587.2220645720764,
+   "max_nm": 588.2220645720764
   }
  },
  "validation": {
@@ -280,11 +302,14 @@
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
   "paraxial": "MATCHED",
+  "field": "NOT_CHECKED",
   "notes": [
    "project check accepted the committed Project with os-optics 0.14.0",
    "project solids reported no error-severity finding",
-   "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
+   "the engine's paraxial EFL and BFL meet the stated tolerance rule",
+   "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted (follow-up: issue #7)"
   ]
  },
- "record_hash": "1bcdad7a8dd5a79be355672ad2832cd8b1a38a536cb6bf926ed24d7929e94cb9"
+ "record_hash": "f6d2e524f6edfeeb938b272558925e6eb0f1e6207cf6980590e621a1d1dfde51",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

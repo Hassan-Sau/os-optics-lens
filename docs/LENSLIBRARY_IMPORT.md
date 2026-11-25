@@ -19,8 +19,8 @@ the inventory, the accepted records and the deferrals reconcile.
 
 | Outcome | Count |
 |---|---|
-| Accepted records | 40 |
-| Deferred (deliberately not converted) | 31 |
+| Accepted records | 39 |
+| Deferred (deliberately not converted) | 32 |
 | Conversion failed (engine refused the table) | 6 |
 
 `prescription_files/` holds 81 Zemax prescription dumps. They are **evidence**, not corpus: each
@@ -69,7 +69,7 @@ of the preparation run, not a one-off.
 
 | Construct | Files | Outcome |
 |---|---|---|
-| Sequential refracting systems, representable | 40 | Accepted |
+| Sequential refracting systems, representable | 39 | Accepted |
 | Reflecting surfaces (`MIRROR`, `GLAS MIRROR`) | 16 | Deferred: `REFLECTOR`. The format refuses reflecting rows in a sequence; [os-optics#57](https://github.com/JunLin615/os-optics/issues/57) covers importing them |
 | Coordinate breaks (decentre/tilt) | 12 | Deferred: `UNSUPPORTED_COORDBRK` |
 | Diffraction gratings (plane, spherical, toroidal) | 8 | Deferred: `UNSUPPORTED_DGRATING`, and `UNSUPPORTED_TOROGRAT` for the toroidal one |
@@ -81,6 +81,7 @@ of the preparation run, not a one-off.
 | A tilted surface | 1 | Deferred: `UNSUPPORTED_TILTSURF` |
 | Off-axis field points (nonzero x) | 1 | Deferred: `OFF_AXIS_FIELDS`; a coaxial sequence cannot carry them |
 | A toroidal surface | 1 | Deferred: `TOROIDAL_PENDING`; the row is in a grating system that is deferred anyway |
+| Index samples no single glass can produce | 1 | Deferred: `MATERIAL_MODEL_FAILED`; the samples rise with wavelength, so no continuous law may be fitted (see Material decisions) |
 | An immersed final space (the sequence ends in glass or water) | 2 | Failed: `UNSUPPORTED_FEATURE`, the format requires the image space to be air |
 | Surfaces that intersect inside the clear aperture | 2 | Failed: `SURFACES_INTERSECT`, the source's own clear apertures make the glass impossible |
 | Elements whose outlines overlap at the stated apertures | 2 | Failed: `BODIES_INTERSECT`, the source's apertures put two bodies in one volume |
@@ -108,17 +109,33 @@ Named catalog glasses (N-BK7, SF6, CAF2, …) are **not substituted**. Where a p
 glass of the same name exists, the record keeps the source's own indices and adds the largest index
 difference as a comparison, so a reviewer can see whether the names mean the same glass.
 
+A continuous law is only fitted to samples that can come from one glass. A solid glass in the
+visible/near-infrared has normal dispersion — its index falls as the wavelength rises — so samples
+that rise or are not monotonic cannot support a fit; interpolating between them would invent a
+material. Such an input is deferred rather than modelled. `lenslibrary-895045b` is that case: its
+surface 1 states 1.7517, 1.6042 and 1.7338 at 486, 588 and 656 nm, which no single glass can
+produce. It was accepted in an earlier revision of this batch with a fitted law that passed through
+those impossible points; it is now deferred as `MATERIAL_MODEL_FAILED`.
+
 Air wavelengths: the source states wavelengths in air at 20 °C and 101325 Pa. They are converted
-once to vacuum with the Edlén 1953 model — the model the engine names — and the surface table is
-written in vacuum wavelengths. Declaring them as air would have made the engine apply the
-conversion a second time.
+once to vacuum with **the engine's own air model**
+(`material_physics.air_index_exact`: the 6432.8 / 2949810 / 25540 form scaled by pressure and
+temperature), and the surface table is written in vacuum wavelengths. Using the Edlén 1953
+8342.13 form instead — a natural-looking choice — shifts every wavelength by about 0.003 nm
+(587.5618 nm air becomes 587.72485 nm instead of the engine's 587.7218645 nm), so the record's
+wavelength would not be the one the engine evaluates. Declaring the values as air would have
+made the engine convert a second time.
 
 ## Surface and stop decisions
 
 - **Radii** are copied with their sign (positive: centre of curvature after the surface). No
   re-signing, no mirroring.
-- **Clear apertures** come from `DIAM`. The source states no mechanical semi-diameter, so each
-  surface is edged at its own clear semi-diameter and the record says so.
+- **Clear apertures** come from `DIAM`. Where the source states both `CLAP` (the circular optical
+  opening) and a wider `DIAM` (the geometry edge), the opening goes in `semi_diameter` and the edge
+  in `mech_semi_diameter`, so the optical opening is never widened to the mechanical edge.
+  `lenslibrary-1975678` is that case: `CLAP` 34.000 mm, `DIAM` 34.23422729828 mm. The source
+  otherwise states no mechanical semi-diameter, so each surface is edged at its own clear
+  semi-diameter and the record says so.
 - **The stop** keeps its own row and its own opening. The source states no stop-plate outer radius;
   the plate is placed at the largest clear semi-diameter beside the stop so the stop actually
   blocks light. Where a neighbouring element would meet that plate (one design), the plate falls
@@ -134,7 +151,7 @@ One rule decided every case: **a value comes from the design file**, and a summa
 
 The design file (`zemax_files/*.zmx`) states the field type and field points itself (`FTYP`,
 `YFLN`) and the system aperture itself (`FNUM` or `ENPD`). The upstream dump prints the same field
-table, so it serves as a cross-check: across all 40 accepted records the two agree
+table, so it serves as a cross-check: across all 39 accepted records the two agree
 (`prescription_dump_check: MATCHES`). Where the ZMX states no aperture (`5000548a` is one), the
 dump's stated f-number is used and the record names that basis.
 
@@ -171,7 +188,7 @@ importer's own warnings are recorded in each record.
 
 `project check` on the committed `project.json` returns `ACCEPTED`, and `project solids` returns
 `VALID` with no error-severity finding. Re-run over the committed corpus in a clean environment:
-40 of 40 pass.
+39 of 39 pass.
 
 Reviewer commands, from the repository root:
 
@@ -186,20 +203,36 @@ For every accepted record the engine's thick-lens paraxial matrix, evaluated on 
 Project at the source's primary wavelength, reproduces the source-stated EFL and BFL. The
 comparison is a **paraxial** one: it establishes first-order agreement, not image quality.
 
-| Quantity | Condition | Result |
-|---|---|---|
-| Signed EFL | primary vacuum wavelength, image space | 40/40 within 6 × 10⁻⁵ relative |
-| BFL | same | 40/40 within 1 × 10⁻⁴ relative |
+A tolerance relative to BFL alone cannot be used, because a back focal length can pass through
+zero: `lenslibrary-4037934a` has a BFL of −0.0059 mm, and a 1 × 10⁻⁴ relative rule would demand
+6 × 10⁻⁷ mm agreement. The scale of a first-order comparison is the system's focal length, and a
+long back focus behind a short focal length needs its own length as well. The rule is:
 
-The largest EFL difference is `lenslibrary-5852515b` at 6 × 10⁻⁵ relative. That residual is
-expected: the source's own EFL comes from its ray-traced paraxial solve with its glass catalogs,
-while the record uses the source's printed index samples.
+```
+|engine − source| ≤ atol + rtol · max(|BFL|, |EFL|)
+atol = 1e-5 mm,  rtol = 1e-4
+```
+
+| Quantity | Condition | Result | Tightest record |
+|---|---|---|---|
+| Signed EFL | primary vacuum wavelength, image space | 39/39 within the rule | 0.4 % of its allowance |
+| BFL | same | 39/39 within the rule | 41 % of its allowance |
+
+`first_order.engine_check.comparison` records both values, the difference, the tolerance and
+`fraction_of_tolerance` per record, so a reviewer recomputes the verdict rather than trusting it.
+The rule is not tuned to pass: the tightest BFL case uses 41 % of its allowance and the tightest EFL
+case 0.4 %.
+
+The largest EFL difference in absolute terms is now 4.3 × 10⁻⁷ relative
+(`lenslibrary-1792917`), after the air model was corrected. The remaining residual is expected: the
+source's own EFL comes from its ray-traced paraxial solve with its glass catalogs, while the record
+uses the source's printed index samples.
 
 `os-optics project paraxial` is the reviewer command:
 
 ```
 os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
-    --components LENS --wavelength-nm 587.72485
+    --components LENS --wavelength-nm 587.72206
 ```
 
 ## Path checks
@@ -230,7 +263,7 @@ Run in the scratch workspace, because they need the source files:
   mounting geometry is claimed.
 - **No field verification.** `validation` has four outcomes (conversion, project check, optical
   solids, paraxial) and none is a field. Every record states its field with its provenance
-  (`SOURCE_STATED`, design file, cross-checked against the dump on 40/40), but nothing has checked
+  (`SOURCE_STATED`, design file, cross-checked against the dump on 39/39), but nothing has checked
   that the stated field produces a sane image point. The engine can do that check (see above); this
   batch did not run it.
 - **Image circle not recorded.** The source states field angles or field heights, not a sensor

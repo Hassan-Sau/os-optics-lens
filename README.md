@@ -20,8 +20,8 @@ reports an outcome for every source input.
 | | |
 |---|---|
 | Source inputs | 77 ZMX files at revision `86b2c0ca` |
-| Accepted records | 40 |
-| Deferred, with a reason | 31 |
+| Accepted records | 39 |
+| Deferred, with a reason | 32 |
 | Conversion failed | 6 |
 
 Read the Project directly, or start from a record:

@@ -41,7 +41,7 @@
  },
  "native_project": {
   "path": "records/lenslibrary/lenslibrary-4505553/project.json",
-  "sha256": "4dd5b166e4e56f6e32874e050ffac1d3a94b77752bd74d381b1e923545539133",
+  "sha256": "eb004eab67cb7ea5b70ec780445d17feefbf8d2806bfe5facfdac68dc5a6b096",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -50,22 +50,29 @@
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
-   486.2688,
-   587.72485,
-   656.45429
+   486.26648,
+   587.72206,
+   656.45119
   ],
-  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the Edlen 1953 air model",
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths at 20 C and 101325 Pa, converted once to vacuum with the engine's own air model (6432.8 / 2949810 / 25540, material_physics.air_index_exact)",
   "sampling_wavelengths_air_nm": [
    486.133,
    587.562,
    656.273
   ],
-  "primary_wavelength_nm": 587.72485,
-  "operating_range_nm": {
-   "min_nm": 486.2687972434527,
-   "max_nm": 656.4542885765853,
+  "primary_wavelength_nm": 587.72206,
+  "sampling_span_nm": {
+   "min_nm": 486.26647615134164,
+   "max_nm": 656.4511870828724,
+   "eligible_for": "DISCOVERY_ONLY",
    "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
    "note": "the span of the stated sampling wavelengths; the source states no separate operating range"
+  },
+  "continuous_coverage_nm": {
+   "min_nm": null,
+   "max_nm": null,
+   "state": "UNCONFIRMED",
+   "note": "a set of enabled wavelengths is sampling evidence; nothing in the source establishes continuous coverage between them, so no range is claimed"
   },
   "band_facets": [
    "visible"
@@ -75,7 +82,7 @@
   "effective_focal_length_mm": {
    "value": 1.621788,
    "basis": "SOURCE_STATED",
-   "conditions": "primary wavelength 587.72485 nm (vacuum), image space"
+   "conditions": "primary wavelength 587.72206 nm (vacuum), image space"
   },
   "back_focal_length_mm": {
    "value": 0.5834573,
@@ -90,10 +97,31 @@
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
-   "wavelength_nm": 587.72485,
-   "effective_focal_length_mm": 1.6217584561380698,
-   "back_focal_length_mm": 0.5834029197427769,
-   "efl_relative_difference": 1.821684580858573e-05,
+   "wavelength_nm": 587.72206,
+   "effective_focal_length_mm": 1.6217883588714428,
+   "back_focal_length_mm": 0.5834572529386616,
+   "comparison": {
+    "rule": "|engine - source| <= atol + rtol * max(|BFL|, |EFL|)",
+    "atol_mm": 1e-05,
+    "rtol": 0.0001,
+    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
+    "effective_focal_length": {
+     "source_mm": 1.621788,
+     "engine_mm": 1.6217883588714428,
+     "absolute_difference_mm": 3.588714427849027e-07,
+     "tolerance_mm": 0.00017217880000000002,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.0020842951791097547
+    },
+    "back_focal_length": {
+     "source_mm": 0.5834573,
+     "engine_mm": 0.5834572529386616,
+     "absolute_difference_mm": 4.706133838183746e-08,
+     "tolerance_mm": 0.00017217880000000002,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.00027332829815190636
+    }
+   },
    "basis": "ENGINE_COMPUTED"
   }
  },
@@ -131,261 +159,261 @@
    {
     "name": "LL-MODEL-1.61700-62.80",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 8.88e-16)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 6.66e-16)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.62426428,
-     1.617450131,
-     1.614435603
+     1.624256527,
+     1.617442466,
+     1.614427975
     ],
     "kind": "SELLMEIER",
     "b": [
-     0.5877722117094437,
-     0.9890399856217675,
-     0.9911964711980162
+     0.5877853060477769,
+     0.9890029404675491,
+     0.9912082954928954
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "LL-MODEL-1.65400-39.60",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 3.33e-15)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 2.66e-15)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.666103314,
-     1.654461653,
-     1.649585162
+     1.666095361,
+     1.654453813,
+     1.649577369
     ],
     "kind": "SELLMEIER",
     "b": [
-     -0.6432981378489749,
-     2.2998978964617955,
-     -0.2272309686491992
+     -0.6432573052039084,
+     2.2998324616642267,
+     -0.2272105758823682
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    }
   ],
   "named_glasses": [
    {
     "name": "BK10",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 4.44e-16)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 2.22e-16)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.503376449,
-     1.498236147,
-     1.495934515
+     1.503369273,
+     1.498229048,
+     1.495927448
     ],
     "kind": "SELLMEIER",
     "b": [
-     0.5852055110857829,
-     0.6331025409198863,
-     0.8714774839141515
+     0.5852112003760273,
+     0.6330762188973498,
+     0.8714863595162428
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "CAF2",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 8.88e-16)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 4.44e-16)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.437426471,
-     1.434246687,
-     1.432853718
+     1.43741961,
+     1.43423989,
+     1.432846948
     ],
     "catalog_comparison": {
      "material_id": "CAF2",
-     "max_abs_index_delta": 0.00040704461196061636,
+     "max_abs_index_delta": 0.0004000875211931376,
      "note": "the source's own index table is used; the published catalog glass is a comparison only"
     },
     "kind": "SELLMEIER",
     "b": [
-     0.7581974937290198,
-     0.2816551182080181,
-     0.29208761106618825
+     0.7581958010679267,
+     0.28163781714373387,
+     0.2920938143805439
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "FDS9",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 9.55e-15)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 7.99e-15)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.87256675,
-     1.847169538,
-     1.837016607
+     1.872557812,
+     1.847160784,
+     1.837007928
     ],
     "kind": "SELLMEIER",
     "b": [
-     -4.46853086035327,
-     6.658100117413725,
-     -4.728749224616446
+     -4.4683979119977515,
+     6.657937904559914,
+     -4.728699948616636
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "KZFS4",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 2.44e-15)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 2.22e-15)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.623652753,
-     1.613847115,
-     1.609640479
+     1.623645003,
+     1.613839468,
+     1.609632874
     ],
     "kind": "SELLMEIER",
     "b": [
-     -0.21714731728145492,
-     1.7598139397391692,
-     0.5233042096386826
+     -0.21711788035088553,
+     1.7597609251157593,
+     0.5233209659933111
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "LAK14",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 1.78e-15)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 1.11e-15)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.705988992,
-     1.697273253,
-     1.693460725
+     1.705980849,
+     1.697265211,
+     1.693452724
     ],
     "kind": "SELLMEIER",
     "b": [
-     0.3662969168110543,
-     1.459802983471708,
-     1.0183321537522363
+     0.36631989071870136,
+     1.4597537673763503,
+     1.0183474833880206
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "NBFD5",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 3.55e-15)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 3.33e-15)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.775838748,
-     1.762489584,
-     1.756902518
+     1.775830272,
+     1.762481232,
+     1.756894217
     ],
     "kind": "SELLMEIER",
     "b": [
-     -0.8132026954780543,
-     2.820720952146404,
-     -0.3289193889017224
+     -0.8131509623792157,
+     2.820641381194623,
+     -0.32889500764909213
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    },
    {
     "name": "SK14",
     "source": "SOURCE_INDEX_TABLE",
-    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.268797, 587.72485, 656.454289] nm (max residual 8.88e-16)",
+    "basis": "3-term Sellmeier with fixed poles [0.0035, 0.0125, 90.0] um^2, solved to the upstream index table at [486.266476, 587.722065, 656.451187] nm (max residual 6.66e-16)",
     "samples_vacuum_nm": [
-     486.2688,
-     587.72485,
-     656.45429
+     486.26648,
+     587.72206,
+     656.45119
     ],
     "indices_absolute": [
-     1.610478063,
-     1.603554754,
-     1.600517479
+     1.610470376,
+     1.603547156,
+     1.600509918
     ],
     "kind": "SELLMEIER",
     "b": [
-     0.4978739662468307,
-     1.0328042391204992,
-     0.8214631455514458
+     0.49788800462418575,
+     1.0327666832191655,
+     0.8214751580032028
     ],
     "c_um2": [
      0.0035,
      0.0125,
      90.0
     ],
-    "min_nm": 486.2687972434527,
-    "max_nm": 656.4542885765853
+    "min_nm": 486.26647615134164,
+    "max_nm": 656.4511870828724
    }
   ],
   "policy": "Every glass is defined from the source's own per-surface index table in the upstream prescription dump: a 3-term Sellmeier with fixed poles solved to those samples, or a constant index when the source states one wavelength. Published catalog glasses are compared, never substituted.",
@@ -393,7 +421,7 @@
    {
     "material": "CAF2",
     "material_id": "CAF2",
-    "max_abs_index_delta": 0.00040704461196061636,
+    "max_abs_index_delta": 0.0004000875211931376,
     "note": "the source's own index table is used; the published catalog glass is a comparison only"
    }
   ]
@@ -415,8 +443,8 @@
  "unsupported_constructs": [],
  "conversion": {
   "format": "csv-surface-table/1",
-  "intermediate_sha256": "ecc5bb75690a0483518759ea1ebe7460e4fcb36d7c981e43c582ab238fd3455d",
-  "source_sha256": "ecc5bb75690a0483518759ea1ebe7460e4fcb36d7c981e43c582ab238fd3455d",
+  "intermediate_sha256": "51bb55c87db0e5e654f3845b97122bd7cc0c421ebaa1049ac0bbc322e97ba3a4",
+  "source_sha256": "51bb55c87db0e5e654f3845b97122bd7cc0c421ebaa1049ac0bbc322e97ba3a4",
   "counts": {
    "surfaces": 17,
    "elements": 6,
@@ -432,8 +460,8 @@
   "image_plane_z_mm": "26.8980598462629",
   "warnings": [],
   "wavelength_band_nm": {
-   "min_nm": 486.2687972434527,
-   "max_nm": 656.4542885765853
+   "min_nm": 486.26647615134164,
+   "max_nm": 656.4511870828724
   }
  },
  "validation": {
@@ -441,11 +469,14 @@
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
   "paraxial": "MATCHED",
+  "field": "NOT_CHECKED",
   "notes": [
    "project check accepted the committed Project with os-optics 0.14.0",
    "project solids reported no error-severity finding",
-   "the engine's paraxial EFL and BFL reproduce the source-stated values within the stated tolerance"
+   "the engine's paraxial EFL and BFL meet the stated tolerance rule",
+   "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted (follow-up: issue #7)"
   ]
  },
- "record_hash": "c674333b149661409f89483d569ca5f01f964e8a864e073a64567ade31d900b9"
+ "record_hash": "9aab3a177fd1052baffe3575770e95b19414ae7bb6800c338d0d3666265b8366",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

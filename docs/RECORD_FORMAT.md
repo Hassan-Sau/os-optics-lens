@@ -28,8 +28,10 @@ a scratch workspace. They are cited by path and SHA-256, never committed.
 |---|---|
 | `record_id` | `lenslibrary-<source stem>`, lower-cased. Derived from the upstream file name, so a re-import of the same input keeps the identity. |
 | `record_revision` | Integer, starts at 1. Bumped when the Project or a stated fact changes for the same source input. |
-| `record_hash` | SHA-256 over the record with `record_hash` removed, so a consumer can detect an edited record. |
+| `record_hash` | SHA-256 over the record with `record_hash` and `record_hash_method` removed, so a consumer can detect an edited record. Recompute it from the **parsed JSON**, not the file's bytes: `json.dumps(body, sort_keys=True, ensure_ascii=False)` encoded as UTF-8, no trailing newline. The method is stated in the record itself. |
+| `record_hash_method` | The serialization above, in prose, so the hash is reproducible without reading this document. |
 | `collection.source_revision` | The pinned upstream commit. A record is only comparable with another record of the same revision. |
+| `collection.source_input_sha256` | SHA-256 of the file's bytes **as the pinned revision stores them**, taken from the git blob, so a Windows CRLF checkout does not change it. |
 | `collection.source_links.source_file_url` | The upstream ZMX at the pinned revision, so a reviewer reads the exact input. |
 | `collection.original_publication` | The patent publication the source bundles with the design, when it does. `null` when the source gives none. |
 | `design.source_reference` | The upstream's own short reference (`Goerz1894`, `Kidney2004`, …), preserved verbatim. |
@@ -54,17 +56,20 @@ corresponding constraint unconfirmed.
 
 - `sampling_wavelengths_nm` — the wavelengths the source enables, as **vacuum** nanometres. The
   upstream files state air wavelengths at 20 °C and 101325 Pa; each was converted once with the
-  Edlén 1953 air model, the model the engine names. `sampling_wavelengths_air_nm` keeps the
-  source's own numbers so the conversion stays checkable.
+  **engine's own** air model (`material_physics.air_index_exact`, the 6432.8 / 2949810 / 25540
+  form), so a record's vacuum wavelength is the wavelength the engine evaluates.
+  `sampling_wavelengths_air_nm` keeps the source's own numbers so the conversion stays checkable.
+  Using a different air model (Edlén 1953, the 8342.13 form) shifts the value by about 0.003 nm and
+  is wrong here.
 - `primary_wavelength_nm` — the source's primary wavelength (Zemax `PWAV`), vacuum.
-- `operating_range_nm` — a **numeric interval for filtering only**. Its `basis` says what it is:
-  `SPAN_OF_STATED_SAMPLING_WAVELENGTHS` when the source enables several wavelengths and states no
-  separate range, or `SINGLE_WAVELENGTH_BAND` when it enables one and the interval is a 1 nm
-  numerical band. A set of enabled wavelengths is sampling evidence, not a claimed operating range.
+- `sampling_span_nm` — the **numeric span of the sampling wavelengths, eligible for discovery
+  only**. A set of enabled wavelengths is evidence of what the source samples; it is not a claimed
+  operating range.
+- `continuous_coverage_nm` — `state: UNCONFIRMED` with null bounds unless the source states a range
+  independently. Nothing in this collection does, so no record claims continuous coverage.
 - `band_facets` — `visible`, `near_infrared`, `ultraviolet`, `extreme_ultraviolet`,
-  `mid_wave_infrared`, `long_wave_infrared`, from the documented boundaries in
-  `band_boundaries` of the collection README. A facet is discovery; the numeric interval decides
-  coverage.
+  `mid_wave_infrared`, `long_wave_infrared`, from the documented boundaries in the collection
+  README. A facet is discovery; the numeric interval decides coverage.
 
 ## First-order properties
 
@@ -73,22 +78,44 @@ corresponding constraint unconfirmed.
   downstream.
 - `total_track_mm` — first surface vertex to the image plane along the axis.
 - `engine_check` — the same two quantities recomputed from the committed Project by the engine's
-  thick-lens paraxial matrix, with `efl_relative_difference`. This is the optical verification of
-  the record, separate from conversion and from opening the Project.
+  thick-lens paraxial matrix, plus `comparison`. This is the optical verification of the record,
+  separate from conversion and from opening the Project.
+
+### The paraxial comparison rule
+
+A back focal length can pass through zero, so a tolerance relative to BFL alone is meaningless
+there: `lenslibrary-4037934a` has a BFL of −0.0059 mm, and a 1 × 10⁻⁴ relative rule would demand
+6 × 10⁻⁷ mm agreement. The scale of a first-order comparison is the system's focal length, but a
+long back focus behind a short focal length needs its own length too. The rule is therefore:
+
+```
+|engine − source| ≤ atol + rtol · max(|BFL|, |EFL|)
+atol = 1e-5 mm,  rtol = 1e-4
+```
+
+`comparison` records the rule, both values, the absolute difference, the tolerance and
+`fraction_of_tolerance` for each quantity, so a reviewer recomputes the verdict instead of trusting
+it. The tightest record in the seed batch uses 0.4 % of its allowance on EFL and 41 % on BFL, so the
+rule is not tuned to pass.
+
+`validation.paraxial` is `MATCHED` only when both quantities are within tolerance.
 
 ## Aperture
 
-`f_number` and `numerical_aperture` are different quantities and never share a field, and the
-import never converts one into the other.
+An f-number, an entrance pupil diameter, an object-side numerical aperture and a paraxial working
+f-number are different quantities with different conditions. Each is recorded as its own field and
+none is derived from another:
 
-The design file states the system aperture directly — `FNUM` for an f-number, `ENPD` for an
-entrance pupil diameter — and those values are used when present. Where the ZMX states neither,
-the value comes from the upstream dump's stated f-number, and `why_not_design_file` records that
-the design file states no aperture (17 of the 40 accepted records take this route). The property
-list is kept as `property_list_comparison` only: for an object-space design it states a numerical
-aperture, which is a different quantity from an f-number.
+| Field | Meaning |
+|---|---|
+| `f_number` | Image-space f-number. From the design file's `FNUM`, else the dump's stated value. |
+| `entrance_pupil_diameter_mm` | From the design file's `ENPD`. |
+| `object_numerical_aperture` | From the design file's `OBNA`. An NA is not an f-number. |
 
-A record with no stated aperture leaves both out rather than inferring one.
+`why_not_design_file` appears on a value that comes from the dump because the design file states no
+aperture at all. The property list is kept as `property_list_comparison` only.
+
+A record with no stated aperture leaves all three out rather than inferring one.
 
 ## Field
 
@@ -128,6 +155,13 @@ states a single wavelength. A model glass always names its dispersion model and 
 `materials.catalog_comparisons` records where a published catalog glass of the same name exists,
 with the largest index difference. The catalog glass is **compared, never substituted**: the
 record keeps the source's own indices.
+
+A continuous law is only fitted to samples that can come from one glass. A solid glass in the
+visible/near-infrared has normal dispersion — its index falls as the wavelength rises — so samples
+that rise or are not monotonic cannot support a fit: interpolating between them would invent a
+material. Such an input is deferred (`MATERIAL_MODEL_FAILED`) instead of being modelled.
+`lenslibrary-895045b` is that case: its surface 1 states 1.7517, 1.6042, 1.7338 at 486, 588 and
+656 nm.
 
 ## Approximations and unsupported constructs
 
