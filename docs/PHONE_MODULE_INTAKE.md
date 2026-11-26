@@ -195,7 +195,10 @@ comparison verdicts and the f-number from the committed files, and runs without 
 | Source | Outcome | Reason |
 |---|---|---|
 | The other 11 examples of the two publications | `DEFERRED` (`VARIANT_OUTSIDE_BATCH`) | The batch already carries a record from the same family with a close focal length and f-number; the example stays available for a later batch. |
+| [US11886038B2](https://patents.google.com/patent/US11886038B2/en), [US12271054B2](https://patents.google.com/patent/US12271054B2/en) (Largan) | Not converted | Continuations of the `US10247911B2` family: their examples are the same nine prescriptions. A record is kept once, so the later publications add no design. |
+| [US10795123B2](https://patents.google.com/patent/US10795123B2/en) (Largan) | Out of series scope | Five-element wide-angle examples whose total track is roughly eight times the focal length (1.19 mm focal length, 10 mm class track). That ratio is not a phone module, so it belongs to no phone series. |
 | [US20180314040A1](https://patents.google.com/patent/US20180314040A1/en) (Genius Electronic Optical) | Not converted | The description renders its numerical tables as images, so the prescription cannot be transcribed without OCR; no numbers were guessed. |
+| [US10295800B2](https://patents.google.com/patent/US10295800B2/en) (Ability Enterprise), [US11199682B2](https://patents.google.com/patent/US11199682B2/en) (Tamron) | Not converted | The rendered description carries no readable numerical tables, so neither could be transcribed. |
 | Further Largan, AAC, Sunny, Kantatsu and Samsung publications | Not yet inventoried in this batch | Their table layouts differ and each needs a reader; the batch stops at the two publications that could be transcribed and verified end to end. |
 
 The series issue keeps the wider inventory; this batch is one contribution to it, not the whole
