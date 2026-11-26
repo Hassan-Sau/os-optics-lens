@@ -1,0 +1,488 @@
+{
+  "schema": "opensci.lens.record",
+  "record_schema_version": "1.0",
+  "record_id": "patent-us20250110319a1-ex01",
+  "record_revision": 1,
+  "title": "11-element f/1.44 full-frame standard lens, 26.79 mm, 38.93 deg half field (US20250110319A1 example 1)",
+  "collection": {
+    "collection_id": "canon-full-frame",
+    "source": "US patent publication",
+    "source_input": "US20250110319A1, Surface data, Aspheric data and Various data tables, Numerical example 1, in-focus state on infinity (zoom ratio 1.00)",
+    "source_input_sha256": "900ebc7565e0165bae82f8ebde9d395dfb2c87dbfc06a7d30d355d80cb3f4f95",
+    "attribution": "Canon Kabushiki Kaisha, US20250110319A1 \"Optical system, image pickup apparatus, and lens apparatus\". The prescription is the published numerical example; the native Project is a transcription of the published surface table.",
+    "contributor": "OpenSci prescription intake",
+    "original_publication": {
+      "id": "US20250110319A1",
+      "reference": "Surface data, Aspheric data and Various data tables, Numerical example 1, in-focus state on infinity (zoom ratio 1.00)",
+      "assignee": "Canon Kabushiki Kaisha",
+      "url": "https://patents.google.com/patent/US20250110319A1/en"
+    },
+    "redistribution": "The numerical prescription is published in a US patent, a public record. The transcription, the native Project and this evidence extract are distributed under MIT. The patent document itself is not redistributed.",
+    "license": {
+      "spdx": "MIT",
+      "notice_path": "LICENSE",
+      "copyright": "Copyright (c) 2026 JunLin615"
+    },
+    "evidence_extract": {
+      "path": "records/canon-full-frame/patent-us20250110319a1-ex01/evidence.json",
+      "sha256": "7a0810e709e9edc6820153a2ecf33721d76483108f2a9dd6a6ed60b3856b240c"
+    }
+  },
+  "design": {
+    "source_reference": "US20250110319A1, Surface data, Aspheric data and Various data tables, Numerical example 1, in-focus state on infinity (zoom ratio 1.00)",
+    "lens_type": "camera_lens",
+    "design_family_id": "canon-us20250110319",
+    "design_scope": "COMPLETE_SYSTEM",
+    "function_tags": [
+      "imaging"
+    ],
+    "application_tags": [
+      "photography"
+    ],
+    "structure_tags": [
+      "fixed_focal_length",
+      "refractive",
+      "aspheric",
+      "cemented_group"
+    ],
+    "folded": false,
+    "conjugate": "INFINITE_TO_FINITE",
+    "configuration_count": 1,
+    "powered_element_count": 11,
+    "powered_group_count": 8,
+    "unpowered_element_count": 0,
+    "element_count_basis": "Counted from the transcribed surface table: a run of surfaces that carry an index is one cemented group, and a change of index inside a run starts another element.",
+    "aspheric_element_count": 2,
+    "aperture_validity": {
+      "state": "STOP_BLOCKING",
+      "stop_blocks_light": true,
+      "basis": "The stop row is an opaque plate whose opening is narrower than the neighbouring elements.",
+      "eligible_for_stop_dependent_evaluation": true,
+      "satisfies_stop_dependent_constraints": false,
+      "satisfaction_basis": "No field-dependent MTF, relative-illumination or pupil measurement is recorded for this record, so a stop-dependent match is not claimed.",
+      "consequence": "The record may be evaluated against a stop-dependent constraint, but it cannot satisfy one until pupil or field evidence is added."
+    }
+  },
+  "native_project": {
+    "path": "records/canon-full-frame/patent-us20250110319a1-ex01/project.json",
+    "sha256": "437f7531f48a278e77bac4a4909a698606600934fb71023117751e9f096b833b",
+    "engine_version": "0.14.0",
+    "catalog_version": null,
+    "instance_id": "LENS",
+    "model_id": "LENS",
+    "opening_outcome": "ACCEPTED",
+    "optical_validation": "PARAXIAL_MATCH"
+  },
+  "spectrum": {
+    "sampling_wavelengths_nm": [
+      587.56
+    ],
+    "sampling_wavelengths_air_nm": [
+      587.56
+    ],
+    "sampling_wavelengths_basis": "The publication prints the d-line as its reference wavelength. That value is an air wavelength at 20 C and 101325 Pa; the record keeps it as printed and uses the same value in the Project.",
+    "incident_weights": [
+      1
+    ],
+    "primary_wavelength_nm": 587.56,
+    "band_facets": [
+      "visible"
+    ],
+    "band_nm": {
+      "min_nm": 400,
+      "max_nm": 700,
+      "basis": "MODELLING_CONVENTION: the publication states a reference wavelength but no design band, so the model glasses are fitted over the visible band 400-700 nm and no wider validity is claimed."
+    },
+    "wavelength_precision": "One reference wavelength at the printed precision; no rounding is applied.",
+    "sampling_span_nm": {
+      "min_nm": 587.06,
+      "max_nm": 588.06,
+      "basis": "SINGLE_WAVELENGTH_BAND",
+      "eligible_for": "DISCOVERY_ONLY"
+    },
+    "continuous_coverage_nm": {
+      "state": "UNCONFIRMED",
+      "min_nm": null,
+      "max_nm": null,
+      "note": "The publication states a single reference wavelength, not a specified band."
+    }
+  },
+  "image_format": {
+    "format_facets": [
+      "full_frame"
+    ],
+    "width_mm": 36.0,
+    "height_mm": 24.0,
+    "image_circle_diameter_mm": 41.5276,
+    "basis": "DERIVED from the traced chief-ray image height at the stated half field; the publication prints an image height of 21.64 mm, which is the full-frame half diagonal."
+  },
+  "conversion": {
+    "source_format": "tsv",
+    "source_sha256": "d81c77c42a85b38ca73ac84f9fdeff7a302e8780b1bffa766abeb3d2d5689937",
+    "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8; the Project's unit display name carries the same digest.",
+    "intermediate_sha256": null,
+    "image_plane_z_mm": 134.76,
+    "counts": {
+      "surfaces": 20,
+      "elements": 11,
+      "powered_elements": 11,
+      "groups": 8,
+      "plane_parallel_plates": 0,
+      "stops": 1
+    },
+    "wavelength_band_nm": {
+      "min_nm": 400,
+      "max_nm": 700
+    },
+    "warnings": []
+  },
+  "first_order": {
+    "effective_focal_length_mm": {
+      "value": 26.79,
+      "basis": "SOURCE_STATED",
+      "definition": "Effective focal length as printed for the example",
+      "conditions": "Reference wavelength (d-line); object at infinity.",
+      "engine_value_mm": 26.785164897369807
+    },
+    "back_focal_length_mm": {
+      "value": 13.004370871476805,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Paraxial distance from the exit vertex to the rear focal point",
+      "conditions": "Reference wavelength 587.56 nm."
+    },
+    "total_track_mm": {
+      "value": 134.76,
+      "basis": "DERIVED",
+      "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
+    },
+    "engine_check": {
+      "engine_version": "0.14.0",
+      "basis": "ENGINE_COMPUTED",
+      "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
+      "effective_focal_length_mm": 26.785164897369807,
+      "back_focal_length_mm": 13.004370871476805,
+      "wavelength_nm": 587.56,
+      "comparison": {
+        "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed focal length precision; rtol covers the prescription printed to three decimals and the model dispersion fitted to nd/Vd.",
+        "atol_mm": 0.02,
+        "rtol": 0.005,
+        "effective_focal_length": {
+          "source_mm": 26.79,
+          "engine_mm": 26.785164897369807,
+          "absolute_difference_mm": 0.004835102630192267,
+          "scale_mm": 26.79,
+          "scale_basis": "|EFL|",
+          "tolerance_mm": 0.15394999999999998,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.031406967393259294
+        },
+        "back_focal_length": {
+          "state": "UNCONFIRMED",
+          "engine_mm": 13.004370871476805,
+          "basis": "No source back focal length is transcribed for this example, so the quantity has no source value to compare with."
+        }
+      }
+    }
+  },
+  "aperture": {
+    "f_number": {
+      "value": 1.44,
+      "basis": "SOURCE_STATED",
+      "definition": "F-number as printed for the example",
+      "system_aperture": true
+    },
+    "stop_opening_diameter_mm": {
+      "value": 26.8268,
+      "basis": "DERIVED",
+      "definition": "Diameter of the modelled stop opening that reproduces the stated f-number",
+      "system_aperture": false
+    }
+  },
+  "field": {
+    "kind": "ANGULAR",
+    "half_field_deg": 38.93,
+    "full_field_deg": 77.86,
+    "basis": "SOURCE_STATED",
+    "definition": "Half angle of view as printed for the example",
+    "field_points_deg": null,
+    "field_points_basis": "The publication prints one half field; it lists no field points.",
+    "traced_chief_rays": [
+      {
+        "field_fraction": 1.0,
+        "field_deg": 38.93,
+        "image_height_mm": 20.76382,
+        "cra_deg": 14.028
+      },
+      {
+        "field_fraction": 0.95,
+        "field_deg": 36.9835,
+        "image_height_mm": 19.449221,
+        "cra_deg": 13.716
+      },
+      {
+        "field_fraction": 0.9,
+        "field_deg": 35.037,
+        "image_height_mm": 18.183794,
+        "cra_deg": 13.203
+      },
+      {
+        "field_fraction": 0.85,
+        "field_deg": 33.0905,
+        "image_height_mm": 16.962664,
+        "cra_deg": 12.57
+      },
+      {
+        "field_fraction": 0.7,
+        "field_deg": 27.251,
+        "image_height_mm": 13.530314,
+        "cra_deg": 10.354
+      },
+      {
+        "field_fraction": 0.5,
+        "field_deg": 19.465,
+        "image_height_mm": 9.370464,
+        "cra_deg": 7.268
+      },
+      {
+        "field_fraction": 0.3,
+        "field_deg": 11.679,
+        "image_height_mm": 5.515657,
+        "cra_deg": 4.29
+      }
+    ],
+    "verification": {
+      "state": "TRACED",
+      "basis": "Real meridional chief rays through the committed prescription at the reference wavelength. The traced image height is compared with the printed image height in evidence.json.",
+      "wavelength_nm": 587.56
+    }
+  },
+  "materials": {
+    "basis": "Each glass is modelled from the printed nd and Abbe number: a two-term Cauchy curve through (nd, Vd), then a three-term Sellmeier with fixed poles fitted to it over the stated band. The model index is scaled by 1.0002772, the engine's air index at the d line, so that the index ratio at a glass-air surface is the printed nd.",
+    "catalog_comparisons": [],
+    "model_glasses": [
+      {
+        "model_id": "M-1.5827-46.40",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            0.0014705701595187275,
+            1.4537384290337132,
+            0.9123190459240955
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-2.0010-29.10",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            -3.0413208139359362,
+            5.869660778691525,
+            2.9046406019972633
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.5407-47.20",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            0.05262325915985756,
+            1.277200662111531,
+            0.8124980477805086
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.6034-38.00",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            -0.4823545222754087,
+            1.9896014178222008,
+            1.181977824835752
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.7725-49.60",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            0.06683338084610439,
+            2.005512194627436,
+            1.2336922633359109
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.7680-49.20",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            0.046184191549638064,
+            2.010326701465763,
+            1.234961758001069
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.8548-24.80",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            -3.3051762812516157,
+            5.581992525840442,
+            2.6695947285537867
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.6989-30.10",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            -1.5015870170049368,
+            3.288482889773922,
+            1.7779728677452777
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      },
+      {
+        "model_id": "M-1.4970-81.50",
+        "dispersion": {
+          "kind": "SELLMEIER",
+          "b": [
+            0.7401544130064228,
+            0.4779647886361328,
+            0.35550146353763984
+          ],
+          "c_um2": [
+            0.0035,
+            0.0125,
+            90.0
+          ]
+        },
+        "valid_band_nm": {
+          "min_nm": 400,
+          "max_nm": 700
+        },
+        "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+      }
+    ]
+  },
+  "approximations": [
+    {
+      "code": "ND_VD_DISPERSION_MODEL",
+      "description": "The publication states nd and Vd only. A two-term Cauchy curve is solved exactly from those two values and a three-term Sellmeier with fixed poles is fitted to it. The relative index at the reference wavelength is the source's nd; the dispersion curve is a model."
+    },
+    {
+      "code": "CLEAR_APERTURES_DERIVED",
+      "description": "The semi-diameters in the Project are derived, not transcribed: each is the larger of the paraxial marginal and chief-ray heights at the stated f-number and half field with a -2 % mechanical allowance; the allowance was reduced until neighbouring surfaces no longer meet, so it is the largest value the prescription admits. No clear-aperture value is taken from the publication."
+    },
+    {
+      "code": "ABSOLUTE_INDEX_CONVENTION",
+      "description": "The engine treats a model glass as an absolute refractive index and a gap as air at 20 C and 101325 Pa (n = 1.0002772 at the d line), so the ratio it uses at a glass-air surface is nd / 1.0002772. The model glasses are fitted to nd * 1.0002772 to make that ratio the printed nd. Without the factor the paraxial focal length of the same table is 0.03 % to 0.4 % long, which is a property of the model, not of the transcription."
+    },
+    {
+      "code": "STOP_FROM_PRINTED_F_NUMBER",
+      "description": "The publication states the f-number but not the stop diameter. The modelled stop opening is solved so that the paraxial marginal ray reproduces the printed f-number."
+    }
+  ],
+  "unsupported_constructs": [],
+  "validation": {
+    "conversion": "PASSED",
+    "project_check": "ACCEPTED",
+    "optical_solids": "VALID",
+    "paraxial": "MATCHED",
+    "paraxial_scope": "effective focal length only; no back focal length is transcribed",
+    "engine_version": "0.14.0",
+    "solids_findings": [],
+    "evidence_notes": [
+      "Engine paraxial EFL 26.785165 mm against the source's printed 26.79 mm.",
+      "Traced chief ray at the stated half field lands at 20.7638 mm against the printed image height 21.64 mm."
+    ]
+  },
+  "record_hash": "9f4633d32a35117a5827272852a44378d334d6175d19f5c10ecfa7649b1f0118",
+  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
+}

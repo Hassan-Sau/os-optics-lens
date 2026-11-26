@@ -37,6 +37,27 @@ os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
 [Importing the LensLibrary seed collection](docs/LENSLIBRARY_IMPORT.md) records the conversion
 method, the material and surface decisions, the verification run and the known limits.
 
+## Canon full-frame photography lenses
+
+`records/canon-full-frame/` extends the library from Zemax exchange files to prescriptions
+transcribed from published patent numerical examples: Canon full-frame photography lenses, from a
+24.74 mm f/1.24 ultra-wide prime to an 814.8 mm f/5.88 super-telephoto, with zoom ends and aspheric
+designs among them. Each record cites its publication, the example it transcribes and the
+configuration, and carries the transcribed prescription as evidence beside the native Project.
+
+| | |
+|---|---|
+| Candidate inventory | 227 full-frame examples in 37 publications, screened from 629 examples in 54 publications |
+| Inputs considered | 31 published numerical examples |
+| Accepted records | 18 |
+| Deferred, with a reason | 5 |
+| Conversion failed | 8 |
+
+[Intake of the Canon full-frame collection](docs/CANON_FULL_FRAME_INTAKE.md) records the inventory,
+the selection, the glass and aperture models, the field evidence, the verification run and the open
+work — including the three wide-angle examples whose printed half field does not reproduce their
+printed image height, and the reflective and odd-order-asphere systems this format cannot represent.
+
 ### Spectral band boundaries
 
 `band_facets` in a record uses these boundaries, in vacuum nanometres:
