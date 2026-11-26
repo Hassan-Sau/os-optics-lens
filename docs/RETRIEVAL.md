@@ -185,7 +185,8 @@ Every command and subcommand has `--help` with examples. Output conventions:
 positional argument. It also accepts an acceptance fixture via `--fixture FILE`. Request files
 may be UTF-8 (with or without BOM) or UTF-16/UTF-32 with a BOM. NaN and Infinity are rejected.
 The schema is closed: an unknown key fails with `details.pointer` (a JSON pointer such as
-`/queries/0/constraints/3/predicates/0/op`) and `did_you_mean`.
+`/queries/0/constraints/3/predicates/0/op`) and `did_you_mean`. A key repeated within one object
+is `INVALID_REQUEST` with the pointer of the repeated member (it never silently overrides).
 
 ### Single query
 
@@ -195,9 +196,7 @@ The schema is closed: an unknown key fails with `details.pointer` (a JSON pointe
   "filters": {
     "facets": {"design_type": ["camera_lens"], "image_format": ["full_frame"]},
     "ranges": [{"fact": "first_order.effective_focal_length_mm", "min": 15, "max": 30}],
-    "spectral_span": [450, 650],
-    "record_ids": [],
-    "collections": []
+    "spectral_span": [450, 650]
   },
   "constraints": [
     {"id": "efl", "fact": "first_order.effective_focal_length_mm", "op": "between_inclusive", "value": [17.1, 18.9]},
@@ -218,9 +217,9 @@ The schema is closed: an unknown key fails with `details.pointer` (a JSON pointe
 | member | meaning |
 |---|---|
 | `mode` | required: `specification` (hard constraints decide the outcome) or `starting_point` (targets rank near matches) |
-| `filters` | discovery narrowing: `facets` (OR within, AND across; aliases), `ranges` (`min` and/or `max` over a numeric fact; a record without the fact is excluded), `spectral_span` (sampling span overlaps; discovery only), `record_ids`, `collections` |
+| `filters` | discovery narrowing: `facets` (OR within, AND across; aliases), `ranges` (`min` and/or `max` over a numeric fact; a record without the fact is excluded), `spectral_span` (sampling span overlaps; discovery only), `record_ids`, `collections` (both non-empty lists of strings when present; omit them for no restriction) |
 | `constraints` | hard constraints; required (non-empty) in specification mode |
-| `targets` | starting_point only: `{id?, fact, target, op?: "near", tolerance? \| relative_tolerance?, conditions?, select?, path?, weight?: 1}` |
+| `targets` | starting_point only: `{id?, fact, target, op?: "near", tolerance? \| relative_tolerance?, conditions?, select?, path?, weight?: 1}`; the scale (`tolerance`, else `relative_tolerance * \|target\|`, else `\|target\|`) must be a normal positive number, and a normalized deviation or weighted score that is not finite is `INVALID_REQUEST` |
 | `preferences` | list, applied in order: `{fact, direction: ascending\|descending, conditions?, select?, path?}` or the fixture's cost form |
 | `include` | outcomes listed: default `MATCH`, `UNCONFIRMED` (specification), all three (starting_point) |
 | `hard_shortfall` | starting_point: `exclude` (default) drops configurations with a hard DOES_NOT_MATCH; `allow` keeps and ranks them |
@@ -243,6 +242,8 @@ expanded against each configuration view:
   `design.powered_element_count`) compare the scalar itself.
 - **`performance.<metric>`** selects the entries with that metric and compares `value`, or the
   first `value_*` member.
+- `has_source` on an object or metric fact named without a member checks its `source`, and
+  `has_sourced_method` checks its `methods`, instead of the value member.
 - `path` names another member, for example `"path": "min_percent"` on the interval fact
   `performance.distortion_range`. An interval without `path` is `INVALID_REQUEST`, except with
   `covers_interval`.
@@ -283,7 +284,9 @@ requires_*?}` of `acceptance/*.json` is accepted verbatim.
 `--fields`, `--detail`, `--limit`, `--cursor` and `--max-output-bytes` also work with a
 single-query document. The flags that build a query cannot be combined with a document.
 `--explain-request` prints the normalized query (aliases resolved, defaults and ids filled in,
-shorthands as written) and its `query_digest` without searching. `--fixture FILE` runs an
+shorthands as written) and its `query_digest` without searching. With a cursor it also checks
+the cursor against the index snapshot and the query (`CURSOR_INVALID`, `CURSOR_MISMATCH`,
+`SNAPSHOT_MISMATCH`, as the search would) and echoes the decoded `options.cursor_offset`. `--fixture FILE` runs an
 acceptance fixture as `{mode: specification, filters: {record_ids: [record.id]}, constraints,
 preferences: [ranking_preference], evaluation_scope, detail: full}`.
 
@@ -317,7 +320,7 @@ A batch holds at most 20 queries. One budget covers the whole response:
 ### Continuing a result list
 
 When `page.next_cursor` is a string, the page stopped at the limit or the byte budget. Send the
-same query with that cursor:
+same query with that cursor (here `brief.json` holds a single query, such as the example above):
 
 ```
 os-optics-lens search --request brief.json --limit 15
@@ -395,7 +398,7 @@ full ordered list.
   - hard DOES_NOT_MATCH gaps: `{constraint, path, value, limit, shortfall, relative, strict?,
     unit?}`; a non-numeric failure lists its failing predicates instead;
   - target deviations: `{target, fact, value, target_value, deviation, normalized, scale_basis,
-    unit}`.
+    weight, unit}`; the target score is the sum of `weight * normalized`.
 - **`unknowns`**: `{constraint | target | preference, reason}`.
 - **`facts`**: `{value, unit, basis}`.
   - The compact `basis` is the basis class; `detail: full` gives the verbatim basis.
@@ -434,9 +437,9 @@ full ordered list.
 | `facets` | `{records, configurations, facets: {name: {level, values: [[value, records], ...], more, description?}}}` |
 | `fields` | `{records, fields: {key: {records, unit, value_type, bases, condition_variants, conditions_keys, min, max, stop_dependent}}, returned, more}` |
 | `fields --fact` | the key's summary plus `value_paths`, `applicable_ops`, `eligible_for`, `constraint_form`, `variants` (at most 10, `more_variants`), `example_constraint` or `example_filter` |
-| `compare` | `{candidates: [{ref, record_id, revision, configuration_id, title}], rows: [{fact, values: [cell \| null], comparable, differs_by?, missing?, notes?}]}` |
+| `compare` | `{candidates: [{ref, record_id, revision, configuration_id, title}], rows: [{fact, values: [cell \| null], comparable, differs_by?, missing?, notes?}]}`; refs must name distinct configurations (`ID` and `ID@<its default configuration>` are the same), and an empty id after `@` is `INVALID_REQUEST` |
 | `inspect` | identity, `collection`, `license`, `design`, `native_project`, `configuration`, `configurations`, `validation`, `facets`, `fact_keys`, `evidence {refs, sections}`, `next`; plus `fields`, `sections`, `evidence`, `prescription` when asked |
-| `project` | `{record_id, revision, sha256, size_bytes, native_configuration_ids, engine_version, license, attribution, next}`; `--out` adds `path` (absolute) and `written_sha256` |
+| `project` | `{record_id, revision, sha256, size_bytes, native_configuration_ids, engine_version, license, attribution, next}`; `--out` adds `path` (absolute) and `written_sha256`. The stored bytes are re-checked against `sha256` before anything is written; `--out` writes a temporary file and replaces the target only after it hashes correctly, and a path that cannot be written is `INVALID_REQUEST` naming it. `--max-output-bytes` is validated before any write and is rejected with `--stdout` |
 | `index build` / `validate` | `{out, snapshot_id, records, configurations, facts, warnings, findings, findings_omitted, use}`; `out` and `use` are null for validate |
 | `index dump` | `{index_schema_version, tables: {name: {columns, rows}}}`; not budgeted |
 
@@ -593,12 +596,12 @@ A failure prints `{"ok": false, "error": {"code", "message", "hint", "details"}}
 
 | code | exit | meaning |
 |---|---|---|
-| `INVALID_REQUEST` | 2 | malformed JSON (including a number beyond the double range, a lone surrogate escape or nesting deeper than 128), unknown key (`pointer`, `did_you_mean`), bad value, out-of-range option (`allowed`), command-line error (`argv_error`, `usage`) |
+| `INVALID_REQUEST` | 2 | malformed JSON (including a number beyond the double range, a lone surrogate escape, nesting deeper than 128 or a repeated key), unknown key (`pointer`, `did_you_mean`), bad value, out-of-range option (`allowed`), command-line error (`argv_error`, `usage`), a `project --out` or `index build --out` path that cannot be written (`path`, `os_error`) |
 | `UNKNOWN_FACET` | 2 | no such facet |
 | `UNKNOWN_FACET_VALUE` | 2 | a value that is neither a vocabulary term nor in the index (close values suggested) |
 | `AMBIGUOUS_TERM` | 2 | an alias with several meanings (`details.candidates`) |
 | `UNKNOWN_FIELD` | 2 | a fact key not in the index, used in ranges, targets, preferences, `fields --fact` or compare/inspect fields (`did_you_mean`) |
-| `UNSUPPORTED_OPERATOR` | 2 | unknown `op` |
+| `UNSUPPORTED_OPERATOR` | 2 | unknown `op` (`supported` lists the operators) |
 | `CURSOR_INVALID` | 2 | not a cursor |
 | `CURSOR_MISMATCH` | 2 | cursor of another query |
 | `OUTPUT_LIMIT_EXCEEDED` | 2 | the response cannot fit `max_output_bytes` (`required_bytes`) |
@@ -608,8 +611,8 @@ A failure prints `{"ok": false, "error": {"code", "message", "hint", "details"}}
 | `CONFIGURATION_NOT_FOUND` | 3 | unknown configuration (`available`) |
 | `EVIDENCE_SECTION_NOT_FOUND` | 3 | `inspect --evidence` names a section the record does not have |
 | `SNAPSHOT_MISMATCH` | 4 | cursor from another index snapshot; rerun without it |
-| `INDEX_UNAVAILABLE` | 5 | no usable index (`tried: [{source, path, problem}]`) |
-| `INDEX_IN_USE` | 5 | `index build` cannot replace an index another process holds open (Windows) |
+| `INDEX_UNAVAILABLE` | 5 | no usable index (`tried: [{source, path, problem}]`), or a damaged index whose stored Project fails its sha256 check (nothing is written; rebuild) |
+| `INDEX_IN_USE` | 5 | `index build` cannot replace an index another process holds open (Windows); a directory or read-only `--out` is `INVALID_REQUEST` instead |
 | `BUILD_FAILED` | 6 | error findings: `details.findings`, errors first, at most 50; the rest are counted in `findings_omitted` |
 | `INTERNAL` | 1 | unexpected failure; rerun with `OS_OPTICS_LENS_DEBUG=1` for a traceback on stderr |
 

@@ -68,7 +68,8 @@ A candidate (one record, at its best configuration):
   resolution status) and per-predicate results.
 * `shortfalls`: hard DOES_NOT_MATCH gaps `{constraint, path, value, limit, shortfall, relative,
   strict?, unit?}` (non-numeric failures list the failing predicates), then target deviations
-  `{target, fact, value, target_value, deviation, normalized, scale_basis, unit}`.
+  `{target, fact, value, target_value, deviation, normalized, scale_basis, weight, unit}`; the
+  target score is the sum of `weight * normalized`.
 * `unknowns`: `{constraint | target | preference, reason}` for everything UNCONFIRMED or not
   comparable (full detail adds `details`).
 * `facts`: summary facts `{value, unit, basis}`; compact `basis` is the basis class
@@ -100,13 +101,17 @@ A batch returns `"results": [{"index": 0, "ok": true, "result": {...}}, {"index"
   `value_paths`, `applicable_ops`, `eligible_for`, `constraint_form`, `variants`,
   `example_constraint`.
 * `compare`: `{candidates: [{ref, record_id, revision, configuration_id, title}], rows: [{fact,
-  values: [cell | null], comparable, differs_by?, missing?, notes?}]}`.
+  values: [cell | null], comparable, differs_by?, missing?, notes?}]}`. Refs must name distinct
+  configurations; `ID@` (empty configuration id) is `INVALID_REQUEST`.
 * `inspect`: identity, `collection`, `license`, `design`, `native_project`, `configuration(s)`,
   `validation`, `facets`, `fact_keys`, evidence sections, `next`; plus requested `fields`,
   `sections`, `evidence`, `prescription`.
 * `project`: `{record_id, revision, sha256, size_bytes, native_configuration_ids, engine_version,
   license, attribution, next}`; with `--out` also `path` (absolute) and `written_sha256`.
-  `--stdout` prints the raw Project bytes instead of JSON.
+  `--stdout` prints the raw Project bytes instead of JSON (`--max-output-bytes` is rejected
+  there). The stored bytes are re-checked against `sha256` before anything is written; `--out`
+  replaces the target only after the written bytes hash correctly, and a path that cannot be
+  written is `INVALID_REQUEST` naming it.
 * `index build` / `index validate`: `{out, snapshot_id, records, configurations, facts, warnings,
   findings, findings_omitted, use}` (`out` and `use` are null for validate).
 * `index dump`: `{index_schema_version, tables: {name: {columns, rows}}}` (not budgeted).

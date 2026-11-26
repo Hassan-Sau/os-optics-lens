@@ -23,7 +23,7 @@ from importlib import resources
 from pathlib import Path
 from typing import Any, Union
 
-from .canonical import HEX64, JsonFormatError, corpus_relative_path, loads_strict
+from .canonical import HEX64, JsonFormatError, corpus_relative_path, loads_strict, sha256_hex
 from .errors import LensError
 
 ENV_VAR = "OS_OPTICS_LENS_INDEX"
@@ -420,11 +420,21 @@ class Index:
                 "native_configuration_ids": json.loads(row["native_configuration_ids"] or "[]")}
 
     def project_bytes(self, record_pk: int) -> bytes:
-        """The native Project's exact LF bytes (sha256 verified at build)."""
-        row = self._conn.execute("SELECT content FROM projects WHERE record_pk=?", (record_pk,)).fetchone()
+        """The native Project's exact LF bytes, re-verified against the stored sha256 on every read
+        (SQLite has no page checksums). A mismatch raises INDEX_UNAVAILABLE: the index is damaged."""
+        row = self._conn.execute("SELECT sha256, content FROM projects WHERE record_pk=?", (record_pk,)).fetchone()
         if row is None:
             raise LensError("INTERNAL", f"record_pk {record_pk} has no Project in the index")
-        return bytes(row[0])
+        content = bytes(row[1])
+        actual = sha256_hex(content)
+        if actual != row[0]:
+            raise LensError(
+                "INDEX_UNAVAILABLE", f"the index {self.path} is damaged: a stored Project does not match "
+                "its sha256", hint="Rebuild the index with `os-optics-lens index build --corpus <dir> --out <file>`.",
+                details={"tried": [{"source": self.source, "path": str(self.path),
+                                    "problem": "damaged: a stored Project does not match its sha256"}],
+                         "path": str(self.path), "record_pk": record_pk, "sha256": row[0], "actual_sha256": actual})
+        return content
 
     def licenses(self) -> dict[str, str]:
         """License texts by corpus-relative path."""

@@ -141,6 +141,23 @@ def _parse_int(token: str) -> Any:
     return value
 
 
+class _DuplicateKeys(dict):
+    """An object that repeated a member name (only built when duplicates are rejected)."""
+
+    duplicate: str = ""
+
+
+def _pairs_without_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in out:
+            marked = _DuplicateKeys(pairs)
+            marked.duplicate = key
+            return marked
+        out[key] = value
+    return out
+
+
 def _has_lone_surrogate(text: str) -> bool:
     try:
         text.encode("utf-8")
@@ -165,6 +182,10 @@ def _find_invalid(obj: Any) -> tuple[str, str] | None:
             continue
         if not isinstance(item, (dict, list)):
             continue
+        if isinstance(item, _DuplicateKeys):
+            escaped = item.duplicate.replace("~", "~0").replace("/", "~1")
+            shown = item.duplicate if len(item.duplicate) <= 80 else item.duplicate[:80] + "..."
+            return f"{pointer}/{escaped}", f"duplicate key {shown!r} in the object at {pointer or '/'}"
         if depth >= MAX_JSON_DEPTH:
             return pointer, f"nesting deeper than {MAX_JSON_DEPTH} levels at {pointer or '/'}"
         children: list[tuple[str, Any, int]] = []
@@ -180,13 +201,14 @@ def _find_invalid(obj: Any) -> tuple[str, str] | None:
     return None
 
 
-def loads_strict(data: bytes | str) -> Any:
+def loads_strict(data: bytes | str, *, reject_duplicate_keys: bool = False) -> Any:
     """Parse strict JSON.
 
     Bytes must be UTF-8 without a byte-order mark. NaN, Infinity, -Infinity, numbers that overflow
     a double (floats and integers), strings with a lone surrogate escape (`"\\ud800"`) and nesting
-    deeper than MAX_JSON_DEPTH are rejected with the JSON pointer of the offending value. Raises
-    `JsonFormatError`.
+    deeper than MAX_JSON_DEPTH are rejected with the JSON pointer of the offending value. With
+    `reject_duplicate_keys` (request documents), an object that repeats a member name is rejected
+    with the pointer of the repeated member. Raises `JsonFormatError`.
     """
     if isinstance(data, bytes):
         if data.startswith(b"\xef\xbb\xbf"):
@@ -198,7 +220,8 @@ def loads_strict(data: bytes | str) -> Any:
     else:
         text = data
     try:
-        obj = json.loads(text, parse_constant=_NonFinite, parse_float=_parse_float, parse_int=_parse_int)
+        obj = json.loads(text, parse_constant=_NonFinite, parse_float=_parse_float, parse_int=_parse_int,
+                         object_pairs_hook=_pairs_without_duplicates if reject_duplicate_keys else None)
     except json.JSONDecodeError as exc:
         raise JsonFormatError(f"invalid JSON: {exc.msg} at line {exc.lineno} column {exc.colno}") from None
     except RecursionError:

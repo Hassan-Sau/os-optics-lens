@@ -143,6 +143,10 @@ class ConfigurationSearch(unittest.TestCase):
     def test_compare_and_inspect_by_configuration(self) -> None:
         rows = query.compare(self.index, ["zoom@Wide", "zoom@Tele"], fields=[EFL])["result"]["rows"]
         self.assertEqual([v["value"] for v in rows[0]["values"]], [50.0, 100.0])
+        # Distinctness is checked on the resolved configuration: `zoom` is `zoom@Wide`.
+        with self.assertRaises(LensError) as caught:
+            query.compare(self.index, ["zoom@Wide", "zoom"], fields=[EFL])
+        self.assertEqual((caught.exception.code, caught.exception.details["pointer"]), ("INVALID_REQUEST", "/refs/1"))
         inspected = query.inspect(self.index, "zoom", configuration="Tele", fields=[EFL])["result"]
         self.assertEqual(inspected["configuration"]["configuration_id"], "Tele")
         self.assertEqual(inspected["fields"][EFL]["value"]["value"], 100.0)

@@ -440,13 +440,18 @@ class _Loader:
         raw_path = license_info["notice_path"]
         ref = EvidenceRef(field_path, "license_notice", raw_path if isinstance(raw_path, str) else None, None, None,
                           MALFORMED)
+        severity = WARNING if self.allow else ERROR
+        if not isinstance(raw_path, str) or not raw_path:
+            # A null, empty or mistyped notice path is a missing notice, not a path escape.
+            self.add(severity, "LICENSE_NOTICE_MISSING", rid, file, field_path,
+                     f"license notice path must be a non-empty string, got {raw_path!r}")
+            return ref
         rel_path = corpus_relative_path(raw_path)
         if rel_path is None or self.file_state(rel_path).escapes:
             ref.status = PATH_ESCAPES
             self.add(ERROR, "PROJECT_PATH_ESCAPES", rid, file, field_path,
                      f"license notice path {raw_path!r} must be a relative path inside the corpus")
             return ref
-        severity = WARNING if self.allow else ERROR
         state = self.file_state(rel_path)
         text = None
         if state.exists:

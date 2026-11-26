@@ -720,14 +720,16 @@ def system_aperture_names(view: dict[str, Any]) -> list[str]:
                   if isinstance(fact, dict) and fact.get("system_aperture") is True)
 
 
-def iter_source_refs(obj: Any, path: str = "") -> Iterable[tuple[str, dict[str, Any]]]:
-    """Every object with `path`, `sha256` and `section` keys anywhere in `obj`, with its dotted
-    location (e.g. `performance[4].source`), in document order."""
+def iter_source_refs(obj: Any, path: str = "", *, named_source: bool = False) -> Iterable[tuple[str, dict[str, Any]]]:
+    """Every fact source reference anywhere in `obj`, with its dotted location (e.g.
+    `performance[4].source`), in document order: an object with `path`, `sha256` and `section`
+    keys, and every object that is the value of a member named `source` (so a reference missing a
+    key is still validated and reported, not skipped)."""
     if isinstance(obj, dict):
-        if "path" in obj and "sha256" in obj and "section" in obj:
+        if named_source or ("path" in obj and "sha256" in obj and "section" in obj):
             yield path, obj
         for key, value in obj.items():
-            yield from iter_source_refs(value, f"{path}.{key}" if path else key)
+            yield from iter_source_refs(value, f"{path}.{key}" if path else key, named_source=key == "source")
     elif isinstance(obj, list):
         for index, value in enumerate(obj):
             yield from iter_source_refs(value, f"{path}[{index}]")

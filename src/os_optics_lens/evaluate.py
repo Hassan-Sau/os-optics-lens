@@ -29,6 +29,7 @@ import difflib
 import json
 import math
 import re
+import sys
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Sequence
 
@@ -98,6 +99,8 @@ OPERATORS = (
 _ORDER_OPS = frozenset({"gt", "gte", "lt", "lte"})
 _PAIR_OPS = frozenset({"between_inclusive", "covers_interval"})
 _SOURCE_OPS = frozenset({"has_source", "has_sourced_method"})
+# Default predicate path of a source operator on an object fact named without a member.
+_SOURCE_DEFAULT_PATH = {"has_source": "source", "has_sourced_method": "methods"}
 
 RESOLVED = "RESOLVED"
 MISSING = "MISSING"
@@ -685,6 +688,13 @@ def validate_target(raw: object, pointer: str) -> None:
             raise _invalid(f"{key} must be a finite number > 0", _ptr(pointer, key))
     if "weight" in raw and (not _is_number(raw["weight"]) or raw["weight"] < 0):
         raise _invalid("weight must be a finite number >= 0", _ptr(pointer, "weight"))
+    scale, basis = target_scale(raw)
+    if not (math.isfinite(scale) and scale >= sys.float_info.min):
+        key = {"tolerance": "tolerance", "relative_tolerance": "relative_tolerance"}.get(basis, "target")
+        raise _invalid(f"the target scale ({basis}) {scale!r} is not a normal positive number",
+                       _ptr(pointer, key),
+                       "give a larger tolerance (the scale must be at least 2.2250738585072014e-308)",
+                       scale_basis=basis, minimum=sys.float_info.min)
     if "path" in raw and not isinstance(raw["path"], str):
         raise _invalid("path must be a dotted string", _ptr(pointer, "path"))
     segments = fact.split(".")
@@ -760,6 +770,8 @@ def expand_for_view(constraint: Mapping[str, Any], view: Mapping[str, Any], *,
       member (`value` preferred). An interval metric without a path raises INVALID_REQUEST.
     * an object at the path -> scope = the full path, path = explicit, "" for covers_interval, else
       the default value member (interval objects raise INVALID_REQUEST).
+    * has_source / has_sourced_method on an object or metric fact named without a member default
+      the path to `source` / `methods` instead of the value member.
     * a scalar, string, bool, list or null at the path -> scope = the parent, path = the last member.
     * an absent path -> scope = the full path (evaluates as FACT_MISSING).
 
@@ -785,6 +797,8 @@ def expand_for_view(constraint: Mapping[str, Any], view: Mapping[str, Any], *,
             path = explicit
         elif op == "covers_interval":
             path = ""
+        elif op in _SOURCE_DEFAULT_PATH:
+            path = _SOURCE_DEFAULT_PATH[op]
         else:
             entries = [e for _, e in _metric_entries(view, ["performance"], segments[1],
                                                      constraint.get("select"))]
@@ -798,6 +812,8 @@ def expand_for_view(constraint: Mapping[str, Any], view: Mapping[str, Any], *,
                 path = explicit
             elif op == "covers_interval":
                 path = ""
+            elif op in _SOURCE_DEFAULT_PATH:
+                path = _SOURCE_DEFAULT_PATH[op]
             else:
                 path = _default_member([parent[leaf]], fact, pointer)
         elif isinstance(parent, dict) and leaf in parent:
@@ -805,7 +821,12 @@ def expand_for_view(constraint: Mapping[str, Any], view: Mapping[str, Any], *,
             path = leaf + ("." + explicit if explicit else "")
         else:
             out["scope"] = segments
-            path = explicit if explicit is not None else ("" if op == "covers_interval" else "value")
+            if explicit is not None:
+                path = explicit
+            elif op == "covers_interval":
+                path = ""
+            else:
+                path = _SOURCE_DEFAULT_PATH.get(op, "value")
     predicate["path"] = path
     out["predicates"] = [predicate]
     return out
@@ -1515,32 +1536,44 @@ def target_value(view: Mapping[str, Any], target: Mapping[str, Any], ctx: EvalCo
     return _single_numeric(view, target, ctx, pointer)
 
 
-def target_deviation(value: float, target: Mapping[str, Any]) -> dict[str, Any]:
+def target_scale(target: Mapping[str, Any]) -> tuple[float, str]:
+    """`(scale, scale_basis)` of a target: `tolerance` if given, else `relative_tolerance * |target|`
+    if given and target != 0, else `|target|` if != 0, else 1.0 ("absolute")."""
+    goal = target["target"]
+    if target.get("tolerance") is not None:
+        return float(target["tolerance"]), "tolerance"
+    if target.get("relative_tolerance") is not None and goal != 0:
+        return float(target["relative_tolerance"] * abs(goal)), "relative_tolerance"
+    if goal != 0:
+        return float(abs(goal)), "target"
+    return 1.0, "absolute"
+
+
+def target_deviation(value: float, target: Mapping[str, Any], *,
+                     pointer: str | None = None) -> dict[str, Any]:
     """Deviation of `value` from a target (amendment 10.9).
 
-    `deviation = |value - target|`; `normalized = deviation / scale` with scale = `tolerance` if
-    given, else `relative_tolerance * |target|` if given and target != 0, else `|target|` if != 0,
-    else 1.0 (`scale_basis` "absolute": the absolute deviation). A non-positive tolerance raises
-    INVALID_REQUEST.
+    `deviation = |value - target|`; `normalized = deviation / scale` with the scale of
+    `target_scale` (`scale_basis` "absolute": the absolute deviation). A scale that is not a normal
+    positive number, or a normalized deviation that is not finite, raises INVALID_REQUEST (the
+    ranking value must be a finite number).
     """
     goal = target["target"]
     deviation = abs(value - goal)
-    if target.get("tolerance") is not None:
-        scale = target["tolerance"]
-        if not _is_number(scale) or scale <= 0:
-            raise RequestError("INVALID_REQUEST", "tolerance must be > 0", hint="give tolerance > 0")
-        basis = "tolerance"
-    elif target.get("relative_tolerance") is not None and goal != 0:
-        relative = target["relative_tolerance"]
-        if not _is_number(relative) or relative <= 0:
-            raise RequestError("INVALID_REQUEST", "relative_tolerance must be > 0")
-        scale, basis = relative * abs(goal), "relative_tolerance"
-    elif goal != 0:
-        scale, basis = abs(goal), "target"
-    else:
-        scale, basis = 1.0, "absolute"
-    return {"value": value, "target": goal, "deviation": float(deviation), "scale": float(scale),
-            "scale_basis": basis, "normalized": float(deviation / scale)}
+    scale, basis = target_scale(target)
+    if not (math.isfinite(scale) and scale >= sys.float_info.min):
+        raise RequestError("INVALID_REQUEST", f"the target scale ({basis}) must be a normal positive "
+                           "number", pointer=pointer, hint="give a larger tolerance",
+                           details={"scale_basis": basis})
+    normalized = float(deviation) / scale if math.isfinite(deviation) else math.inf
+    if not math.isfinite(normalized):
+        raise RequestError("INVALID_REQUEST", f"the normalized deviation of {target.get('fact')} "
+                           f"({deviation!r} / {scale!r}) is not a finite number", pointer=pointer,
+                           hint="give a larger tolerance or relative_tolerance",
+                           details={"deviation": float(deviation) if math.isfinite(deviation) else None,
+                                    "scale": scale, "scale_basis": basis})
+    return {"value": value, "target": goal, "deviation": float(deviation), "scale": scale,
+            "scale_basis": basis, "normalized": normalized}
 
 
 def preference_value(view: Mapping[str, Any], preference: Mapping[str, Any], ctx: EvalContext, *,
@@ -1569,6 +1602,20 @@ def preference_value(view: Mapping[str, Any], preference: Mapping[str, Any], ctx
     obj = _at(view, scope)
     if not isinstance(obj, dict):
         return None, FACT_MISSING, info
+    # Amendment 10.9: the ranking value passes the same discovery-only and coverage guards as
+    # the shorthand form (steps 1-6 and 10.2).
+    walked = scope + [metric]
+    node: object = view
+    for depth, segment in enumerate(walked, start=1):
+        node = node.get(segment) if isinstance(node, dict) else None
+        hit = _discovery_hit(".".join(walked[:depth]), node)
+        if hit:
+            info["details"] = hit
+            return None, DISCOVERY_ONLY, info
+    coverage = _coverage_guard(view, walked)
+    if coverage is not None:
+        info["details"] = coverage
+        return None, COVERAGE_UNCONFIRMED, info
     differs = {}
     for key, expected in preference.items():
         if key in ("id", "scope", "metric", "direction"):

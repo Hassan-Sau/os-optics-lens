@@ -22,7 +22,8 @@ os-optics-lens index dump     [--index FILE]
   `os.replace`s the temporary file onto `<out>` (`page_size=4096`, `journal_mode=DELETE`).
   - Any failure removes the temporary file, so a previous `<out>` stays byte-identical.
   - On Windows, a reader that still holds `<out>` open makes the replace fail. The result is
-    `INDEX_IN_USE` (exit code 5), and the old file is kept.
+    `INDEX_IN_USE` (exit code 5), and the old file is kept. An `<out>` that is a directory (checked
+    before the build) or a read-only file is `INVALID_REQUEST` (exit code 2) instead.
   - On success the envelope carries `snapshot` (the new index) and `result {out, snapshot_id, records,
     configurations, facts, warnings, findings, findings_omitted, use: "--index <out>"}`. `out` is
     absolute; `findings` lists at most 50 warning findings (`findings_omitted` counts the rest).
@@ -176,7 +177,7 @@ TEXT, sha256 TEXT, section TEXT, status TEXT NOT NULL)`, indexed on `record_pk` 
 
 | `field` | reference |
 |---|---|
-| any location of an object with `path` + `sha256` + `section`, e.g. `performance[4].source` (`configurations[i].` prefix inside configuration entries) | a fact source |
+| any location of an object with `path` + `sha256` + `section`, and every object that is the value of a member named `source` (a reference missing one of the three keys is validated and reported, not skipped), e.g. `performance[4].source` (`configurations[i].` prefix inside configuration entries) | a fact source |
 | `collection.evidence_extract` | the record's evidence extract (`path` + `sha256`, no section) |
 | `collection.license.notice_path` | the license notice (`path` only) |
 
@@ -193,7 +194,9 @@ Resolution at query time recomputes the result from `evidence_files` (amendment 
 ### `projects(record_pk INTEGER PRIMARY KEY, sha256 TEXT NOT NULL, content BLOB NOT NULL, native_configuration_ids TEXT)`
 
 This table holds the exact LF bytes of each native Project; `os-optics-lens project --out` writes
-them. `sha256` equals the record's `native_project.sha256`, which is checked at build time.
+them. `sha256` equals the record's `native_project.sha256`, which is checked at build time and
+again on every read: `project` re-hashes `content` before writing anything, and a mismatch (a
+damaged index) is `INDEX_UNAVAILABLE` with no output written.
 `native_configuration_ids` is the JSON list of valid ids that the Project declares under
 `configurations[].configuration_id` (`[]` when it declares none).
 
@@ -313,8 +316,8 @@ unresolved; the flag is recorded in `meta` and in the snapshot.
 | `EVIDENCE_FILE_MISSING` † | error | A referenced evidence file does not exist. |
 | `EVIDENCE_HASH_MISMATCH` † | error | The SHA-256 of the file's LF bytes differs from the reference's `sha256`. |
 | `EVIDENCE_SECTION_MISSING` † | error | The file has no non-null `sections.<section>`. |
-| `EVIDENCE_MALFORMED` † | error | The reference has an empty `path`/`section` or a non-hex `sha256`, or the file is not a JSON object with a `sections` object. |
-| `LICENSE_NOTICE_MISSING` † | error | `collection.license.notice_path` names no UTF-8 text file. |
+| `EVIDENCE_MALFORMED` † | error | The reference has an empty or missing `path`/`section` or a non-hex `sha256`, or the file is not a JSON object with a `sections` object. |
+| `LICENSE_NOTICE_MISSING` † | error | `collection.license.notice_path` is null, empty or not a string, or names no UTF-8 text file. |
 | `LICENSE_NOTICE_MISMATCH` † | error | The notice does not contain `collection.license.copyright`. |
 | `LICENSE_UNREADABLE` | error | `LICENSE` or `licenses/*.txt` is not UTF-8 text. |
 
@@ -329,7 +332,7 @@ unresolved; the flag is recorded in `meta` and in the snapshot.
 | `UNIT_UNKNOWN` | warning | A numeric fact outside `design.*` has no unit inferable from its name. |
 
 Build-level errors that are not findings: `INVALID_REQUEST` (exit code 2) when `--corpus` has no
-`records/` directory; `INDEX_IN_USE` (5); `INTERNAL` (1) if the new file fails its integrity check.
+`records/` directory or `--out` is a directory or a read-only file; `INDEX_IN_USE` (5); `INTERNAL` (1) if the new file fails its integrity check.
 
 ## Validating an incoming batch
 

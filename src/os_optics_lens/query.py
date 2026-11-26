@@ -873,7 +873,7 @@ def _evaluate_targets(s: _Session, view: dict[str, Any], q: dict[str, Any], base
                 if info.get("details"):
                     item["details"] = info["details"]
             else:
-                item.update(target_deviation(value, target))
+                item.update(target_deviation(value, target, pointer=pointer))
                 item["unit"] = info.get("unit")
                 item["json_path"] = info.get("json_path")
         out.append(item)
@@ -921,6 +921,9 @@ def _evaluate_config(s: _Session, config: dict[str, Any], record: dict[str, Any]
     else:
         unknown_targets = sum(1 for t in targets if "reason" in t)
         score = round(sum(t["weight"] * t["normalized"] for t in targets if "normalized" in t), 9)
+        if not math.isfinite(score):
+            raise _invalid("the weighted target score is not a finite number", _ptr(base, "targets"),
+                           "give smaller weights or larger tolerances")
         rank_key = [counts[DOES_NOT_MATCH], counts[UNCONFIRMED], unknown_targets, score, *entries,
                     record_id, ordinal]
         sort_key = (counts[DOES_NOT_MATCH], counts[UNCONFIRMED], unknown_targets, score,
@@ -949,7 +952,9 @@ def _explanation(q: dict[str, Any], best: _ConfigResult) -> str:
         if known:
             score = round(sum(t["weight"] * t["normalized"] for t in known), 9)
             details = ", ".join(
-                f"{t['fact']} {t['value']:g} vs {t['target']:g} ({t['normalized']:.3g} x "
+                f"{t['fact']} {t['value']:g} vs {t['target']:g} ("
+                f"{'' if t['weight'] == 1 else format(t['weight'], 'g') + ' x '}"
+                f"{t['normalized']:.3g} x "
                 f"{'absolute deviation' if t['scale_basis'] == 'absolute' else t['scale_basis']})"
                 for t in known)
             text += f"; target score {score:g} from {details}"
@@ -1001,7 +1006,7 @@ def _shortfalls(q: dict[str, Any], best: _ConfigResult) -> list[dict[str, Any]]:
             out.append({"target": target["id"], "fact": target["fact"], "value": target["value"],
                         "target_value": target["target"], "deviation": target["deviation"],
                         "normalized": target["normalized"], "scale_basis": target["scale_basis"],
-                        "unit": target.get("unit")})
+                        "weight": target["weight"], "unit": target.get("unit")})
     return out
 
 
@@ -1246,9 +1251,15 @@ def normalize_request(index: Index, request: Any) -> dict[str, Any]:
 
     def one(raw: Any, base: str, allowed: frozenset[str]) -> dict[str, Any]:
         q, options = _normalize_query(s, raw, base, [], allowed=allowed)
-        return {"normalized": q, "query_digest": output.query_digest(q),
-                "options": {"fields": options.fields, "detail": options.detail, "limit": options.limit,
-                            "cursor": options.cursor}}
+        digest = output.query_digest(q)
+        echoed: dict[str, Any] = {"fields": options.fields, "detail": options.detail,
+                                  "limit": options.limit, "cursor": options.cursor}
+        if options.cursor is not None:
+            # The same checks a search makes, so a continuation request that would fail is not
+            # reported as fine (CURSOR_INVALID, CURSOR_MISMATCH, SNAPSHOT_MISMATCH).
+            echoed["cursor_offset"] = output.decode_cursor(options.cursor, s.snapshot["id"], digest,
+                                                           _ptr(base, "cursor"))
+        return {"normalized": q, "query_digest": digest, "options": echoed}
 
     if "queries" in request:
         _check_keys(request, _BATCH_KEYS, "", "batch request")
@@ -1550,14 +1561,24 @@ def compare(index: Index, refs: Sequence[str], fields: Sequence[str] | None = No
         raise _invalid("refs must be distinct", "/refs")
     candidates: list[dict[str, Any]] = []
     configs: list[dict[str, Any]] = []
+    seen: dict[tuple[Any, Any], int] = {}
     for i, ref in enumerate(ref_list):
-        record_id, _, configuration_id = ref.partition("@")
+        record_id, at, configuration_id = ref.partition("@")
+        if at and not configuration_id:
+            raise _invalid(f"ref {_short_text(ref)!r} has an empty configuration id after '@'",
+                           _ptr("/refs", i), "use record_id or record_id@configuration_id")
         try:
             row = s.index.get_record(record_id)
             config = s.index.configuration(row["record_pk"], configuration_id or None)
         except LensError as error:
             error.details["pointer"] = _ptr("/refs", i)
             raise
+        pair = (row["record_pk"], config["config_pk"])
+        if pair in seen:
+            raise _invalid(f"refs {_short_text(ref_list[seen[pair]])!r} and {_short_text(ref)!r} name the "
+                           "same configuration", _ptr("/refs", i), "refs must be distinct configurations",
+                           configuration_id=config["configuration_id"])
+        seen[pair] = i
         configs.append(config)
         candidates.append({"ref": ref, "record_id": row["record_id"], "revision": row["revision"],
                            "configuration_id": config["configuration_id"], "title": row["title"]})
@@ -1919,9 +1940,16 @@ def project_metadata(index: Index, record_id: str, *, revision: int | None = Non
 
 
 def project_bytes(index: Index, record_id: str, *, revision: int | None = None) -> bytes:
-    """The native Project's exact LF bytes (sha256 verified at build)."""
+    """The native Project's exact LF bytes, re-verified against its sha256 (a damaged index raises
+    INDEX_UNAVAILABLE before anything is written)."""
     row = index.get_record(record_id, revision)
-    return index.project_bytes(row["record_pk"])
+    try:
+        return index.project_bytes(row["record_pk"])
+    except LensError as error:
+        if error.code == "INDEX_UNAVAILABLE":
+            error.details.pop("record_pk", None)
+            error.details["record_id"] = row["record_id"]
+        raise
 
 
 def project_response(index: Index, record_id: str, *, revision: int | None = None,

@@ -212,6 +212,20 @@ class CanonicalTests(unittest.TestCase):
         with self.assertRaises(JsonFormatError):
             loads_strict(("[" * 100000 + "]" * 100000).encode())
 
+    def test_duplicate_keys_rejected_only_for_requests(self):
+        # Record and evidence loading keep the default (last wins); request parsing opts in.
+        self.assertEqual(loads_strict(b'{"a": 1, "a": 2}'), {"a": 2})
+        for text, pointer in ((b'{"mode": "starting_point", "mode": "specification"}', "/mode"),
+                              (b'{"q": [{"x": 1}, {"x": 1, "y": 2, "x": 3}]}', "/q/1/x"),
+                              (b'{"a/b": {"k": 1, "k": 1}}', "/a~1b/k")):
+            with self.subTest(pointer=pointer):
+                with self.assertRaises(JsonFormatError) as ctx:
+                    loads_strict(text, reject_duplicate_keys=True)
+                self.assertEqual(ctx.exception.pointer, pointer)
+                self.assertIn("duplicate key", ctx.exception.message)
+        self.assertEqual(loads_strict(b'{"a": {"x": 1}, "b": {"x": 2}}', reject_duplicate_keys=True),
+                         {"a": {"x": 1}, "b": {"x": 2}})
+
     def test_corpus_relative_path(self):
         self.assertEqual(corpus_relative_path("records/a/../a/b.json"), "records/a/b.json")
         for bad in ("", "/etc/passwd", "C:/x", "..", "../x", "records/../../x", "a\\b", None, 3):
@@ -555,6 +569,52 @@ class SyntheticFindingTests(unittest.TestCase):
             self.assertEqual({f["code"] for f in index.findings()},
                              {"EVIDENCE_FILE_MISSING", "EVIDENCE_SECTION_MISSING", "EVIDENCE_MALFORMED"})
 
+    def test_source_ref_missing_a_key_is_malformed(self):
+        # A `source` object missing `section` (or `sha256`) is still a reference: it is reported,
+        # not skipped, and recorded as MALFORMED under --allow-unresolved-evidence.
+        def no_section(record):
+            del record["performance"][0]["source"]["section"]
+
+        def no_sha(record):
+            del record["performance"][0]["source"]["sha256"]
+
+        self.corpus.add("rec-a", mutate=no_section)
+        self.corpus.add("rec-b", mutate=no_sha)
+        self.corpus.add("rec-c")
+        strict = self.findings()
+        self.assert_finding(strict, "error", "EVIDENCE_MALFORMED", "performance[0].source.section", "rec-a")
+        self.assert_finding(strict, "error", "EVIDENCE_MALFORMED", "performance[0].source.sha256", "rec-b")
+        self.assertNotIn("rec-c", {f.record_id for f in strict})  # native_project is not a source
+        out = Path(self._tmp.name) / "index.sqlite"
+        with self.assertRaises(LensError) as ctx:
+            build_index(self.root, out)
+        self.assertEqual(ctx.exception.code, "BUILD_FAILED")
+        allowed = self.findings(allow=True)
+        self.assert_finding(allowed, "warning", "EVIDENCE_MALFORMED", "performance[0].source.section", "rec-a")
+        build_index(self.root, out, allow_unresolved_evidence=True)
+        with Index.open(out) as index:
+            refs = [ref for row in index.iter_records() if row["record_id"] == "rec-a"
+                    for ref in index.evidence_refs(row["record_pk"]) if ref["field"] == "performance[0].source"]
+            self.assertEqual([ref["status"] for ref in refs], ["MALFORMED"])
+
+    def test_license_notice_path_not_a_string_is_missing_not_escape(self):
+        for index, bad in enumerate((None, 5, "")):
+            self.corpus.add(f"rec-{index}", mutate=lambda r, bad=bad: r["collection"].update(
+                license={"spdx": "MIT", "notice_path": bad}))
+        strict = self.findings()
+        self.assertNotIn("PROJECT_PATH_ESCAPES", {f.code for f in strict})
+        for index in range(3):
+            self.assert_finding(strict, "error", "LICENSE_NOTICE_MISSING", "collection.license.notice_path",
+                                f"rec-{index}")
+        allowed = self.findings(allow=True)
+        self.assertEqual({(f.severity, f.code) for f in allowed}, {("warning", "LICENSE_NOTICE_MISSING")})
+        result = build_index(self.root, Path(self._tmp.name) / "index.sqlite", allow_unresolved_evidence=True)
+        self.assertEqual(result.records, 3)
+        # An absolute path is still an escape, never downgraded.
+        self.corpus.add("rec-abs", mutate=lambda r: r["collection"].update(license={"notice_path": "/etc/x"}))
+        self.assert_finding(self.findings(allow=True), "error", "PROJECT_PATH_ESCAPES",
+                            "collection.license.notice_path", "rec-abs")
+
     def test_license_notice(self):
         def notice(record):
             record["collection"]["license"] = {"spdx": "MIT", "notice_path": "LICENSE",
@@ -764,6 +824,42 @@ class BuildMechanicsTests(unittest.TestCase):
         grown = build_index(self.root, first)
         self.assertNotEqual(grown.snapshot_id, result_a.snapshot_id)
         self.assertEqual(grown.records, 3)
+
+    def test_out_directory_or_read_only_file_is_not_index_in_use(self):
+        adir = self.tmp / "adir"
+        adir.mkdir()
+        with mock.patch.object(build_module, "load_corpus") as loader:
+            with self.assertRaises(LensError) as ctx:
+                build_index(self.root, adir)
+        self.assertEqual(ctx.exception.code, "INVALID_REQUEST")
+        self.assertIn(str(adir.resolve()), ctx.exception.message)
+        loader.assert_not_called()  # rejected before the corpus is read
+        self.assertEqual(list(adir.iterdir()), [])
+
+        out = self.tmp / "ro.sqlite"
+        build_index(self.root, out)
+        before = out.read_bytes()
+        with mock.patch.object(build_module.os, "replace", side_effect=PermissionError(13, "Access is denied")),                 mock.patch.object(build_module.os, "access", return_value=False):
+            with self.assertRaises(LensError) as ctx:
+                build_index(self.root, out)
+        self.assertEqual((ctx.exception.code, ctx.exception.details["out"]), ("INVALID_REQUEST", str(out.resolve())))
+        self.assertEqual(out.read_bytes(), before)
+        self.assertEqual(sorted(p.name for p in self.tmp.iterdir()), ["adir", "corpus", "ro.sqlite"])
+
+    @unittest.skipUnless(os.name == "nt", "os.replace onto a read-only file fails only on Windows")
+    def test_read_only_out_on_windows(self):
+        out = self.tmp / "ro.sqlite"
+        build_index(self.root, out)
+        before = out.read_bytes()
+        os.chmod(out, 0o444)
+        try:
+            with self.assertRaises(LensError) as ctx:
+                build_index(self.root, out)
+        finally:
+            os.chmod(out, 0o666)
+        self.assertEqual(ctx.exception.code, "INVALID_REQUEST")
+        self.assertIn("read-only", ctx.exception.message)
+        self.assertEqual(out.read_bytes(), before)
 
     def test_missing_records_directory(self):
         with self.assertRaises(LensError) as ctx:

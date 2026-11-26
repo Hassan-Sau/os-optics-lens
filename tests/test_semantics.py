@@ -113,6 +113,21 @@ class PathGuards(unittest.TestCase):
         for candidate in response["result"]["candidates"]:
             self.assertEqual(list(candidate["constraints"]), ["c0"])
 
+    def test_fixture_preference_is_guarded_like_shorthand(self) -> None:
+        # Amendment 10.9: the fixture form {scope, metric} never ranks by a discovery-only span.
+        base = {"mode": "starting_point", "filters": {"collections": ["yutong-cup", "opensci-design-studies"]},
+                "limit": 50}
+        forms = ({"scope": ["spectrum", "sampling_span_nm"], "metric": "max_nm", "direction": "descending"},
+                 {"fact": "spectrum.sampling_span_nm.max_nm", "direction": "descending"})
+        for preference in forms:
+            with self.subTest(preference=preference):
+                candidates = query.search(INDEX, dict(base, preferences=[preference]))["result"]["candidates"]
+                self.assertTrue(candidates)
+                for candidate in candidates:
+                    self.assertEqual(candidate["rank"]["key"][4], [1, None])
+                    [unknown] = [u for u in candidate["unknowns"] if "preference" in u]
+                    self.assertEqual(unknown["reason"], "DISCOVERY_ONLY")
+
     def test_property_list_comparison_is_never_a_value(self) -> None:
         # Comparison-only checks (RECORD_FORMAT.md, LENSLIBRARY_IMPORT.md) never satisfy or refute a
         # constraint, whatever the stop state: 7821720c's stop is not eligible, 6016226 stores an
@@ -216,6 +231,18 @@ class Shorthand(unittest.TestCase):
         self.assertEqual(entry["fact"]["source"]["status"], "RESOLVED")
         entry, _ = evaluate(SONNAR, {"fact": "performance.mtf", "op": "gt", "value": 0.9})
         self.assertEqual(entry["reason"], "AMBIGUOUS_FACTS")
+
+    def test_source_ops_check_the_source_member(self) -> None:
+        # The review reproduction: has_source on an object or metric fact named without a member
+        # checks its source (has_sourced_method its methods), like the explicit `.source` form.
+        for fact, op in (("performance.relative_illumination", "has_source"), ("cost_proxy", "has_source"),
+                         ("performance.relative_illumination.source", "has_source"),
+                         ("analysis_evidence.ghost", "has_sourced_method")):
+            with self.subTest(fact=fact):
+                entry, _ = evaluate(P2B, {"fact": fact, "op": op})
+                self.assertEqual(entry["outcome"], "MATCH", entry)
+                if op == "has_source":
+                    self.assertEqual(entry["fact"]["source"]["status"], "RESOLVED")
 
     def test_shorthand_on_absent_fact_warns(self) -> None:
         response = query.search(INDEX, {"mode": "specification", "filters": {"record_ids": [P2B]},

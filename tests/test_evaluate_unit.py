@@ -11,6 +11,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import math
 import re
 import sys
 import unittest
@@ -421,6 +422,25 @@ class Shorthand(unittest.TestCase):
         self.assertEqual(nothing["reason"], "CONDITIONS_DIFFER")
         self.assertEqual(nothing["details"]["select"]["frequency_lp_mm"]["available"], [10, 30])
 
+    def test_source_ops_default_to_source_and_methods(self):
+        # has_source / has_sourced_method named without a member check `source` / `methods`, not
+        # the value member (a resolving source must never be reported EVIDENCE_MISSING).
+        view = as_view(P2B)
+        for fact, op, path in (("performance.relative_illumination", "has_source", "source"),
+                               ("cost_proxy", "has_source", "source"),
+                               ("analysis_evidence.ghost", "has_sourced_method", "methods"),
+                               ("performance.relative_illumination.source", "has_source", "source")):
+            with self.subTest(fact=fact):
+                expanded = ev.expand_constraint({"fact": fact, "op": op}, view, 0)
+                self.assertEqual(expanded["predicates"][0]["path"], path)
+                self.assertEqual(run(P2B, {"fact": fact, "op": op})["outcome"], "MATCH")
+        # An explicit path still wins; a fact without a source stays UNCONFIRMED at `source`.
+        explicit = ev.expand_constraint({"fact": "cost_proxy", "op": "has_source", "path": "basis"}, view, 0)
+        self.assertEqual(explicit["predicates"][0]["path"], "basis")
+        unsourced = run(P2B, {"fact": "first_order.effective_focal_length_mm", "op": "has_source"}, detail=True)
+        self.assertEqual((unsourced["outcome"], unsourced["reason"]), ("UNCONFIRMED", "VALUE_MISSING"))
+        self.assertEqual(unsourced["predicates"][0]["path"], "source")
+
     def test_value_member_missing(self):
         result = run(P2B, {"id": "m", "fact": "performance.mtf", "op": "gt", "value": 0.7,
                            "select": {"field_fraction": 0.8}})
@@ -546,6 +566,25 @@ class TargetsAndPreferences(unittest.TestCase):
         with self.assertRaises(ev.RequestError):
             ev.target_deviation(1.0, {"target": 1, "tolerance": 0})
 
+    def test_tiny_target_scale_is_a_request_error(self):
+        # A scale that is not a normal positive double, or a quotient that overflows, is
+        # INVALID_REQUEST with a pointer, never an infinite ranking value.
+        for raw, pointer in (({"fact": "a.b", "target": 24, "tolerance": 1e-310}, "/targets/0/tolerance"),
+                             ({"fact": "a.b", "target": 1e-320}, "/targets/0/target"),
+                             ({"fact": "a.b", "target": 1e-300, "relative_tolerance": 1e-10},
+                              "/targets/0/relative_tolerance")):
+            with self.subTest(raw=raw):
+                with self.assertRaises(ev.RequestError) as raised:
+                    ev.validate_target(raw, "/targets/0")
+                self.assertEqual(raised.exception.code, "INVALID_REQUEST")
+                self.assertEqual(raised.exception.details["pointer"], pointer)
+        with self.assertRaises(ev.RequestError) as raised:
+            ev.target_deviation(1e300, {"fact": "a.b", "target": -1e300, "tolerance": 1e-10}, pointer="/targets/0")
+        self.assertEqual(raised.exception.details["pointer"], "/targets/0")
+        smallest = ev.target_deviation(25.0, {"target": 24, "tolerance": sys.float_info.min})
+        self.assertTrue(math.isfinite(smallest["normalized"]))
+        ev.validate_target({"fact": "a.b", "target": 24, "tolerance": sys.float_info.min}, "/targets/0")
+
     def test_target_unknowns(self):
         view = as_view(P2B)
         self.assertEqual(ev.target_value(view, {"fact": "aperture.f_number", "target": 2}, CTX)[1], "FACT_MISSING")
@@ -577,6 +616,23 @@ class TargetsAndPreferences(unittest.TestCase):
         self.assertEqual((value, reason), (None, "PREFERENCE_NOT_COMPARABLE"))
         self.assertEqual(info["details"]["differs"]["aspheric_element_weight"], {"expected": 2, "actual": 3})
         self.assertEqual(ev.preference_value(as_view(SONNAR), preference, CTX)[1], "FACT_MISSING")
+
+    def test_fixture_preference_is_guarded_like_shorthand(self):
+        # Amendment 10.9: both forms obtain the ranking value through the same guards.
+        for record in (P2B, SONNAR):
+            view = as_view(record)
+            fixture = ev.preference_value(view, {"scope": ["spectrum", "sampling_span_nm"], "metric": "max_nm",
+                                                 "direction": "descending"}, CTX)
+            shorthand = ev.preference_value(view, {"fact": "spectrum.sampling_span_nm.max_nm",
+                                                   "direction": "descending"}, CTX)
+            self.assertEqual(fixture[:2], (None, "DISCOVERY_ONLY"))
+            self.assertEqual(shorthand[:2], (None, "DISCOVERY_ONLY"))
+            self.assertEqual(fixture[2]["details"]["eligible_for"], "DISCOVERY_ONLY")
+        coverage = ev.preference_value(as_view(P2B), {"scope": ["spectrum", "continuous_coverage_nm"],
+                                                      "metric": "max_nm", "direction": "descending"}, CTX)
+        self.assertEqual(coverage[:2], (None, "COVERAGE_UNCONFIRMED"))
+        # The cost form itself still ranks.
+        self.assertEqual(ev.preference_value(as_view(P2B), CASE["ranking_preference"], CTX)[:2], (30, None))
 
     def test_shorthand_preference(self):
         value, reason, _ = ev.preference_value(

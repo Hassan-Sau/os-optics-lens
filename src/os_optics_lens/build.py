@@ -337,13 +337,18 @@ def build_index(corpus_root: Path | str, out: Path | str, *, allow_unresolved_ev
 
     Raises `BUILD_FAILED` (details.findings) when the corpus has an error finding, `INDEX_IN_USE` when
     `out` cannot be replaced because it is open elsewhere, `INVALID_REQUEST` when `corpus_root` has no
-    records/ directory. In every failure case nothing is written and a previous `out` is unchanged.
+    records/ directory or `out` is a directory or a read-only file. In every failure case nothing is
+    written and a previous `out` is unchanged.
     """
+    target = Path(out).resolve()
+    if target.is_dir():
+        raise LensError("INVALID_REQUEST", f"--out names a directory: {target}",
+                        hint="Pass the index file path to --out, e.g. <dir>/index.sqlite.",
+                        details={"out": str(target)})
     vocabulary = load_vocabulary()
     corpus = load_corpus(corpus_root, allow_unresolved_evidence=allow_unresolved_evidence, vocabulary=vocabulary)
     if corpus.errors:
         raise _fail(corpus)
-    target = Path(out).resolve()
     target.parent.mkdir(parents=True, exist_ok=True)
     temp = target.with_name(f"{target.name}.tmp-{os.getpid()}")
     _remove(temp)
@@ -352,6 +357,12 @@ def build_index(corpus_root: Path | str, out: Path | str, *, allow_unresolved_ev
         try:
             os.replace(temp, target)
         except PermissionError as exc:
+            if target.is_dir() or (target.exists() and not os.access(target, os.W_OK)):
+                raise LensError(
+                    "INVALID_REQUEST", f"cannot replace {target}: it is a directory or a read-only file",
+                    hint="Make the file writable or choose another --out, then build again.",
+                    details={"out": str(target), "os_error": exc.strerror},
+                ) from None
             raise LensError(
                 "INDEX_IN_USE",
                 f"cannot replace {target}: it is open in another process",

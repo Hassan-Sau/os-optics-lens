@@ -208,6 +208,21 @@ class Specification(unittest.TestCase):
         grid = inspected["fields"]["performance.mtf_field_minimum"]["value"]["sampled_field_fractions"]
         self.assertEqual(len(grid), 11)
 
+    def test_retrieval_doc_single_query_example_runs(self) -> None:
+        # docs/RETRIEVAL.md "Single query" verbatim: valid, and P2b is MATCH on every constraint.
+        text = (ROOT / "docs" / "RETRIEVAL.md").read_text(encoding="utf-8").split("### Single query", 1)[1]
+        request = json.loads(text.split("```json", 1)[1].split("```", 1)[0])
+        response = query.run_request(INDEX, request)
+        check_bounds(self, response)
+        [candidate] = [c for c in response["result"]["candidates"] if c["record_id"] == P2B]
+        self.assertEqual(candidate["outcome"], "MATCH")
+        self.assertEqual(candidate["counts"]["MATCH"], len(request["constraints"]))
+        # Empty filter lists are rejected (documented: non-empty when present), never "no filter".
+        for member in ("record_ids", "collections"):
+            error = raises(self, "INVALID_REQUEST", query.run_request, INDEX,
+                           dict(request, filters=dict(request["filters"], **{member: []})))
+            self.assertEqual(error.details["pointer"], f"/filters/{member}")
+
     def test_ordering_and_include(self) -> None:
         request = {"mode": "specification",
                    "constraints": [{"fact": "first_order.effective_focal_length_mm", "op": "lte", "value": 30}],
@@ -330,6 +345,39 @@ class StartingPoint(unittest.TestCase):
             "mode": "starting_point", "targets": [{"fact": "spectrum.sampling_span_nm", "target": 500}]})
 
 
+    def test_weighted_score_is_reconstructible_from_the_output(self) -> None:
+        request = {"mode": "starting_point", "filters": {"record_ids": [P2B]},
+                   "targets": [{"id": "efl", "fact": "first_order.effective_focal_length_mm", "target": 50,
+                                "tolerance": 10},
+                               {"id": "hf", "fact": "field.half_field_deg", "target": 20, "relative_tolerance": 0.2,
+                                "weight": 2}]}
+        [candidate] = query.run_request(INDEX, request)["result"]["candidates"]
+        deviations = {s["target"]: s for s in candidate["shortfalls"] if "target" in s}
+        self.assertEqual({k: v["weight"] for k, v in deviations.items()}, {"efl": 1, "hf": 2})
+        score = round(sum(s["weight"] * s["normalized"] for s in deviations.values()), 9)
+        self.assertEqual(candidate["rank"]["key"][3], score)
+        explanation = candidate["rank"]["explanation"]
+        self.assertIn(f"(2 x {deviations['hf']['normalized']:.3g} x relative_tolerance)", explanation)
+        self.assertIn(f"({deviations['efl']['normalized']:.3g} x tolerance)", explanation)
+        self.assertIn(f"target score {score:g}", explanation)
+
+    def test_tiny_target_scale_is_invalid_request_not_internal(self) -> None:
+        efl = "first_order.effective_focal_length_mm"
+        cases = (({"fact": efl, "target": 1e-320}, "/targets/0/target"),
+                 ({"fact": efl, "target": 24, "tolerance": 1e-310}, "/targets/0/tolerance"),
+                 ({"fact": efl, "target": 1e300, "tolerance": 1e-10}, "/targets/0"))
+        for target, pointer in cases:
+            with self.subTest(target=target):
+                error = raises(self, "INVALID_REQUEST", query.run_request, INDEX,
+                               {"mode": "starting_point", "targets": [target], "limit": 1})
+                self.assertEqual(error.details["pointer"], pointer)
+        heavy = [{"fact": efl, "target": 1, "weight": 1e308},
+                 {"fact": "first_order.total_track_mm", "target": 1, "weight": 1e308}]
+        error = raises(self, "INVALID_REQUEST", query.run_request, INDEX,
+                       {"mode": "starting_point", "filters": {"record_ids": [P2B]}, "targets": heavy})
+        self.assertEqual(error.details["pointer"], "/targets")
+
+
 class Compare(unittest.TestCase):
     def test_compare_rows(self) -> None:
         response = query.compare(INDEX, [P2B, SONNAR, "lenslibrary-1792917"])
@@ -350,6 +398,11 @@ class Compare(unittest.TestCase):
     def test_compare_errors(self) -> None:
         raises(self, "UNKNOWN_FIELD", query.compare, INDEX, [P2B, SONNAR], fields=["first_order.efl"])
         raises(self, "INVALID_REQUEST", query.compare, INDEX, [P2B] * 2)
+        # `ID@` is not in the REF grammar and must not alias the default configuration of `ID`.
+        error = raises(self, "INVALID_REQUEST", query.compare, INDEX, [P2B, f"{P2B}@"])
+        self.assertEqual(error.details["pointer"], "/refs/1")
+        error = raises(self, "INVALID_REQUEST", query.compare, INDEX, [f"{P2B}@", P2B])
+        self.assertEqual(error.details["pointer"], "/refs/0")
         raises(self, "INVALID_REQUEST", query.compare, INDEX, [f"r{i}" for i in range(11)])
         error = raises(self, "CONFIGURATION_NOT_FOUND", query.compare, INDEX, [P2B, f"{SONNAR}@Wide"])
         self.assertEqual(error.details["pointer"], "/refs/1")
@@ -450,6 +503,24 @@ class Pagination(unittest.TestCase):
         beyond = output.encode_cursor(INDEX.snapshot_id, digest, 10_000)
         page = query.run_request(INDEX, dict(self.REQUEST, cursor=beyond))["result"]
         self.assertEqual((page["candidates"], page["page"]["next_cursor"]), ([], None))
+
+    def test_explain_request_checks_the_cursor(self) -> None:
+        # --explain-request reports the same cursor errors the search would, and the offset.
+        raises(self, "CURSOR_INVALID", query.explain_request, INDEX, dict(self.REQUEST, cursor="garbage"))
+        raises(self, "CURSOR_INVALID", query.normalize_request, INDEX, dict(self.REQUEST, cursor="garbage"))
+        digest = query.normalize_request(INDEX, self.REQUEST)["query_digest"]
+        stale = output.encode_cursor("0" * 16, digest, 7)
+        raises(self, "SNAPSHOT_MISMATCH", query.explain_request, INDEX, dict(self.REQUEST, cursor=stale))
+        cursor = query.run_request(INDEX, self.REQUEST)["result"]["page"]["next_cursor"]
+        changed = dict(self.REQUEST, filters={"facets": {"design_type": ["camera_lens"]}}, cursor=cursor)
+        raises(self, "CURSOR_MISMATCH", query.explain_request, INDEX, changed)
+        explained = query.explain_request(INDEX, dict(self.REQUEST, cursor=cursor))["result"]
+        self.assertEqual(explained["options"]["cursor_offset"], 7)
+        self.assertEqual(explained["options"]["cursor"], cursor)
+        error = raises(self, "CURSOR_INVALID", query.normalize_request, INDEX,
+                       {"queries": [self.REQUEST, dict(self.REQUEST, cursor="garbage")]})
+        self.assertEqual(error.details["pointer"], "/queries/1/cursor")
+        self.assertNotIn("cursor_offset", query.normalize_request(INDEX, self.REQUEST)["options"])
 
     def test_digest_covers_normalized_query(self) -> None:
         alias = dict(self.REQUEST, filters={"facets": {"application": ["smartphone"]}})

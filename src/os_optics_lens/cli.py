@@ -386,13 +386,13 @@ def decode_document(data: bytes, source: str) -> str:
 
 
 def parse_document(text: str, source: str, *, positional: bool = False) -> Any:
-    """Parse a JSON request document; NaN/Infinity are rejected.
+    """Parse a JSON request document; NaN/Infinity and duplicate member names are rejected.
 
     A positional argument that looks like JSON with its quotes removed by the shell gets a hint to
     use `--request FILE`.
     """
     try:
-        return loads_strict(text)
+        return loads_strict(text, reject_duplicate_keys=True)
     except JsonFormatError as exc:
         details: dict[str, Any] = {"source": source}
         if getattr(exc, "pointer", None):
@@ -687,29 +687,71 @@ def _cmd_inspect(args: argparse.Namespace) -> dict[str, Any]:
             max_output_bytes=_budget(args))
 
 
-def _write_project(path: Path, data: bytes, force: bool) -> str:
-    """Write `data` to `path` (parents created) and return the SHA-256 of the bytes read back."""
+def _out_error(path: Path, exc: OSError) -> LensError:
+    """INVALID_REQUEST naming --out, the absolute path and the OS reason of a failed write."""
+    reason = exc.strerror or type(exc).__name__
+    for parent in path.parents:
+        if parent.exists():
+            if not parent.is_dir():
+                reason = f"parent {parent} is not a directory"
+            break
+    if isinstance(exc, PermissionError):
+        reason = f"permission denied ({exc.strerror or 'access is denied'})"
+    return _invalid(f"cannot write --out {path}: {reason}",
+                    "Choose another --out path (a writable file in an existing or creatable directory).",
+                    flag="--out", path=str(path), os_error=exc.strerror or type(exc).__name__)
+
+
+def _write_project(path: Path, data: bytes, force: bool, sha256: str) -> str:
+    """Write `data` to `path` (parents created) and return the SHA-256 of the bytes read back.
+
+    The bytes are written to a temporary file and read back first; only when they hash to `sha256`
+    does the temporary file replace `path`, so a mismatch or a failure never leaves a file behind.
+    Filesystem failures are INVALID_REQUEST errors naming the path."""
     if path.is_dir():
         raise _invalid(f"--out names a directory: {path}", "Pass a file path to --out.", path=str(path))
     if path.exists() and not force:
         raise LensError("FILE_EXISTS", f"{path} already exists", hint="Pass --force to overwrite it, or "
                         "choose another --out path.", details={"path": str(path)})
-    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        raise _out_error(path, exc) from None
     temp = path.with_name(f"{path.name}.tmp-{os.getpid()}")
     try:
         with open(temp, "wb") as handle:
             handle.write(data)
+        written = hashlib.sha256(temp.read_bytes()).hexdigest()
+        if written != sha256:
+            raise LensError("INTERNAL", f"the bytes written for {path} do not have the Project's sha256; "
+                            "nothing was written", details={"path": str(path), "sha256": sha256,
+                                                            "written_sha256": written})
         os.replace(temp, path)
+    except OSError as exc:
+        _remove_quietly(temp)
+        raise _out_error(path, exc) from None
     except BaseException:
-        if temp.exists():
-            temp.unlink()
+        _remove_quietly(temp)
         raise
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return written
+
+
+def _remove_quietly(path: Path) -> None:
+    try:
+        if path.exists():
+            path.unlink()
+    except OSError:
+        pass
 
 
 def _cmd_project(args: argparse.Namespace) -> dict[str, Any] | None:
     if args.force and args.out is None:
         raise _invalid("--force applies only with --out", "Use --out FILE --force.", flag="--force")
+    if args.stdout and _budget(args) is not None:
+        raise _invalid("--max-output-bytes does not apply with --stdout (the raw Project bytes are not "
+                       "budgeted)", "Drop --max-output-bytes, or use --out FILE.", flag="--max-output-bytes")
+    # Validated before any I/O, so a bad budget never follows a written file.
+    output.check_max_output_bytes(_budget(args), "max_output_bytes")
     with open_index(_index_arg(args)) as index:
         if args.stdout:
             data = query.project_bytes(index, args.record_id, revision=args.revision)
@@ -721,10 +763,7 @@ def _cmd_project(args: argparse.Namespace) -> dict[str, Any] | None:
         metadata = query.project_metadata(index, args.record_id, revision=args.revision)
         data = query.project_bytes(index, args.record_id, revision=args.revision)
         target = Path(args.out).absolute()
-        written = _write_project(target, data, args.force)
-        if written != metadata["sha256"]:
-            raise LensError("INTERNAL", f"the written file {target} does not have the Project's sha256",
-                            details={"path": str(target), "sha256": metadata["sha256"], "written_sha256": written})
+        written = _write_project(target, data, args.force, metadata["sha256"])
         return query.project_response(index, args.record_id, revision=args.revision,
                                       extra={"path": str(target), "written_sha256": written},
                                       max_output_bytes=_budget(args))

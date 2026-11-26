@@ -4,7 +4,8 @@ A request is one JSON object (a single query) or a batch `{"queries": [...], "ma
 Pass it as `--request FILE` (recommended), as `-` on stdin, or as one positional argument.
 Files may be UTF-8 (with or without BOM) or UTF-16/UTF-32 with a BOM. The schema is closed at
 every level: an unknown key is `INVALID_REQUEST` with `details.pointer` (a JSON pointer such as
-`/constraints/3/predicates/0/op`) and `did_you_mean`.
+`/constraints/3/predicates/0/op`) and `did_you_mean`. A key repeated within one object is
+`INVALID_REQUEST` with the pointer of the repeated member.
 
 ## Single query
 
@@ -38,6 +39,8 @@ A specification query needs at least one constraint (use starting_point or `face
   "collections": ["lenslibrary"]}
 ```
 
+`record_ids` and `collections` must be non-empty lists when present; omit them for no restriction.
+
 A configuration without the ranged fact is excluded and counted in `total.excluded.missing_fact`.
 A multi-valued fact matches a range if any value is in range (`notes` say so).
 
@@ -55,6 +58,7 @@ Shorthand (recommended):
   member; a scalar (`image_format.image_circle_diameter_mm`, `design.conjugate`) compares
   itself; `performance.<metric>` selects entries with that metric and compares `value` (or the
   first `value_*` member). Set `path` to compare another member, e.g. `"path": "min_percent"`.
+  `has_source` / `has_sourced_method` on such a fact check its `source` / `methods` instead.
 * An interval fact (min_/max_ pair) needs an explicit `path`; `covers_interval` takes the
   interval itself.
 * `conditions` pins condition members by JSON value equality, e.g.
@@ -97,8 +101,10 @@ An unknown operator is `UNSUPPORTED_OPERATOR`.
 ```
 
 `normalized = |value - target| / scale`; scale = `tolerance`, else `relative_tolerance * |target|`,
-else `|target|`, else 1. A target needs exactly one comparable numeric value, otherwise it is an
-unknown with a reason code. Interval facts cannot be targets.
+else `|target|`, else 1. The scale must be a normal positive number, and a normalized deviation
+or weighted score (sum of `weight * normalized`) that is not finite is `INVALID_REQUEST`. A target
+needs exactly one comparable numeric value, otherwise it is an unknown with a reason code. Interval
+facts cannot be targets.
 
 ## Preferences
 
@@ -146,4 +152,6 @@ index snapshot is `SNAPSHOT_MISMATCH`; from another query, `CURSOR_MISMATCH`.
 `--fields`, `--detail`, `--limit`, `--cursor` and `--max-output-bytes` also combine with a
 single-query `--request FILE`. `--fixture FILE` runs an acceptance fixture (specification mode,
 its record id, its constraints and ranking preference, detail full). `--explain-request` prints
-the normalized request and its `query_digest` without searching.
+the normalized request and its `query_digest` without searching; a cursor is checked as the
+search would check it (`CURSOR_INVALID`, `CURSOR_MISMATCH`, `SNAPSHOT_MISMATCH`) and its offset is
+echoed as `options.cursor_offset`.

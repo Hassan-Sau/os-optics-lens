@@ -14,6 +14,7 @@ import io
 import json
 import os
 import shutil
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -173,6 +174,26 @@ class EnvelopeTest(unittest.TestCase):
         mismatch = output.encode_cursor(SNAPSHOT, "f" * 16, 1)
         self.assert_error(run_cli("search", "--mode", "starting_point", "--cursor", mismatch), "CURSOR_MISMATCH")
 
+    def test_explain_request_rejects_a_bad_cursor(self) -> None:
+        # --explain-request must not call a continuation fine when the search would refuse it.
+        for cursor, code in (("garbage", "CURSOR_INVALID"),
+                             (output.encode_cursor("0" * 16, "f" * 16, 1), "SNAPSHOT_MISMATCH"),
+                             (output.encode_cursor(SNAPSHOT, "f" * 16, 1), "CURSOR_MISMATCH")):
+            with self.subTest(code=code):
+                explained = run_cli("search", "--mode", "starting_point", "--explain-request", "--cursor", cursor)
+                searched = run_cli("search", "--mode", "starting_point", "--cursor", cursor)
+                self.assertEqual(self.assert_error(explained, code)["details"]["pointer"], "/cursor")
+                self.assert_error(searched, code)
+
+    def test_unsupported_operator_detail_matches_help(self) -> None:
+        error = self.assert_error(run_cli("search", "--mode", "specification", "--where", "aperture.f_number zz 2"),
+                                  "UNSUPPORTED_OPERATOR")
+        self.assertIn("lte", error["details"]["supported"])
+        row = next(line for line in cli.help_text("errors").decode("ascii").splitlines()
+                   if line.startswith("| `UNSUPPORTED_OPERATOR`"))
+        self.assertIn("details.supported", row)
+        self.assertNotIn("details.allowed", row)
+
     def test_index_unavailable(self) -> None:
         missing = TMP / "missing.sqlite"
         error = self.assert_error(run_cli("info", "--index", str(missing), index=False), "INDEX_UNAVAILABLE")
@@ -273,6 +294,17 @@ class InputEncodingTest(EnvelopeTest):
         self.assertIn("quotes", error["hint"])
         error = self.assert_error(run_cli("search", '{"mode": "specification",'), "INVALID_REQUEST")
         self.assertNotIn("quotes", error["hint"])
+
+    def test_duplicate_keys_are_rejected(self) -> None:
+        duplicate = b'{"mode": "starting_point", "mode": "specification"}'
+        error = self.assert_error(run_cli("search", "-", stdin=duplicate), "INVALID_REQUEST")
+        self.assertEqual(error["details"]["pointer"], "/mode")
+        self.assertIn("duplicate key 'mode'", error["message"])
+        request = TMP / "duplicate.json"
+        request.write_bytes(b'{"mode": "specification", "constraints": [{"fact": "aperture.f_number", '
+                            b'"op": "lte", "value": 2, "op": "gte"}]}')
+        error = self.assert_error(run_cli("search", "--request", str(request)), "INVALID_REQUEST")
+        self.assertEqual(error["details"]["pointer"], "/constraints/0/op")
 
     def test_non_utf8_stdout(self) -> None:
         for encoding in ("cp936", "cp1252", "ascii"):
@@ -444,6 +476,80 @@ class ProjectTest(EnvelopeTest):
         self.assertEqual(code, 1)
 
 
+    def test_budget_is_validated_before_any_write(self) -> None:
+        error = self.assert_error(run_cli("project", P2B, "--stdout", "--max-output-bytes", "2048"),
+                                  "INVALID_REQUEST")
+        self.assertEqual(error["details"]["flag"], "--max-output-bytes")
+        self.assert_error(run_cli("project", P2B, "--stdout", "--max-output-bytes", "1"), "INVALID_REQUEST")
+        target = TMP / "budget" / "x.json"
+        error = self.assert_error(run_cli("project", P2B, "--out", str(target), "--max-output-bytes", "1"),
+                                  "INVALID_REQUEST")
+        self.assertEqual(error["details"]["allowed"], {"min": 2048, "max": 262144})
+        self.assertFalse(target.parent.exists())
+        self.assert_ok(run_cli("project", P2B, "--out", str(target), "--max-output-bytes", "2048"))
+        self.assertEqual(target.read_bytes(), project_lf_bytes())
+
+    def test_out_filesystem_errors_name_the_path(self) -> None:
+        work = TMP / "fs-errors"
+        work.mkdir(exist_ok=True)
+        (work / "afile.txt").write_text("hi", encoding="utf-8")
+        cases = [(work / "afile.txt" / "p.json", "not a directory")]
+        if os.name == "nt":
+            cases.append((work / "bad?name.json", None))
+        for target, reason in cases:
+            with self.subTest(target=target.name):
+                error = self.assert_error(run_cli("project", P2B, "--out", str(target)), "INVALID_REQUEST")
+                self.assertEqual(Path(error["details"]["path"]), target.absolute())
+                self.assertEqual(error["details"]["flag"], "--out")
+                self.assertIn(str(target.absolute()), error["message"])
+                if reason:
+                    self.assertIn(reason, error["message"])
+                self.assertNotIn("bug", error["hint"])
+        self.assertEqual(sorted(p.name for p in work.iterdir()), ["afile.txt"])
+
+    @unittest.skipUnless(os.name == "nt", "replacing a read-only file fails only on Windows")
+    def test_read_only_out_with_force(self) -> None:
+        target = TMP / "ro-project.json"
+        target.write_bytes(b"x")
+        os.chmod(target, 0o444)
+        try:
+            error = self.assert_error(run_cli("project", P2B, "--out", str(target), "--force"), "INVALID_REQUEST")
+        finally:
+            os.chmod(target, 0o666)
+        self.assertIn("permission denied", error["message"])
+        self.assertEqual(target.read_bytes(), b"x")
+        self.assertEqual([p.name for p in TMP.glob("ro-project.json*")], ["ro-project.json"])
+
+    def test_damaged_project_blob_writes_nothing(self) -> None:
+        damaged = TMP / "damaged.sqlite"
+        shutil.copy2(INDEX, damaged)
+        with contextlib.closing(sqlite3.connect(damaged)) as conn:
+            conn.execute("UPDATE projects SET content = CAST(substr(content, 1, length(content) - 2) || "
+                         "'X' || char(10) AS BLOB) WHERE record_pk = (SELECT record_pk FROM records "
+                         "WHERE record_id = ?)", (P2B,))
+            conn.commit()
+        good = TMP / "kept.json"
+        good.write_bytes(b"previous good copy")
+        error = self.assert_error(run_cli("--index", str(damaged), "project", P2B, "--out", str(good), "--force",
+                                          index=False), "INDEX_UNAVAILABLE")
+        self.assertEqual(good.read_bytes(), b"previous good copy")
+        self.assertEqual(error["details"]["record_id"], P2B)
+        self.assertEqual(error["details"]["sha256"], native_sha256())
+        self.assertNotEqual(error["details"]["actual_sha256"], native_sha256())
+        self.assertIn("damaged", error["details"]["tried"][0]["problem"])
+        fresh = TMP / "damaged-out" / "p.json"
+        self.assert_error(run_cli("--index", str(damaged), "project", P2B, "--out", str(fresh), index=False),
+                          "INDEX_UNAVAILABLE")
+        self.assertFalse(fresh.exists())
+        stdout = run_cli("--index", str(damaged), "project", P2B, "--stdout", index=False)
+        self.assert_error(stdout, "INDEX_UNAVAILABLE")
+        self.assertTrue(stdout.stdout.startswith(b'{"ok":false'))
+        # Other records in the same index still hand off.
+        other = run_cli("--index", str(damaged), "project", "portrait-85-sonnar-eight", "--stdout", index=False)
+        self.assertEqual(other.code, 0)
+        self.assertFalse(other.stdout.startswith(b'{"ok"'))
+
+
 class ErrorBoundTest(EnvelopeTest):
     """Error envelopes are bounded documents too (spec section 7, amendment 10.13)."""
 
@@ -544,6 +650,14 @@ class IndexCommandTest(EnvelopeTest):
         self.assertEqual(out.read_bytes(), before)
         self.assertEqual(sorted(p.name for p in out.parent.iterdir()), [out.name])
         self.assert_error(run_cli("index", "validate", "--corpus", str(corpus), index=False), "BUILD_FAILED")
+
+    def test_build_onto_a_directory_is_invalid_request(self) -> None:
+        adir = TMP / "build-into-dir"
+        adir.mkdir(exist_ok=True)
+        error = self.assert_error(run_cli("index", "build", "--corpus", str(ROOT), "--out", str(adir), index=False),
+                                  "INVALID_REQUEST")
+        self.assertEqual(Path(error["details"]["out"]), adir.resolve())
+        self.assertEqual(list(adir.iterdir()), [])
 
     def test_build_without_records_dir(self) -> None:
         empty = TMP / "empty-corpus"
