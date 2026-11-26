@@ -53,9 +53,10 @@ dropping a surface — would have changed the design.
 
 ## What the sweep examined, and why the other publications are not here
 
-Twenty-two Sony publications surfaced in the search for full-frame photography lenses. Two became
-this batch, one was batch 1, and the rest are accounted for below. The dispositions are the
-outcome of reading each publication's tables, not of a title match.
+Twenty-two Sony publications surfaced in the search for full-frame photography lenses. Three of them
+became records — one in batch 1, two in this batch — and the other nineteen are accounted for below,
+one row each. The dispositions are the outcome of reading each publication's tables, not of a title
+match.
 
 | Publication | Examples | Disposition | Reason code |
 | --- | --- | --- | --- |
@@ -71,7 +72,7 @@ outcome of reading each publication's tables, not of a title match.
 | US9274308B2 | 6 | none | `NO_FIRST_ORDER_DATA` |
 | US9804358B2 | 7 | none | `NO_FIRST_ORDER_DATA` |
 | US9638892B2 | 1 | none | `NOT_A_COMPLETE_SYSTEM` |
-| US10025074B2, US10191254B2, US10491825B2, US9042030B2, US10823942B2, US20190049700A1, US20200319430A1, US20210396955A1 | — | none | `LAYOUT_NOT_READ` |
+| US10025074B2, US10191254B2, US10491825B2, US9042030B2, US10823942B2, US20190049700A1, US20200319430A1, US20210396955A1, US20140313397A1 | — | none | `LAYOUT_NOT_READ` |
 | WO2020213337A1 | 5 | none | `TABLE_IS_IMAGE` |
 
 What each code means here:
@@ -90,7 +91,7 @@ What each code means here:
   the publication alone. Their tracks are 5–22 mm, which is consistent with small-format designs,
   but "consistent with" is not a basis and so no format is claimed.
 - **`NOT_A_COMPLETE_SYSTEM`** — US9638892B2 is a rear conversion lens: a group, not a camera lens.
-- **`LAYOUT_NOT_READ`** — the page carries numeric tables (11 to 43 of them) but not in the labelled
+- **`LAYOUT_NOT_READ`** — the page carries numeric tables (6 to 78 of them) but not in the labelled
   block form this reader keys on. They were not inspected by hand either, so no claim is made about
   their format.
 - **`TABLE_IS_IMAGE`** — every numerical table in WO2020213337A1 is a page image
