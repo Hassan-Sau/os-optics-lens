@@ -12,7 +12,7 @@ Apply the constraints together within one nominal configuration.
 | MTF over a field interval | In `performance`, `mtf_field_minimum` gives the minimum over the declared frequency, spectral weights, field mapping, samples and orientations at a fixed image plane. For this case, the field coordinate is real image height divided by the diagonal image radius. `sampled_field_fractions` gives the sampled positions, including the center, interior positions and the 0.8 endpoint. `limiting_sample` identifies the lowest point and orientation. |
 | Corner relative illumination | In `performance`, use `relative_illumination` with the image-circle diameter, normalized field position and mapping, center normalization, scene radiance, transmission model and spectral sampling. `design_coatings` marks the modeled coated result and `uniform` marks a geometric throughput calculation. |
 | CRA and distortion | Record the sampled field bounds and mapping. CRA requires an angle reference and the wavelength aggregation. Distortion requires the reference projection, wavelength and signed minimum and maximum. |
-| Sensor, spectral sampling and cost | `pixel_pitch_um` is the horizontal and vertical pitch in micrometers. Keep discrete wavelength and weight arrays together and compare relative weight ratios in wavelength order. The span of the samples expresses a search interval. Compare `cost_proxy` only for the same element weights and scope. The contest gives spherical and aspheric powered glass elements weights of one and three and prefers lower cost. |
+| Sensor, spectral sampling and cost | `pixel_pitch_um` is the horizontal and vertical pitch in micrometers. Keep discrete wavelength and weight arrays together. Compare proportional weight vectors for the same ordered wavelengths. The span of the samples expresses a search interval. Compare `cost_proxy` only for the same element weights and scope. The contest gives spherical and aspheric powered glass elements weights of one and three and prefers lower cost. |
 
 The camera records use the [shared record format](RECORD_FORMAT.md). A native iris
 specifies its opening diameter as the system aperture. The separate
@@ -30,9 +30,9 @@ largest verified image height is 21.63 mm, which gives a tested diameter of
 The MTF result is a sampled minimum. The P2b record covers 11 field heights
 through 0.8 at 40 lp/mm in both orientations. Its value of 0.722847 describes
 the tested set. A query for a field interval needs a field sweep with a stated
-sampling basis. An isolated MTF point leaves the interval unconfirmed. This
-case compares the specific sweep bounds and condition signature given in the
-fixture. Other search cases can define which additional evidence they accept.
+sampling basis. This fixture pins the 11 ordered field fractions and requires
+a resolvable evidence source for the interval MTF and corner illumination.
+An isolated point or a sparser sweep leaves the interval unconfirmed.
 
 ## Analysis entries and source locators
 
@@ -44,10 +44,18 @@ fixture. Other search cases can define which additional evidence they accept.
   whether the study exists. Problem 2 requires both studies and sets no
   numerical gate for either. The P2b native ghost trace is partial and the
   two complementary screens cover their stated modeled paths.
-- Source locators use `archive_member` with a SHA-256 against the named source
-  archive, or a source URL and hash when available. P2b pins the original
-  prototype archive in `collection.evidence_archive`. The archive remains
-  upstream.
+- Each camera record links to a compact, reviewable `evidence.json` extract.
+  A fact's `source` identifies the repository-relative file `path`, its SHA-256
+  over committed bytes and the entry under `sections`. The extracts carry the
+  original member or file locators and their hashes.
+- The [P2b extract](../records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json)
+  provides the sampled field and radiometry table and the modeled tolerance
+  and ghost summaries. The [Sonnar extract](../records/opensci-design-studies/portrait-85-sonnar-eight/evidence.json)
+  provides its field and MTF summaries. The original detailed simulations
+  remain in the upstream studies.
+- Both original contributed camera Projects and the accompanying evidence
+  extracts use [MIT](../LICENSE). The records cite the starting patent
+  publications as provenance.
 
 ## Run the acceptance case
 
@@ -58,8 +66,8 @@ python -m unittest discover -s tests -v
 The fixture defines 16 checks and one ranking preference. It uses the P2b
 infinity-focus configuration for the exercise. The test runs
 them against the frozen record and exercises counterexamples for wrong distance
-endpoints, absent or mismatched field coverage, strict MTF thresholds, mismatched
-corner illumination, a nonblocking stop and missing analysis evidence. A missing or inapplicable
+endpoints, sparse field sampling, strict MTF thresholds, mismatched
+corner illumination, a nonblocking stop and missing or unresolved evidence. A missing or inapplicable
 fact is `UNCONFIRMED`. A comparable value outside the requested limits is
 `DOES_NOT_MATCH`. The test runs directly on the record and is the reference
 for a future index-backed implementation.

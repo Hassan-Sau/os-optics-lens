@@ -5,7 +5,7 @@
   "evaluation_scope": "one_nominal_configuration",
   "record": {
     "id": "yutong-2025-mirrorless-18-p2b",
-    "revision": 3,
+    "revision": 4,
     "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/record.json"
   },
   "constraints": [
@@ -170,7 +170,7 @@
         },
         {
           "path": "incident_weights",
-          "op": "eq",
+          "op": "proportional_weights",
           "value": [
             1,
             1,
@@ -264,7 +264,8 @@
           ]
         }
       },
-      "requires_blocking_stop": true
+      "requires_blocking_stop": true,
+      "requires_evidence_source": true
     },
     {
       "id": "mtf_0_to_0p8",
@@ -304,7 +305,21 @@
           ]
         }
       },
-      "requires_blocking_stop": true
+      "requires_blocking_stop": true,
+      "required_sampled_field_fractions": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.55,
+        0.6,
+        0.7,
+        0.75,
+        0.8
+      ],
+      "requires_evidence_source": true
     },
     {
       "id": "glass_only",
@@ -490,6 +505,38 @@
         "eligible_for_stop_dependent_evaluation": false,
         "satisfies_stop_dependent_constraints": false
       }
+    },
+    {
+      "id": "sweep_spanning_range_on_insufficient_grid",
+      "constraint": "mtf_0_to_0p8",
+      "path": "sampled_field_fractions",
+      "expected": "UNCONFIRMED",
+      "value": [
+        0.0,
+        0.4,
+        0.8
+      ]
+    },
+    {
+      "id": "mtf_sweep_without_source",
+      "constraint": "mtf_0_to_0p8",
+      "path": "source",
+      "expected": "UNCONFIRMED",
+      "remove": true
+    },
+    {
+      "id": "corner_illumination_without_source",
+      "constraint": "corner_relative_illumination",
+      "path": "source",
+      "expected": "UNCONFIRMED",
+      "remove": true
+    },
+    {
+      "id": "corner_illumination_with_unresolvable_source",
+      "constraint": "corner_relative_illumination",
+      "path": "source.path",
+      "expected": "UNCONFIRMED",
+      "value": "records/yutong-cup/missing-evidence.json"
     }
   ]
 }
