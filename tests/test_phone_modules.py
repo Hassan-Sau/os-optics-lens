@@ -36,15 +36,25 @@ class PhoneModuleBatch(unittest.TestCase):
 
     def test_every_manifest_row_has_an_outcome(self):
         rows = self.manifest["outcomes"]
-        self.assertEqual(self.manifest["counts"]["inputs"], len(rows))
+        counts = self.manifest["counts"]
+        self.assertEqual(counts["inputs"], len(rows))
+        self.assertEqual(self.manifest["input_inventory"]["count"], len(rows))
         accepted = [row for row in rows if row["outcome"] == "ACCEPTED"]
-        self.assertEqual(self.manifest["counts"]["accepted"], len(accepted))
+        deferred = [row for row in rows if row["outcome"] == "DEFERRED"]
+        failed = [row for row in rows if row["outcome"] == "CONVERSION_FAILED"]
+        self.assertEqual(counts["accepted"], len(accepted))
+        self.assertEqual(counts["deferred"], len(deferred))
+        self.assertEqual(counts["conversion_failed"], len(failed))
         self.assertEqual(sorted(self.manifest["accepted_record_ids"]), sorted(self.records))
         for row in rows:
             self.assertIn(row["outcome"], {"ACCEPTED", "DEFERRED", "CONVERSION_FAILED"})
+            if row["outcome"] == "ACCEPTED":
+                self.assertIn(row["record_id"], self.records)
+                self.assertEqual(row["source_input"], self.records[row["record_id"]]["collection"]["source_input"])
             if row["outcome"] == "DEFERRED":
                 self.assertTrue(row["reason_code"])
                 self.assertTrue(row["reason"])
+                self.assertIsNone(row["record_id"])
 
     def test_record_hash_and_evidence(self):
         for name, record in self.records.items():
@@ -58,8 +68,14 @@ class PhoneModuleBatch(unittest.TestCase):
                 project_path = ROOT / record["native_project"]["path"]
                 project_bytes = project_path.read_bytes().replace(b"\r\n", b"\n")
                 self.assertEqual(sha256(project_bytes), record["native_project"]["sha256"])
-                self.assertEqual(record["collection"]["source_input_sha256"],
-                                 json.loads(evidence_bytes)["prescription"]["sha256"])
+                evidence = json.loads(evidence_bytes)
+                self.assertEqual(record["collection"]["source_input_sha256"], evidence["prescription"]["sha256"])
+                self.assertEqual(sha256(evidence["prescription"]["text"].encode("utf-8")),
+                                 evidence["prescription"]["sha256"])
+                self.assertEqual(record["conversion"]["source_sha256"], evidence["engine"]["surface_table_sha256"])
+                project = json.loads(project_bytes)
+                unit = next(model for model in project["optical_models"] if model["model_id"] == "LENS")
+                self.assertIn(record["conversion"]["source_sha256"], unit["display_name"])
 
     def test_evidence_matches_the_record(self):
         for name, record in self.records.items():
@@ -71,6 +87,11 @@ class PhoneModuleBatch(unittest.TestCase):
                                  ["effective_focal_length"]["source_mm"])
                 self.assertEqual(stated["f_number"], record["aperture"]["f_number"]["value"])
                 self.assertEqual(stated["half_field_deg"], record["field"]["half_field_deg"])
+                self.assertEqual(evidence["engine"]["effective_focal_length_mm"],
+                                 record["first_order"]["engine_check"]["effective_focal_length_mm"])
+                self.assertEqual(evidence["field_trace"]["samples"], record["field"]["traced_chief_rays"])
+                self.assertEqual(record["image_format"]["image_circle_diameter_mm"],
+                                 round(2 * evidence["field_trace"]["samples"][0]["image_height_mm"], 4))
                 project = load(ROOT / record["native_project"]["path"])
                 self.assertEqual(project["schema"], "opensci.project")
                 self.assertTrue(any(component.get("optical_role") == "source" for component in project["components"]))
@@ -88,14 +109,19 @@ class PhoneModuleBatch(unittest.TestCase):
                 self.assertEqual(difference <= tolerance, quantity["within_tolerance"])
                 self.assertEqual(record["validation"]["paraxial"], "MATCHED" if difference <= tolerance else "DIFFERS")
                 self.assertLessEqual(quantity["fraction_of_tolerance"], 0.75)
+                self.assertEqual(comparison["back_focal_length"]["state"], "UNCONFIRMED")
+                self.assertIn("no back focal length", record["validation"]["paraxial_scope"])
+                bfl = record["first_order"]["back_focal_length_mm"]
+                self.assertEqual(bfl["basis"], "ENGINE_COMPUTED")
+                self.assertGreater(bfl["value"], 0)
 
     def test_derived_quantities_are_consistent(self):
         for name, record in self.records.items():
             with self.subTest(record=name):
                 aperture = record["aperture"]
-                efl = record["first_order"]["effective_focal_length_mm"]["value"]
-                fno = aperture["f_number"]["value"]
-                self.assertAlmostEqual(aperture["entrance_pupil_diameter_mm"]["value"], efl / fno, places=9)
+                self.assertNotIn("entrance_pupil_diameter_mm", aperture)
+                self.assertEqual(aperture["stop_opening_diameter_mm"]["basis"], "DERIVED")
+                self.assertEqual(aperture["f_number"]["system_aperture"], True)
                 swept = record["field"]["traced_chief_rays"]
                 self.assertTrue(swept)
                 fraction = record["image_format"]["field_fraction_of_stated_half_field"]
@@ -103,6 +129,11 @@ class PhoneModuleBatch(unittest.TestCase):
                 self.assertAlmostEqual(record["image_format"]["image_circle_diameter_mm"],
                                        2 * swept[0]["image_height_mm"], places=4)
                 self.assertEqual(record["spectrum"]["continuous_coverage_nm"]["state"], "UNCONFIRMED")
+                self.assertEqual(record["spectrum"]["sampling_wavelengths_air_nm"], [587.56])
+                self.assertGreater(record["spectrum"]["sampling_wavelengths_nm"][0], 587.56)
+                self.assertIn("air model", record["spectrum"]["sampling_wavelengths_basis"])
+                self.assertEqual(record["field"]["verification"]["state"], "TRACED")
+                self.assertIsNone(record["field"]["field_points_deg"])
                 self.assertEqual(record["design"]["aperture_validity"]["satisfies_stop_dependent_constraints"], False)
                 codes = {entry["code"] for entry in record["approximations"]}
                 self.assertIn("ND_VD_DISPERSION_MODEL", codes)

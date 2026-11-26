@@ -11,11 +11,25 @@
  },
  "stated": {
   "effective_focal_length_mm": 1.33,
+  "back_focal_length_mm": null,
+  "back_focal_length_note": "The publication prints no back focal length.",
   "f_number": 2.7,
   "half_field_deg": 60.0,
   "reference_wavelength_nm": 587.56
  },
  "prescription": {
+  "format": "tsv",
+  "columns": [
+   "surface",
+   "label",
+   "radius_mm",
+   "thickness_mm",
+   "material",
+   "stop",
+   "conic",
+   "asphere"
+  ],
+  "text": "1\tLens 1\t-1.761\t0.35\t{\"abbe_vd\": 59.5, \"index_nd\": 1.54, \"model\": \"M-1.5400-59.50\"}\tFalse\t-28.974\t{\"A10\": -0.021114, \"A12\": 0.0020041, \"A4\": 0.28292, \"A6\": -0.19177, \"A8\": 0.088578}\n2\t\t-7.148\t0.955\t\tFalse\t-90.0\t{\"A10\": -0.0767, \"A4\": 0.64677, \"A6\": -0.58784, \"A8\": 0.38944}\n3\tApe. Stop\t\t0.025\t\tTrue\t\t{}\n4\tLens 2\t-10.699\t0.917\t{\"abbe_vd\": 56.3, \"index_nd\": 1.535, \"model\": \"M-1.5350-56.30\"}\tFalse\t20.0\t{\"A10\": 286.2, \"A4\": -0.53037, \"A6\": 6.6501, \"A8\": -79.059}\n5\t\t-0.883\t0.048\t\tFalse\t-0.85573\t{\"A10\": 3.4492, \"A12\": -1.4292, \"A4\": -0.46044, \"A6\": 1.8116, \"A8\": -4.1125}\n6\tLens 3\t5.141\t0.332\t{\"abbe_vd\": 56.0, \"index_nd\": 1.544, \"model\": \"M-1.5440-56.00\"}\tFalse\t-3.231\t{\"A10\": 2.6099, \"A12\": -0.68704, \"A4\": -1.0636, \"A6\": 2.6448, \"A8\": -3.7264}\n7\t\t34.048\t0.049\t\tFalse\t19.759\t{\"A10\": -0.59582, \"A12\": 0.12368, \"A14\": -0.0033061, \"A4\": -0.096835, \"A6\": -0.6576, \"A8\": 1.0481}\n8\tLens 4\t-2.111\t0.916\t{\"abbe_vd\": 56.0, \"index_nd\": 1.544, \"model\": \"M-1.5440-56.00\"}\tFalse\t-2.6495\t{\"A10\": -1.1774, \"A12\": 0.44092, \"A14\": -0.10565, \"A16\": 0.013069, \"A4\": 0.89806, \"A6\": -1.8095, \"A8\": 1.9248}\n9\t\t-0.935\t0.03\t\tFalse\t-0.79436\t{\"A10\": 3.0829, \"A12\": -1.0556, \"A14\": 0.14511, \"A4\": -0.66146, \"A6\": 3.0861, \"A8\": -4.4611}\n10\tLens 5\t2.462\t0.355\t{\"abbe_vd\": 23.8, \"index_nd\": 1.634, \"model\": \"M-1.6340-23.80\"}\tFalse\t-34.941\t{\"A10\": 2.4215, \"A12\": -0.78357, \"A14\": 0.096759, \"A4\": -1.5483, \"A6\": 3.016, \"A8\": -3.6828}\n11\t\t0.911\t0.35\t\tFalse\t-4.283\t{\"A10\": 0.24727, \"A12\": -0.08692, \"A14\": 0.01671, \"A16\": -0.0013512, \"A4\": -0.36919, \"A6\": 0.45778, \"A8\": -0.42078}\n12\tIR Cut Filter\t\t0.21\t{\"abbe_vd\": 64.2, \"index_nd\": 1.517, \"model\": \"M-1.5170-64.20\"}\tFalse\t\t{}\n13\t\t\t0.468\t\tFalse\t\t{}\n",
   "units": "mm",
   "wavelength_convention": "The publication states the d-line, 587.6 nm, as its reference wavelength.",
   "surface_count": 13,
@@ -240,20 +254,22 @@
     "asphere": {}
    }
   ],
-  "sha256": "c84bcf0a2c8f39fe80fc1f4c5f47e4ceb86a81c55e31b65dcc1ba85dd78811f0",
-  "sha256_method": "SHA-256 over the newline-joined tab-separated rows above, in order, UTF-8."
+  "sha256": "0c2ecb15115566d5aecd84118658cf1f3a5b23ac19ae9e097e0c3348dc812210",
+  "sha256_method": "SHA-256 over prescription.text as UTF-8 bytes, exactly as stored."
  },
  "engine": {
   "engine_version": "0.14.0",
-  "effective_focal_length_mm": 1.330937773445335,
-  "back_focal_length_mm": 0.4406088391126056,
+  "effective_focal_length_mm": 1.3309564701909062,
+  "back_focal_length_mm": 0.44062750877564305,
+  "wavelength_nm": 587.7200640456302,
+  "surface_table_sha256": "4b8a3b7bea63ae374ae8edcc214def3798ef4e6950288c6029d57ea454370573",
   "image_plane_z_mm": 5.005,
   "project_check": true,
   "optical_solids": "VALID",
   "stop_semi_diameter_mm": 0.3164
  },
  "field_trace": {
-  "method": "Real meridional chief-ray trace through the transcribed prescription at 587.56 nm.",
+  "method": "Real meridional chief-ray trace through the transcribed prescription at the reference wavelength.",
   "samples": [
    {
     "field_fraction": 1.0,
@@ -277,13 +293,13 @@
     "field_fraction": 0.85,
     "field_deg": 51.0,
     "image_height_mm": 1.66106,
-    "cra_deg": 33.531
+    "cra_deg": 33.53
    },
    {
     "field_fraction": 0.7,
     "field_deg": 42.0,
-    "image_height_mm": 1.37538,
-    "cra_deg": 31.3
+    "image_height_mm": 1.37539,
+    "cra_deg": 31.299
    },
    {
     "field_fraction": 0.5,
@@ -295,7 +311,7 @@
     "field_fraction": 0.3,
     "field_deg": 18.0,
     "image_height_mm": 0.47416,
-    "cra_deg": 10.163
+    "cra_deg": 10.162
    }
   ]
  },

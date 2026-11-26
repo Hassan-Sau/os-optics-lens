@@ -36,8 +36,11 @@ the largest field the prescription traces.
 
 The two families are complementary by design: the seven-element group covers the
 `3.7 mm … 5.6 mm` focal-length and `f/1.6 … f/2.3` aperture range of a main camera, the five-element
-group the `1.3 mm … 2.5 mm` and `f/2.2 … f/3.2` range of an ultrawide. Both are entirely plastic,
-all-aspheric, with a plane-parallel IR-cut plate and a front or near-front stop.
+group the `1.3 mm … 2.5 mm` and `f/2.2 … f/3.2` range of an ultrawide. Every lens element in both
+publications is printed as `Plastic` except one glass element in the eighth main-camera example, all
+powered surfaces are aspheric, and each prescription ends in a plane-parallel IR-cut plate with a
+front or near-front stop. The records keep the printed `nd` and `Vd`; they do not carry the material
+class, so a search on "plastic" has to come from the source, not from the record.
 
 ## Sources
 
@@ -86,8 +89,11 @@ Per example:
   publications' formula defines (`z = c r² / (1 + √(1 − (1+k) c² r²)) + Σ Aᵢ rⁱ`). They are not
   normalised by an aperture radius: the coefficients of these examples are of order `10⁻³ … 10⁻¹`
   and produce a physically defined profile over the apertures the records use.
-- **Reference wavelength** is the d-line, 587.6 nm, as each publication states. No other sample is
-  claimed.
+- **Reference wavelength** is the d-line, which each publication prints as 587.6 nm. That is an air
+  wavelength, and the engine evaluates vacuum wavelengths, so it is converted once with the engine's
+  own air model (`material_physics.air_index_exact`) to 587.720064 nm. The record keeps both:
+  `sampling_wavelengths_nm` (vacuum, what the engine evaluates) and `sampling_wavelengths_air_nm`
+  (the printed value), so the conversion stays checkable. No other sample is claimed.
 - **Stop standoff.** Three of the main-camera examples list the stop a *negative* distance in front
   of the first surface. A surface table carries positive spacings only, so the stop plane sits
   0.05 mm in front of the first surface and the record carries `STOP_STANDOFF_ADJUSTED` with the
@@ -119,9 +125,11 @@ The publications state no clear apertures. Each surface's semi-diameter is deriv
 4. a surface is capped where its aspheric polynomial stops being physically usable (sag beyond 60 %
    of the radius, slope beyond 72°), because a clear aperture cannot sit where the profile folds.
 
-The result is a lens that passes the engine's edge and body checks with a positive glass edge
-everywhere. It is a **mechanical estimate**, flagged `CLEAR_APERTURES_DERIVED`; a drawing from the
-manufacturer would supersede it. It also means the outermost field is partly vignetted at the front
+The result is a lens that passes the engine's body checks. No record has an error-severity finding;
+eight carry informational edge-thickness notes and one (`patent-us10247911b2-ex03`) a warning-level
+thick edge on its first element, both listed in the record's `validation.solids_findings`. It is a
+**mechanical estimate**, flagged `CLEAR_APERTURES_DERIVED`; a drawing from the manufacturer would
+supersede it and would remove those notes. It also means the outermost field is partly vignetted at the front
 element of some records — which is what a real module does, but the exact vignetting is not asserted.
 
 ## Field and image circle
@@ -142,14 +150,16 @@ stack.
 
 ## Verification
 
-Three outcomes are tracked separately, and a record is accepted only when all three hold.
+Four outcomes are tracked separately, and a record is accepted only when all four hold. `paraxial`
+is scoped to the effective focal length: the publications print no back focal length, so that
+quantity is recorded as `UNCONFIRMED` in the comparison rather than claimed.
 
 | Check | Result |
 |---|---|
 | Conversion (engine importer) | 11 of 11 accepted |
 | Native Project check (`project check`) | 11 of 11 `ACCEPTED` |
 | Optical solids (`project solids`) | 11 of 11 `VALID`, no error-severity finding |
-| Paraxial EFL against the printed focal length | 11 of 11 within the stated rule; at most 68 % of the allowance |
+| Paraxial EFL against the printed focal length | 11 of 11 within the stated rule; at most 56 % of the allowance |
 
 The paraxial comparison uses
 
@@ -161,8 +171,8 @@ atol = 0.005 mm,  rtol = 3 × 10⁻³
 The allowance covers three things, none of them tuning: the publication prints the focal length to
 two decimals; the radii and thicknesses are printed to three; and the engine reports the focal
 length relative to the Project environment's air index, which shifts EFL by about 0.13 % against a
-unit-index trace. The tightest record uses 68 % of the allowance
-(`patent-us10247911b2-ex08`), the loosest 8 % (`…-ex09`).
+unit-index trace. The tightest record uses 56 % of the allowance (`patent-us9366845b2-ex06`), the
+loosest 8 % (`patent-us10247911b2-ex09`).
 
 Reviewer commands, from the repository root:
 
@@ -174,8 +184,9 @@ os-optics project paraxial records/phone-modules/patent-us9366845b2-ex01/project
 python -m unittest discover -s tests -v
 ```
 
-`tests/test_phone_modules.py` re-derives every record hash, the evidence and Project hashes, the
-comparison verdicts and the f-number from the committed files, and runs without the engine.
+`tests/test_phone_modules.py` re-derives every record hash, the prescription hash from the committed
+extract text, the evidence and Project hashes, the comparison verdict and the cross-file
+consistency from the committed files, and runs without the engine.
 
 ## What the records do not claim
 
