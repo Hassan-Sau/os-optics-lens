@@ -1,0 +1,171 @@
+{
+ "schema": "opensci.lens.batch",
+ "batch_schema_version": "1.0",
+ "batch_id": "sony-fe-2",
+ "collection": {
+  "collection_id": "sony-fe",
+  "source": "US patent publications, Sony-assigned numerical examples",
+  "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
+ },
+ "engine": {
+  "name": "os-optics",
+  "version": "0.14.0",
+  "catalog_version": null,
+  "prescription_format": "csv-surface-table/1"
+ },
+ "hashing": {
+  "source_input_sha256": "SHA-256 of the surface-table rows as the reader extracts them from the publication page, one row per line, cells joined by commas",
+  "project_sha256": "SHA-256 of the committed project.json file's bytes",
+  "record_hash": "SHA-256 over the record's JSON with record_hash and record_hash_method removed: json.dumps(sort_keys=True, ensure_ascii=False) as UTF-8, no trailing newline"
+ },
+ "input_inventory": {
+  "count": 17,
+  "basis": "every numerical example printed in US20190004278A1 (six) and US9491348B2 (eleven)"
+ },
+ "counts": {
+  "inputs": 17,
+  "accepted": 15,
+  "deferred": 2,
+  "conversion_failed": 0
+ },
+ "accepted_record_ids": [
+  "patent-us20190004278a1-ex01",
+  "patent-us20190004278a1-ex02",
+  "patent-us20190004278a1-ex03",
+  "patent-us20190004278a1-ex04",
+  "patent-us20190004278a1-ex05",
+  "patent-us9491348b2-ex01",
+  "patent-us9491348b2-ex02",
+  "patent-us9491348b2-ex03",
+  "patent-us9491348b2-ex04",
+  "patent-us9491348b2-ex06",
+  "patent-us9491348b2-ex07",
+  "patent-us9491348b2-ex08",
+  "patent-us9491348b2-ex09",
+  "patent-us9491348b2-ex10",
+  "patent-us9491348b2-ex11"
+ ],
+ "outcomes": [
+  {
+   "source_input": "US20190004278A1, EXAMPLE 1",
+   "source_input_sha256": "f2338a5c6be9b743530c7e1080f4d49d7af6aec094950bc6601cedf4268a9b07",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20190004278a1-ex01",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US20190004278A1, EXAMPLE 2",
+   "source_input_sha256": "a73722a3ead7065874fadb695144dab449ebda99ba985cea6e5a8f5767695810",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20190004278a1-ex02",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US20190004278A1, EXAMPLE 3",
+   "source_input_sha256": "2f93818db7c8d9b3c2f353a29523272e5fa2ff33fddfbf9298d3be92842c7adf",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20190004278a1-ex03",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US20190004278A1, EXAMPLE 4",
+   "source_input_sha256": "74cec753e83935c831169239da833e111b47babe6c2384d97008136769cc65c8",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20190004278a1-ex04",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US20190004278A1, EXAMPLE 5",
+   "source_input_sha256": "e6532c8e207da6ff2a18b14c8c93cadea25c1d11b4f39d4148f12ac56ebeb3bb",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20190004278a1-ex05",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US20190004278A1, EXAMPLE 6",
+   "source_input_sha256": "443a82aae5d59c17091acd7ca0445a467156917e58d96d9f7d3ba895a5d07126",
+   "outcome": "DEFERRED",
+   "record_id": null,
+   "reason_code": "IMAGE_FORMAT_OUTSIDE_COLLECTION_SCOPE",
+   "note": "The printed half field is 23.61 deg at 82.55 mm, so 2 f tan(omega) is 72.2 mm: twice the full-frame diagonal. The example is a larger-format design, not a full-frame one, and the collection's scope is 36 x 24 mm."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 1",
+   "source_input_sha256": "ef128dc4edf4cebf4831d2cbf88c90e27021153b6fd95a45fd73d59ffbb4132e",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex01",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 2",
+   "source_input_sha256": "5a2aa7f6bf054823b57814baeb35ace0c18e4dc9d2a758fb602e27354db218c2",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex02",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 3",
+   "source_input_sha256": "56a9bb5b2b29ba2cb11faf8ba5bbf3de72d87baf9f589f1c4e6915f3e4dce11d",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex03",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 4",
+   "source_input_sha256": "98262f602aca1211589e05b665ab4ca8975c638b94df13662e6c5b5d140c886a",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex04",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 5",
+   "source_input_sha256": "a884b9002c1642c59da06ccd318d2b873076d49fd112dc15859fe522af535ce4",
+   "outcome": "DEFERRED",
+   "record_id": null,
+   "reason_code": "SOURCE_TABLE_INCONSISTENT",
+   "note": "Surface 5 prints nd = 1.290300 for a vd = 54.0 glass. No catalogue glass sits below about 1.4 at the d-line, and with the printed value the system is divergent (paraxial EFL -3775.6 mm against a printed 53.45 mm). Withheld until the printed index is confirmed against the publication."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 6",
+   "source_input_sha256": "6a776601e126490493567d5746838d631d517175dc8ec97d90daab877428894b",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex06",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 7",
+   "source_input_sha256": "3b992ebfc34c79c307239b375878c95dcf73f5c0ea16a29cee884870bd850646",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex07",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 8",
+   "source_input_sha256": "895c31953df749585fc0bf3dde4a93e9b6e1ec09ed5f136968bba1d280ecd54d",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex08",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 9",
+   "source_input_sha256": "50204257ccca8a4afd5fd84cc01753f73bcadca38dd252b78bb70712aa43ef8e",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex09",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 10",
+   "source_input_sha256": "e0007f2fefa63b615cd7b0b6573e6e16cad7d25b3f33b5fa95a57a78bd1a6071",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex10",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US9491348B2, EXAMPLE 11",
+   "source_input_sha256": "f1e7bce8c5b953e524504202ef4b50a19f9a755514e63cf987a2ee4cbd43829d",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us9491348b2-ex11",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  }
+ ]
+}
