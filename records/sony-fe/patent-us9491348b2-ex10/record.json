@@ -25,7 +25,7 @@
   },
   "evidence_extract": {
    "path": "records/sony-fe/patent-us9491348b2-ex10/evidence.json",
-   "sha256": "6e4da57f73cd6f95888531ba12fa19f3462c5d856f8379837eae3d52b104b89c"
+   "sha256": "f6ef0f8a249269d659a1684694eb32410b17a0791e265fa53f6d88b11db0a424"
   },
   "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
  },
@@ -47,7 +47,9 @@
   ],
   "conjugate": "INFINITE_TO_FINITE",
   "configuration_count": 1,
-  "powered_element_count": 7,
+  "powered_element_count": 9,
+  "powered_group_count": 7,
+  "aspheric_element_count": 1,
   "aperture_validity": {
    "state": "STOP_NOT_BLOCKING",
    "stop_blocks_light": false,
@@ -60,7 +62,7 @@
  },
  "native_project": {
   "path": "records/sony-fe/patent-us9491348b2-ex10/project.json",
-  "sha256": "134a0e657390a00f1a5e07450ac6921aaaa8693cc374f4ed5753b26eefff42eb",
+  "sha256": "a45c024df15adaad6c94b5873e1b115e9a8621f79c95b51dae878ee601fef450",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "OPTIC",
@@ -85,10 +87,11 @@
   ],
   "wavelength_precision": "A single sample; no rounding in the Project.",
   "sampling_span_nm": {
-   "min_nm": 587.720064,
-   "max_nm": 587.720064,
+   "min_nm": 587.220064,
+   "max_nm": 588.220064,
    "basis": "SINGLE_WAVELENGTH_BAND",
-   "eligible_for": "DISCOVERY_ONLY"
+   "eligible_for": "DISCOVERY_ONLY",
+   "note": "One sample, so the span is a 1 nm numerical window around it. It is not a second wavelength and not a measured band: sampling_wavelengths_nm holds exactly one value."
   },
   "continuous_coverage_nm": {
    "state": "UNCONFIRMED",
@@ -104,7 +107,7 @@
   "width_mm": 36,
   "height_mm": 24,
   "image_circle_diameter_mm": 43.064,
-  "basis": "Derived as 2 f tan(omega) from the printed focal length and half field angle; the derived diameter matches the 43.27 mm diagonal of a 36 x 24 mm frame."
+  "basis": "Derived as 2 f tan(omega) from the printed focal length and half field angle: 43.06 mm, 0.5 % below the 43.27 mm diagonal of a 36 x 24 mm frame. The facet follows the family's 36 x 24 design and the derivation sits in the 2 % window used for that claim."
  },
  "field": {
   "kind": "ANGULAR",
@@ -135,7 +138,7 @@
    }
   },
   "total_track_mm": {
-   "value": 83.4003,
+   "value": 84.4003,
    "basis": "DERIVED",
    "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
   },
@@ -177,7 +180,80 @@
   }
  },
  "materials": {
-  "basis": "Each row's printed nd and vd define a constant-index material in the Project; no dispersion law is claimed."
+  "basis": "The publication prints one index and one Abbe number per element at the d-line, so every element is a constant index at the reference wavelength. No dispersion law is claimed and no catalogue glass is substituted; the vd values are kept in the evidence extract.",
+  "model_glasses": [
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.592703,
+    "valid_at_nm": 587.720064,
+    "element_index": 1,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.72916,
+    "valid_at_nm": 587.720064,
+    "element_index": 2,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.69895,
+    "valid_at_nm": 587.720064,
+    "element_index": 3,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.7433,
+    "valid_at_nm": 587.720064,
+    "element_index": 4,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.497103,
+    "valid_at_nm": 587.720064,
+    "element_index": 5,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.882023,
+    "valid_at_nm": 587.720064,
+    "element_index": 6,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.51823,
+    "valid_at_nm": 587.720064,
+    "element_index": 7,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.603111,
+    "valid_at_nm": 587.720064,
+    "element_index": 8,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.75211,
+    "valid_at_nm": 587.720064,
+    "element_index": 9,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.516798,
+    "valid_at_nm": 587.720064,
+    "element_index": 10,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   }
+  ],
+  "catalog_comparisons": []
  },
  "approximations": [
   {
@@ -201,5 +277,5 @@
   "paraxial": "MATCHED"
  },
  "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
- "record_hash": "3d3a29641bc64eb3b15f8dae7904f72d86fa7b03ab7a264924c7653ec5be0979"
+ "record_hash": "b278c8378e5d331bdbf77047b5c2fcdf099c5e1fb8344fd110c4576fe5bd9f96"
 }

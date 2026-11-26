@@ -8,13 +8,19 @@ around 50 mm at a large aperture; the first is the f/1.4 class, the second the f
 | Publication | Examples | Records | Printed f (mm) | Printed F | Derived image circle (mm) |
 | --- | --- | --- | --- | --- | --- |
 | US20190004278A1 | 6 | 5 accepted, 1 deferred | 50.29–51.54 | 1.45–1.48 | 42.8–43.8 |
-| US9491348B2 | 11 | 10 accepted, 1 deferred | 46.19–55.01 | 1.80–1.88 | 43.0–43.9 |
+| US9491348B2 | 11 | 10 accepted, 1 deferred | 46.19–55.01 | 1.80–1.88 (accepted 1.83–1.88) | 43.0–43.9 |
 
 Neither publication prints an image height. The image circle in each record is therefore `DERIVED`
-as `2 f tan(omega)` from the printed focal length and half field angle, and a record claims the
-full-frame facet only where that diameter lands on the 43.27 mm diagonal of a 36 × 24 mm frame. The
-derivation is stated in `image_format.basis` and the angle itself is kept as `SOURCE_STATED` in
-`field`.
+as `2 f tan(omega)` from the printed focal length and half field angle. The derivation is stated in
+`image_format.basis` together with its distance from the 43.27 mm diagonal, and the angle itself is
+kept as `SOURCE_STATED` in `field`. The full-frame facet covers a 2 % window around that diagonal:
+two examples sit a little under it (42.76 mm and 42.97 mm, 1.2 % and 0.7 % short) and their records
+say so instead of rounding the number up to a match.
+
+Each Project places its image-plane observation after the last tabulated thickness, so
+`first_order.total_track_mm` is the first surface to the image plane — for batch 1 that equals the
+length `L` the publication prints for the four accepted examples (145.000, 142.483, 144.819 and
+150.000 mm), which is the check that the placement is right.
 
 ## The comparison rule and what it produced
 
@@ -31,7 +37,7 @@ fraction recorded in each record.
 
 | Input | Reason code | Why |
 | --- | --- | --- |
-| US20190004278A1 example 6 | `IMAGE_FORMAT_OUTSIDE_COLLECTION_SCOPE` | 82.55 mm at a 23.61° half field gives a 72.2 mm image circle, twice the full-frame diagonal: a larger-format design. |
+| US20190004278A1 example 6 | `IMAGE_FORMAT_OUTSIDE_COLLECTION_SCOPE` | 82.55 mm at a 23.61° half field gives a 72.2 mm image circle, 1.7 times the full-frame diagonal: a larger-format design. |
 | US9491348B2 example 5 | `SOURCE_TABLE_INCONSISTENT` | Surface 5 prints `nd = 1.290300` against `vd = 54.0`. No catalogue glass sits below about 1.4 at the d-line, and with the printed value the system is divergent (paraxial EFL −3775.6 mm against a printed 53.45 mm). |
 
 The first is a scope decision, not a defect: the example is well-formed and simply not a 36 × 24 mm
