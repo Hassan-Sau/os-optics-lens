@@ -65,6 +65,24 @@ Use [ARCHITECTURE.md](ARCHITECTURE.md) for the design, [AGENTS.md](AGENTS.md) fo
 and [CONTRIBUTING.md](CONTRIBUTING.md) for proposals, single-record contributions and batch intake.
 The project uses the [MIT License](LICENSE).
 
+## The phone-telephoto collection
+
+`records/phone-telephoto/` holds the telephoto batch: five-element straight telephoto modules
+transcribed from two granted US patent publications, in a short group (5.7–7.0 mm focal length) and
+a long group (8.6–10.1 mm). Each record names its table and embodiment, marks itself
+`module_role: telephoto` and `folded: false`, and holds a compact evidence extract beside the
+Project.
+
+| | |
+|---|---|
+| Source examples | 22, across US20220299735A1 and US11372203B2 |
+| Accepted records | 7 straight telephoto modules |
+| Deferred, with a reason | 15 (13 near-duplicate variants, 2 with two aperture stops) |
+
+[Phone telephoto modules](docs/PHONE_TELEPHOTO_INTAKE.md) records the transcription rules, the stop
+and tolerance decisions, the field evidence, the verification run and the limits. Folded periscope
+designs are out of scope for the surface-table format.
+
 ## Data sources and acknowledgments
 
 The initial prescription records are derived from Nathan Hagen's [LensLibrary](https://github.com/nzhagen/LensLibrary), using [revision `86b2c0ca`](https://github.com/nzhagen/LensLibrary/tree/86b2c0cac5a67e2112d58518230c4d8728154f4e). Thanks to Nathan Hagen for compiling and sharing the collection. See the [LensLibrary MIT notice](licenses/LensLibrary-MIT.txt) for the upstream copyright and license. Individual records cite the upstream design and its original publication or patent when available.
