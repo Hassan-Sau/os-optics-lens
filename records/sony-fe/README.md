@@ -5,8 +5,8 @@ patent publications into native `os-optics` Projects. Series issue: [#13](https:
 
 ```
 records/sony-fe/
-├── batch-sony-fe-1.json          batch outcome manifest, one row per source input
-├── NOTES-batch-1.md              what batch 1 contains and what it does not claim
+├── batch-sony-fe-<N>.json        batch outcome manifest, one row per source input
+├── NOTES-batch-<N>.md            what that batch contains and what it does not claim
 └── patent-<publication>-ex<NN>/  one directory per record
     ├── project.json              the native os-optics Project (authoritative)
     ├── record.json               search facts, provenance, validation
