@@ -106,6 +106,24 @@ class ConfigurationSearch(unittest.TestCase):
                                  {"id": "narrow", "fact": HALF_FIELD, "op": "lte", "value": 15}])
         self.assertEqual((candidate["outcome"], candidate["configuration_id"]), ("MATCH", "Tele"))
 
+    def test_outcome_tie_prefers_more_match_constraints(self) -> None:
+        # §6.4: equal outcomes are broken by more MATCH, then fewer DOES_NOT_MATCH, before
+        # preferences and the ordinal. Both configurations fail EFL >= 200; only Tele (12 deg)
+        # meets the half field, so Tele is reported even though Wide comes first and the
+        # ascending EFL preference favours Wide (50 mm).
+        constraints = [{"id": "very_long", "fact": EFL, "op": "gte", "value": 200},
+                       {"id": "narrow", "fact": HALF_FIELD, "op": "lte", "value": 15}]
+        for extra in ({}, {"preferences": [{"fact": EFL, "direction": "ascending"}]}):
+            with self.subTest(**extra):
+                candidate = self.search(constraints, **extra)
+                self.assertEqual((candidate["outcome"], candidate["configuration_id"]), ("DOES_NOT_MATCH", "Tele"))
+                self.assertEqual(candidate["counts"], {"MATCH": 1, "UNCONFIRMED": 0, "DOES_NOT_MATCH": 1})
+                self.assertEqual(candidate["constraints"]["narrow"], "MATCH")
+                self.assertEqual([c["constraint"] for c in candidate["shortfalls"]], ["very_long"])
+                self.assertEqual(candidate["other_configurations"],
+                                 [{"configuration_id": "Wide", "outcome": "DOES_NOT_MATCH",
+                                   "counts": {"MATCH": 0, "UNCONFIRMED": 0, "DOES_NOT_MATCH": 2}}])
+
     def test_starting_point_picks_nearest_configuration(self) -> None:
         response = query.search(self.index, {"mode": "starting_point", "filters": {"record_ids": ["zoom"]},
                                              "targets": [{"fact": EFL, "target": 95, "tolerance": 5}]})

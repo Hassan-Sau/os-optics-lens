@@ -14,7 +14,13 @@ Failures are JSON error envelopes `{"ok": false, "error": {code, message, hint, 
 * `LensError`s from the query layer, the store and the builder are passed through unchanged
   (except that `BUILD_FAILED` lists at most `MAX_LISTED_FINDINGS` findings, errors first);
 * any other exception is `INTERNAL`; its traceback goes to stderr only when the environment
-  variable `OS_OPTICS_LENS_DEBUG=1` is set, never to stdout.
+  variable `OS_OPTICS_LENS_DEBUG=1` is set, never to stdout;
+* an error envelope fits the byte budget like any other document (the request's
+  `max_output_bytes`, else `--max-output-bytes`, else 32768): echoed values are shortened and
+  findings dropped into `findings_omitted`, with `details.truncated: true`.
+
+A reader that closes stdout early (`| head`) ends the process silently with exit code 1
+(BrokenPipeError, or OSError EINVAL on a Windows pipe); nothing is written to stderr.
 
 Request documents (`search --request FILE`, `search -`, `search --fixture FILE`) are read as bytes
 and decoded by byte-order-mark sniffing: UTF-8 with or without BOM, UTF-16 LE/BE and UTF-32 LE/BE
@@ -25,6 +31,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import errno
 import hashlib
 import os
 import re
@@ -321,15 +328,28 @@ def _stdout_buffer() -> Any:
     return getattr(sys.stdout, "buffer", None)
 
 
+_CLOSED_PIPE_ERRNOS = frozenset({errno.EPIPE, errno.EINVAL})
+
+
 def write_bytes(data: bytes) -> None:
-    """Write bytes to stdout unchanged (no newline translation, no console encoding)."""
-    buffer = _stdout_buffer()
-    if buffer is not None:
-        buffer.write(data)
-        buffer.flush()
-    else:  # a text-only stdout (embedding); only ASCII reaches this path for JSON output
-        sys.stdout.write(data.decode("utf-8", errors="replace"))
-        sys.stdout.flush()
+    """Write bytes to stdout unchanged (no newline translation, no console encoding).
+
+    A reader that went away (`| head`) surfaces as BrokenPipeError: on Windows a write or flush to
+    a closed pipe raises OSError EINVAL instead, which is mapped to BrokenPipeError here."""
+    try:
+        buffer = _stdout_buffer()
+        if buffer is not None:
+            buffer.write(data)
+            buffer.flush()
+        else:  # a text-only stdout (embedding); only ASCII reaches this path for JSON output
+            sys.stdout.write(data.decode("utf-8", errors="replace"))
+            sys.stdout.flush()
+    except BrokenPipeError:
+        raise
+    except OSError as exc:
+        if exc.errno in _CLOSED_PIPE_ERRNOS:
+            raise BrokenPipeError(exc.errno, "stdout reader closed the pipe") from None
+        raise
 
 
 def emit(response: dict[str, Any], *, pretty: bool = False) -> None:
@@ -795,11 +815,26 @@ def _internal(exc: BaseException) -> LensError:
     )
 
 
+def _error_budget(args: argparse.Namespace | None, error: LensError) -> int:
+    """The byte budget an error envelope must fit: the failing request's own budget when known,
+    else a valid --max-output-bytes, else the default (index build/validate have no option)."""
+    if isinstance(error.output_budget, int):
+        return error.output_budget
+    try:
+        return output.check_max_output_bytes(getattr(args, "max_output_bytes", None), "--max-output-bytes")
+    except LensError:
+        return output.DEFAULT_MAX_OUTPUT_BYTES
+
+
 def run(argv: Sequence[str]) -> int:
-    """Parse `argv`, run the command, write its output and return the exit code."""
+    """Parse `argv`, run the command, write its output and return the exit code.
+
+    Every document written to stdout, error envelopes included, fits the byte budget. A closed
+    stdout (BrokenPipeError) propagates to `main`, which exits silently."""
     argv = list(argv)
     pretty = "--pretty" in argv
     error: LensError | None = None
+    args: argparse.Namespace | None = None
     try:
         args = build_parser().parse_args(argv)
         pretty = bool(getattr(args, "pretty", False))
@@ -816,12 +851,14 @@ def run(argv: Sequence[str]) -> int:
         error = exc
     except SystemExit as exc:  # argparse --help
         return exc.code if isinstance(exc.code, int) else (0 if exc.code is None else 1)
+    except BrokenPipeError:
+        raise  # stdout is gone: nothing more can be written, main() exits silently
     except Exception as exc:  # noqa: BLE001 - every other failure is the INTERNAL envelope
         if os.environ.get(DEBUG_ENV) == "1":
             traceback.print_exc(file=sys.stderr)
         error = _internal(exc)
     if error is not None:
-        emit(output.error_response(error), pretty=pretty)
+        emit(output.bounded_error_response(error, _error_budget(args, error)), pretty=pretty)
         return error.exit_code
     emit(response, pretty=pretty)
     return output.exit_code(response)
@@ -831,12 +868,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     """Console-script entry point; returns the process exit code."""
     try:
         return run(sys.argv[1:] if argv is None else argv)
-    except BrokenPipeError:
-        # The reader went away (e.g. `| head`); silence the flush-at-exit error too.
+    except OSError as exc:
+        # The reader went away (e.g. `| head`): BrokenPipeError, or EINVAL on a Windows pipe.
+        if not isinstance(exc, BrokenPipeError) and exc.errno not in _CLOSED_PIPE_ERRNOS:
+            raise
+        # Silence the flush-at-exit error too.
         try:
             devnull = os.open(os.devnull, os.O_WRONLY)
             os.dup2(devnull, sys.stdout.fileno())
-        except (OSError, ValueError):
+        except (OSError, ValueError, AttributeError):
             pass
         return 1
 

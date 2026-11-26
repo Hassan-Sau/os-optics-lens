@@ -15,7 +15,8 @@ Each hard constraint is evaluated against one configuration view of a record:
 A configuration is DOES_NOT_MATCH if any constraint is, else UNCONFIRMED if any is, else MATCH.
 All hard constraints are evaluated against the same configuration: a record never matches by
 combining different configurations. A record is shown at its best configuration (MATCH before
-UNCONFIRMED before DOES_NOT_MATCH, then more MATCH, then fewer DOES_NOT_MATCH, then order);
+UNCONFIRMED before DOES_NOT_MATCH, then more MATCH, then fewer DOES_NOT_MATCH, then
+preferences, then order);
 `other_configurations` summarizes the rest.
 
 Specification search reports how far the record meets the brief. Starting-point search ranks
@@ -31,6 +32,7 @@ verify.
 | `CONDITIONS_DIFFER` | no entry has the requested conditions (`details` shows expected vs actual) | relax or change `conditions`, or inspect the record |
 | `AMBIGUOUS_FACTS` | more than one entry matches the conditions | pin more conditions or use `select` |
 | `DISCOVERY_ONLY` | the fact is a discovery label (e.g. `spectrum.sampling_span_nm`) | constrain a confirmed fact instead |
+| `COMPARISON_ONLY` | the path reaches (or the compared object contains) a check kept for comparison only: `property_list_comparison`, `engine_check`; never a value | constrain the fact itself |
 | `COVERAGE_UNCONFIRMED` | continuous spectral coverage is not established | treat coverage as open |
 | `SAMPLING_DIFFERS` | the sampled field fractions differ from `required_sampled_field_fractions` | inspect the samples |
 | `STOP_NOT_ELIGIBLE` | stop-dependent fact, but the Project's stop does not block light | evaluate the Project with a real stop |
@@ -45,8 +47,9 @@ verify.
 
 Stop-dependent facts are every `aperture.*` member except `aperture.stop_opening_diameter_mm`,
 plus `performance.mtf`, `performance.mtf_field_minimum` and `performance.relative_illumination`
-(`fields` reports `stop_dependent`). For a stop-dependent constraint (or one with
-`requires_blocking_stop: true`):
+(`fields` reports `stop_dependent`). A predicate on a whole object (path `""` on `aperture`, or the
+whole `performance` list) reaches every stop-dependent fact inside it. For a stop-dependent
+constraint (or one with `requires_blocking_stop: true`):
 
 1. if `design.aperture_validity` does not have both `stop_blocks_light` and
    `eligible_for_stop_dependent_evaluation` true: UNCONFIRMED `STOP_NOT_ELIGIBLE`;
@@ -65,6 +68,9 @@ Targets and preferences use step 1 only. The `stop_state` facet shows the state 
   UNCONFIRMED `COVERAGE_UNCONFIRMED` (details show the sampling span).
 * Sampled wavelengths: `spectrum.sampling_wavelengths_nm` with `includes_all` or `eq`; spectral
   weights with `proportional_weights` (same ordered wavelengths, weights compared by ratio).
+  `covers_interval` on a list of samples is UNCONFIRMED `VALUE_TYPE`: it needs an interval object.
+* `aperture.property_list_comparison` and `field.property_list_comparison` are comparison-only
+  checks, never values: UNCONFIRMED `COMPARISON_ONLY`.
 
 ## Aperture conventions
 

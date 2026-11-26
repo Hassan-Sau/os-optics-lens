@@ -15,6 +15,8 @@ import re
 from typing import Any
 
 HEX64 = re.compile(r"[0-9a-f]{64}")
+MAX_JSON_DEPTH = 128
+"""Deepest array/object nesting `loads_strict` accepts (the bundled corpus nests at most 8 deep)."""
 
 
 def canonical_json(obj: Any) -> str:
@@ -53,10 +55,13 @@ def record_hash(record: dict[str, Any]) -> str:
 
 
 def is_number(value: Any) -> bool:
-    """True for a finite int or float that is not a bool."""
+    """True for a finite int or float that is not a bool (an int too large for a double is not)."""
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return False
-    return math.isfinite(value)
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        return False
 
 
 def json_equal(a: Any, b: Any) -> bool:
@@ -125,28 +130,63 @@ def _parse_float(token: str) -> Any:
     return value if math.isfinite(value) else _NonFinite(token)
 
 
-def _find_non_finite(obj: Any, pointer: str = "") -> tuple[str, str] | None:
-    if isinstance(obj, _NonFinite):
-        return pointer, obj.token
-    if isinstance(obj, dict):
-        for key, value in obj.items():
-            escaped = key.replace("~", "~0").replace("/", "~1")
-            hit = _find_non_finite(value, f"{pointer}/{escaped}")
-            if hit:
-                return hit
-    elif isinstance(obj, list):
-        for index, value in enumerate(obj):
-            hit = _find_non_finite(value, f"{pointer}/{index}")
-            if hit:
-                return hit
+def _parse_int(token: str) -> Any:
+    """An integer literal; one too large for a double (it would overflow every numeric use) is
+    rejected like an overflowing float."""
+    value = int(token)
+    try:
+        float(value)
+    except OverflowError:
+        return _NonFinite(token if len(token) <= 24 else f"{token[:12]}...({len(token)} digits)")
+    return value
+
+
+def _has_lone_surrogate(text: str) -> bool:
+    try:
+        text.encode("utf-8")
+    except UnicodeEncodeError:
+        return True
+    return False
+
+
+def _find_invalid(obj: Any) -> tuple[str, str] | None:
+    """(pointer, message) of the first value strict JSON rejects after parsing: a non-finite or
+    overflowing number, a string or member name with a lone surrogate (not encodable as UTF-8),
+    or nesting deeper than MAX_JSON_DEPTH. Iterative, so any depth is safe to walk."""
+    stack: list[tuple[str, Any, int]] = [("", obj, 0)]
+    while stack:
+        pointer, item, depth = stack.pop()
+        if isinstance(item, _NonFinite):
+            return pointer, (f"non-finite number {item.token!r} (NaN, Infinity or beyond the double range) "
+                             f"is not allowed at {pointer or '/'}")
+        if isinstance(item, str):
+            if _has_lone_surrogate(item):
+                return pointer, f"string at {pointer or '/'} contains a lone surrogate escape (not valid Unicode)"
+            continue
+        if not isinstance(item, (dict, list)):
+            continue
+        if depth >= MAX_JSON_DEPTH:
+            return pointer, f"nesting deeper than {MAX_JSON_DEPTH} levels at {pointer or '/'}"
+        children: list[tuple[str, Any, int]] = []
+        if isinstance(item, dict):
+            for key, value in item.items():
+                if _has_lone_surrogate(key):
+                    return pointer, f"a member name at {pointer or '/'} contains a lone surrogate escape"
+                escaped = key.replace("~", "~0").replace("/", "~1")
+                children.append((f"{pointer}/{escaped}", value, depth + 1))
+        else:
+            children = [(f"{pointer}/{index}", value, depth + 1) for index, value in enumerate(item)]
+        stack.extend(reversed(children))
     return None
 
 
 def loads_strict(data: bytes | str) -> Any:
     """Parse strict JSON.
 
-    Bytes must be UTF-8 without a byte-order mark. NaN, Infinity, -Infinity and numbers that overflow
-    a double are rejected with the JSON pointer of the offending value. Raises `JsonFormatError`.
+    Bytes must be UTF-8 without a byte-order mark. NaN, Infinity, -Infinity, numbers that overflow
+    a double (floats and integers), strings with a lone surrogate escape (`"\\ud800"`) and nesting
+    deeper than MAX_JSON_DEPTH are rejected with the JSON pointer of the offending value. Raises
+    `JsonFormatError`.
     """
     if isinstance(data, bytes):
         if data.startswith(b"\xef\xbb\xbf"):
@@ -158,15 +198,17 @@ def loads_strict(data: bytes | str) -> Any:
     else:
         text = data
     try:
-        obj = json.loads(text, parse_constant=_NonFinite, parse_float=_parse_float)
+        obj = json.loads(text, parse_constant=_NonFinite, parse_float=_parse_float, parse_int=_parse_int)
     except json.JSONDecodeError as exc:
         raise JsonFormatError(f"invalid JSON: {exc.msg} at line {exc.lineno} column {exc.colno}") from None
-    except (ValueError, RecursionError) as exc:
-        raise JsonFormatError(f"invalid JSON: {exc}") from None
-    hit = _find_non_finite(obj)
+    except RecursionError:
+        raise JsonFormatError(f"invalid JSON: nesting deeper than {MAX_JSON_DEPTH} levels") from None
+    except ValueError as exc:
+        raise JsonFormatError(f"invalid JSON: {str(exc)[:200]}") from None
+    hit = _find_invalid(obj)
     if hit is not None:
-        pointer, token = hit
-        raise JsonFormatError(f"non-finite number {token!r} is not allowed at {pointer or '/'}", pointer or "/")
+        pointer, message = hit
+        raise JsonFormatError(message, pointer or "/")
     return obj
 
 

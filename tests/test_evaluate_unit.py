@@ -330,6 +330,27 @@ class SpectralCoverage(unittest.TestCase):
         self.assertEqual(shortfall["limit"], [380, 650])
         self.assertEqual(shortfall["unit"], "nm")
 
+    def test_two_sampled_wavelengths_are_not_coverage(self):
+        # A dual-laser design samples 532 and 1064 nm; nothing is known between them, so the
+        # sample list can never satisfy covers_interval (only a confirmed coverage object can).
+        record = copy.deepcopy(P2B)
+        record["spectrum"]["sampling_wavelengths_nm"] = [532, 1064]
+        record["spectrum"]["sampling_span_nm"] = {"min_nm": 532, "max_nm": 1064, "eligible_for": "DISCOVERY_ONLY"}
+        for constraint in (
+            {"fact": "spectrum.sampling_wavelengths_nm", "op": "covers_interval", "value": [600, 1000]},
+            {"scope": ["spectrum"], "predicates": [
+                {"path": "sampling_wavelengths_nm", "op": "covers_interval", "value": [600, 1000]}]},
+            {"scope": ["spectrum", "sampling_wavelengths_nm"],
+             "predicates": [{"path": "", "op": "covers_interval", "value": [600, 1000]}]},
+        ):
+            with self.subTest(constraint=constraint):
+                result = run(record, constraint)
+                self.assertEqual((result["outcome"], result["reason"]), ("UNCONFIRMED", "VALUE_TYPE"))
+                self.assertIn("includes_all", result["details"]["hint"])
+        result = run(record, {"fact": "spectrum.sampling_wavelengths_nm", "op": "includes_all",
+                              "value": [532, 1064]})
+        self.assertEqual(result["outcome"], "MATCH")
+
     def test_sampled_wavelengths(self):
         result = run(P2B, {"fact": "spectrum.sampling_wavelengths_nm", "op": "includes_all", "value": [587, 656]})
         self.assertEqual(result["outcome"], "MATCH")
@@ -493,6 +514,20 @@ class Validation(unittest.TestCase):
                                 "INVALID_REQUEST", "/constraints/0/tolerance")
         self.assertRequestError({"op": "eq"}, "INVALID_REQUEST", "/constraints/0")
         self.assertRequestError({"scope": ["a"], "predicates": []}, "INVALID_REQUEST", "/constraints/0/predicates")
+
+    def test_integer_beyond_double_range_is_invalid_not_a_crash(self):
+        huge = 10 ** 400  # valid JSON, but math.isfinite(huge) raises OverflowError
+        self.assertFalse(ev._is_number(huge))
+        self.assertFalse(ev._is_number(-huge))
+        self.assertTrue(ev._is_number(10 ** 300))
+        for op in ("lte", "gt"):
+            self.assertRequestError({"fact": "a.b", "op": op, "value": huge}, "INVALID_REQUEST",
+                                    "/constraints/0/value")
+        self.assertRequestError({"fact": "a.b", "op": "between_inclusive", "value": [0, huge]},
+                                "INVALID_REQUEST", "/constraints/0/value")
+        with self.assertRaises(ev.RequestError) as raised:
+            ev.validate_target({"fact": "a.b", "target": 20, "tolerance": huge}, "/targets/0")
+        self.assertEqual(raised.exception.details["pointer"], "/targets/0/tolerance")
 
 
 class TargetsAndPreferences(unittest.TestCase):

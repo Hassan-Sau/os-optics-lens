@@ -27,7 +27,9 @@ os-optics-lens index dump     [--index FILE]
     configurations, facts, warnings, findings, findings_omitted, use: "--index <out>"}`. `out` is
     absolute; `findings` lists at most 50 warning findings (`findings_omitted` counts the rest).
     A failed build reports `BUILD_FAILED` with at most 50 findings, errors first, in
-    `details.findings` and the remainder count in `details.findings_omitted`.
+    `details.findings` and the remainder count in `details.findings_omitted`. The envelope stays
+    within 32768 bytes: long `expected`/`actual` values and messages are shortened and findings
+    that still do not fit are counted in `findings_omitted` (`details.truncated: true`).
 - `index validate` runs the complete build into a temporary file, discards it and reports the same
   result, with `out` and `use` set to null.
 - `index dump` prints the canonical JSON of every table (see [Reproducibility](#reproducibility)).
@@ -280,9 +282,9 @@ unresolved; the flag is recorded in `meta` and in the snapshot.
 
 | code | severity | meaning |
 |---|---|---|
-| `MALFORMED_JSON` | error | Not parseable, not UTF-8, has a BOM, contains `NaN`/`Infinity`/an overflowing number (field = JSON pointer location), or the top level is not an object. Applies to records and batch manifests. |
+| `MALFORMED_JSON` | error | Not parseable, not UTF-8, has a BOM, contains `NaN`/`Infinity`/an overflowing number (a float or an integer beyond the double range), a string or member name with a lone surrogate escape, or nesting deeper than 128 levels (field = JSON pointer location), or the top level is not an object. Applies to records and batch manifests. |
 | `MISSING_FIELD` | error | A required field is absent: `schema`, `record_schema_version`, `record_id`, `record_revision`, `title`, `collection`, `collection.collection_id`, `design`, `native_project`, `native_project.path`, `native_project.sha256`, `spectrum`, `record_hash`, `record_hash_method`; a performance entry's `metric`; a configuration entry's `configuration_id`. |
-| `INVALID_FIELD` | error | The wrong type or value. Includes: `schema` ≠ `opensci.lens.record`; a `record_id` not matching `^[a-z0-9][a-z0-9._-]{0,127}$`; `record_revision` not an int ≥ 1; a tag list that is not a list of strings; a numeric fact `value` (also performance `value*`/`min_*`/`max_*` and spectrum `min_nm`/`max_nm`) that is not a finite number or null; `performance` not a list; a 1.0 record carrying `configurations`; malformed or unknown configuration-entry keys; a top-level section that some configuration would inherit. |
+| `INVALID_FIELD` | error | The wrong type or value. Includes: `schema` ≠ `opensci.lens.record`; a `record_id` not matching `^[a-z0-9][a-z0-9._-]{0,127}$`; `record_revision` not an int from 1 to 2^63-1; a tag list that is not a list of strings; a numeric fact `value` (also performance `value*`/`min_*`/`max_*` and spectrum `min_nm`/`max_nm`) that is not a finite number or null; `performance` not a list; a 1.0 record carrying `configurations`; malformed or unknown configuration-entry keys; a top-level section that some configuration would inherit. |
 | `UNSUPPORTED_SCHEMA_VERSION` | error | `record_schema_version` is not `1.0` or `1.1`. |
 | `RECORD_DIR_MISMATCH` | error | The record directory name differs from `record_id`. |
 | `COLLECTION_DIR_MISMATCH` | warning | The collection directory differs from `collection.collection_id`. |

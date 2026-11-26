@@ -36,6 +36,8 @@ RECORD_SCHEMA = "opensci.lens.record"
 PROJECT_SCHEMA = "opensci.project"
 SUPPORTED_SCHEMA_VERSIONS = ("1.0", "1.1")
 RECORD_ID = re.compile(r"[a-z0-9][a-z0-9._-]{0,127}")
+MAX_REVISION = 2**63 - 1
+"""Largest record_revision (the index stores it in an SQLite INTEGER column)."""
 
 RESOLVED = "RESOLVED"
 FILE_MISSING = "FILE_MISSING"
@@ -265,8 +267,9 @@ class _Loader:
                      expected=list(SUPPORTED_SCHEMA_VERSIONS), actual=record["record_schema_version"])
         valid_id = self.require(record, "record_id", lambda v: isinstance(v, str) and RECORD_ID.fullmatch(v),
                                 "a string matching ^[a-z0-9][a-z0-9._-]{0,127}$", rid, file)
-        self.require(record, "record_revision", lambda v: isinstance(v, int) and not isinstance(v, bool) and v >= 1,
-                     "an integer >= 1", rid, file)
+        self.require(record, "record_revision",
+                     lambda v: isinstance(v, int) and not isinstance(v, bool) and 1 <= v <= MAX_REVISION,
+                     f"an integer from 1 to {MAX_REVISION}", rid, file)
         self.require(record, "title", lambda v: isinstance(v, str), "a string", rid, file)
         self.require(record, "collection", lambda v: isinstance(v, dict), "an object", rid, file)
         self.require(record, "collection.collection_id", lambda v: isinstance(v, str) and v, "a non-empty string",

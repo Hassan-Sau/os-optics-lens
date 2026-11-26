@@ -83,11 +83,12 @@ VALUE_MISSING = "VALUE_MISSING"
 VALUE_TYPE = "VALUE_TYPE"
 COVERAGE_UNCONFIRMED = "COVERAGE_UNCONFIRMED"
 PREFERENCE_NOT_COMPARABLE = "PREFERENCE_NOT_COMPARABLE"
+COMPARISON_ONLY = "COMPARISON_ONLY"
 
 REASON_CODES = frozenset({
     STOP_NOT_ELIGIBLE, STOP_MATCH_NOT_SUPPORTED, FACT_MISSING, CONDITIONS_DIFFER, AMBIGUOUS_FACTS,
     DISCOVERY_ONLY, SAMPLING_DIFFERS, EVIDENCE_MISSING, EVIDENCE_UNRESOLVED, VALUE_MISSING,
-    VALUE_TYPE, COVERAGE_UNCONFIRMED, PREFERENCE_NOT_COMPARABLE,
+    VALUE_TYPE, COVERAGE_UNCONFIRMED, PREFERENCE_NOT_COMPARABLE, COMPARISON_ONLY,
 })
 
 OPERATORS = (
@@ -219,9 +220,14 @@ class RequestError(ValueError):
 
 
 def _is_number(value: object) -> bool:
-    """A finite JSON number (booleans are not numbers)."""
-    return (isinstance(value, (int, float)) and not isinstance(value, bool)
-            and math.isfinite(value))
+    """A finite JSON number (booleans are not numbers). An integer too large for a double is not
+    finite as a double, so it is not a number here (and never raises OverflowError)."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        return False
 
 
 def json_equal(a: object, b: object) -> bool:
@@ -360,6 +366,70 @@ def _prefix_stop_dependent(segments: Sequence[str], ctx: EvalContext) -> str | N
     return None
 
 
+def _contained_stop_dependent(full: Sequence[str], node: object, ctx: EvalContext) -> str | None:
+    """A stop-dependent fact *inside* the value a predicate compares as a whole, or None.
+
+    A predicate whose path ends at a section (`aperture`, or the `performance` list) compares every
+    member under it, so it reaches each stop-dependent fact the section holds and is gated like a
+    predicate on that fact (amendment 10.2 (i) applied to the whole object). Deeper paths are judged
+    through their prefixes by `_prefix_stop_dependent`; explicitly listed keys longer than the path
+    are matched too."""
+    prefix = ".".join(full)
+    if len(full) == 1:
+        names: list[str] = []
+        if isinstance(node, dict):
+            names = [str(key) for key in node]
+        elif isinstance(node, list):
+            names = [entry["metric"] for entry in node
+                     if isinstance(entry, dict) and isinstance(entry.get("metric"), str)]
+        for name in names:
+            key = f"{prefix}.{name}"
+            if ctx.is_stop_dependent(key):
+                return key
+    for key in sorted(ctx.stop_dependent):
+        if key.startswith(prefix + ".") and _has_path(node, key[len(prefix) + 1:].split(".")):
+            return key
+    return None
+
+
+def _not_fact_hit(segments: Sequence[str], base: str = "") -> dict[str, Any] | None:
+    """The first path member that is a related check (`property_list_comparison`, `engine_check`):
+    such objects are kept for comparison only and are never values (SPEC extraction rule 1)."""
+    walked = base
+    for segment in segments:
+        walked = f"{walked}.{segment}" if walked else segment
+        if segment in _NOT_FACTS:
+            return {"json_path": walked, "member": segment,
+                    "note": f"{segment} is a comparison-only check, never a value; it cannot satisfy "
+                            "or refute a constraint",
+                    "hint": "constrain the fact itself (see `fields`)"}
+    return None
+
+
+def _contained_hit(node: object, base: str) -> tuple[str, dict[str, Any]] | None:
+    """A comparison-only check or a discovery-only object nested *inside* `node` (the value a
+    predicate compares as a whole): comparing the whole object would let that data decide."""
+    stack: list[tuple[str, object]] = [(base, node)]
+    while stack:
+        path, item = stack.pop()
+        if isinstance(item, dict):
+            children = [(f"{path}.{key}" if path else str(key), key, value) for key, value in item.items()]
+        elif isinstance(item, list):
+            children = [(f"{path}[{index}]", None, value) for index, value in enumerate(item)]
+        else:
+            continue
+        for child_path, key, value in reversed(children):
+            if key in _NOT_FACTS:
+                hit = _not_fact_hit([str(key)]) or {}
+                hit["json_path"] = child_path
+                return COMPARISON_ONLY, hit
+            discovery = _discovery_hit(child_path, value)
+            if discovery:
+                return DISCOVERY_ONLY, discovery
+            stack.append((child_path, value))
+    return None
+
+
 # ---------------------------------------------------------------------------------------------
 # Constraint shape helpers
 
@@ -466,7 +536,7 @@ def _check_keys(raw: Mapping[str, Any], allowed: frozenset[str], pointer: str, w
         if key not in allowed:
             close = difflib.get_close_matches(str(key), sorted(allowed), n=3, cutoff=0.6)
             hint = f"did you mean {', '.join(close)}?" if close else f"allowed keys: {', '.join(sorted(allowed))}"
-            raise _invalid(f"unknown key {key!r} in {what}", _ptr(pointer, key), hint,
+            raise _invalid(f"unknown key {_short(str(key))!r} in {what}", _ptr(pointer, key), hint,
                            did_you_mean=close, allowed=sorted(allowed))
 
 
@@ -474,9 +544,9 @@ def _check_op(op: object, pointer: str) -> str:
     if not isinstance(op, str) or op not in OPERATORS:
         close = difflib.get_close_matches(str(op), OPERATORS, n=3, cutoff=0.5)
         raise RequestError(
-            "UNSUPPORTED_OPERATOR", f"unsupported operator {op!r}", pointer=pointer,
+            "UNSUPPORTED_OPERATOR", f"unsupported operator {_short(op)!r}", pointer=pointer,
             hint=f"did you mean {', '.join(close)}?" if close else "see `os-optics-lens help request`",
-            details={"op": op, "supported": list(OPERATORS), "did_you_mean": close},
+            details={"op": _short(op), "supported": list(OPERATORS), "did_you_mean": close},
         )
     return op
 
@@ -881,6 +951,10 @@ def _locate(view: Mapping[str, Any], c: Mapping[str, Any], ctx: EvalContext, *,
     required = bool(c.get("requires_blocking_stop")) or \
         _prefix_stop_dependent(key_segments, ctx) is not None
     located = _Located(key_segments=key_segments, gate_required=required, stop=stop)
+    not_fact = _not_fact_hit(key_segments)
+    if not_fact is not None:
+        located.reason, located.details = COMPARISON_ONLY, not_fact
+        return located
     if required and not stop["eligible"]:
         located.reason = STOP_NOT_ELIGIBLE
         located.details = {
@@ -1010,11 +1084,22 @@ def _coverage_guard(view: Mapping[str, Any], full: Sequence[str]) -> dict[str, A
 
 def _path_guards(view: Mapping[str, Any], located: _Located, segments: Sequence[str],
                  ctx: EvalContext) -> tuple[str | None, dict[str, Any] | None, bool]:
-    """Amendment 10.2 guards for one predicate path: returns (reason, details, stop_gated)."""
+    """Amendment 10.2 guards for one predicate path: returns (reason, details, stop_gated).
+
+    Besides the path itself, the value the path ends at is checked as a whole: a predicate that
+    compares an object or list containing stop-dependent facts, comparison-only checks,
+    discovery-only objects or unconfirmed coverage is guarded exactly like a predicate on that
+    contained member."""
     full = located.key_segments + list(segments)
+    not_fact = _not_fact_hit(segments, located.json_path)
+    if not_fact is not None:
+        return COMPARISON_ONLY, not_fact, False
+    target: object = located.fact
+    for segment in segments:
+        target = target.get(segment) if isinstance(target, dict) else None
     gated = False
     if not located.gate_required:
-        key = _prefix_stop_dependent(full, ctx)
+        key = _prefix_stop_dependent(full, ctx) or _contained_stop_dependent(full, target, ctx)
         if key is not None:
             gated = True
             if not located.stop["eligible"]:
@@ -1027,15 +1112,24 @@ def _path_guards(view: Mapping[str, Any], located: _Located, segments: Sequence[
         hit = _discovery_hit(walked, node)
         if hit:
             return DISCOVERY_ONLY, hit, gated
+    contained = _contained_hit(target, walked)
+    if contained is not None:
+        return contained[0], contained[1], gated
     coverage = _coverage_guard(view, full)
+    if coverage is None and len(full) < len(_COVERAGE_KEY) \
+            and tuple(full) == _COVERAGE_KEY[: len(full)] and _has_path(target, _COVERAGE_KEY[len(full):]):
+        coverage = _coverage_guard(view, _COVERAGE_KEY)
     if coverage is not None:
         return COVERAGE_UNCONFIRMED, coverage, gated
     return None, None, gated
 
 
 def _interval_bounds(value: object) -> tuple[object, object] | None:
-    if isinstance(value, list) and len(value) == 2:
-        return value[0], value[1]
+    """The (low, high) bounds of an interval *object* (one min_/max_ member pair), else None.
+
+    A bare list is never an interval: two sampled wavelengths `[532, 1064]` say nothing about the
+    gap between them, so covers_interval on a list is VALUE_TYPE (compare samples with includes_all).
+    """
     if isinstance(value, dict):
         pair = _interval_pair(value)
         if pair is not None:
@@ -1147,7 +1241,11 @@ def _evaluate_predicate(view: Mapping[str, Any], located: _Located, predicate: M
     elif op == "covers_interval":
         bounds = _interval_bounds(value)
         if bounds is None:
-            result.reason, result.details = VALUE_TYPE, {"path": path, "expected": "interval"}
+            result.reason, result.details = VALUE_TYPE, {
+                "path": path, "expected": "interval object (one min_/max_ member pair)",
+                "actual": _short(value),
+                "hint": "covers_interval needs established continuous coverage "
+                        "(spectrum.continuous_coverage_nm); compare sampled values with includes_all"}
             return result
         low, high = bounds
         if low is None or high is None:
@@ -1460,6 +1558,10 @@ def preference_value(view: Mapping[str, Any], preference: Mapping[str, Any], ctx
     metric = preference["metric"]
     info: dict[str, Any] = {"fact": ".".join(scope + [metric]),
                             "json_path": ".".join(scope + [metric])}
+    not_fact = _not_fact_hit(scope + [metric])
+    if not_fact is not None:
+        info["details"] = not_fact
+        return None, COMPARISON_ONLY, info
     stop = stop_status(view)
     if _prefix_stop_dependent(scope + [metric], ctx) is not None and not stop["eligible"]:
         info["details"] = {"state": stop["state"]}

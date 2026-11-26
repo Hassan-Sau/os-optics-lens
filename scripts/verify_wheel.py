@@ -25,8 +25,13 @@ Steps (each one is a check in the JSON report printed on stdout):
    snapshot), ``facets``, ``search`` (a starting-point request read from a file),
    ``inspect`` (``yutong-2025-mirrorless-18-p2b``, ASCII JSON on the piped stdout), ``project_out``
    (``project --out``; the file's SHA-256 equals the record's ``native_project.sha256``),
-   ``search_fixture`` (``search --fixture`` with the bundled acceptance file: the fixture's record
-   is MATCH with every fixture constraint MATCH), and ``index_rebuild`` (``index build --corpus
+   ``search_fixture`` (acceptance item (1) of spec §9 against the bundled index and the bundled
+   acceptance file, amendment 9.4: ``search --fixture`` returns the fixture's record at revision 4
+   (the fixture's revision) as MATCH with counts.MATCH equal to the confirmed constraints and every
+   constraint MATCH; ``[0, expected.cost_proxy]`` is in ``rank.key``; the interval-MTF and
+   corner-relative-illumination facts have source status RESOLVED; and ``inspect --fields
+   performance.mtf_field_minimum`` shows the 11-sample grid equal to the fixture's
+   ``required_sampled_field_fractions``), and ``index_rebuild`` (``index build --corpus
    <site-packages>/os_optics_lens/_data/corpus``; its snapshot_id equals the one ``info`` reports).
 
 Exit status: 0 when every check passes, 1 when any check fails, 2 for usage errors. Only the standard
@@ -53,6 +58,13 @@ DATA = f"{PACKAGE}/_data"
 CORPUS = f"{DATA}/corpus"
 INSPECT_RECORD = "yutong-2025-mirrorless-18-p2b"
 FIXTURE = "acceptance/yutong-2025-mirrorless-problem-2.json"
+ACCEPTANCE_REVISION = 4
+"""Acceptance item (1): the fixture's record is found at revision 4."""
+RESOLVED_EVIDENCE_CONSTRAINTS = ("mtf_0_to_0p8", "corner_relative_illumination")
+"""Acceptance item (1): constraints whose fact evidence must resolve (source.status RESOLVED)."""
+SAMPLED_GRID_CONSTRAINT = "mtf_0_to_0p8"
+SAMPLED_GRID_FACT = "performance.mtf_field_minimum"
+SAMPLED_GRID_SIZE = 11
 LICENSE_FILES = ("LICENSE", "licenses/LensLibrary-MIT.txt")
 COMMAND_TIMEOUT_S = 600
 REMOVED_ENV = ("PYTHONIOENCODING", "PYTHONUTF8", "OS_OPTICS_LENS_INDEX", "PYTHONHOME", "VIRTUAL_ENV",
@@ -199,6 +211,53 @@ def constraint_outcome(value: Any) -> str | None:
     if isinstance(value, dict) and isinstance(value.get("outcome"), str):
         return value["outcome"]
     return None
+
+
+def acceptance_failures(fixture: dict[str, Any], candidate: dict[str, Any], grid: Any) -> list[str]:
+    """Every assertion of acceptance item (1) (spec §9, amendment 9.4) that fails, as messages.
+
+    `candidate` is the fixture record's candidate from ``search --fixture`` (detail full) and
+    `grid` the ``sampled_field_fractions`` that ``inspect --fields performance.mtf_field_minimum``
+    reports for the record. An empty list means item (1) holds."""
+    failures: list[str] = []
+    expected = fixture.get("expected") or {}
+    constraints = {c.get("id"): c for c in fixture.get("constraints") or [] if isinstance(c, dict)}
+    confirmed = expected.get("confirmed_constraints")
+    if isinstance(confirmed, int) and not isinstance(confirmed, bool):
+        expected_matches = confirmed
+    elif isinstance(confirmed, list):
+        expected_matches = len(confirmed)
+    else:
+        expected_matches = len(constraints)
+    fixture_revision = (fixture.get("record") or {}).get("revision")
+    if candidate.get("revision") != ACCEPTANCE_REVISION or candidate.get("revision") != fixture_revision:
+        failures.append(f"revision {candidate.get('revision')!r}, expected {ACCEPTANCE_REVISION} "
+                        f"(fixture names {fixture_revision!r})")
+    if candidate.get("outcome") != "MATCH":
+        failures.append(f"outcome {candidate.get('outcome')!r}, expected MATCH")
+    counts = candidate.get("counts") or {}
+    if counts.get("MATCH") != expected_matches:
+        failures.append(f"counts.MATCH {counts.get('MATCH')!r}, expected {expected_matches}")
+    outcomes = {cid: constraint_outcome(v) for cid, v in (candidate.get("constraints") or {}).items()}
+    not_matched = sorted(str(cid) for cid, outcome in outcomes.items() if outcome != "MATCH")
+    if not_matched or len(outcomes) != expected_matches:
+        failures.append(f"{len(outcomes)} constraint outcomes; not MATCH: {not_matched}")
+    cost = expected.get("cost_proxy")
+    key = (candidate.get("rank") or {}).get("key")
+    if cost is None or not isinstance(key, list) or [0, cost] not in key:
+        failures.append(f"rank.key {key!r} does not hold the comparable preference value [0, {cost!r}]")
+    for cid in RESOLVED_EVIDENCE_CONSTRAINTS:
+        entry = (candidate.get("constraints") or {}).get(cid)
+        fact = entry.get("fact") if isinstance(entry, dict) else None
+        source = fact.get("source") if isinstance(fact, dict) else None
+        status = source.get("status") if isinstance(source, dict) else None
+        if status != "RESOLVED":
+            failures.append(f"constraint {cid}: evidence source status {status!r}, expected RESOLVED")
+    required = (constraints.get(SAMPLED_GRID_CONSTRAINT) or {}).get("required_sampled_field_fractions")
+    if not isinstance(grid, list) or len(grid) != SAMPLED_GRID_SIZE or grid != required:
+        failures.append(f"{SAMPLED_GRID_FACT} sampled_field_fractions {grid!r}, expected the "
+                        f"{SAMPLED_GRID_SIZE}-sample grid {required!r}")
+    return failures
 
 
 class Runner:
@@ -453,33 +512,25 @@ def run_installed_checks(report: Report, run_dir: Path, venv: Path, facts: dict[
     fixture_path = package_dir / "_data" / "corpus" / FIXTURE
     fixture = facts.get("fixture") or {}
     record_id = (fixture.get("record") or {}).get("id")
-    confirmed = (fixture.get("expected") or {}).get("confirmed_constraints")
-    if isinstance(confirmed, int) and not isinstance(confirmed, bool):
-        expected_matches = confirmed
-    elif isinstance(confirmed, list):
-        expected_matches = len(confirmed)
-    else:
-        expected_matches = len(fixture.get("constraints") or [])
-    check.info["expected_match_constraints"] = expected_matches
     doc = runner.json_command(check, [cli, "search", "--fixture", str(fixture_path)])
     matching = [c for c in candidates(doc) if c.get("record_id") == record_id]
+    check.info["search_command"] = check.info.get("command")
+    inspected = runner.json_command(check, [cli, "inspect", str(record_id), "--fields", SAMPLED_GRID_FACT])
+    result = inspected.get("result") if isinstance(inspected, dict) else None
+    fields = result.get("fields") if isinstance(result, dict) else None
+    field = fields.get(SAMPLED_GRID_FACT) if isinstance(fields, dict) else None
+    value = field.get("value") if isinstance(field, dict) else None
+    grid = value.get("sampled_field_fractions") if isinstance(value, dict) else None
     if len(matching) != 1:
         check.fail(f"expected exactly one candidate for {record_id}, got {len(matching)}")
     else:
         candidate = matching[0]
-        counts = candidate.get("counts") or {}
-        outcomes = {cid: constraint_outcome(v) for cid, v in (candidate.get("constraints") or {}).items()}
-        check.info.update({"outcome": candidate.get("outcome"), "counts": counts,
-                           "revision": candidate.get("revision")})
-        if candidate.get("outcome") != "MATCH":
-            check.fail(f"outcome {candidate.get('outcome')!r}, expected MATCH")
-        if counts.get("MATCH") != expected_matches:
-            check.fail(f"counts.MATCH {counts.get('MATCH')!r}, expected {expected_matches}")
-        not_matched = sorted(cid for cid, outcome in outcomes.items() if outcome != "MATCH")
-        if not_matched or len(outcomes) != expected_matches:
-            check.fail(f"{len(outcomes)} constraint outcomes; not MATCH: {not_matched}")
-        if (fixture.get("record") or {}).get("revision") not in (None, candidate.get("revision")):
-            check.fail(f"revision {candidate.get('revision')!r}, fixture names {fixture['record']['revision']!r}")
+        check.info.update({"outcome": candidate.get("outcome"), "counts": candidate.get("counts"),
+                           "revision": candidate.get("revision"),
+                           "rank_key": (candidate.get("rank") or {}).get("key"), "sampled_grid": grid})
+        failures = acceptance_failures(fixture, candidate, grid)
+        if failures:
+            check.fail("; ".join(failures))
     check.ok = True
 
     check = report.start("index_rebuild")

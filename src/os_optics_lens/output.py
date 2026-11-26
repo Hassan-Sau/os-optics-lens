@@ -15,6 +15,9 @@ Budgeting:
   in its compact form; if even that does not fit, the page fails with `OUTPUT_LIMIT_EXCEEDED` (the
   whole request for a single query, only that entry for a batch). A page therefore never comes back
   with `returned: 0` and a `next_cursor` equal to its own offset.
+* `bounded_error_response(error, max_output_bytes)` is the error envelope shrunk to the budget:
+  long echoed values are shortened, `BUILD_FAILED` findings are halved into `findings_omitted`,
+  and `details.truncated` is true whenever anything was cut.
 
 Cursors are urlsafe base64 (no padding) of canonical JSON `{"v": 1, "s": snapshot_id, "q":
 query_digest, "o": offset}`.
@@ -77,6 +80,84 @@ def snapshot_info(index: Any) -> dict[str, Any]:
 def error_response(error: LensError) -> dict[str, Any]:
     """The error envelope `{"ok": false, "error": {code, message, hint, details}}`."""
     return {"ok": False, "error": error.to_dict()}
+
+
+_CLIP_LIMITS = (1024, 256, 96)
+_CLIP_DEPTH = 4
+
+
+def clip_value(value: Any, limit: int, depth: int = 0) -> Any:
+    """`value` with every string longer than `limit` characters shortened (ending in "...") and
+    every container whose compact JSON exceeds `limit` either clipped member-wise (objects and
+    lists near the top) or replaced by a shortened JSON text. Never longer than the input."""
+    if isinstance(value, str):
+        return value if len(value) <= limit else value[: max(0, limit - 3)] + "..."
+    if not isinstance(value, (dict, list)):
+        return value
+    text = dumps(value)
+    if len(text) <= limit:
+        return value
+    if depth < _CLIP_DEPTH and isinstance(value, dict) and len(value) <= 32:
+        return {clip_value(str(key), limit): clip_value(item, limit, depth + 1) for key, item in value.items()}
+    if depth < _CLIP_DEPTH and isinstance(value, list) and len(value) <= 32:
+        return [clip_value(item, limit, depth + 1) for item in value]
+    return text[: max(0, limit - 3)] + "..."
+
+
+def clip_error(error: dict[str, Any], limit: int) -> dict[str, Any]:
+    """An error object (`LensError.to_dict()`) with echoed values clipped to `limit` characters;
+    `details.truncated` is set when anything changed. Used for batch error entries."""
+    clipped = {key: clip_value(value, limit, 1) for key, value in error.items()}
+    if clipped != error:
+        details = clipped.get("details")
+        clipped["details"] = dict(details) if isinstance(details, dict) else {}
+        clipped["details"]["truncated"] = True
+    return clipped
+
+
+def bounded_error_response(error: LensError, max_output_bytes: int = DEFAULT_MAX_OUTPUT_BYTES) -> dict[str, Any]:
+    """The error envelope, shrunk until its wire form fits `max_output_bytes` (spec §7: every
+    document on stdout is bounded, error envelopes included).
+
+    Shrinking steps, each tried only while the envelope is still too large: clip echoed strings and
+    values (1024, then 256, then 96 characters); halve a `BUILD_FAILED` findings list, counting the
+    dropped ones in `findings_omitted`; finally keep only code, shortened message and hint, the
+    pointer and the findings counts. `details.truncated` is true whenever anything was cut.
+    """
+    envelope = error_response(error)
+    if wire_length(envelope) <= max_output_bytes:
+        return envelope
+    raw = error.to_dict()
+    details = raw.get("details") if isinstance(raw.get("details"), dict) else {}
+    findings = details.get("findings") if isinstance(details.get("findings"), list) else None
+    omitted = details.get("findings_omitted") if isinstance(details.get("findings_omitted"), int) else 0
+    for limit in _CLIP_LIMITS:
+        head = {key: clip_value(raw.get(key), limit) for key in ("code", "message", "hint")}
+        clipped = {key: clip_value(value, limit, 1) for key, value in details.items() if key != "findings"}
+        clipped["truncated"] = True
+        if findings is None:
+            envelope = {"ok": False, "error": {**head, "details": clipped}}
+            if wire_length(envelope) <= max_output_bytes:
+                return envelope
+            continue
+        items = [clip_value(item, limit, 1) for item in findings]
+        shown = len(items)
+        while True:
+            envelope = {"ok": False, "error": {**head, "details": {
+                **clipped, "findings": items[:shown], "findings_omitted": omitted + len(items) - shown}}}
+            if wire_length(envelope) <= max_output_bytes or shown == 0:
+                break
+            shown //= 2
+        if wire_length(envelope) <= max_output_bytes:
+            return envelope
+    minimal: dict[str, Any] = {"truncated": True}
+    if isinstance(details.get("pointer"), str):
+        minimal["pointer"] = clip_value(details["pointer"], 96)
+    if findings is not None:
+        minimal.update(findings=[], findings_omitted=omitted + len(findings))
+    return {"ok": False, "error": {"code": clip_value(raw.get("code"), 64),
+                                   "message": clip_value(raw.get("message"), 96),
+                                   "hint": clip_value(raw.get("hint"), 96), "details": minimal}}
 
 
 def exit_code(response: dict[str, Any]) -> int:
@@ -204,6 +285,18 @@ def _measure(response: dict[str, Any], slots: list[PageSlot], budget: int) -> in
     return _settle_output_bytes(response, total)
 
 
+def _measure_alone(response: dict[str, Any], slots: list[PageSlot], slot: PageSlot, budget: int) -> int:
+    """Wire length if `slot` kept its reservation and every other page were empty."""
+    saved = [(other, other.chosen) for other in slots if other is not slot]
+    for other, _ in saved:
+        other.chosen = []
+    try:
+        return _measure(response, slots, budget)
+    finally:
+        for other, chosen in saved:
+            other.chosen = chosen
+
+
 def fill_pages(response: dict[str, Any], slots: list[PageSlot], max_output_bytes: int, *,
                batch: bool = False,
                error_entry: Callable[[int, LensError], dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -214,7 +307,10 @@ def fill_pages(response: dict[str, Any], slots: list[PageSlot], max_output_bytes
     non-empty page reserves its first candidate in compact form (the progress guarantee), so an
     early page can never starve a later one. A page whose compact first candidate does not fit
     fails: the whole request for a single query, or (with `batch=True`) only that entry, replaced by
-    `error_entry(entry_index, error)` in `response["results"]`; later pages are dropped first.
+    `error_entry(entry_index, error)` in `response["results"]`. Pages that cannot fit even with
+    every other page empty fail first, whatever their position (their `required_bytes` is what they
+    need alone); only when every remaining page fits alone but they do not fit together do later
+    pages give way first.
     Candidates are then added round-robin in slot order: in the first round each page upgrades its
     reserved first candidate to the full form when that fits (else it stays compact and the page
     stops); in later rounds a candidate that does not fit stops its page there (its cursor points
@@ -234,7 +330,14 @@ def fill_pages(response: dict[str, Any], slots: list[PageSlot], max_output_bytes
         if needed <= max_output_bytes:
             break
         failing = [slot for slot in active if slot.chosen]
-        victim = failing[-1] if failing else None
+        victim = None
+        for slot in failing:
+            alone = _measure_alone(response, active, slot, max_output_bytes)
+            if alone > max_output_bytes:
+                victim, needed = slot, alone
+                break
+        if victim is None and failing:
+            victim = failing[-1]
         error = _output_limit(needed, max_output_bytes,
                               reason="the first candidate of a page does not fit even in compact form")
         if victim is None or not batch or error_entry is None or victim.entry_index is None:

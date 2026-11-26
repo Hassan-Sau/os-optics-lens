@@ -173,6 +173,11 @@ Every command and subcommand has `--help` with examples. Output conventions:
   clamped.
 - Nothing is written to stderr. With `OS_OPTICS_LENS_DEBUG=1`, an `INTERNAL` error also prints
   its traceback to stderr.
+- An error envelope is bounded like any other document: by the request's `max_output_bytes`,
+  else `--max-output-bytes`, else 32768. Values echoed from the request are shortened and
+  `BUILD_FAILED` findings beyond the budget are counted in `findings_omitted`;
+  `details.truncated` is true when anything was cut.
+- A reader that closes stdout early (`| head`) ends the command silently with exit code 1.
 
 ## Request format
 
@@ -255,7 +260,7 @@ requires_*?}` of `acceptance/*.json` is accepted verbatim.
 | `between_inclusive` | `[low, high]` |
 | `in` | list of allowed values |
 | `includes_all` | list of numbers that must each have an equal member; optional `tolerance` |
-| `covers_interval` | `[a, b]` against `spectrum.continuous_coverage_nm` |
+| `covers_interval` | `[a, b]` against an interval object, `spectrum.continuous_coverage_nm` (a list is `VALUE_TYPE`) |
 | `proportional_weights` | weight vector compared by ratio (same ordered wavelengths) |
 | `has_source`, `has_sourced_method` | no value: the source (or a method's source) must resolve |
 
@@ -300,8 +305,12 @@ A batch holds at most 20 queries. One budget covers the whole response:
 - every sub-query's skeleton is reserved first, then room for each page's first candidate in
   compact form, so every page with results returns at least one candidate (upgraded to the full
   form when it fits); after that candidates are added round-robin in query order;
-- a page whose compact first candidate cannot fit becomes an `OUTPUT_LIMIT_EXCEEDED` error entry
-  (later queries give way first); raise `max_output_bytes` or send fewer queries;
+- a page whose compact first candidate cannot fit even with every other page empty becomes an
+  `OUTPUT_LIMIT_EXCEEDED` error entry (`required_bytes` is what it needs alone), wherever it is in
+  the batch; only when pages that each fit alone do not fit together do later queries give way
+  first; raise `max_output_bytes` or send fewer queries;
+- an error entry's echoed values are shortened (`details.truncated`), so one long input cannot
+  crowd out the other entries;
 - each sub-query has its own `limit`, `cursor`, `fields` and `detail`;
 - a failing sub-query becomes an error entry and the others still run.
 
@@ -444,7 +453,9 @@ full ordered list.
   why. An unknown is never a match and never a failure.
 
 A configuration's outcome is DOES_NOT_MATCH if any constraint does not match, else UNCONFIRMED
-if any is unconfirmed, else MATCH. A record is shown at its best configuration.
+if any is unconfirmed, else MATCH. A record is shown at its best configuration: MATCH before
+UNCONFIRMED before DOES_NOT_MATCH, then more MATCH constraints, then fewer DOES_NOT_MATCH, then
+(specification) the preferences, then the configuration order. `rank.key` then orders the records.
 
 Specification search answers "does this record meet the brief as stated?" Starting-point search
 answers "which records are good places to start refining?" and keeps fixed requirements,
@@ -457,7 +468,8 @@ flexible targets, shortfalls and unknowns apart.
 | `FACT_MISSING` | the configuration has no such fact. `details.available_alternatives` lists related facts, which are never substituted |
 | `CONDITIONS_DIFFER` | no entry has the requested conditions. `details` shows expected vs actual for the nearest entry |
 | `AMBIGUOUS_FACTS` | several entries match. Pin more conditions or use `select` |
-| `DISCOVERY_ONLY` | the fact, or an object along the path, is discovery-only (e.g. `spectrum.sampling_span_nm`) |
+| `DISCOVERY_ONLY` | the fact, or an object along or under the compared path, is discovery-only (e.g. `spectrum.sampling_span_nm`) |
+| `COMPARISON_ONLY` | the path reaches, or the compared object contains, a related check (`property_list_comparison`, `engine_check`): kept for comparison only, never a value, so it can neither satisfy nor refute a constraint |
 | `COVERAGE_UNCONFIRMED` | `spectrum.continuous_coverage_nm` is not CONFIRMED or SOURCE_STATED |
 | `SAMPLING_DIFFERS` | `required_sampled_field_fractions` differs from the fact's `sampled_field_fractions` |
 | `STOP_NOT_ELIGIBLE` | a stop-dependent fact on a Project whose stop does not block light |
@@ -475,8 +487,10 @@ Stop-dependent facts are listed in `vocabulary.json`:
 - every `aperture.*` member except `stop_opening_diameter_mm` and `property_list_comparison`;
 - `performance.mtf`, `performance.mtf_field_minimum` and `performance.relative_illumination`.
 
-A new aperture member is stop-dependent by default. For a predicate that reaches a stop-dependent
-fact, or a constraint with `requires_blocking_stop: true`:
+A new aperture member is stop-dependent by default. A predicate that compares a whole object or
+list (path `""` on the `aperture` section, or the whole `performance` list) reaches every
+stop-dependent fact inside it. For a predicate that reaches a stop-dependent fact, or a constraint
+with `requires_blocking_stop: true`:
 
 1. If `design.aperture_validity.stop_blocks_light` and `eligible_for_stop_dependent_evaluation`
    are not both true, the result is UNCONFIRMED `STOP_NOT_ELIGIBLE`.
@@ -497,6 +511,11 @@ Targets and preferences apply step 1 only. `fields` reports `stop_dependent` per
   is `COVERAGE_UNCONFIRMED`, with the sampling span shown for information.
 - Sampled wavelengths are compared with `includes_all`/`eq` on `spectrum.sampling_wavelengths_nm`.
   Spectral weights are compared with `proportional_weights`.
+- `covers_interval` needs an interval object (one `min_`/`max_` member pair). A list, such as two
+  sampled wavelengths `[532, 1064]`, says nothing about the gap between them and is UNCONFIRMED
+  `VALUE_TYPE`.
+- A `property_list_comparison` (aperture or field) is a check kept for comparison, never a value:
+  any constraint on it is UNCONFIRMED `COMPARISON_ONLY`.
 
 ### Aperture conventions
 
@@ -574,7 +593,7 @@ A failure prints `{"ok": false, "error": {"code", "message", "hint", "details"}}
 
 | code | exit | meaning |
 |---|---|---|
-| `INVALID_REQUEST` | 2 | malformed JSON, unknown key (`pointer`, `did_you_mean`), bad value, out-of-range option (`allowed`), command-line error (`argv_error`, `usage`) |
+| `INVALID_REQUEST` | 2 | malformed JSON (including a number beyond the double range, a lone surrogate escape or nesting deeper than 128), unknown key (`pointer`, `did_you_mean`), bad value, out-of-range option (`allowed`), command-line error (`argv_error`, `usage`) |
 | `UNKNOWN_FACET` | 2 | no such facet |
 | `UNKNOWN_FACET_VALUE` | 2 | a value that is neither a vocabulary term nor in the index (close values suggested) |
 | `AMBIGUOUS_TERM` | 2 | an alias with several meanings (`details.candidates`) |

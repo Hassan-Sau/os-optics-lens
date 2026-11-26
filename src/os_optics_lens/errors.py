@@ -57,6 +57,9 @@ class LensError(Exception):
         self.hint = hint
         self.details = details if details is not None else {}
         self.exit_code = exit_code if exit_code is not None else EXIT_CODES.get(code, 1)
+        self.output_budget: int | None = None
+        """The byte budget of the request that failed, when known; the CLI bounds the error
+        envelope by it (else by --max-output-bytes or the default)."""
 
     def to_dict(self) -> dict[str, Any]:
         """The `error` member of the response envelope."""

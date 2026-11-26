@@ -113,6 +113,52 @@ class PathGuards(unittest.TestCase):
         for candidate in response["result"]["candidates"]:
             self.assertEqual(list(candidate["constraints"]), ["c0"])
 
+    def test_property_list_comparison_is_never_a_value(self) -> None:
+        # Comparison-only checks (RECORD_FORMAT.md, LENSLIBRARY_IMPORT.md) never satisfy or refute a
+        # constraint, whatever the stop state: 7821720c's stop is not eligible, 6016226 stores an
+        # object height (1.673) under its angular field.
+        cases = (
+            ("lenslibrary-7821720c", {"fact": "aperture.property_list_comparison", "op": "lte", "value": 3}),
+            ("lenslibrary-7821720c", {"fact": "aperture.property_list_comparison", "op": "gt", "value": 3}),
+            ("lenslibrary-7821720c", {"scope": ["aperture"], "predicates": [
+                {"path": "property_list_comparison.value", "op": "lte", "value": 3}]}),
+            ("lenslibrary-7821720c", {"fact": "field.property_list_comparison", "op": "gte", "value": 100}),
+            ("lenslibrary-6016226", {"fact": "field.property_list_comparison", "op": "lte", "value": 2}),
+            ("lenslibrary-6016226", {"scope": ["field", "property_list_comparison"],
+                                     "predicates": [{"path": "value", "op": "lte", "value": 2}]}),
+            ("lenslibrary-1792917", {"fact": "first_order.engine_check", "op": "ne", "value": None}),
+        )
+        for record_id, constraint in cases:
+            with self.subTest(record=record_id, constraint=constraint):
+                entry, candidate = evaluate(record_id, constraint)
+                self.assertEqual((entry["outcome"], entry["reason"]), ("UNCONFIRMED", "COMPARISON_ONLY"))
+                self.assertEqual(candidate["outcome"], "UNCONFIRMED")
+        real, _ = evaluate("lenslibrary-6016226", {"fact": "field.half_field_deg", "op": "lte", "value": 2})
+        self.assertEqual(real["outcome"], "DOES_NOT_MATCH")
+
+    def test_whole_section_predicate_is_gated(self) -> None:
+        # 7821720c: stop_blocks_light false, eligible_for_stop_dependent_evaluation false.
+        record = json.loads(next((ROOT / "records").glob("*/lenslibrary-7821720c/record.json"))
+                            .read_text(encoding="utf-8"))
+        forms = (
+            {"scope": ["aperture"], "predicates": [{"path": "", "op": "ne", "value": {}}]},
+            {"fact": "aperture", "path": "", "op": "ne", "value": {}},
+            {"scope": ["aperture"], "predicates": [{"path": "", "op": "eq", "value": record["aperture"]}]},
+            {"scope": ["aperture"], "predicates": [
+                {"path": "", "op": "eq", "value": dict(record["aperture"], working_f_number=99)}]},
+        )
+        for constraint in forms:
+            with self.subTest(constraint=constraint):
+                entry, _ = evaluate("lenslibrary-7821720c", constraint)
+                self.assertEqual((entry["outcome"], entry["reason"]), ("UNCONFIRMED", "STOP_NOT_ELIGIBLE"))
+        # On an eligible stop the whole object still holds a comparison-only check.
+        entry, _ = evaluate("lenslibrary-1792917", {"scope": ["aperture"], "predicates": [
+            {"path": "", "op": "ne", "value": {}}]})
+        self.assertEqual((entry["outcome"], entry["reason"]), ("UNCONFIRMED", "COMPARISON_ONLY"))
+        # A whole spectrum object contains the discovery-only sampling span.
+        entry, _ = evaluate(P2B, {"scope": ["spectrum"], "predicates": [{"path": "", "op": "ne", "value": {}}]})
+        self.assertEqual((entry["outcome"], entry["reason"]), ("UNCONFIRMED", "DISCOVERY_ONLY"))
+
 
 class Conventions(unittest.TestCase):
     def test_aperture_conventions_never_substitute(self) -> None:

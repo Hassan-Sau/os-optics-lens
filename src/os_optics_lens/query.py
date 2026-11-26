@@ -41,6 +41,7 @@ from .evaluate import (
     UNCONFIRMED,
     EvalContext,
     RequestError,
+    configuration_rank,
     constraint_fact_key,
     evaluate_configuration,
     expand_constraint,
@@ -149,12 +150,17 @@ def _check_keys(raw: dict[str, Any], allowed: frozenset[str], pointer: str, what
         if key not in allowed:
             close = difflib.get_close_matches(str(key), sorted(allowed), n=3, cutoff=0.6)
             hint = f"did you mean {', '.join(close)}?" if close else f"allowed keys: {', '.join(sorted(allowed))}"
-            raise _invalid(f"unknown key {key!r} in {what}", _ptr(pointer, key), hint,
+            raise _invalid(f"unknown key {_short_text(str(key))!r} in {what}", _ptr(pointer, key), hint,
                            did_you_mean=close, allowed=sorted(allowed))
 
 
 def _is_number(value: Any) -> bool:
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:  # an int too large for a double
+        return False
 
 
 def _check_int(value: Any, pointer: str, name: str, low: int, high: int, default: int) -> int:
@@ -387,10 +393,10 @@ def _resolve_facet_value(s: _Session, facet: str, value: str, pointer: str,
         return term
     close = s.vocab.close_terms(facet, value, sorted(present))
     raise LensError(
-        "UNKNOWN_FACET_VALUE", f"{value!r} is not a value of facet {facet!r}",
+        "UNKNOWN_FACET_VALUE", f"{_short_text(value)!r} is not a value of facet {facet!r}",
         hint=("did you mean " + ", ".join(close) + "?") if close else
         f"list values with `os-optics-lens facets --facet {facet}`",
-        details={"pointer": pointer, "facet": facet, "value": value, "did_you_mean": close,
+        details={"pointer": pointer, "facet": facet, "value": _short_text(value), "did_you_mean": close,
                  "values_count": len(present)})
 
 
@@ -605,7 +611,7 @@ def _normalize_query(s: _Session, raw: Any, base: str, warnings: list[dict[str, 
                        allowed=list(MODES))
     if mode not in MODES:
         close = difflib.get_close_matches(str(mode), MODES, n=2, cutoff=0.5)
-        raise _invalid(f"unknown mode {mode!r}", _ptr(base, "mode"), "use specification or starting_point",
+        raise _invalid(f"unknown mode {_short_text(mode)!r}", _ptr(base, "mode"), "use specification or starting_point",
                        did_you_mean=close, allowed=list(MODES))
     normalized: dict[str, Any] = {"mode": mode}
     normalized["filters"] = _normalize_filters(s, raw.get("filters"), _ptr(base, "filters"), warnings)
@@ -847,6 +853,8 @@ class _ConfigResult:
     preferences: list[dict[str, Any]]
     rank_key: list[Any]
     sort_key: tuple[Any, ...]
+    choice_key: tuple[Any, ...]
+    """Chooses the record's best configuration (§6.4); `sort_key` then orders the records."""
 
 
 def _pref_sort(entry: list[Any]) -> tuple[int, float]:
@@ -905,6 +913,11 @@ def _evaluate_config(s: _Session, config: dict[str, Any], record: dict[str, Any]
         rank_key: list[Any] = [evaluation["outcome"], *entries, record_id, ordinal]
         sort_key: tuple[Any, ...] = (OUTCOMES.index(evaluation["outcome"]),
                                      *[_pref_sort(e) for e in entries], record_id, ordinal)
+        # §6.4: a record's best configuration is chosen by outcome, then more MATCH constraints,
+        # then fewer DOES_NOT_MATCH; preferences only break the remaining ties, then the ordinal.
+        outcome_rank, more_match, fewer_dnm, _ = configuration_rank(evaluation, ordinal)
+        choice_key: tuple[Any, ...] = (outcome_rank, more_match, fewer_dnm,
+                                       *[_pref_sort(e) for e in entries], ordinal)
     else:
         unknown_targets = sum(1 for t in targets if "reason" in t)
         score = round(sum(t["weight"] * t["normalized"] for t in targets if "normalized" in t), 9)
@@ -912,7 +925,8 @@ def _evaluate_config(s: _Session, config: dict[str, Any], record: dict[str, Any]
                     record_id, ordinal]
         sort_key = (counts[DOES_NOT_MATCH], counts[UNCONFIRMED], unknown_targets, score,
                     *[_pref_sort(e) for e in entries], record_id, ordinal)
-    return _ConfigResult(config, evaluation, targets, preferences, rank_key, sort_key)
+        choice_key = sort_key
+    return _ConfigResult(config, evaluation, targets, preferences, rank_key, sort_key, choice_key)
 
 
 def _explanation(q: dict[str, Any], best: _ConfigResult) -> str:
@@ -1108,7 +1122,7 @@ def _prepare_query(s: _Session, raw: Any, base: str, warnings: list[dict[str, An
             if not eligible:
                 total["excluded"]["hard_shortfall"] += 1
                 continue
-        best = min(eligible, key=lambda r: r.sort_key)
+        best = min(eligible, key=lambda r: r.choice_key)
         others = [r for r in results if r is not best]
         outcome = best.evaluation["outcome"]
         total[outcome] += 1
@@ -1175,7 +1189,11 @@ def run_request(index: Index, request: Any, *, max_output_bytes: int | None = No
         return _run_batch(s, request, max_output_bytes)
     budget = _budget(request.get("max_output_bytes"), max_output_bytes, "/max_output_bytes")
     warnings: list[dict[str, Any]] = []
-    prepared = _prepare_query(s, request, "", warnings)
+    try:
+        prepared = _prepare_query(s, request, "", warnings)
+    except LensError as error:
+        error.output_budget = budget  # the CLI bounds the error envelope by the request's budget
+        raise
     response = _envelope(s, {"result": prepared.result}, warnings)
     return output.fill_pages(response, [_slot(s, prepared, None)], budget)
 
@@ -1207,8 +1225,13 @@ def _run_batch(s: _Session, request: dict[str, Any], argument: int | None) -> di
     return response
 
 
+_ERROR_ENTRY_TEXT_LIMIT = 256
+
+
 def _error_entry(i: int, error: LensError) -> dict[str, Any]:
-    return {"index": i, "ok": False, "error": error.to_dict()}
+    """A failed batch entry; values echoed from the request are clipped so that one long input
+    cannot crowd the other entries out of the budget (`details.truncated` marks a clip)."""
+    return {"index": i, "ok": False, "error": output.clip_error(error.to_dict(), _ERROR_ENTRY_TEXT_LIMIT)}
 
 
 def normalize_request(index: Index, request: Any) -> dict[str, Any]:

@@ -3,7 +3,9 @@
 A failed command prints `{"ok": false, "error": {"code", "message", "hint", "details"}}` on
 stdout and exits with the code below. `details.pointer` (a JSON pointer into the request) locates
 request problems; `details.did_you_mean` suggests close names. Nothing is printed on stderr
-unless `OS_OPTICS_LENS_DEBUG=1` is set (then INTERNAL errors print their traceback there).
+unless `OS_OPTICS_LENS_DEBUG=1` is set (then INTERNAL errors print their traceback there). The
+error document fits the budget too (`max_output_bytes`, default 32768): long echoed values are
+shortened and `details.truncated` is true when anything was cut.
 
 | code | exit | meaning | what to do |
 |---|---|---|---|

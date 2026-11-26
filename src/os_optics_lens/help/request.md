@@ -82,7 +82,7 @@ Operators:
 | `between_inclusive` | `[low, high]` |
 | `in` | list of allowed values |
 | `includes_all` | list of numbers that must all be members; optional `tolerance` |
-| `covers_interval` | `[a, b]`: a confirmed continuous coverage must contain it |
+| `covers_interval` | `[a, b]`: a confirmed continuous coverage interval object must contain it (a list of samples is `VALUE_TYPE`) |
 | `proportional_weights` | weight list compared by ratio |
 | `has_source`, `has_sourced_method` | no value (or `true`): evidence must resolve |
 
@@ -116,7 +116,9 @@ accepted verbatim: `{"scope": ["cost_proxy"], "metric": "weighted_spherical_elem
 
 At most 20 queries; one budget covers the whole response. Each sub-query has its own `limit`,
 `cursor`, `fields` and `detail` (not `max_output_bytes`). A failing sub-query becomes an error
-entry; the batch exits 0 unless every sub-query failed.
+entry; the batch exits 0 unless every sub-query failed. A sub-query whose first candidate cannot
+fit even alone fails wherever it is; pages that each fit alone but not together give way from the
+last.
 
 ## Continuation
 

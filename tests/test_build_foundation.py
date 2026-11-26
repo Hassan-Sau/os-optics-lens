@@ -187,6 +187,31 @@ class CanonicalTests(unittest.TestCase):
             loads_strict(b"{")
         self.assertEqual(loads_strict(b'{"x": 1.5}'), {"x": 1.5})
 
+    def test_strict_json_rejects_out_of_range_input_with_pointer(self):
+        # Parseable but unusable: each used to escape as OverflowError / UnicodeEncodeError /
+        # RecursionError (an INTERNAL crash) instead of a MALFORMED_JSON finding.
+        huge = "1" + "0" * 400
+        cases = (
+            ('{"a": {"b": [1, ' + huge + ']}}', "/a/b/1"),
+            ('{"a": -' + huge + '}', "/a"),
+            (r'{"title": "x\ud800y"}', "/title"),
+            (r'{"k": {"\udc00": 1}}', "/k"),
+            ('{"deep": ' + "[" * 200 + "]" * 200 + '}', "/deep" + "/0" * 127),
+        )
+        for text, pointer in cases:
+            with self.subTest(pointer=pointer[:20]):
+                with self.assertRaises(JsonFormatError) as ctx:
+                    loads_strict(text.encode("ascii"))
+                self.assertEqual(ctx.exception.pointer, pointer)
+        # Still accepted: a large integer a double can hold, a valid surrogate pair, 128 levels.
+        self.assertEqual(loads_strict(b'{"x": ' + b"9" * 300 + b"}")["x"], int("9" * 300))
+        self.assertEqual(loads_strict(rb'{"x": "\ud83d\ude00"}'), {"x": "\U0001F600"})
+        self.assertIsInstance(loads_strict(("[" * 128 + "]" * 128).encode()), list)
+        with self.assertRaises(JsonFormatError):
+            loads_strict(("[" * 129 + "]" * 129).encode())
+        with self.assertRaises(JsonFormatError):
+            loads_strict(("[" * 100000 + "]" * 100000).encode())
+
     def test_corpus_relative_path(self):
         self.assertEqual(corpus_relative_path("records/a/../a/b.json"), "records/a/b.json")
         for bad in ("", "/etc/passwd", "C:/x", "..", "../x", "records/../../x", "a\\b", None, 3):
@@ -395,6 +420,39 @@ class SyntheticFindingTests(unittest.TestCase):
         self.assert_finding(findings, "error", "MALFORMED_JSON", "", file="records/synth/rec-a/record.json")
         self.assert_finding(findings, "error", "MALFORMED_JSON", "first_order.effective_focal_length_mm.value",
                             file="records/synth/rec-b/record.json")
+
+    def test_out_of_range_values_fail_the_build_with_findings(self):
+        # Values that parse but cannot be indexed are findings naming file and field (BUILD_FAILED,
+        # exit 6), never an INTERNAL crash.
+        huge = "1" + "0" * 400
+        edits = {
+            "rec-int": ('"configuration_count": 1', '"configuration_count": ' + huge,
+                        "MALFORMED_JSON", "design.configuration_count"),
+            "rec-value": ('"value": 50.0', '"value": ' + huge,
+                          "MALFORMED_JSON", "first_order.effective_focal_length_mm.value"),
+            "rec-surrogate": ('"title": "Synthetic', '"title": "\\ud800Synthetic', "MALFORMED_JSON",
+                              "title"),
+            "rec-deep": ('"collection": {', '"collection": {"deep": ' + "[" * 900 + "]" * 900 + ", ",
+                         "MALFORMED_JSON", "collection.deep" + "[0]" * 126),
+        }
+        for record_id, (old, new, _, _) in edits.items():
+            self.corpus.add(record_id)
+            path = self.corpus.record_dir("synth", record_id) / "record.json"
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(old, text)
+            path.write_text(text.replace(old, new, 1), encoding="utf-8")
+        self.corpus.add("rec-revision", mutate=lambda record: record.__setitem__("record_revision", 2 ** 63))
+        self.corpus.add("rec-ok")
+        with self.assertRaises(LensError) as ctx:
+            build_index(self.root, Path(self._tmp.name) / "out.sqlite")
+        error = ctx.exception
+        self.assertEqual((error.code, error.exit_code), ("BUILD_FAILED", 6))
+        found = {(f["record_id"] or f["file"].split("/")[2], f["code"], f["field"])
+                 for f in error.details["findings"]}
+        for record_id, (_, _, code, field) in edits.items():
+            self.assertIn((record_id, code, field), found)
+        self.assertIn(("rec-revision", "INVALID_FIELD", "record_revision"), found)
+        self.assertEqual(error.details["errors"], 5)
 
     def test_missing_and_invalid_fields(self):
         def mutate(record):

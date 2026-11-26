@@ -518,6 +518,43 @@ class Budget(unittest.TestCase):
         self.assertIsNone(response["result"]["page"]["next_cursor"])
         self.assertTrue(response["bounds"]["truncated"])
 
+    def test_oversized_query_fails_alone_wherever_it_is(self) -> None:
+        # A query whose compact first candidate cannot fit even alone fails by itself; a small
+        # query before or after it keeps its candidate and the batch stays ok (amendment 10.14).
+        big = {"mode": "specification", "filters": {"record_ids": [P2B]}, "limit": 1,
+               "constraints": [{"id": f"c{i}", "fact": "first_order.effective_focal_length_mm", "op": "gte",
+                                "value": 0} for i in range(200)]}
+        small = {"mode": "starting_point", "limit": 1}
+        alone = query.run_request(INDEX, {"queries": [small], "max_output_bytes": 8192})
+        self.assertLess(alone["bounds"]["output_bytes"], 4096)
+        for order in ((big, small), (small, big)):
+            with self.subTest(first=order[0]["mode"]):
+                response = query.run_request(INDEX, {"queries": list(order), "max_output_bytes": 8192})
+                check_bounds(self, response)
+                self.assertTrue(response["ok"])
+                self.assertEqual(output.exit_code(response), 0)
+                by_mode = {q["mode"]: entry for q, entry in zip(order, response["results"])}
+                self.assertTrue(by_mode["starting_point"]["ok"])
+                self.assertEqual(by_mode["starting_point"]["result"]["page"]["returned"], 1)
+                failed = by_mode["specification"]
+                self.assertFalse(failed["ok"])
+                self.assertEqual(failed["error"]["code"], "OUTPUT_LIMIT_EXCEEDED")
+                self.assertGreater(failed["error"]["details"]["required_bytes"], 8192)
+
+    def test_batch_error_entries_clip_echoed_values(self) -> None:
+        key = "bogus_" + "k" * 300000
+        response = query.run_request(INDEX, {"queries": [{"mode": "x" * 300000}, {"mode": "specification", key: 1},
+                                                         self.QUERIES[0]], "max_output_bytes": 4096})
+        check_bounds(self, response)
+        self.assertTrue(response["ok"])
+        mode, unknown = response["results"][0]["error"], response["results"][1]["error"]
+        self.assertEqual((mode["code"], mode["details"]["pointer"]), ("INVALID_REQUEST", "/queries/0/mode"))
+        self.assertLess(len(mode["message"]), 300)
+        self.assertEqual(unknown["code"], "INVALID_REQUEST")
+        self.assertTrue(unknown["details"]["truncated"])
+        self.assertLess(len(json.dumps(unknown)), 2048)
+        self.assertGreaterEqual(response["results"][2]["result"]["page"]["returned"], 1)
+
     def test_batch_errors_are_entries(self) -> None:
         response = query.run_request(INDEX, {"queries": [self.QUERIES[0], {"mode": "specification"}]})
         self.assertTrue(response["ok"])
@@ -571,6 +608,32 @@ class ClosedSchema(unittest.TestCase):
 
 
 class Serialization(unittest.TestCase):
+    def test_error_envelope_is_bounded(self) -> None:
+        cases = (
+            LensError("INVALID_REQUEST", "unknown mode " + repr("x" * 300000), hint="h" * 5000,
+                      details={"pointer": "/mode", "did_you_mean": ["y" * 100000], "actual": ["z"] * 50000}),
+            LensError("BUILD_FAILED", "index build failed", hint="fix them", details={
+                "errors": 80, "findings_omitted": 30,
+                "findings": [{"severity": "error", "code": "INVALID_FIELD", "file": f"records/c/r{i}/record.json",
+                              "field": "design", "message": "design must be an object", "expected": "an object",
+                              "actual": [{"lens_type": "camera" * 50}] * 300} for i in range(50)]}),
+        )
+        for error in cases:
+            for budget in (2048, 4096, 32768):
+                with self.subTest(code=error.code, budget=budget):
+                    envelope = output.bounded_error_response(error, budget)
+                    self.assertLessEqual(len(output.serialize(envelope)), budget)
+                    self.assertEqual(envelope["error"]["code"], error.code)
+                    self.assertEqual(set(envelope["error"]), {"code", "message", "hint", "details"})
+                    details = envelope["error"]["details"]
+                    self.assertTrue(details["truncated"])
+                    if error.code == "BUILD_FAILED":
+                        self.assertEqual(len(details["findings"]) + details["findings_omitted"], 80)
+                    else:
+                        self.assertEqual(details["pointer"], "/mode")
+        small = LensError("RECORD_NOT_FOUND", "no record 'x'", details={"did_you_mean": []})
+        self.assertEqual(output.bounded_error_response(small, 2048), output.error_response(small))
+
     def test_ascii_wire_form_and_finalize(self) -> None:
         response = output.finalize({"ok": True, "result": {"title": "36 × 24 mm"}}, 2048)
         data = check_bounds(self, response)

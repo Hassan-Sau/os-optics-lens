@@ -185,6 +185,38 @@ class Base(unittest.TestCase):
         self.assertEqual(fact["sampled_field_fractions"],
                          CONSTRAINTS["mtf_0_to_0p8"]["required_sampled_field_fractions"])
 
+    def test_wheel_check_runs_all_of_item_1(self) -> None:
+        # scripts/verify_wheel.py is the only clean-venv coverage of item (1) (amendment 9.4): its
+        # search_fixture check must fail whenever any assertion of item (1) fails.
+        spec = importlib.util.spec_from_file_location("_verify_wheel", ROOT / "scripts/verify_wheel.py")
+        verify_wheel = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(verify_wheel)
+        [candidate] = query.search(INDEX, query.fixture_to_request(CASE))["result"]["candidates"]
+        inspected = query.inspect(INDEX, P2B, fields=["performance.mtf_field_minimum"])["result"]
+        grid = inspected["fields"]["performance.mtf_field_minimum"]["value"]["sampled_field_fractions"]
+        self.assertEqual(verify_wheel.acceptance_failures(CASE, candidate, grid), [])
+
+        def broken(change) -> dict:
+            mutated = copy.deepcopy(candidate)
+            change(mutated)
+            return mutated
+
+        cases = {
+            "preference not comparable": broken(lambda c: c["rank"].__setitem__(
+                "key", ["MATCH", [1, None], P2B, 0])),
+            "evidence unresolved": broken(lambda c: c["constraints"]["corner_relative_illumination"]["fact"][
+                "source"].__setitem__("status", "HASH_MISMATCH")),
+            "other revision": broken(lambda c: c.__setitem__("revision", 5)),
+            "one constraint unconfirmed": broken(lambda c: c["constraints"].__setitem__(
+                "mtf_0_to_0p8", {"outcome": "UNCONFIRMED", "reason": "SAMPLING_DIFFERS"})),
+        }
+        for name, mutated in cases.items():
+            with self.subTest(case=name):
+                self.assertTrue(verify_wheel.acceptance_failures(CASE, mutated, grid))
+        for name, bad_grid in (("coarse grid", grid[::2]), ("no grid", None)):
+            with self.subTest(case=name):
+                self.assertTrue(verify_wheel.acceptance_failures(CASE, candidate, bad_grid))
+
     def test_cli_fixture(self) -> None:
         env = dict(os.environ)
         env["PYTHONPATH"] = str(ROOT / "src") + os.pathsep + env.get("PYTHONPATH", "")

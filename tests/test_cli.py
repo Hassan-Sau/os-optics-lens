@@ -8,6 +8,7 @@ Project hashes, fixture counts) are derived from the committed files, not hard-c
 from __future__ import annotations
 
 import contextlib
+import errno
 import hashlib
 import io
 import json
@@ -28,7 +29,7 @@ if str(SRC) not in sys.path:
 
 from os_optics_lens import cli, output  # noqa: E402
 from os_optics_lens.build import build_index  # noqa: E402
-from os_optics_lens.canonical import lf  # noqa: E402
+from os_optics_lens.canonical import lf, record_hash  # noqa: E402
 from os_optics_lens.errors import EXIT_CODES, LensError  # noqa: E402
 from os_optics_lens.vocabulary import load_vocabulary  # noqa: E402
 
@@ -421,6 +422,90 @@ class ProjectTest(EnvelopeTest):
         error = self.assert_error(run_cli("project", "no-such-record", "--stdout"), "RECORD_NOT_FOUND")
         self.assertTrue(error["message"])
 
+    def test_stdout_reader_closing_early_is_silent(self) -> None:
+        # `project --stdout | head -c 10`: the Project (tens of KB) outgrows the pipe buffer, the
+        # reader closes, the write fails (BrokenPipeError; OSError EINVAL on Windows). The process
+        # exits 1 with nothing on stderr: no traceback, no INTERNAL envelope.
+        self.assertGreater(len(project_lf_bytes()), 70000)
+        argv = [sys.executable, "-m", "os_optics_lens", "--index", str(INDEX), "project", P2B, "--stdout"]
+        proc = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.DEVNULL,
+                                env=base_env(), cwd=str(TMP))
+        try:
+            head = proc.stdout.read(10)
+            proc.stdout.close()
+            stderr = proc.stderr.read()
+            code = proc.wait(timeout=120)
+        finally:
+            if proc.poll() is None:
+                proc.kill()
+            proc.stderr.close()
+        self.assertEqual(head, project_lf_bytes()[:10])
+        self.assertEqual(stderr, b"")
+        self.assertEqual(code, 1)
+
+
+class ErrorBoundTest(EnvelopeTest):
+    """Error envelopes are bounded documents too (spec section 7, amendment 10.13)."""
+
+    def test_echoed_request_values_stay_within_budget(self) -> None:
+        requests = {
+            "mode": {"mode": "x" * 300000},
+            "key": {"mode": "specification", "bogus_" + "k" * 300000: 1},
+            "op": {"mode": "specification", "constraints": [{"fact": "a.b", "op": "o" * 300000, "value": 1}]},
+            "facet": {"mode": "starting_point", "filters": {"facets": {"application": ["y" * 300000]}}},
+        }
+        for name, request in requests.items():
+            path = TMP / f"huge-{name}.json"
+            path.write_text(json.dumps(request), encoding="utf-8")
+            for budget in (None, "4096"):
+                with self.subTest(case=name, budget=budget):
+                    args = ["search", "--request", str(path)] + (["--max-output-bytes", budget] if budget else [])
+                    result = run_cli(*args)
+                    self.assertLessEqual(len(result.stdout), int(budget or output.DEFAULT_MAX_OUTPUT_BYTES))
+                    error = result.doc["error"]
+                    self.assertIn(error["code"], ("INVALID_REQUEST", "UNSUPPORTED_OPERATOR", "UNKNOWN_FACET_VALUE"))
+                    self.assertEqual(result.code, 2)
+                    self.assertEqual(result.stderr, b"")
+        request_budget = TMP / "huge-mode-budget.json"
+        request_budget.write_text(json.dumps({"mode": "x" * 300000, "max_output_bytes": 2048}), encoding="utf-8")
+        self.assertLessEqual(len(run_cli("search", "--request", str(request_budget)).stdout), 2048)
+        long_value = "wide angle lens for " * 1000
+        result = run_cli("facets", "--filter", f"application={long_value}", "--max-output-bytes", "2048")
+        self.assert_error(result, "UNKNOWN_FACET_VALUE")
+        self.assertLessEqual(len(result.stdout), 2048)
+
+    def test_integer_beyond_double_range_is_invalid_request(self) -> None:
+        huge = "1" + "0" * 400
+        for request, pointer in (
+            ('{"mode":"specification","constraints":[{"fact":"first_order.effective_focal_length_mm",'
+             '"op":"lte","value":' + huge + '}]}', "/constraints/0/value"),
+            ('{"mode":"starting_point","targets":[{"fact":"first_order.effective_focal_length_mm",'
+             '"target":20,"tolerance":' + huge + '}]}', "/targets/0/tolerance"),
+        ):
+            with self.subTest(pointer=pointer):
+                error = self.assert_error(run_cli("search", request), "INVALID_REQUEST")
+                self.assertEqual(error["details"]["pointer"], pointer)
+
+    def test_failed_build_envelope_stays_within_budget(self) -> None:
+        corpus = TMP / "corpus-oversized-finding"
+        shutil.copytree(ROOT / "records", corpus / "records")
+        shutil.copy2(ROOT / "LICENSE", corpus / "LICENSE")
+        shutil.copytree(ROOT / "licenses", corpus / "licenses")
+        path = corpus / "records" / "yutong-cup" / P2B / "record.json"
+        record = json.loads(path.read_text(encoding="utf-8"))
+        record["design"] = [record["design"]] * 300  # INVALID_FIELD whose `actual` is ~200 KB
+        record["record_hash"] = record_hash(record)
+        path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+        for argv in (("index", "build", "--corpus", str(corpus), "--out", str(TMP / "oversized.sqlite")),
+                     ("index", "validate", "--corpus", str(corpus))):
+            with self.subTest(command=argv[1]):
+                result = run_cli(*argv, index=False)
+                error = self.assert_error(result, "BUILD_FAILED")
+                self.assertLessEqual(len(result.stdout), output.DEFAULT_MAX_OUTPUT_BYTES)
+                self.assertTrue(error["details"]["truncated"])
+                fields = {(f["code"], f["field"]) for f in error["details"]["findings"]}
+                self.assertIn(("INVALID_FIELD", "design"), fields)
+
 
 class IndexCommandTest(EnvelopeTest):
     def test_build_output_and_failed_build_keeps_previous_index(self) -> None:
@@ -506,6 +591,38 @@ class InProcessTest(unittest.TestCase):
             self.assertIn("Traceback", err)
             self.assertIn("KeyError", err)
         os.environ.pop(cli.DEBUG_ENV, None)
+
+    def test_closed_pipe_on_windows_is_silent(self) -> None:
+        # Windows reports a write to a pipe whose reader has gone as OSError EINVAL, not
+        # BrokenPipeError; it must end silently too, without a second (INTERNAL) emission.
+        class ClosedPipe(io.RawIOBase):
+            def writable(self) -> bool:
+                return True
+
+            def write(self, data: Any) -> int:
+                raise OSError(errno.EINVAL, "Invalid argument")
+
+        class ClosedStdout:
+            buffer = ClosedPipe()
+
+            def write(self, text: str) -> int:
+                raise OSError(errno.EINVAL, "Invalid argument")
+
+            def flush(self) -> None:
+                pass
+
+            def fileno(self) -> int:
+                raise io.UnsupportedOperation("fileno")
+
+        for argv in (["--index", str(INDEX), "project", P2B, "--stdout"], ["--index", str(INDEX), "info"],
+                     ["--index", str(INDEX), "inspect", "no-such-record"]):
+            with self.subTest(argv=argv[2:]):
+                stderr = io.StringIO()
+                with mock.patch.object(sys, "stdout", ClosedStdout()), contextlib.redirect_stderr(stderr), \
+                        mock.patch.dict(os.environ, {cli.DEBUG_ENV: "1"}):
+                    code = cli.main(argv)
+                self.assertEqual(code, 1)
+                self.assertEqual(stderr.getvalue(), "")
 
     def test_lens_error_exit_code_is_preserved(self) -> None:
         def in_use(args: Any) -> Any:
