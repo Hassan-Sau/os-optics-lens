@@ -1,0 +1,193 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "patent-us20240061211a1-ex01",
+ "record_revision": 1,
+ "title": "Sony 130.9 mm f/1.854 full-frame imaging lens (numerical example 1)",
+ "collection": {
+  "collection_id": "sony-fe",
+  "source": "US patent publication",
+  "source_input": "US20240061211A1, EXAMPLE 1",
+  "source_input_sha256": "09f37fd0ac687d981384b430b5669f277b3a54b68b47bfa6b9e1d2a4f83ec50e",
+  "attribution": "Sony Group Corp, US20240061211A1 \"Imaging lens and imaging apparatus\". The prescription is the published numerical example 1; the native Project is a transcription of its table.",
+  "contributor": "OpenSci prescription intake",
+  "original_publication": {
+   "id": "US20240061211A1",
+   "reference": "numerical example 1",
+   "assignee": "Sony Group Corp",
+   "url": "https://patents.google.com/patent/US20240061211A1/en"
+  },
+  "redistribution": "The numerical prescription is published in a patent application, a public record. The transcription, the native Project and this evidence extract are distributed under MIT. The patent document itself is not redistributed.",
+  "license": {
+   "spdx": "MIT",
+   "notice_path": "LICENSE",
+   "copyright": "Copyright (c) 2026 JunLin615"
+  },
+  "evidence_extract": {
+   "path": "records/sony-fe/patent-us20240061211a1-ex01/evidence.json",
+   "sha256": "09bd99b7b9ec313d19d5f62b9b03081d02b3f2cd5e66de44be2de8f5a3385372"
+  },
+  "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
+ },
+ "design": {
+  "source_reference": "US20240061211A1, numerical example 1",
+  "lens_type": "camera_lens",
+  "design_family_id": "sony-us20240061211a1",
+  "design_scope": "COMPLETE_SYSTEM",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "structure_tags": [
+   "fixed_focal_length",
+   "refractive",
+   "aspheric",
+   "internal_focus"
+  ],
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1,
+  "powered_element_count": 11,
+  "aperture_validity": {
+   "state": "STOP_NOT_BLOCKING",
+   "stop_blocks_light": false,
+   "basis": "The publication states no clear or mechanical semi-diameter, so the transcription uses one uniform 13 mm clear semi-diameter; the stop row is then the same size as its neighbours and does not bound the beam.",
+   "eligible_for_stop_dependent_evaluation": false,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "No pupil or field evidence is recorded, and the modelled stop does not bound the beam, so no stop-dependent match is claimed.",
+   "consequence": "The record supports first-order and structural queries only; a stop-dependent constraint stays unconfirmed."
+  }
+ },
+ "native_project": {
+  "path": "records/sony-fe/patent-us20240061211a1-ex01/project.json",
+  "sha256": "88dd4604c242b27e4b4d1416dd7ff48b00a46e3e658aa9f6332eb5b7cba03c9d",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "instance_id": "OPTIC",
+  "model_id": "OPTIC",
+  "opening_outcome": "ACCEPTED",
+  "optical_validation": "PARAXIAL_MATCH"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   587.720064
+  ],
+  "sampling_wavelengths_air_nm": [
+   587.56
+  ],
+  "sampling_wavelengths_basis": "The publication prints the d-line as its reference wavelength (587.56 nm in air). That value is converted once to the vacuum wavelength the engine evaluates; the same conversion is used by the existing patent-derived records.",
+  "incident_weights": [
+   1
+  ],
+  "primary_wavelength_nm": 587.720064,
+  "band_facets": [
+   "visible"
+  ],
+  "wavelength_precision": "A single sample; no rounding in the Project.",
+  "sampling_span_nm": {
+   "min_nm": 587.720064,
+   "max_nm": 587.720064,
+   "basis": "SINGLE_WAVELENGTH_BAND",
+   "eligible_for": "DISCOVERY_ONLY"
+  },
+  "continuous_coverage_nm": {
+   "state": "UNCONFIRMED",
+   "min_nm": null,
+   "max_nm": null,
+   "note": "The example states one reference wavelength only."
+  }
+ },
+ "image_format": {
+  "format_facets": [
+   "full_frame"
+  ],
+  "width_mm": 36,
+  "height_mm": 24,
+  "image_circle_diameter_mm": 43.266,
+  "basis": "The example states an image height Y = 21.633 mm; twice that is the tested image-circle diameter, consistent with a 36 x 24 mm frame."
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 130.95,
+   "basis": "SOURCE_STATED",
+   "definition": "Effective focal length as printed for the example",
+   "conditions": "Reference wavelength (d-line); object at infinity.",
+   "engine_value_mm": 131.15721049969713
+  },
+  "back_focal_length_mm": {
+   "value": 1.1439348132239382,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Paraxial distance from the exit vertex to the rear focal point",
+   "conditions": {
+    "distance_kind": "paraxial_focal_distance",
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "wavelength_nm": 587.720064
+   }
+  },
+  "total_track_mm": {
+   "value": 144.0,
+   "basis": "DERIVED",
+   "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "basis": "ENGINE_COMPUTED",
+   "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
+   "effective_focal_length_mm": 131.15721049969713,
+   "back_focal_length_mm": 1.1439348132239382,
+   "wavelength_nm": 587.720064,
+   "comparison": {
+    "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 3-decimal focal length; rtol covers the printed 4-decimal radii and thicknesses, the constant-index material model and the engine's air-referenced index convention (about 0.13 % on EFL).",
+    "atol_mm": 0.005,
+    "rtol": 0.003,
+    "effective_focal_length": {
+     "source_mm": 130.95,
+     "engine_mm": 131.15721049969713,
+     "absolute_difference_mm": 0.20721049969714045,
+     "scale_mm": 130.95,
+     "scale_basis": "|EFL|",
+     "tolerance_mm": 0.39785,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.520825687312154
+    },
+    "back_focal_length": {
+     "state": "UNCONFIRMED",
+     "engine_mm": 1.1439348132239382,
+     "basis": "The publication prints no back focal length, so this quantity has no source value."
+    }
+   }
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 1.854,
+   "basis": "SOURCE_STATED",
+   "convention": "Image-space F-number as printed for the example (Fno).",
+   "system_aperture": true
+  }
+ },
+ "approximations": [
+  {
+   "code": "CONSTANT_INDEX_FROM_ND",
+   "statement": "Each element is a constant index equal to its printed nd, valid only at the reference wavelength; the printed vd values are kept in the evidence extract but are not modelled."
+  },
+  {
+   "code": "CLEAR_APERTURE_ASSUMED",
+   "statement": "The publication states no semi-diameters; the Project uses one uniform 13 mm clear semi-diameter for every surface, which does not affect first-order properties."
+  },
+  {
+   "code": "SINGLE_FOCUS_STATE",
+   "statement": "The Project is the infinity-focus state; the printed focusing gaps (d1..d4 at other magnifications) are kept in the evidence extract."
+  }
+ ],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "MATCHED"
+ },
+ "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
+ "record_hash": "a378df6959e54ff2e00ef2a564fa0f34b0cce09ea7ddf65934951cbc9d141d26"
+}
