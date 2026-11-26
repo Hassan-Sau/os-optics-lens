@@ -1,0 +1,1773 @@
+{
+  "schema": "opensci.project",
+  "project_schema_version": "2.0",
+  "components": [
+    {
+      "instance_id": "CN1109A03",
+      "optical_role": "lens",
+      "custom_part": {
+        "custom_part_key": "CN1109A03",
+        "description": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): imported from a csv-surface-table/1 prescription (6 elements, 1 aperture stop)"
+      },
+      "nominal_pose": {
+        "position_mm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quaternion_wxyz": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "selected_parameters": [],
+      "retained_dofs": [],
+      "optical_model_id": "CN1109A03"
+    },
+    {
+      "instance_id": "SRC",
+      "optical_role": "source",
+      "custom_part": {
+        "custom_part_key": "cn110967810-example-3-source",
+        "description": "Evaluation source derived from the source's stated wavelength and conjugate."
+      },
+      "nominal_pose": {
+        "position_mm": [
+          -100.0,
+          0.0,
+          0.0
+        ],
+        "quaternion_wxyz": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "selected_parameters": [],
+      "retained_dofs": [],
+      "source_model": {
+        "model_kind": "GAUSSIAN_BEAM",
+        "wavelength_nm": 587.56,
+        "power_w": 0.001,
+        "waist_radius_mm": 5.0,
+        "waist_position_mm": 100.0,
+        "m2": 1.0,
+        "polarization": {
+          "kind": "LINEAR",
+          "angle_deg": 0.0
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "image_plane",
+      "pose": {
+        "position_mm": [
+          70.692,
+          0.0,
+          0.0
+        ],
+        "quaternion_wxyz": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "aperture": {
+        "shape": "circle",
+        "radius_mm": 9.2,
+        "center_offset_mm": [
+          0.0,
+          0.0
+        ],
+        "obstruction_radius_mm": 0.0
+      },
+      "absorbing": false,
+      "medium": "air"
+    }
+  ],
+  "targets": [],
+  "optical_models": [
+    {
+      "model_id": "CN1109A03",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3) (csv-surface-table/1, source SHA-256 ea77a99560c53755ae203feb2213956a7f4e9a14c76cbae91d7a78ddfb7b08ca)",
+      "model": {
+        "model_kind": "COMPOUND",
+        "model_version": "1",
+        "members": [
+          {
+            "member_id": "L1",
+            "model_id": "CN1109A03-L1",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "member_id": "L2",
+            "model_id": "CN1109A03-L2",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                5.05
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "member_id": "STOP",
+            "model_id": "CN1109A03-STOP",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                18.83
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "member_id": "L3",
+            "model_id": "CN1109A03-L3",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                27.45
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "member_id": "L4",
+            "model_id": "CN1109A03-L4",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                35.86
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "member_id": "L5",
+            "model_id": "CN1109A03-L5",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                43.46
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          {
+            "member_id": "L6",
+            "model_id": "CN1109A03-L6",
+            "pose": {
+              "position_mm": [
+                0.0,
+                0.0,
+                59.15
+              ],
+              "quaternion_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          }
+        ],
+        "envelope": {
+          "kind": "CYLINDER",
+          "diameter_mm": "19.622",
+          "z_min_mm": "0",
+          "z_max_mm": "60.15",
+          "status": "DERIVED"
+        },
+        "ports": [
+          {
+            "port_id": "IN",
+            "role": "INPUT",
+            "point_mm": [
+              "0",
+              "0",
+              "0"
+            ],
+            "direction": [
+              "0",
+              "0",
+              "1"
+            ],
+            "status": "DERIVED"
+          },
+          {
+            "port_id": "OUT",
+            "role": "OUTPUT",
+            "point_mm": [
+              "0",
+              "0",
+              "60.15"
+            ],
+            "direction": [
+              "0",
+              "0",
+              "1"
+            ],
+            "status": "DERIVED"
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "CN1109A03-L1",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): element L1, surfaces 1-2 (rows 7-8, csv-surface-table/1)",
+      "model": {
+        "model_kind": "SURFACE_SEQUENCE",
+        "model_version": "2",
+        "fidelity": "SURFACE_PRESCRIPTION",
+        "surfaces": [
+          {
+            "surface_id": "S1",
+            "vertex_z_mm": "0",
+            "radius_mm": "23.922",
+            "clear_radius_mm": "9.811",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S2",
+            "vertex_z_mm": "4.6",
+            "radius_mm": "44.82386",
+            "clear_radius_mm": "9.811",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          }
+        ],
+        "media": [
+          "CDGM_H-ZLAF55D"
+        ],
+        "edge_radius_mm": "9.811",
+        "valid_band_nm": {
+          "min_nm": "365.103",
+          "max_nm": "2325.623",
+          "status": "DERIVED"
+        },
+        "approximations": [
+          "CATALOG_MATERIAL_DISPERSION",
+          "EDGE_AS_OPAQUE_RIM",
+          "GHOST_REFLECTIONS_NOT_TRACED",
+          "IDEAL_SURFACE_FIGURE",
+          "NOMINAL_PRESCRIPTION"
+        ],
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "model_id": "CN1109A03-L2",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): cemented element L2, surfaces 3-5 (rows 9-11, csv-surface-table/1)",
+      "model": {
+        "model_kind": "SURFACE_SEQUENCE",
+        "model_version": "2",
+        "fidelity": "SURFACE_PRESCRIPTION",
+        "surfaces": [
+          {
+            "surface_id": "S1",
+            "vertex_z_mm": "0",
+            "radius_mm": "18.87661",
+            "clear_radius_mm": "7.219",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S2",
+            "vertex_z_mm": "6.96",
+            "radius_mm": "-35.783",
+            "clear_radius_mm": "7.219",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S3",
+            "vertex_z_mm": "7.96",
+            "radius_mm": "11.32301",
+            "clear_radius_mm": "7.219",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          }
+        ],
+        "media": [
+          "CDGM_H-ZPK1A",
+          "CDGM_H-F1"
+        ],
+        "edge_radius_mm": "7.219",
+        "valid_band_nm": {
+          "min_nm": "365.103",
+          "max_nm": "2325.623",
+          "status": "DERIVED"
+        },
+        "approximations": [
+          "CATALOG_MATERIAL_DISPERSION",
+          "EDGE_AS_OPAQUE_RIM",
+          "GHOST_REFLECTIONS_NOT_TRACED",
+          "IDEAL_SURFACE_FIGURE",
+          "NOMINAL_PRESCRIPTION"
+        ],
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "model_id": "CN1109A03-STOP",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): aperture stop STOP, surface 6 (row 12, csv-surface-table/1)",
+      "model": {
+        "model_kind": "APERTURE_STOP",
+        "model_version": "1",
+        "opening_radius_mm": "6.054108",
+        "edge_radius_mm": "9.811",
+        "plane_z_mm": "0",
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "model_id": "CN1109A03-L3",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): cemented element L3, surfaces 7-9 (rows 13-15, csv-surface-table/1)",
+      "model": {
+        "model_kind": "SURFACE_SEQUENCE",
+        "model_version": "2",
+        "fidelity": "SURFACE_PRESCRIPTION",
+        "surfaces": [
+          {
+            "surface_id": "S1",
+            "vertex_z_mm": "0",
+            "radius_mm": "-10.83681",
+            "clear_radius_mm": "5.354",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S2",
+            "vertex_z_mm": "3.75",
+            "radius_mm": "59.352",
+            "clear_radius_mm": "5.354",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S3",
+            "vertex_z_mm": "8.21",
+            "radius_mm": "-17.0153",
+            "clear_radius_mm": "5.354",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          }
+        ],
+        "media": [
+          "CDGM_H-QF14",
+          "CDGM_H-ZPK1A"
+        ],
+        "edge_radius_mm": "5.354",
+        "valid_band_nm": {
+          "min_nm": "365.103",
+          "max_nm": "2325.623",
+          "status": "DERIVED"
+        },
+        "approximations": [
+          "CATALOG_MATERIAL_DISPERSION",
+          "EDGE_AS_OPAQUE_RIM",
+          "GHOST_REFLECTIONS_NOT_TRACED",
+          "IDEAL_SURFACE_FIGURE",
+          "NOMINAL_PRESCRIPTION"
+        ],
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "model_id": "CN1109A03-L4",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): element L4, surfaces 10-11 (rows 16-17, csv-surface-table/1)",
+      "model": {
+        "model_kind": "SURFACE_SEQUENCE",
+        "model_version": "2",
+        "fidelity": "SURFACE_PRESCRIPTION",
+        "surfaces": [
+          {
+            "surface_id": "S1",
+            "vertex_z_mm": "0",
+            "clear_radius_mm": "8.12",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S2",
+            "vertex_z_mm": "3.03",
+            "radius_mm": "-54.11358",
+            "clear_radius_mm": "8.12",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          }
+        ],
+        "media": [
+          "OHARA_S-LAH71"
+        ],
+        "edge_radius_mm": "8.12",
+        "valid_band_nm": {
+          "min_nm": "365.103",
+          "max_nm": "2325.623",
+          "status": "DERIVED"
+        },
+        "approximations": [
+          "CATALOG_MATERIAL_DISPERSION",
+          "EDGE_AS_OPAQUE_RIM",
+          "GHOST_REFLECTIONS_NOT_TRACED",
+          "IDEAL_SURFACE_FIGURE",
+          "NOMINAL_PRESCRIPTION"
+        ],
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "model_id": "CN1109A03-L5",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): cemented element L5, surfaces 12-14 (rows 18-20, csv-surface-table/1)",
+      "model": {
+        "model_kind": "SURFACE_SEQUENCE",
+        "model_version": "2",
+        "fidelity": "SURFACE_PRESCRIPTION",
+        "surfaces": [
+          {
+            "surface_id": "S1",
+            "vertex_z_mm": "0",
+            "radius_mm": "352.20715",
+            "clear_radius_mm": "9.071",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S2",
+            "vertex_z_mm": "4.69",
+            "radius_mm": "-19.122",
+            "clear_radius_mm": "9.071",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S3",
+            "vertex_z_mm": "5.69",
+            "radius_mm": "-37.04692",
+            "clear_radius_mm": "9.071",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          }
+        ],
+        "media": [
+          "CDGM_D-FK61A",
+          "CDGM_H-QF1"
+        ],
+        "edge_radius_mm": "9.071",
+        "valid_band_nm": {
+          "min_nm": "365.103",
+          "max_nm": "2325.623",
+          "status": "DERIVED"
+        },
+        "approximations": [
+          "CATALOG_MATERIAL_DISPERSION",
+          "EDGE_AS_OPAQUE_RIM",
+          "GHOST_REFLECTIONS_NOT_TRACED",
+          "IDEAL_SURFACE_FIGURE",
+          "NOMINAL_PRESCRIPTION"
+        ],
+        "status": "SPECIFIED"
+      }
+    },
+    {
+      "model_id": "CN1109A03-L6",
+      "display_name": "48.436 mm f/2.40 machine-vision lens (CN110967810A, Example 3): element L6, surfaces 15-16 (rows 21-22, csv-surface-table/1)",
+      "model": {
+        "model_kind": "SURFACE_SEQUENCE",
+        "model_version": "2",
+        "fidelity": "SURFACE_PRESCRIPTION",
+        "surfaces": [
+          {
+            "surface_id": "S1",
+            "vertex_z_mm": "0",
+            "clear_radius_mm": "9.387",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          },
+          {
+            "surface_id": "S2",
+            "vertex_z_mm": "1",
+            "clear_radius_mm": "9.387",
+            "traced": "TRANSMITTED",
+            "status": "SPECIFIED"
+          }
+        ],
+        "media": [
+          "CDGM_H-K9LGT"
+        ],
+        "edge_radius_mm": "9.387",
+        "valid_band_nm": {
+          "min_nm": "365.103",
+          "max_nm": "2325.623",
+          "status": "DERIVED"
+        },
+        "approximations": [
+          "CATALOG_MATERIAL_DISPERSION",
+          "EDGE_AS_OPAQUE_RIM",
+          "GHOST_REFLECTIONS_NOT_TRACED",
+          "IDEAL_SURFACE_FIGURE",
+          "NOMINAL_PRESCRIPTION"
+        ],
+        "status": "SPECIFIED"
+      }
+    }
+  ],
+  "model_materials": [
+    {
+      "material_id": "CDGM_D-FK61A",
+      "display_name": "CDGM D-FK61A",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "0.714812161",
+          "0.502984998",
+          "0.836119846"
+        ],
+        "c_um2": [
+          "0.0108370689",
+          "0.00132155859",
+          "153.360674"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "302.087",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM D-FK61A (CDGM optical glass catalogue 2026-09, cdgmgd.com); annealed at 4 C/h; wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "302",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "290",
+          "300",
+          "310",
+          "320",
+          "330",
+          "340",
+          "350",
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.099",
+          "0.233",
+          "0.431",
+          "0.64",
+          "0.804",
+          "0.899",
+          "0.953",
+          "0.977",
+          "0.989",
+          "0.996",
+          "0.996",
+          "0.996",
+          "0.997",
+          "0.996",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.999",
+          "0.998",
+          "0.997"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM D-FK61A as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "-0.0000194",
+        "d1": "0.00000000254",
+        "d2": "-0.0000000000283",
+        "e0": "0.000000305",
+        "e1": "-0.0000000000931",
+        "lambda_tk_um": "0.242",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM D-FK61A (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_D-FK61A",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "CDGM_H-F1",
+      "display_name": "CDGM H-F1",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "0.132375817",
+          "1.15564934",
+          "1.37547893"
+        ],
+        "c_um2": [
+          "0.0545903225",
+          "116.78574",
+          "0.0101495335"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "365.103",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM H-F1 (CDGM optical glass catalogue 2026-09, cdgmgd.com); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "365",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.12",
+          "0.49",
+          "0.75",
+          "0.873",
+          "0.928",
+          "0.961",
+          "0.967",
+          "0.972",
+          "0.976",
+          "0.98",
+          "0.987",
+          "0.987",
+          "0.985",
+          "0.988",
+          "0.992",
+          "0.996",
+          "0.995",
+          "0.995",
+          "0.996",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.994",
+          "0.975",
+          "0.953",
+          "0.892",
+          "0.873"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM H-F1 as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "-0.000000394",
+        "d1": "0.0000000157",
+        "d2": "-0.0000000000433",
+        "e0": "0.000000795",
+        "e1": "0.000000000741",
+        "lambda_tk_um": "0.247",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM H-F1 (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_H-F1",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "CDGM_H-K9LGT",
+      "display_name": "CDGM H-K9LGT",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "0.614555251",
+          "0.656775017",
+          "1.02699346"
+        ],
+        "c_um2": [
+          "0.0145987884",
+          "0.00287769588",
+          "107.653051"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "302.087",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM H-K9LGT (CDGM optical glass catalogue 2026-09, cdgmgd.com); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "302",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "280",
+          "290",
+          "300",
+          "310",
+          "320",
+          "330",
+          "340",
+          "350",
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.169",
+          "0.441",
+          "0.706",
+          "0.869",
+          "0.944",
+          "0.975",
+          "0.988",
+          "0.994",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.978",
+          "0.988",
+          "0.96",
+          "0.911",
+          "0.788",
+          "0.725"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM H-K9LGT as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "-0.00000104",
+        "d1": "0.0000000148",
+        "d2": "-0.0000000000517",
+        "e0": "0.000000385",
+        "e1": "0.000000000455",
+        "lambda_tk_um": "0.211",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM H-K9LGT (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_H-K9LGT",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "CDGM_H-QF1",
+      "display_name": "CDGM H-QF1",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "1.24414177",
+          "1.08792977",
+          "0.106583226"
+        ],
+        "c_um2": [
+          "0.00867592204",
+          "124.77088",
+          "0.0473895753"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "365.103",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM H-QF1 (CDGM optical glass catalogue 2026-09, cdgmgd.com); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "365",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "340",
+          "350",
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.035",
+          "0.384",
+          "0.751",
+          "0.9",
+          "0.953",
+          "0.976",
+          "0.986",
+          "0.992",
+          "0.993",
+          "0.995",
+          "0.995",
+          "0.996",
+          "0.997",
+          "0.997",
+          "0.997",
+          "0.997",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.995",
+          "0.991",
+          "0.968",
+          "0.929",
+          "0.859",
+          "0.809"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM H-QF1 as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "-0.00000337",
+        "d1": "0.0000000132",
+        "d2": "-0.0000000000538",
+        "e0": "0.000000646",
+        "e1": "0.00000000065",
+        "lambda_tk_um": "0.251",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM H-QF1 (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_H-QF1",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "CDGM_H-QF14",
+      "display_name": "CDGM H-QF14",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "1.17413204",
+          "1.36038248",
+          "0.125239591"
+        ],
+        "c_um2": [
+          "119.558629",
+          "0.00992935549",
+          "0.0538484281"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "365.103",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM H-QF14 (CDGM optical glass catalogue 2026-09, cdgmgd.com); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "365",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.14",
+          "0.51",
+          "0.76",
+          "0.88",
+          "0.933",
+          "0.97",
+          "0.98",
+          "0.984",
+          "0.988",
+          "0.991",
+          "0.995",
+          "0.995",
+          "0.994",
+          "0.996",
+          "0.997",
+          "0.997",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.995",
+          "0.997",
+          "0.978",
+          "0.954",
+          "0.88",
+          "0.86"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM H-QF14 as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "0.000000282",
+        "d1": "0.0000000152",
+        "d2": "-0.0000000000321",
+        "e0": "0.000000673",
+        "e1": "0.00000000067",
+        "lambda_tk_um": "0.265",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM H-QF14 (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_H-QF14",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "CDGM_H-ZLAF55D",
+      "display_name": "CDGM H-ZLAF55D",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "0.227765275",
+          "2.04686906",
+          "1.20888928"
+        ],
+        "c_um2": [
+          "0.0412221798",
+          "0.010748949",
+          "87.8518998"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "365.103",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM H-ZLAF55D (CDGM optical glass catalogue 2026-09, cdgmgd.com); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "365",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "320",
+          "330",
+          "340",
+          "350",
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.029",
+          "0.219",
+          "0.478",
+          "0.668",
+          "0.788",
+          "0.863",
+          "0.913",
+          "0.939",
+          "0.957",
+          "0.974",
+          "0.982",
+          "0.989",
+          "0.993",
+          "0.995",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.997",
+          "0.991",
+          "0.972",
+          "0.931",
+          "0.756"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM H-ZLAF55D as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "0.00000105",
+        "d1": "0.0000000159",
+        "d2": "-0.0000000000267",
+        "e0": "0.000000694",
+        "e1": "0.000000000264",
+        "lambda_tk_um": "0.221",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM H-ZLAF55D (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_H-ZLAF55D",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "CDGM_H-ZPK1A",
+      "display_name": "CDGM H-ZPK1A",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "0.944049498",
+          "1.05017122",
+          "0.527568709"
+        ],
+        "c_um2": [
+          "109.035762",
+          "0.0132903754",
+          "0.000741462968"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "302.087",
+        "max_nm": "2325.623",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of CDGM H-ZPK1A (CDGM optical glass catalogue 2026-09, cdgmgd.com); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "20",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "302",
+          "2325"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "INTERNAL_TRANSMITTANCE",
+        "wavelength_nm": [
+          "300",
+          "310",
+          "320",
+          "330",
+          "340",
+          "350",
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "850",
+          "900",
+          "950",
+          "1000",
+          "1060",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "internal_transmittance": [
+          "0.042",
+          "0.101",
+          "0.22",
+          "0.396",
+          "0.586",
+          "0.745",
+          "0.854",
+          "0.921",
+          "0.957",
+          "0.975",
+          "0.983",
+          "0.99",
+          "0.99",
+          "0.993",
+          "0.994",
+          "0.995",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.998",
+          "0.994",
+          "0.982",
+          "0.966",
+          "0.932",
+          "0.901"
+        ],
+        "thickness_mm": [
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "basis": "internal transmittance of CDGM H-ZPK1A as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "-0.0000109",
+        "d1": "0.0000000114",
+        "d2": "-0.0000000000444",
+        "e0": "0.000000452",
+        "e1": "0.000000000349",
+        "lambda_tk_um": "0.159",
+        "reference_temperature_c": "20",
+        "basis": "Schott dn/dT coefficients of CDGM H-ZPK1A (the catalogue's TD line), reference temperature 20 C"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "CDGM_H-ZPK1A",
+        "source_edition": "CDGM optical glass catalogue 2026-09"
+      }
+    },
+    {
+      "material_id": "OHARA_S-LAH71",
+      "display_name": "OHARA S-LAH71",
+      "dispersion": {
+        "kind": "SELLMEIER",
+        "b": [
+          "1.98280031",
+          "0.31675845",
+          "2.44472646"
+        ],
+        "c_um2": [
+          "0.0118987456",
+          "0.0527156001",
+          "213.220697"
+        ]
+      },
+      "valid_band_nm": {
+        "min_nm": "360.1",
+        "max_nm": "2400.632",
+        "status": "SPECIFIED"
+      },
+      "basis": "Sellmeier law: the Sellmeier formula of OHARA S-LAH71 (OHARA glass catalogue 2017-11-30; refractiveindex.info database page specs/ohara/optical/S-LAH71.yml (CC0 1.0)); wavelength in air, index relative to air (25 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+      "index_reference": {
+        "wavelength": "AIR",
+        "index": "RELATIVE_TO_AIR",
+        "reference_air": {
+          "model": "EDLEN_1953_OPTICSTUDIO",
+          "temperature_c": "25",
+          "pressure_pa": "101325"
+        },
+        "source_band_nm": [
+          "360",
+          "2400"
+        ],
+        "stated_by": "CATALOGUE_FORMAT",
+        "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 25 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+      },
+      "bulk_loss": {
+        "kind": "EXTINCTION_COEFFICIENT",
+        "wavelength_nm": [
+          "360",
+          "370",
+          "380",
+          "390",
+          "400",
+          "420",
+          "440",
+          "460",
+          "480",
+          "500",
+          "550",
+          "600",
+          "650",
+          "700",
+          "800",
+          "900",
+          "1000",
+          "1200",
+          "1400",
+          "1600",
+          "1800",
+          "2000",
+          "2200",
+          "2400"
+        ],
+        "k": [
+          "0.000013193",
+          "0.000006499",
+          "0.0000037433",
+          "0.0000022139",
+          "0.0000013712",
+          "0.00000062276",
+          "0.0000003187",
+          "0.00000020708",
+          "0.00000014401",
+          "0.000000096658",
+          "0.000000035155",
+          "0.000000023933",
+          "0.000000025928",
+          "0.000000016736",
+          "0.000000012745",
+          "0.0000000071656",
+          "0.0000000079617",
+          "0.0000000095541",
+          "0.000000011146",
+          "0.00000002549",
+          "0.00000010062",
+          "0.00000017604",
+          "0.000000318",
+          "0.00000085939"
+        ],
+        "basis": "measured extinction coefficient k of OHARA S-LAH71 (refractiveindex.info page specs/ohara/optical/S-LAH71.yml, as tabulated; zero rows are not measured loss)"
+      },
+      "thermo_optic": {
+        "kind": "SCHOTT_DN_DT",
+        "d0": "-0.000000371",
+        "d1": "0.00000000901",
+        "d2": "-0.0000000000299",
+        "e0": "0.000000914",
+        "e1": "0.00000000111",
+        "lambda_tk_um": "0.257",
+        "reference_temperature_c": "25",
+        "basis": "Schott dn/dT coefficients of OHARA S-LAH71 (refractiveindex.info thermal_dispersion formula A), reference temperature 25 C (the page states 298 K)"
+      },
+      "copied_from": {
+        "catalog_version": "2026-11-25.1",
+        "material_id": "OHARA_S-LAH71",
+        "source_edition": "OHARA glass catalogue 2017-11-30"
+      }
+    }
+  ]
+}

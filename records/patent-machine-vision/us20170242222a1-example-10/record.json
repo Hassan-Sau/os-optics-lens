@@ -1,0 +1,359 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "us20170242222a1-example-10",
+ "record_revision": 1,
+ "title": "16.463 mm f/1.83 fixed-focus machine-vision lens (US20170242222A1, Example 10)",
+ "collection": {
+  "collection_id": "patent-machine-vision",
+  "source": "Numerical examples published in patent specifications",
+  "source_url": "https://patents.google.com/patent/US20170242222A1/en",
+  "source_revision": null,
+  "source_input": "US20170242222A1, TABLE 24, TABLE 25, Example 10, infinity-focus column",
+  "source_input_sha256": null,
+  "redistribution": "Public patent disclosure; the numerical table is transcribed and the publication is cited. No source file is redistributed.",
+  "attribution": "US20170242222A1 (Imaging lens and imaging apparatus), Example 10",
+  "source_links": {
+   "source_file_url": "https://patents.google.com/patent/US20170242222A1/en"
+  },
+  "original_publication": {
+   "publication": "US20170242222A1",
+   "title": "Imaging lens and imaging apparatus",
+   "assignee": null,
+   "url": "https://patents.google.com/patent/US20170242222A1/en",
+   "note": "the prescription is the patent's own numerical Example 10"
+  }
+ },
+ "design": {
+  "source_reference": "US20170242222A1 Example 10",
+  "lens_type": "machine_vision_lens",
+  "design_family_id": "us20170242222",
+  "design_scope": "COMPLETE_SYSTEM",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "factory automation",
+   "machine vision"
+  ],
+  "structure_tags": [
+   "fixed_focal_length",
+   "refractive",
+   "cemented_group"
+  ],
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1,
+  "aperture_validity": {
+   "state": "STOP_BLOCKING",
+   "stop_blocks_light": true,
+   "basis": "the imported aperture stop is a plate whose opening is the stated stop semi-diameter",
+   "eligible_for_stop_dependent_evaluation": true,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "eligibility only: this record asserts no field point, pupil sample or illumination measurement, so no stop-dependent match is claimed"
+  }
+ },
+ "native_project": {
+  "path": "records/patent-machine-vision/us20170242222a1-example-10/project.json",
+  "sha256": "6b8a327727df0e0766ea11254feb663511037f319135b40b1862f94c4e95878b",
+  "engine_version": "0.14.0",
+  "catalog_version": "2026-11-25.1",
+  "model_id": "MVC1646",
+  "opening_outcome": "ACCEPTED",
+  "optical_validation": "PARAXIAL_MATCH"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   435.8,
+   486.1,
+   587.6,
+   656.3
+  ],
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths: the source states that the conditional expressions are based on the d-line, 587.6 nm, and figures its aberrations at the d-line 587.6 nm, the C-line 656.3 nm, the F-line 486.1 nm and the g-line 435.8 nm",
+  "primary_wavelength_nm": 587.6,
+  "wavelength_precision": "as stated by the source; the Project uses these values unchanged",
+  "sampling_span_nm": {
+   "min_nm": 435.8,
+   "max_nm": 656.3,
+   "eligible_for": "DISCOVERY_ONLY",
+   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+   "note": "the span of the stated sampling wavelengths; the source states no separate operating range"
+  },
+  "continuous_coverage_nm": {
+   "min_nm": null,
+   "max_nm": null,
+   "state": "UNCONFIRMED",
+   "note": "a set of enabled wavelengths is sampling evidence; the source states no continuous range"
+  },
+  "band_facets": [
+   "visible"
+  ]
+ },
+ "image_format": {
+  "sensor_format": "11.47 mm image circle",
+  "image_circle_diameter_mm": 11.47,
+  "basis": "DERIVED from the source's stated 2w = 38.4 deg and f' = 16.463 mm: 2 f' tan(w)",
+  "format_facets": []
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 16.461652961666104,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": "paraxial, primary wavelength 587.6 nm (vacuum)"
+  },
+  "back_focal_length_mm": {
+   "value": 7.853074995398758,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "from the last surface vertex to the paraxial image point"
+  },
+  "total_track_mm": {
+   "value": 59.701,
+   "basis": "DERIVED_FROM_TRANSCRIBED_TABLE",
+   "definition": "first surface vertex to the image plane along the axis",
+   "derivation": "the sum of the transcribed surface thicknesses from the first surface to the image plane; the source prints no total length of its own"
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
+   "wavelength_nm": 587.6,
+   "effective_focal_length_mm": 16.461652961666104,
+   "back_focal_length_mm": 7.853074995398758,
+   "comparison": {
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
+    "atol_mm": 1e-05,
+    "rtol": 0.0001,
+    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
+    "effective_focal_length": {
+     "source_mm": 16.463,
+     "engine_mm": 16.461652961666104,
+     "absolute_difference_mm": 0.0013470383338969327,
+     "scale_mm": 16.463,
+     "scale_basis": "|EFL|",
+     "tolerance_mm": 0.0016563000000000003,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.8132816119645792
+    }
+   },
+   "basis": "ENGINE_COMPUTED"
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 1.83,
+   "definition": "image-space f-number stated by the source",
+   "basis": "SOURCE_STATED",
+   "system_aperture": true
+  },
+  "stop_semi_diameter_mm": {
+   "value": 5.745104,
+   "definition": "semi-diameter of the aperture stop the Project carries",
+   "basis": "DERIVED: the paraxial stop height of the axial ray whose entrance pupil diameter is EFL / f-number",
+   "system_aperture": false
+  }
+ },
+ "field": {
+  "kind": "ANGULAR",
+  "definition": "object-space half field angle to the edge of the image circle; the source states the full field 2w",
+  "full_field_deg": 38.4,
+  "half_field_deg": 19.2,
+  "basis": "SOURCE_STATED"
+ },
+ "materials": {
+  "catalog_comparisons": [
+   {
+    "surface_medium": "2.00272/19.32",
+    "basis": "CONSTANT_INDEX_NO_CATALOG_MATCH",
+    "stated": {
+     "nd": 2.00272,
+     "vd": 19.32
+    },
+    "nearest_catalog_glass": "CDGM_D-ZF93",
+    "delta_nd": -0.0010199508262278556,
+    "delta_vd": 1.3801954850949443,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    },
+    "note": "no published glass reproduces both stated constants inside the tolerance; the medium is modelled as a constant index at the stated nd and the nearest published glass is recorded for comparison only"
+   },
+   {
+    "surface_medium": "1.51680/64.20",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.5168,
+     "vd": 64.2
+    },
+    "catalog_glass": "CDGM_H-K9LGT",
+    "designation": "H-K9LGT",
+    "manufacturer": "CDGM",
+    "delta_nd": -2.245766905772939e-09,
+    "delta_vd": -0.0012682113984112675,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "1.81600/46.62",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.816,
+     "vd": 46.62
+    },
+    "catalog_glass": "OHARA_S-LAH59",
+    "designation": "S-LAH59",
+    "manufacturer": "OHARA",
+    "delta_nd": -1.608945678910345e-07,
+    "delta_vd": 0.0005607745773232864,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "1.51742/52.43",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.51742,
+     "vd": 52.43
+    },
+    "catalog_glass": "OHARA_S-NSL36",
+    "designation": "S-NSL36",
+    "manufacturer": "OHARA",
+    "delta_nd": -3.089687544255426e-06,
+    "delta_vd": 0.000902636478947727,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "1.80420/46.50",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.8042,
+     "vd": 46.5
+    },
+    "catalog_glass": "SCHOTT_N-LASF44",
+    "designation": "N-LASF44",
+    "manufacturer": "SCHOTT",
+    "delta_nd": -1.036044523505808e-07,
+    "delta_vd": 0.0006362996730047144,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "1.72825/28.32",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.72825,
+     "vd": 28.32
+    },
+    "catalog_glass": "CDGM_H-ZF4AGT",
+    "designation": "H-ZF4AGT",
+    "manufacturer": "CDGM",
+    "delta_nd": 3.626354305730217e-08,
+    "delta_vd": -0.001202936978298652,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "1.59522/67.73",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.59522,
+     "vd": 67.73
+    },
+    "catalog_glass": "OHARA_S-FPM2",
+    "designation": "S-FPM2",
+    "manufacturer": "OHARA",
+    "delta_nd": -4.113650560189086e-07,
+    "delta_vd": 0.005723218999762025,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "2.00069/25.46",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 2.00069,
+     "vd": 25.46
+    },
+    "catalog_glass": "CDGM_H-ZLAF90A",
+    "designation": "H-ZLAF90A",
+    "manufacturer": "CDGM",
+    "delta_nd": -2.1933173854904453e-07,
+    "delta_vd": -0.0019439057508670032,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   },
+   {
+    "surface_medium": "1.88100/40.14",
+    "basis": "RESOLVED_FROM_STATED_ND_VD",
+    "stated": {
+     "nd": 1.881,
+     "vd": 40.14
+    },
+    "catalog_glass": "CDGM_H-ZLAF73",
+    "designation": "H-ZLAF73",
+    "manufacturer": "CDGM",
+    "delta_nd": 2.8594147938321157e-08,
+    "delta_vd": 0.021331133843041528,
+    "tolerance": {
+     "nd": 5e-05,
+     "vd": 0.05
+    }
+   }
+  ],
+  "note": "A medium the source names is used as published. A medium the source gives only as (nd, Vd) is the catalog glass that reproduces both constants inside nd 5e-5 and Vd 0.05, recorded with the difference; no other glass is substituted."
+ },
+ "application_facts": {
+  "conjugate": "object at infinity",
+  "note": "a fixed-focus lens for factory automation and machine vision; the source states no working distance, magnification or telecentricity"
+ },
+ "approximations": [
+  {
+   "code": "SINGLE_FOCUS_CONFIGURATION",
+   "description": "The source prints an infinity-focus and a finite-focus column. Only the infinity column is transcribed; the spacings DD[7], DD[17] are the infinity values."
+  },
+  {
+   "code": "COVER_PLATE_KEPT",
+   "description": "The last two surfaces are the source's plane-parallel plate (the patent's optical member PP, drawn as a cover glass / filter) and its back space; they are kept as prescribed."
+  },
+  {
+   "code": "CONSTANT_INDEX_MEDIA",
+   "description": "No published catalog glass reproduces both constants of 2.00272/19.32 inside nd 5e-5 / vd 0.05, so each of those media is carried as a constant index at its source-stated nd, stated relative to air; its dispersion is not modelled and only the d-line paraxial quantities are affected by the omission."
+  },
+  {
+   "code": "CLEAR_APERTURE_FROM_PARAXIAL_ENVELOPE",
+   "description": "The source states no clear aperture. Each surface's clear semi-diameter is the largest paraxial footprint of the axial marginal ray at the stated aperture and, where an object field is stated, the chief ray of the widest sampled field plus half the off-axis beam radius; a mechanical value, not a source fact."
+  }
+ ],
+ "unsupported_constructs": [],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "MATCHED",
+  "engine_version": "0.14.0",
+  "solids_findings": []
+ },
+ "provenance": {
+  "publication": "US20170242222A1",
+  "url": "https://patents.google.com/patent/US20170242222A1/en",
+  "example": "Example 10",
+  "table_locator": "TABLE 24, TABLE 25, infinity-focus column",
+  "assignee": null,
+  "retrieved": "2026-11-27",
+  "transcription": "surface radius, thickness, nd and vd read from the lens-data table; f', FNo. and 2w read from the specification table; the variable spacings are the infinity-column values; the table's extra partial-dispersion column (theta_gF = 0.53430, 0.54426, 0.55649, 0.55682, 0.55799, 0.57010, 0.60590, 0.61364, 0.64514) is a stated fact the csv-surface-table/1 format has no field for, so it is not carried"
+ },
+ "record_hash": "7df394d3c5552eb19a4c15a8e6c458f4c35e7f649baae8db2d9011643a2d1b0a",
+ "record_hash_method": "sha256 over json.dumps(body, sort_keys=True, ensure_ascii=False) encoded UTF-8, with record_hash and record_hash_method removed; no trailing newline"
+}
