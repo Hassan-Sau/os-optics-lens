@@ -55,6 +55,27 @@ design is usable across the interval: a record's `spectrum.continuous_coverage_n
 unless the source states a range, so only established continuous coverage can satisfy a hard band
 constraint.
 
+## The telescope and observation collection
+
+`records/telescope-observation/` holds the second collection: nine classical eyepieces from
+MIL-HDBK-141 section 14, one Nikon eyepiece numerical example, and four MIT-licensed sample designs
+— refracting telescope objectives and eyepieces. Every record is a coaxial sequential refracting
+prescription with a real image plane, because that is what the prescription importer accepts;
+reflecting systems, prism erectors and afocal trains are deferred with a reason rather than
+approximated.
+
+| | |
+|---|---|
+| Candidates examined | 88 |
+| Accepted records | 14 |
+| Deferred, with a reason | 74 |
+| Conversion failed | 0 |
+
+[Collection README](records/telescope-observation/README.md) covers the scope, the record table, the
+aperture and stop conventions, the validation run and the deferred sources.
+[Batch manifest](records/telescope-observation/batch-telescope-observation-1.json) reports one
+outcome per candidate.
+
 ## Status and contributions
 
 The repository is in setup. The first usable PyPI release is planned to ship the search interface
@@ -68,6 +89,11 @@ The project uses the [MIT License](LICENSE).
 ## Data sources and acknowledgments
 
 The initial prescription records are derived from Nathan Hagen's [LensLibrary](https://github.com/nzhagen/LensLibrary), using [revision `86b2c0ca`](https://github.com/nzhagen/LensLibrary/tree/86b2c0cac5a67e2112d58518230c4d8728154f4e). Thanks to Nathan Hagen for compiling and sharing the collection. See the [LensLibrary MIT notice](licenses/LensLibrary-MIT.txt) for the upstream copyright and license. Individual records cite the upstream design and its original publication or patent when available.
+
+The telescope and observation collection draws on MIL-HDBK-141 (a US Government work in the public
+domain), on US10527839B2 and on the MIT-licensed [optiland](https://github.com/optiland/optiland)
+sample designs. Each record states its own attribution and redistribution basis; the [collection
+README](records/telescope-observation/README.md) lists the sources and the exact revision read.
 
 The LensLibrary notice must stay with the converted records in any distribution. The repository's
 own [MIT License](LICENSE) covers its code and documentation.
