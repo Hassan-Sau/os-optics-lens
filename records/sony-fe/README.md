@@ -1,42 +1,23 @@
-# Sony FE collection, batch 1
+# Sony FE collection
 
-One Sony-assigned full-frame imaging-lens family, transcribed from the numerical examples of
-[US20240061211A1](https://patents.google.com/patent/US20240061211A1/en) ("Imaging lens and imaging
-apparatus", Sony Group Corp, priority 2018-03-30). Every example in the publication is a 131 mm
-f/1.85-class design with a printed image height of 21.633 mm, which is a 43.27 mm image circle: a
-36 × 24 mm frame.
+Full-frame Sony photography lenses, transcribed from the numerical examples of Sony-assigned
+patent publications into native `os-optics` Projects. Series issue: [#13](https://github.com/JunLin615/os-optics-lens/issues/13).
 
-| Example | Record | Printed f (mm) | Engine f (mm) | Outcome |
-| --- | --- | --- | --- | --- |
-| 1 | `patent-us20240061211a1-ex01` | 130.950 | 131.157 | accepted |
-| 2 | `patent-us20240061211a1-ex02` | 130.967 | 131.102 | accepted |
-| 3 | — | 130.956 | 118.100 | deferred, `SOURCE_TABLE_INCONSISTENT` |
-| 4 | `patent-us20240061211a1-ex04` | 130.957 | 131.168 | accepted |
-| 5 | `patent-us20240061211a1-ex05` | 131.012 | 131.219 | accepted |
+```
+records/sony-fe/
+├── batch-sony-fe-1.json          batch outcome manifest, one row per source input
+├── NOTES-batch-1.md              what batch 1 contains and what it does not claim
+└── patent-<publication>-ex<NN>/  one directory per record
+    ├── project.json              the native os-optics Project (authoritative)
+    ├── record.json               search facts, provenance, validation
+    └── evidence.json             the transcribed table and stated parameters
+```
 
-The engine's focal length sits 0.10–0.16 % above the printed value in every accepted example. That
-offset is the same one the patent-derived `phone-modules` batch documents: the printed radii and
-thicknesses are rounded to four decimals and the materials are constant indices at the reference
-wavelength, so the comparison rule for patent records uses `atol = 0.005 mm` and `rtol = 0.003`.
-Each record states that rule, the achieved fraction of the allowance, and the approximations that
-produced the difference.
+Each batch adds a manifest and a note beside the records it adds. The note states the comparison
+rule applied, every deferral with its reason code, and the modelling limits of the batch. Read a
+batch's manifest before its records: an accepted record is one whose four validation outcomes all
+hold, and a deferred input is named there with the reason it is not a record.
 
-## What these records are not
-
-- **Not a product reproduction.** The publication does not name a product. The records claim a
-  patent example, not a Sony lens model.
-- **Not a chromatic model.** The publication prints `nd` and `vd` only, so every element is a
-  constant index at 587.56 nm and the vd values are kept as evidence, not modelled.
-- **Not a stop-resolved model.** The publication prints no clear or mechanical semi-diameters. The
-  Projects use one uniform 13 mm clear semi-diameter, so the modelled stop does not bound the beam
-  and `design.aperture_validity` says `STOP_NOT_BLOCKING`: first-order and structural queries are
-  supported, stop-dependent ones stay unconfirmed.
-- **Not every focus state.** Each Project is the infinity-focus state. The printed focusing gaps
-  `d1..d4` for the intermediate and closest ranges are kept in `evidence.json`.
-
-## Example 3
-
-Its transcribed table gives 118.10 mm against a printed 130.956 mm. The four-decimal rounding cannot
-account for a 10 % gap, so the example is withheld and reported in the batch manifest rather than
-committed as a record. The likely cause is a surface row whose thickness or radius did not survive
-the table extraction; the finding is recorded so a reviewer can look at the publication directly.
+Records are authored from the publication's own printed tables. Nothing is inferred: a value the
+publication does not print is absent from the record, and a quantity that had to be derived says so
+with its `basis`.

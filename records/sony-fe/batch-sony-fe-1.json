@@ -1,19 +1,29 @@
 {
  "schema": "opensci.lens.batch",
  "batch_schema_version": "1.0",
- "collection_id": "sony-fe",
  "batch_id": "sony-fe-1",
- "source": {
-  "publication": "US20240061211A1",
-  "title": "Imaging lens and imaging apparatus",
-  "assignee": "Sony Group Corp",
-  "url": "https://patents.google.com/patent/US20240061211A1/en",
-  "priority_date": "2018-03-30",
+ "collection": {
+  "collection_id": "sony-fe",
+  "source": "US patent publications, Sony-assigned numerical examples",
   "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
  },
- "scope": "Sony-assigned numerical examples of one full-frame imaging-lens family: five examples, each a 131 mm f/1.85-class design with an image height of 21.633 mm. The batch records the infinity-focus state of each example.",
+ "engine": {
+  "name": "os-optics",
+  "version": "0.14.0",
+  "catalog_version": null,
+  "prescription_format": "csv-surface-table/1"
+ },
+ "hashing": {
+  "source_input_sha256": "SHA-256 of the surface-table rows as the reader extracts them from the publication page, one row per line, cells joined by commas",
+  "project_sha256": "SHA-256 of the committed project.json file's bytes",
+  "record_hash": "SHA-256 over the record's JSON with record_hash and record_hash_method removed: json.dumps(sort_keys=True, ensure_ascii=False) as UTF-8, no trailing newline"
+ },
+ "input_inventory": {
+  "count": 5,
+  "basis": "every numerical example printed in US20240061211A1 (five examples)"
+ },
  "counts": {
-  "source_inputs": 5,
+  "inputs": 5,
   "accepted": 4,
   "deferred": 1,
   "conversion_failed": 0
@@ -24,41 +34,42 @@
   "patent-us20240061211a1-ex04",
   "patent-us20240061211a1-ex05"
  ],
- "rows": [
+ "outcomes": [
   {
    "source_input": "US20240061211A1, EXAMPLE 1",
+   "source_input_sha256": "09f37fd0ac687d981384b430b5669f277b3a54b68b47bfa6b9e1d2a4f83ec50e",
    "outcome": "ACCEPTED",
    "record_id": "patent-us20240061211a1-ex01",
-   "record_revision": 1,
-   "note": "Paraxial check reproduces the printed focal length within the stated tolerance."
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
   },
   {
    "source_input": "US20240061211A1, EXAMPLE 2",
+   "source_input_sha256": "76bbdb0cfcb108fb5afdddd0d970290b74a228424ecf063540dc4e92fe765be8",
    "outcome": "ACCEPTED",
    "record_id": "patent-us20240061211a1-ex02",
-   "record_revision": 1,
-   "note": "Paraxial check reproduces the printed focal length within the stated tolerance."
-  },
-  {
-   "source_input": "US20240061211A1, EXAMPLE 4",
-   "outcome": "ACCEPTED",
-   "record_id": "patent-us20240061211a1-ex04",
-   "record_revision": 1,
-   "note": "Paraxial check reproduces the printed focal length within the stated tolerance."
-  },
-  {
-   "source_input": "US20240061211A1, EXAMPLE 5",
-   "outcome": "ACCEPTED",
-   "record_id": "patent-us20240061211a1-ex05",
-   "record_revision": 1,
-   "note": "Paraxial check reproduces the printed focal length within the stated tolerance."
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
   },
   {
    "source_input": "US20240061211A1, EXAMPLE 3",
+   "source_input_sha256": "2c65b2d05849119c1206fb65627daf7848032a38e6d4ff00771d3719ae2c6ca0",
    "outcome": "DEFERRED",
-   "reason_code": "SOURCE_TABLE_INCONSISTENT",
    "record_id": null,
-   "note": "The transcribed table yields EFL 118.10 mm against the printed 130.956 mm (10 % apart), far outside the tolerance the rounded table can explain. The example is withheld until the gap in its surface table is identified."
+   "reason_code": "SOURCE_TABLE_INCONSISTENT",
+   "note": "The transcribed table yields EFL 118.10 mm against a printed 130.956 mm (10 % apart), far outside the tolerance the rounded table can explain, so the row set is not trustworthy as read. Withheld until the gap is identified."
+  },
+  {
+   "source_input": "US20240061211A1, EXAMPLE 4",
+   "source_input_sha256": "d67594a699d3adb9f0bc68901ca7611eac5ca9afd5f39eeb43d9ec1efc21916b",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20240061211a1-ex04",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
+  },
+  {
+   "source_input": "US20240061211A1, EXAMPLE 5",
+   "source_input_sha256": "65a63fad988b926dc628ac008e5de0b68f1cfa6c91888f9670df5a98758fda13",
+   "outcome": "ACCEPTED",
+   "record_id": "patent-us20240061211a1-ex05",
+   "note": "Native Project opens, passes the documented checks and reproduces the printed focal length within the stated tolerance."
   }
  ]
 }

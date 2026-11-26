@@ -3,13 +3,13 @@
  "record_schema_version": "1.0",
  "record_id": "patent-us20240061211a1-ex04",
  "record_revision": 1,
- "title": "Sony 131.0 mm f/None full-frame imaging lens (numerical example 4)",
+ "title": "Sony 131.0 mm f/1.854 full-frame imaging lens (US20240061211A1, example 4)",
  "collection": {
   "collection_id": "sony-fe",
   "source": "US patent publication",
   "source_input": "US20240061211A1, EXAMPLE 4",
   "source_input_sha256": "d67594a699d3adb9f0bc68901ca7611eac5ca9afd5f39eeb43d9ec1efc21916b",
-  "attribution": "Sony Group Corp, US20240061211A1 \"Imaging lens and imaging apparatus\". The prescription is the published numerical example 4; the native Project is a transcription of its table.",
+  "attribution": "Sony Group Corp, US20240061211A1 \"Imaging lens and imaging apparatus\". The prescription is the published numerical example 4; the native Project is a transcription of its surface table.",
   "contributor": "OpenSci prescription intake",
   "original_publication": {
    "id": "US20240061211A1",
@@ -25,7 +25,7 @@
   },
   "evidence_extract": {
    "path": "records/sony-fe/patent-us20240061211a1-ex04/evidence.json",
-   "sha256": "f168bdfa2790de35184f5395dd027692d28826df8c555613a25e42ce2d42d4b8"
+   "sha256": "c2eef1c0ed3b04b4b6da6bea22ffd76d89efcdd8b15a4e1f427727aeef2fe040"
   },
   "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
  },
@@ -52,7 +52,7 @@
   "aperture_validity": {
    "state": "STOP_NOT_BLOCKING",
    "stop_blocks_light": false,
-   "basis": "The publication states no clear or mechanical semi-diameter, so the transcription uses one uniform 13 mm clear semi-diameter; the stop row is then the same size as its neighbours and does not bound the beam.",
+   "basis": "The publication states no clear or mechanical semi-diameter, so the transcription uses one uniform clear semi-diameter; the stop row is then the same size as its neighbours and does not bound the beam.",
    "eligible_for_stop_dependent_evaluation": false,
    "satisfies_stop_dependent_constraints": false,
    "satisfaction_basis": "No pupil or field evidence is recorded, and the modelled stop does not bound the beam, so no stop-dependent match is claimed.",
@@ -61,7 +61,7 @@
  },
  "native_project": {
   "path": "records/sony-fe/patent-us20240061211a1-ex04/project.json",
-  "sha256": "415f922bd9952094fc0bdbe2059f088e1c1565e28dbae8fd299400a1886e7303",
+  "sha256": "0f6ccad080bb41709408ccf8eb431cf47662fc0e637d5f03381c0ff20981e92f",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "OPTIC",
@@ -76,7 +76,7 @@
   "sampling_wavelengths_air_nm": [
    587.56
   ],
-  "sampling_wavelengths_basis": "The publication prints the d-line as its reference wavelength (587.56 nm in air). That value is converted once to the vacuum wavelength the engine evaluates; the same conversion is used by the existing patent-derived records.",
+  "sampling_wavelengths_basis": "The publication prints the d-line as its reference wavelength (587.56 nm in air). That value is converted once to the vacuum wavelength the engine evaluates, as the existing patent-derived records do.",
   "incident_weights": [
    1
   ],
@@ -105,7 +105,16 @@
   "width_mm": 36,
   "height_mm": 24,
   "image_circle_diameter_mm": 43.266,
-  "basis": "The example states an image height Y = 21.633 mm; twice that is the tested image-circle diameter, consistent with a 36 x 24 mm frame."
+  "basis": "Derived as 2 f tan(omega) from the printed focal length and half field angle; the derived diameter matches the 43.27 mm diagonal of a 36 x 24 mm frame."
+ },
+ "field": {
+  "kind": "ANGULAR",
+  "full_field_deg": 18.76,
+  "half_field_deg": 9.38,
+  "basis": "SOURCE_STATED",
+  "definition": "Object-space half angle to the image height the example is corrected for.",
+  "max_image_height_mm": 21.633,
+  "image_height_basis": "DERIVED from f tan(omega): the publication prints the angle, not the height."
  },
  "first_order": {
   "effective_focal_length_mm": {
@@ -139,7 +148,7 @@
    "back_focal_length_mm": 1.1515583381720726,
    "wavelength_nm": 587.720064,
    "comparison": {
-    "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 3-decimal focal length; rtol covers the printed 4-decimal radii and thicknesses, the constant-index material model and the engine's air-referenced index convention (about 0.13 % on EFL).",
+    "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 3-decimal focal length; rtol covers the printed radii and thicknesses, the constant-index material model and the engine's air-referenced index convention (about 0.13 % on EFL).",
     "atol_mm": 0.005,
     "rtol": 0.003,
     "effective_focal_length": {
@@ -168,6 +177,9 @@
    "system_aperture": true
   }
  },
+ "materials": {
+  "basis": "Each row's printed nd and vd define a constant-index material in the Project; no dispersion law is claimed."
+ },
  "approximations": [
   {
    "code": "CONSTANT_INDEX_FROM_ND",
@@ -175,13 +187,14 @@
   },
   {
    "code": "CLEAR_APERTURE_ASSUMED",
-   "statement": "The publication states no semi-diameters; the Project uses one uniform 13 mm clear semi-diameter for every surface, which does not affect first-order properties."
+   "statement": "The publication states no semi-diameters; the Project uses one uniform 13.0 mm clear semi-diameter for every surface, which does not affect first-order properties."
   },
   {
    "code": "SINGLE_FOCUS_STATE",
-   "statement": "The Project is the infinity-focus state; the printed focusing gaps (d1..d4 at other magnifications) are kept in the evidence extract."
+   "statement": "The Project is the infinity-focus state; the printed gaps for the closer conjugates are kept in the evidence extract."
   }
  ],
+ "unsupported_constructs": [],
  "validation": {
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
@@ -189,5 +202,5 @@
   "paraxial": "MATCHED"
  },
  "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
- "record_hash": "ae9e621ed333032f7928ad8ae7d429327a25c3e1d1dce692da43c0996e6cd3f0"
+ "record_hash": "f1a59d2f25c760c6ddd50f5513c5c91c013a9b85a9d3c2f3306b2d1b53275702"
 }
