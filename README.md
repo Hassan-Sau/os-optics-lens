@@ -61,6 +61,22 @@ The repository is in setup. The first usable PyPI release is planned to ship the
 and a searchable collection together. The seed collection is the first batch of that collection.
 [LensLibrary](https://github.com/nzhagen/LensLibrary)
 
+## The phone-module collection
+
+`records/phone-modules/` holds the first expansion batch: seven-element main-camera and
+five-element ultrawide modules transcribed from two granted US patent publications. Each record
+names its table and embodiment, carries the search facts with their basis, and holds a compact
+evidence extract beside the Project.
+
+| | |
+|---|---|
+| Source examples | 22, across US9366845B2 and US10247911B2 |
+| Accepted records | 11 (6 main camera, 5 ultrawide) |
+| Deferred, with a reason | 11 |
+
+[Phone main-camera and ultrawide modules](docs/PHONE_MODULE_INTAKE.md) records the transcription
+rules, the material and aperture models, the field evidence, the verification run and the limits.
+
 Use [ARCHITECTURE.md](ARCHITECTURE.md) for the design, [AGENTS.md](AGENTS.md) for repository rules,
 and [CONTRIBUTING.md](CONTRIBUTING.md) for proposals, single-record contributions and batch intake.
 The project uses the [MIT License](LICENSE).
