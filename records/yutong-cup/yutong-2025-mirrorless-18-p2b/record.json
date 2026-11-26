@@ -1,0 +1,544 @@
+{
+  "schema": "opensci.lens.record",
+  "record_schema_version": "1.0",
+  "record_id": "yutong-2025-mirrorless-18-p2b",
+  "record_revision": 4,
+  "title": "18 mm f/2 full-frame mirrorless P2b",
+  "collection": {
+    "collection_id": "yutong-cup",
+    "source": "OpenSci camera lens design studies",
+    "source_input": "Mirrorless-18mm-P2b-prototype, P2b_native/camera.json",
+    "source_input_sha256": "9d644a4e4db0c6a26a54a2642b51a38557ef8051602643ae1c6e9b1798fc4806",
+    "attribution": "OpenSci mirrorless lens design study. The upstream design family used Sony numerical example 2 as its initial topology.",
+    "contributor": "OpenSci design studies, submitted through JunLin615",
+    "original_publication": {
+      "id": "WO2020213337A1",
+      "reference": "Sony, numerical example 2 (starting topology)",
+      "url": "https://patents.google.com/patent/WO2020213337A1/en"
+    },
+    "redistribution": "The contributor authorizes use, copying, modification and redistribution of the contributed native Project and evidence extract under MIT (LICENSE). The cited patent publication documents the starting topology.",
+    "brief_url": "https://cxcy.ahu.edu.cn/_upload/article/files/21/a1/7d4dfbf34aa688bd48a2b6d2d5e5/68b1a0e1-454f-4a41-ad44-451597974eab.pdf",
+    "evidence_archive": {
+      "filename": "Mirrorless-18mm-P2b-prototype.zip",
+      "sha256": "794e6d42c4c17bd48a7cfcfafa69ac08f79d032c5f305d8f1830fa888f52bbce"
+    },
+    "problem_year": 2025,
+    "problem_number": 2,
+    "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/8",
+    "license": {
+      "spdx": "MIT",
+      "notice_path": "LICENSE",
+      "copyright": "Copyright (c) 2026 JunLin615"
+    },
+    "evidence_extract": {
+      "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+      "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1"
+    }
+  },
+  "design": {
+    "source_reference": "P2b finite-film and coated engineering model",
+    "lens_type": "camera_lens",
+    "design_family_id": "yutong-2025-mirrorless-18",
+    "design_scope": "COMPLETE_SYSTEM",
+    "function_tags": [
+      "imaging"
+    ],
+    "application_tags": [
+      "photography"
+    ],
+    "structure_tags": [
+      "fixed_focal_length",
+      "refractive",
+      "cemented_group",
+      "aspheric"
+    ],
+    "conjugate": "INFINITE_TO_FINITE",
+    "configuration_count": 1,
+    "powered_element_count": 14,
+    "powered_group_count": 12,
+    "aspheric_element_count": 8,
+    "powered_element_material_class": "glass_only",
+    "aperture_validity": {
+      "state": "STOP_BLOCKING",
+      "stop_blocks_light": true,
+      "basis": "The native aperture plate extends beyond the clear opening.",
+      "eligible_for_stop_dependent_evaluation": true,
+      "satisfies_stop_dependent_constraints": true,
+      "satisfaction_basis": "Traced pupils and field tests support individual comparable matches under the recorded nominal conditions."
+    }
+  },
+  "native_project": {
+    "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/project.json",
+    "sha256": "14090b01fe27afcd61f8a3e111b4e8a9bdf5e726237a2f822a07a88d1176cbe2",
+    "engine_version": "0.14.0",
+    "catalog_version": null,
+    "instance_id": "ML18",
+    "model_id": "ML18",
+    "opening_outcome": "ACCEPTED",
+    "optical_validation": "PARAXIAL_MATCH"
+  },
+  "spectrum": {
+    "sampling_wavelengths_nm": [
+      486,
+      587,
+      656
+    ],
+    "sampling_wavelengths_basis": "SOURCE_STATED numerical wavelengths preserved from the source native Project",
+    "incident_weights": [
+      1,
+      1,
+      1
+    ],
+    "primary_wavelength_nm": 587,
+    "band_facets": [
+      "visible"
+    ],
+    "wavelength_precision": "The original vacuum wavelength samples at full Project precision.",
+    "sampling_span_nm": {
+      "min_nm": 486,
+      "max_nm": 656,
+      "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+      "eligible_for": "DISCOVERY_ONLY"
+    },
+    "continuous_coverage_nm": {
+      "state": "UNCONFIRMED",
+      "min_nm": null,
+      "max_nm": null,
+      "note": "The study evaluates discrete wavelengths."
+    }
+  },
+  "image_format": {
+    "format_facets": [
+      "full_frame"
+    ],
+    "width_mm": 36,
+    "height_mm": 24,
+    "image_circle_diameter_mm": 43.27,
+    "cover_glass": {
+      "material": "H-K9",
+      "thickness_mm": 1
+    },
+    "pixel_pitch_um": [
+      12,
+      12
+    ],
+    "pixel_pitch_basis": "SOURCE_STATED in the design brief. The OpenSci receiver is a continuous optical image plane."
+  },
+  "first_order": {
+    "effective_focal_length_mm": {
+      "value": 18.726068736671145,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Paraxial EFL at the primary wavelength, 587 nm",
+      "conditions": "Primary wavelength 587.0 nm (vacuum)."
+    },
+    "back_focal_length_mm": {
+      "value": 1.0390024256495436,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Paraxial distance from the final modeled optical surface to the rear focal point at 587 nm. The finite-conjugate or optimized fixed sensor plane is described by the separate vertex-to-sensor distance.",
+      "conditions": {
+        "distance_kind": "paraxial_focal_distance",
+        "from": "final_optical_surface_vertex",
+        "to": "paraxial_rear_focal_point",
+        "wavelength_nm": 587
+      }
+    },
+    "final_powered_vertex_to_sensor_mm": {
+      "value": 17.052748732264,
+      "basis": "SOURCE_STATED",
+      "definition": "Last powered surface vertex to the fixed sensor plane, including the H-K9 plate",
+      "conditions": {
+        "distance_kind": "geometric_axial_distance",
+        "from": "last_powered_surface_vertex",
+        "to": "fixed_image_plane",
+        "includes_cover_glass": true
+      },
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "back_focus"
+      }
+    },
+    "total_track_mm": {
+      "value": 109.55620708818527,
+      "basis": "SOURCE_STATED",
+      "definition": "Axial distance from the first surface vertex to the fixed image plane",
+      "conditions": {
+        "from": "first_optical_surface_vertex",
+        "to": "fixed_image_plane"
+      }
+    },
+    "engine_check": {
+      "engine_version": "0.14.0",
+      "basis": "ENGINE_COMPUTED",
+      "method": "Thick-lens ABCD at the primary wavelength, using the original unit-index propagation convention.",
+      "effective_focal_length_mm": 18.726068736671145,
+      "back_focal_length_mm": 1.0390024256495436,
+      "source_engine_version": "0.13.0",
+      "wavelength_nm": 587.0,
+      "comparison": {
+        "rule": "per quantity: |engine - source| <= atol + rtol * scale",
+        "atol_mm": 1e-05,
+        "rtol": 0.0001,
+        "effective_focal_length": {
+          "source_mm": 18.726068736671145,
+          "engine_mm": 18.726068736671145,
+          "absolute_difference_mm": 0.0,
+          "scale_mm": 18.726068736671145,
+          "scale_basis": "|EFL|",
+          "tolerance_mm": 0.0018826068736671146,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.0
+        },
+        "back_focal_length": {
+          "source_mm": 1.0390024256495436,
+          "engine_mm": 1.0390024256495436,
+          "absolute_difference_mm": 0.0,
+          "scale_mm": 18.726068736671145,
+          "scale_basis": "max(|BFL|, |EFL|)",
+          "tolerance_mm": 0.0018826068736671146,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.0
+        }
+      }
+    }
+  },
+  "aperture": {
+    "entrance_pupil_f_number": {
+      "value": 1.9789,
+      "basis": "SOURCE_STATED",
+      "definition": "Upper bracket of EFL divided by the physically admitted on-axis entrance-pupil diameter at infinity focus",
+      "conditions": {
+        "convention": "efl_over_admitted_entrance_pupil_diameter"
+      },
+      "system_aperture": false
+    },
+    "stop_opening_diameter_mm": {
+      "value": 24.852063868184835,
+      "basis": "DERIVED",
+      "definition": "Diameter of the declared physical iris opening in the native Project.",
+      "source_model_id": "ML18-STOP",
+      "system_aperture": true
+    }
+  },
+  "field": {
+    "kind": "ANGULAR",
+    "half_field_deg": 49.555169168052586,
+    "definition": "Object-space half angle to the full image diagonal at 587 nm",
+    "basis": "DERIVED",
+    "max_image_height_mm": 21.635,
+    "verification": {
+      "state": "MATCHED",
+      "basis": "Archived OpenSci 0.13.0 chief-ray heights match the prescribed diagonal image-plane samples.",
+      "wavelength_nm": 587,
+      "field_basis": "diagonal_image_height_fraction",
+      "image_circle_radius_mm": 21.635,
+      "sampled_field_fractions": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.55,
+        0.6,
+        0.7,
+        0.75,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "maximum_image_height_difference_mm": 7.545688518462157e-10,
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "field_performance"
+      }
+    }
+  },
+  "materials": {
+    "basis": "Original inline material and coating definitions preserved in project.json"
+  },
+  "performance": [
+    {
+      "metric": "mtf",
+      "basis": "ENGINE_COMPUTED",
+      "engine_version": "0.13.0",
+      "frequency_lp_mm": 40,
+      "image_height_mm": 17.308,
+      "field_fraction": 0.8,
+      "sagittal": 0.7455628165398897,
+      "tangential": 0.7228471580223309,
+      "condition": "Fixed detector, vector pupil autocorrelation of the three complex OTFs at equal spectral weights. This is the limiting nominal sample within the evaluated center-to-0.8 field set.",
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "field_performance"
+      }
+    },
+    {
+      "metric": "mtf",
+      "basis": "ENGINE_COMPUTED",
+      "engine_version": "0.13.0",
+      "frequency_lp_mm": 40,
+      "image_height_mm": 21.635,
+      "field_fraction": 1.0,
+      "sagittal": 0.3189819503228618,
+      "tangential": 0.28815653884100667,
+      "condition": "Fixed detector, same vector-pupil method as the 0.8-field sample.",
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "field_performance"
+      }
+    },
+    {
+      "metric": "mtf_field_minimum",
+      "basis": "DERIVED",
+      "engine_version": "0.13.0",
+      "value": 0.7228471580223309,
+      "conditions": {
+        "frequency_lp_mm": 40,
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0.0,
+        "field_end": 0.8,
+        "sampling": "discrete",
+        "directions": [
+          "sagittal",
+          "tangential"
+        ],
+        "image_plane": "fixed_image_plane",
+        "mtf_kind": "optical",
+        "spectrum": {
+          "sampling_wavelengths_nm": [
+            486,
+            587,
+            656
+          ],
+          "incident_weights": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "sampled_field_fractions": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.55,
+        0.6,
+        0.7,
+        0.75,
+        0.8
+      ],
+      "limiting_sample": {
+        "field_fraction": 0.8,
+        "direction": "tangential"
+      },
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "field_performance"
+      }
+    },
+    {
+      "metric": "cra",
+      "basis": "ENGINE_COMPUTED",
+      "value_deg": 17.735875245937606,
+      "image_height_mm": 21.635,
+      "condition": "Maximum chief-ray angle relative to the image-plane normal across the sampled wavelengths.",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 1,
+        "aggregation": "maximum_over_sampled_fields_and_wavelengths",
+        "angle_reference": "image_plane_normal",
+        "sampling_wavelengths_nm": [
+          486,
+          587,
+          656
+        ]
+      },
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "field_performance"
+      }
+    },
+    {
+      "metric": "relative_illumination",
+      "basis": "ENGINE_COMPUTED",
+      "value_percent": 33.54749616187194,
+      "image_height_mm": 21.635,
+      "condition": "Modeled coatings, center-normalized projected transmitted pupil solid angle.",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_fraction": 1.0,
+        "image_circle_diameter_mm": 43.27,
+        "normalization": "on_axis_irradiance",
+        "object_radiance": "uniform",
+        "transmission_model": "design_coatings",
+        "spectrum": {
+          "sampling_wavelengths_nm": [
+            486,
+            587,
+            656
+          ],
+          "incident_weights": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "field_performance"
+      }
+    },
+    {
+      "metric": "distortion_range",
+      "basis": "DERIVED",
+      "min_percent": -1.5167704304624996,
+      "max_percent": 0.6591635163021525,
+      "condition": "587 nm chief-ray height relative to rectilinear EFL × tan(angle), through full diagonal.",
+      "conditions": {
+        "field_basis": "diagonal_image_height_fraction",
+        "field_start": 0,
+        "field_end": 1,
+        "reference_projection": "rectilinear",
+        "wavelength_nm": 587
+      },
+      "source": {
+        "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+        "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+        "section": "distortion_range"
+      }
+    }
+  ],
+  "approximations": [
+    {
+      "code": "LEGACY_UNIT_INDEX_AMBIENT",
+      "description": "The only Project change is an explicit zero-pressure propagation setting in 0.14.0 so the original 0.13.0 numerical ambient index of one is retained. This is a simulation convention."
+    }
+  ],
+  "unsupported_constructs": [],
+  "validation": {
+    "conversion": "PASSED",
+    "project_check": "ACCEPTED",
+    "optical_solids": "VALID",
+    "paraxial": "MATCHED",
+    "source_id_for_paraxial": "F0W1",
+    "engine_version": "0.14.0",
+    "solids_findings": [],
+    "evidence_notes": [
+      "Two 10 µm finite cement layers and the modeled broadband antireflection coating are preserved from the native Project.",
+      "The 40 lp/mm competition MTF criterion covers the center through 0.8 of the diagonal image radius. Pixel integration is outside the optical MTF calculation.",
+      "A replayed 96-build finite-film tolerance study gave 92 MTF passes under a three-cell active alignment process. Physical first-article performance and production yield are unverified."
+    ],
+    "field": "MATCHED"
+  },
+  "cost_proxy": {
+    "basis": "DERIVED",
+    "weighted_spherical_element_count": 30,
+    "spherical_element_weight": 1,
+    "aspheric_element_weight": 3,
+    "scope": "powered_glass_elements",
+    "source": {
+      "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+      "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+      "section": "cost_proxy"
+    }
+  },
+  "analysis_evidence": {
+    "tolerance": {
+      "status": "simulated",
+      "method": "finite-film Monte Carlo with three actively aligned cells and a common focus shim",
+      "mtf_gate": {
+        "frequency_lp_mm": 40,
+        "minimum_mtf_exclusive": 0.6,
+        "channels": 114,
+        "passed": 92,
+        "samples": 96,
+        "source": {
+          "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+          "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+          "section": "mtf_gate"
+        }
+      },
+      "geometry_gate": {
+        "passed": 96,
+        "samples": 96,
+        "transmission_model": "uniform",
+        "source": {
+          "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+          "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+          "section": "geometry_gate"
+        }
+      },
+      "physical_lot_yield": "unmeasured"
+    },
+    "ghost": {
+      "status": "simulated",
+      "methods": [
+        {
+          "method": "native_on_axis_ghost_trace",
+          "wavelength_nm": 587,
+          "outcome": "PARTIAL",
+          "termination": "BUDGET_EXHAUSTED",
+          "unlisted_power_bound_proven": false,
+          "source": {
+            "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+            "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+            "section": "native_on_axis_ghost_trace"
+          }
+        },
+        {
+          "method": "two_specular_bounce_surface_pair_screen",
+          "surface_pairs_per_angle": 435,
+          "field_angles_deg": [
+            0.0,
+            35.0,
+            45.0,
+            48.8,
+            49.4,
+            55.0,
+            65.0
+          ],
+          "assumed_air_glass_power_reflectance": 0.005,
+          "normalization": "on_axis_primary_power",
+          "on_axis_ghost_power_ratio": 0.004247490143543154,
+          "source": {
+            "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+            "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+            "section": "two_specular_bounce_surface_pair_screen"
+          }
+        },
+        {
+          "method": "sensor_return_screen",
+          "field_angles_deg": [
+            0.0,
+            38.90142390008783,
+            47.95655480724208
+          ],
+          "assumed_air_glass_power_reflectance": 0.005,
+          "assumed_sensor_power_reflectance": 0.1,
+          "normalization": "same_field_primary_power",
+          "on_axis_ghost_power_ratio": 0.007583941895406788,
+          "source": {
+            "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/evidence.json",
+            "sha256": "94d38aa2a24f5202d169a69aae935246b436926010f6661722dadcdb2b77dcc1",
+            "section": "sensor_return_screen"
+          }
+        }
+      ],
+      "physical_validation": "unverified"
+    }
+  },
+  "record_hash": "214457088520434dd973701a9f539feb256e50a93a928c8d0f36751a6c21ec83",
+  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
+}
