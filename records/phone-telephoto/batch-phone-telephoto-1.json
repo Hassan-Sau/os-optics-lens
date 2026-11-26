@@ -1,0 +1,484 @@
+{
+  "schema": "opensci.lens.batch",
+  "batch_schema_version": "1.0",
+  "batch_id": "phone-telephoto-1",
+  "collection": {
+    "collection_id": "phone-telephoto",
+    "source": "Granted US patent publications",
+    "source_scope": "Two Largan Precision publications: US20220299735A1 (short telephoto) and US11372203B2 (long telephoto). Every record is a straight module; folded periscope designs are out of scope.",
+    "redistribution": "The prescriptions are published in granted US patents (public record). The transcriptions, native Projects and evidence extracts are distributed under MIT."
+  },
+  "engine": {
+    "name": "os-optics",
+    "version": "0.14.0",
+    "catalog_version": null,
+    "prescription_format": "csv-surface-table/1"
+  },
+  "hashing": {
+    "source_input_sha256": "SHA-256 of the normalized tab-separated prescription extract stored in the record's evidence.json; it pins the transcription, while the publication, table and example pin the source",
+    "project_sha256": "SHA-256 of the committed project.json file's bytes, UTF-8, LF line endings",
+    "record_hash": "SHA-256 over the record's JSON with record_hash and record_hash_method removed: json.dumps(sort_keys=True, ensure_ascii=False) as UTF-8, no trailing newline"
+  },
+  "input_inventory": {
+    "count": 22,
+    "basis": "every numerical example in the two publications (10 + 12 = 22); the batch converts seven that span the printed focal-length and aperture ranges, and defers the rest with the reason stated",
+    "publications": [
+      {
+        "publication": "US20220299735A1",
+        "scope": "short telephoto examples, 5.7-7.0 mm focal length",
+        "examples": 10
+      },
+      {
+        "publication": "US11372203B2",
+        "scope": "long telephoto examples, 8.6-10.7 mm focal length",
+        "examples": 12
+      }
+    ]
+  },
+  "counts": {
+    "inputs": 22,
+    "accepted": 7,
+    "deferred": 15,
+    "conversion_failed": 0
+  },
+  "deferred_publications": [
+    {
+      "publication": "US20210041674A1",
+      "reason": "four-element f/1.5 examples at 42 deg half field: a main-camera design, so it belongs to the main-camera series"
+    },
+    {
+      "publication": "US11953659B2",
+      "reason": "Corephotonics miniature telephoto module; the rendered description carries no readable numerical tables"
+    },
+    {
+      "publication": "US12259524B2",
+      "reason": "Corephotonics miniature telephoto module; the rendered description carries no readable numerical tables"
+    },
+    {
+      "publication": "TWI689748B",
+      "reason": "no readable numerical tables in the rendered description"
+    },
+    {
+      "publication": "CN114063268B",
+      "reason": "table headers are Chinese, so the reader that expects the English layout cannot transcribe it"
+    }
+  ],
+  "accepted_record_ids": [
+    "patent-us20220299735a1-ex01",
+    "patent-us20220299735a1-ex02",
+    "patent-us20220299735a1-ex08",
+    "patent-us20220299735a1-ex09",
+    "patent-us11372203b2-ex01",
+    "patent-us11372203b2-ex02",
+    "patent-us11372203b2-ex09"
+  ],
+  "outcomes": [
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 1st embodiment",
+      "source_input_sha256": "d8dd9211a270e2b483df2cd626efb05d14eb47dd7184f337ecdac1afff619fbe",
+      "record_id": "patent-us20220299735a1-ex01",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 1,
+        "source_stated_focal_length_mm": 5.7,
+        "f_number": 2.82,
+        "half_field_deg": 21.0,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 5.7167,
+        "total_track_mm": 5.198,
+        "telephoto_ratio": 0.909,
+        "image_circle_diameter_mm": 4.4704,
+        "cra_deg_at_largest_traced_field": 28.48,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 2nd embodiment",
+      "source_input_sha256": "b611b9d60ea0286015d23c160742b34e3c2d1aa231798dc3a40a7d9406da969d",
+      "record_id": "patent-us20220299735a1-ex02",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 2,
+        "source_stated_focal_length_mm": 7.01,
+        "f_number": 2.82,
+        "half_field_deg": 17.2,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 7.0304,
+        "total_track_mm": 6.296,
+        "telephoto_ratio": 0.896,
+        "image_circle_diameter_mm": 4.4671,
+        "cra_deg_at_largest_traced_field": 22.287,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 3rd embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us20220299735a1-ex02); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 3,
+        "source_stated_focal_length_mm": 6.83,
+        "f_number": 2.82,
+        "half_field_deg": 22.0
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 4th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us20220299735a1-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 4,
+        "source_stated_focal_length_mm": 5.67,
+        "f_number": 2.75,
+        "half_field_deg": 21.0
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 5th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us20220299735a1-ex02); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 5,
+        "source_stated_focal_length_mm": 7.13,
+        "f_number": 2.82,
+        "half_field_deg": 19.0
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 6th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us20220299735a1-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 6,
+        "source_stated_focal_length_mm": 5.99,
+        "f_number": 2.8,
+        "half_field_deg": 20.0
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 7th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us20220299735a1-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 7,
+        "source_stated_focal_length_mm": 6.0,
+        "f_number": 2.7,
+        "half_field_deg": 20.0
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 8th embodiment",
+      "source_input_sha256": "3e20b80aa4b4a5dd741b6cc9c7e98e0341cd3ca048023f63f322f08cfab3778a",
+      "record_id": "patent-us20220299735a1-ex08",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 8,
+        "source_stated_focal_length_mm": 5.84,
+        "f_number": 2.6,
+        "half_field_deg": 20.5,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 5.8631,
+        "total_track_mm": 5.453,
+        "telephoto_ratio": 0.93,
+        "image_circle_diameter_mm": 4.4765,
+        "cra_deg_at_largest_traced_field": 23.051,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 9th embodiment",
+      "source_input_sha256": "8191e0e883460aa55efb58841c238578d1839f7fdad4cf52d2e9d1e7a93c6454",
+      "record_id": "patent-us20220299735a1-ex09",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 9,
+        "source_stated_focal_length_mm": 6.33,
+        "f_number": 2.82,
+        "half_field_deg": 24.5,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 6.3443,
+        "total_track_mm": 5.838,
+        "telephoto_ratio": 0.92,
+        "image_circle_diameter_mm": 5.5081,
+        "cra_deg_at_largest_traced_field": 31.113,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US20220299735A1, Table 1 and Table 2, 10th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us20220299735a1-ex09); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US20220299735A1",
+        "example": 10,
+        "source_stated_focal_length_mm": 6.36,
+        "f_number": 2.82,
+        "half_field_deg": 24.5
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 1st embodiment",
+      "source_input_sha256": "a991c63e61b176131491f006a49a1a4216e94515aac69111f683cc059d6bc811",
+      "record_id": "patent-us11372203b2-ex01",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 1,
+        "source_stated_focal_length_mm": 10.06,
+        "f_number": 2.53,
+        "half_field_deg": 14.7,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 10.0772,
+        "total_track_mm": 9.57,
+        "telephoto_ratio": 0.95,
+        "image_circle_diameter_mm": 5.3604,
+        "cra_deg_at_largest_traced_field": 20.02,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 2nd embodiment",
+      "source_input_sha256": "54aeae30a3af07878693fe69ab554ddcbf3180a48961884c77cde587b73eb235",
+      "record_id": "patent-us11372203b2-ex02",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 2,
+        "source_stated_focal_length_mm": 8.64,
+        "f_number": 2.4,
+        "half_field_deg": 16.0,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 8.6467,
+        "total_track_mm": 8.558,
+        "telephoto_ratio": 0.99,
+        "image_circle_diameter_mm": 5.1995,
+        "cra_deg_at_largest_traced_field": 22.773,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 3rd embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us11372203b2-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 3,
+        "source_stated_focal_length_mm": 10.66,
+        "f_number": 2.6,
+        "half_field_deg": 15.1
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 4th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us11372203b2-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 4,
+        "source_stated_focal_length_mm": 10.64,
+        "f_number": 2.6,
+        "half_field_deg": 15.1
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 5th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us11372203b2-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 5,
+        "source_stated_focal_length_mm": 10.63,
+        "f_number": 2.6,
+        "half_field_deg": 15.1
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 6th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us11372203b2-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 6,
+        "source_stated_focal_length_mm": 10.65,
+        "f_number": 2.6,
+        "half_field_deg": 15.1
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 7th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "MULTI_STOP",
+      "reason": "the prescription carries two aperture stops; the intake models one system stop, so the second aperture cannot be placed without guessing its diameter",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 7,
+        "source_stated_focal_length_mm": 9.59,
+        "f_number": 2.8,
+        "half_field_deg": 15.0
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 8th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "Not selected: the batch already covers this focal-length and aperture range from the same family.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 8,
+        "source_stated_focal_length_mm": 9.89,
+        "f_number": 2.8,
+        "half_field_deg": 14.9
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 9th embodiment",
+      "source_input_sha256": "fd1e03f1aa13af4ea81b093f45a174ca3fbef3b7f03014b05700a9478b53f6d2",
+      "record_id": "patent-us11372203b2-ex09",
+      "outcome": "ACCEPTED",
+      "reason_code": null,
+      "reason": null,
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 9,
+        "source_stated_focal_length_mm": 9.0,
+        "f_number": 2.25,
+        "half_field_deg": 15.6,
+        "module_role": "telephoto",
+        "folded": false,
+        "powered_element_count": 5,
+        "aspheric_element_count": 5,
+        "effective_focal_length_mm": 9.0035,
+        "total_track_mm": 9.269,
+        "telephoto_ratio": 1.029,
+        "image_circle_diameter_mm": 5.2708,
+        "cra_deg_at_largest_traced_field": 22.831,
+        "paraxial": "MATCHED",
+        "optical_solids": "VALID"
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 10th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "Not selected: the batch already covers this focal-length and aperture range from the same family.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 10,
+        "source_stated_focal_length_mm": 8.78,
+        "f_number": 2.63,
+        "half_field_deg": 15.6
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 11th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "VARIANT_OUTSIDE_BATCH",
+      "reason": "A record from the same publication with a close focal length and f-number is already in the batch (patent-us11372203b2-ex01); this example stays available for a later batch.",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 11,
+        "source_stated_focal_length_mm": 10.48,
+        "f_number": 2.6,
+        "half_field_deg": 14.9
+      }
+    },
+    {
+      "source_input": "US11372203B2, Table 1 and Table 2, 12th embodiment",
+      "source_input_sha256": null,
+      "record_id": null,
+      "outcome": "DEFERRED",
+      "reason_code": "MULTI_STOP",
+      "reason": "the prescription carries two aperture stops; the intake models one system stop, so the second aperture cannot be placed without guessing its diameter",
+      "facts": {
+        "publication": "US11372203B2",
+        "example": 12,
+        "source_stated_focal_length_mm": 11.2,
+        "f_number": 3.05,
+        "half_field_deg": 14.6
+      }
+    }
+  ]
+}
