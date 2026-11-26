@@ -138,8 +138,12 @@ made the engine convert a second time.
   semi-diameter and the record says so.
 - **The stop** keeps its own row and its own opening. The source states no stop-plate outer radius;
   the plate is placed at the largest clear semi-diameter beside the stop so the stop actually
-  blocks light. Where a neighbouring element would meet that plate (one design), the plate falls
-  back to the opening, and the record states that the stop then blocks no light.
+  blocks light. Where a neighbouring element would meet that plate (one design, `7821720c`), the
+  plate falls back to the opening and the record carries `design.aperture_validity:
+  STOP_NOT_BLOCKING`.
+  A blocking plate makes a record **eligible** for stop-dependent evaluation, not matched: no record
+  in this batch asserts the evidence a stop-dependent match needs, so
+  `satisfies_stop_dependent_constraints` is `false` on all 39.
 - **Dummy surfaces** (air on both sides, not the stop) are reported by the importer and add no
   geometry.
 - **Image plane:** the last surface's thickness gives it; the Project puts an observation plane

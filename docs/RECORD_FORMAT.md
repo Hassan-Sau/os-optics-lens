@@ -58,28 +58,43 @@ corresponding constraint unconfirmed.
   upstream files state air wavelengths at 20 °C and 101325 Pa; each was converted once with the
   **engine's own** air model (`material_physics.air_index_exact`, the 6432.8 / 2949810 / 25540
   form), so a record's vacuum wavelength is the wavelength the engine evaluates.
-  `sampling_wavelengths_air_nm` keeps the source's own numbers so the conversion stays checkable.
+  `sampling_wavelengths_air_nm` keeps the source's own numbers so the conversion stays checkable, and
+  `sampling_wavelengths_basis` states that conversion in prose.
   Using a different air model (Edlén 1953, the 8342.13 form) shifts the value by about 0.003 nm and
   is wrong here.
 - `primary_wavelength_nm` — the source's primary wavelength (Zemax `PWAV`), vacuum.
-- `sampling_span_nm` — the **numeric span of the sampling wavelengths, eligible for discovery
-  only**. A set of enabled wavelengths is evidence of what the source samples; it is not a claimed
-  operating range.
-- `continuous_coverage_nm` — `state: UNCONFIRMED` with null bounds unless the source states a range
-  independently. Nothing in this collection does, so no record claims continuous coverage.
+- `wavelength_precision` — states that these are computational values at full precision, so a
+  reviewer may pass them to the engine unchanged; rounding in this document or in prose is for
+  display only.
+- `sampling_span_nm` — the numeric span of the sampling wavelengths, **eligible for discovery only**.
+  It is not a coverage claim and not an operating range. Two `basis` values occur:
+  - `SPAN_OF_STATED_SAMPLING_WAVELENGTHS` — the min and max of several enabled wavelengths. The span
+    is a summary of the samples; the samples themselves are `sampling_wavelengths_nm`.
+  - `SINGLE_WAVELENGTH_BAND` — **ten records** enable exactly one wavelength. A zero-width interval
+    cannot be filtered or evaluated, so the span is a **±0.5 nm window around that one sample**
+    (1 nm wide). It is a numerical convenience, not a second wavelength: `sampling_wavelengths_nm`
+    still holds exactly one value, and the window must never be read as two observed samples or as
+    a measured band. Only `sampling_wavelengths_nm` is observed.
+- `continuous_coverage_nm` — **the only interval that can satisfy a hard band constraint.** Its
+  `state` is `UNCONFIRMED` with null bounds unless the source states a range independently; nothing
+  in this collection does. `sampling_span_nm` never substitutes for it: a query with a hard coverage
+  requirement is unconfirmed against a record whose `continuous_coverage_nm` is `UNCONFIRMED`.
 - `band_facets` — `visible`, `near_infrared`, `ultraviolet`, `extreme_ultraviolet`,
   `mid_wave_infrared`, `long_wave_infrared`, from the documented boundaries in the collection
-  README. A facet is discovery; the numeric interval decides coverage.
+  README. A facet is a discovery label derived from the sampling span; it decides nothing about
+  coverage.
 
 ## First-order properties
 
-- `effective_focal_length_mm` — signed, in air, at `conditions.wavelength_nm`.
+- `effective_focal_length_mm` — signed, in air. Its `conditions` is **prose** naming the wavelength;
+  the machine-readable wavelength is `engine_check.wavelength_nm` (below), which is the number to
+  pass to the engine.
 - `back_focal_length_mm` — from the last surface vertex to the paraxial image point, positive
   downstream.
 - `total_track_mm` — first surface vertex to the image plane along the axis.
 - `engine_check` — the same two quantities recomputed from the committed Project by the engine's
-  thick-lens paraxial matrix, plus `comparison`. This is the optical verification of the record,
-  separate from conversion and from opening the Project.
+  thick-lens paraxial matrix, plus `comparison` and the typed `wavelength_nm` used. This is the
+  optical verification of the record, separate from conversion and from opening the Project.
 
 ### The paraxial comparison rule
 
@@ -108,19 +123,72 @@ is not tuned to pass.
 ## Aperture
 
 An f-number, an entrance pupil diameter, an object-side numerical aperture and a paraxial working
-f-number are different quantities with different conditions. Each is recorded as its own field and
-none is derived from another:
+f-number are different quantities with different conditions. Each is its own field and none is
+derived from another. Exactly one field per record is marked `system_aperture: true`: the aperture
+the design file declares.
+
+### The `FNUM` type mapping
+
+A ZMX `FNUM` line carries a type flag in its second field, and the flag — not a numerical
+coincidence with another convention — decides which f-number the value is:
+
+| `FNUM` flag | Convention | Field stored | Records |
+|---|---|---|---|
+| `0` | Image Space F/# | `f_number` | 19 |
+| `1` | Paraxial Working F/# | `paraxial_working_f_number` | `6744570a/b/c` |
+
+The mapping is verified against the upstream dump's declared `System Aperture`, which agrees with
+the flag on every record.
+
+### System-aperture fields
 
 | Field | Meaning |
 |---|---|
-| `f_number` | Image-space f-number. From the design file's `FNUM`, else the dump's stated value. |
+| `f_number` | Image-space f-number, from `FNUM` with flag 0. |
+| `paraxial_working_f_number` | Paraxial working f-number, from `FNUM` with flag 1. |
 | `entrance_pupil_diameter_mm` | From the design file's `ENPD`. |
 | `object_numerical_aperture` | From the design file's `OBNA`. An NA is not an f-number. |
 
-`why_not_design_file` appears on a value that comes from the dump because the design file states no
-aperture at all. The property list is kept as `property_list_comparison` only.
+`why_not_design_file` is the marker for a system-aperture value that comes from the dump because the
+design file states no aperture at all (`FNUM`, `ENPD` and `OBNA` all absent). **No record in the seed
+batch takes that route**: every one of the 39 states its aperture in the design file, so the field is
+documented here for the contract's sake and does not occur in the data. The property list is kept as
+`property_list_comparison` only. A record with no stated aperture leaves every system-aperture field
+out rather than inferring one.
 
-A record with no stated aperture leaves all three out rather than inferring one.
+### Dump-derived f-number facts
+
+The dump prints several f-number conventions side by side. Each is kept as its own fact with
+`system_aperture: false` and a `source_locator` naming where it came from, and is **never** merged
+into the system-aperture value:
+
+| Field | Meaning |
+|---|---|
+| `image_space_f_number` | The dump's stated image-space F/#. |
+| `paraxial_working_f_number_from_dump` | The dump's stated paraxial working F/#. |
+| `working_f_number` | The dump's stated working F/#, computed by tracing rays. |
+
+### Stop validity: `design.aperture_validity`
+
+A record's eligibility for stop-dependent evaluation is machine-readable, not prose:
+
+| Field | Meaning |
+|---|---|
+| `state` | `STOP_BLOCKING`, `STOP_NOT_BLOCKING` or `NO_STOP`. |
+| `stop_blocks_light` | Whether the Project's stop plate actually blocks light outside its opening. |
+| `basis` | Why the state holds. |
+| `consequence` | What the state means for the record, in prose. |
+| `eligible_for_stop_dependent_evaluation` | Whether the record may be evaluated at all against a stop-dependent constraint. |
+| `satisfies_stop_dependent_constraints` | Whether the record may claim a stop-dependent **match**. |
+| `satisfaction_basis` | Why that claim is or is not available. |
+
+The two levels are deliberately separate. A blocking plate makes a record **eligible for
+evaluation**; it does not by itself establish a stop-dependent match, which needs the relevant
+evidence — a field point, a pupil sample, an illumination measurement. This batch has none of those,
+so `satisfies_stop_dependent_constraints` is `false` on every record: 38 are eligible
+(`STOP_BLOCKING`), one is not (`7821720c`, `STOP_NOT_BLOCKING`, whose plate equals its opening and
+whose Project is a first-order geometry reference). Claiming a match from geometry alone would repeat
+the mistake of claiming coverage from sampling.
 
 ## Field
 
