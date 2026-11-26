@@ -148,6 +148,21 @@ The image circle is therefore `DERIVED`, not a sensor specification. It is a usa
 not a coverage guarantee; the records do not claim a sensor format, a pixel pitch or a cover-glass
 stack.
 
+## Evidence extract
+
+Each record's `evidence.json` follows the shared evidence-extract layout that the camera records
+use ([camera search evidence](CAMERA_SEARCH_EVIDENCE.md)):
+
+- the top level is a JSON object with `schema: "opensci.lens.evidence_extract"` and the
+  `record_id` of the record it belongs to;
+- `sections` is a non-empty object, and no section value is null. This batch records `stated`
+  (the printed values), `prescription` (the transcribed surface table and its SHA-256), `engine`,
+  `field_trace` and `elements`;
+- every other top-level member, here `schema_version` and `source`, is metadata.
+
+`record.json` pins the whole file in `collection.evidence_extract` as `path` and the SHA-256 of the
+committed (LF) bytes. `collection.source_input_sha256` equals `sections.prescription.sha256`.
+
 ## Verification
 
 Four outcomes are tracked separately, and a record is accepted only when all four hold. `paraxial`
@@ -186,7 +201,8 @@ python -m unittest discover -s tests -v
 
 `tests/test_phone_modules.py` re-derives every record hash, the prescription hash from the committed
 extract text, the evidence and Project hashes, the comparison verdict and the cross-file
-consistency from the committed files, and runs without the engine.
+consistency from the committed files, checks each extract against the shared layout, and runs
+without the engine.
 
 ## What the records do not claim
 
