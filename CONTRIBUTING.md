@@ -8,7 +8,7 @@ Individuals, research groups and companies can contribute a single optical presc
 2. Fork the repository and work on a focused branch. A single record or correction using an agreed format can come in a pull request directly. For a collection or bulk import, use its issue to agree on how to partition the work and avoid duplicate conversions.
 3. Open a pull request with the intended change, related issue if any, and the checks run. Respond to review in the pull request. Maintainers review and merge into `main`.
 
-During repository setup, propose source collections and the intake format in issues. Data pull requests can begin once the repository has adopted a record format and validation procedure.
+During repository setup, contributors can open a draft data pull request to review representative native Projects alongside the proposed format and validation procedure. If a format proposal is already under review, link it and identify any fields or checks the new records need. Before merge, align the submission with the accepted record format and validation procedure.
 
 ## Prepare a prescription
 
