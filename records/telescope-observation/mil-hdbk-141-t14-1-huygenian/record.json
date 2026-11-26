@@ -57,7 +57,8 @@
    "satisfies_stop_dependent_constraints": false,
    "satisfaction_basis": "No pupil, illumination or MTF evidence is recorded, so no stop-dependent match is claimed.",
    "consequence": "The record supports first-order and structural queries; a stop-dependent constraint stays unconfirmed."
-  }
+  },
+  "source_reference": null
  },
  "native_project": {
   "path": "records/telescope-observation/mil-hdbk-141-t14-1-huygenian/project.json",
@@ -86,10 +87,11 @@
   ],
   "wavelength_precision": "A single sample; no rounding in the Project.",
   "sampling_span_nm": {
-   "min_nm": 587.721866,
-   "max_nm": 587.721866,
+   "min_nm": 587.221866,
+   "max_nm": 588.221866,
    "basis": "SINGLE_WAVELENGTH_BAND",
-   "eligible_for": "DISCOVERY_ONLY"
+   "eligible_for": "DISCOVERY_ONLY",
+   "note": "a zero-width interval cannot be filtered: the span is a +/-0.5 nm window around the one stated sample. The sample itself is sampling_wavelengths_nm; the window is a numerical convenience, not a second wavelength and not a measured band"
   },
   "continuous_coverage_nm": {
    "state": "UNCONFIRMED",
@@ -221,7 +223,6 @@
    }
   ]
  },
- "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
  "conversion": {
   "format": "csv-surface-table/1",
   "counts": {
@@ -241,5 +242,6 @@
    "IMAGE_BEFORE_LAST_SURFACE"
   ]
  },
- "record_hash": "afcc34538df25cc8ff13d10ac863d85e8332da1a55a56df31ac818bf30f1f61b"
+ "record_hash": "f350426fc45b5d73a595bd3a16ed874bc08155dbb839e94ecf1a81c79fadcf83",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }

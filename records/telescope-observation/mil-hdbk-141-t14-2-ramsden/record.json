@@ -57,7 +57,8 @@
    "satisfies_stop_dependent_constraints": false,
    "satisfaction_basis": "No pupil, illumination or MTF evidence is recorded, so no stop-dependent match is claimed.",
    "consequence": "The record supports first-order and structural queries; a stop-dependent constraint stays unconfirmed."
-  }
+  },
+  "source_reference": null
  },
  "native_project": {
   "path": "records/telescope-observation/mil-hdbk-141-t14-2-ramsden/project.json",
@@ -86,10 +87,11 @@
   ],
   "wavelength_precision": "A single sample; no rounding in the Project.",
   "sampling_span_nm": {
-   "min_nm": 587.721866,
-   "max_nm": 587.721866,
+   "min_nm": 587.221866,
+   "max_nm": 588.221866,
    "basis": "SINGLE_WAVELENGTH_BAND",
-   "eligible_for": "DISCOVERY_ONLY"
+   "eligible_for": "DISCOVERY_ONLY",
+   "note": "a zero-width interval cannot be filtered: the span is a +/-0.5 nm window around the one stated sample. The sample itself is sampling_wavelengths_nm; the window is a numerical convenience, not a second wavelength and not a measured band"
   },
   "continuous_coverage_nm": {
    "state": "UNCONFIRMED",
@@ -221,7 +223,6 @@
    }
   ]
  },
- "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
  "conversion": {
   "format": "csv-surface-table/1",
   "counts": {
@@ -239,5 +240,6 @@
   "image_plane_z_mm": "47.103",
   "warnings": []
  },
- "record_hash": "4ebd546754d0ed5ef7c6114724b2fb7f2eda124c2328e7080aa9e5e084786cfc"
+ "record_hash": "9eb41f12f1b86182ef0d8aea216e1d562551e61bdeb471c50acafd0089f08530",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }

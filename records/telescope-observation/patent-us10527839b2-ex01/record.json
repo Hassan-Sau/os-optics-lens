@@ -58,7 +58,8 @@
    "satisfies_stop_dependent_constraints": false,
    "satisfaction_basis": "No pupil, illumination or MTF evidence is recorded, so no stop-dependent match is claimed.",
    "consequence": "The record supports first-order and structural queries; a stop-dependent constraint stays unconfirmed."
-  }
+  },
+  "source_reference": null
  },
  "native_project": {
   "path": "records/telescope-observation/patent-us10527839b2-ex01/project.json",
@@ -87,10 +88,11 @@
   ],
   "wavelength_precision": "A single sample; no rounding in the Project.",
   "sampling_span_nm": {
-   "min_nm": 587.722066,
-   "max_nm": 587.722066,
+   "min_nm": 587.222066,
+   "max_nm": 588.222066,
    "basis": "SINGLE_WAVELENGTH_BAND",
-   "eligible_for": "DISCOVERY_ONLY"
+   "eligible_for": "DISCOVERY_ONLY",
+   "note": "a zero-width interval cannot be filtered: the span is a +/-0.5 nm window around the one stated sample. The sample itself is sampling_wavelengths_nm; the window is a numerical convenience, not a second wavelength and not a measured band"
   },
   "continuous_coverage_nm": {
    "state": "UNCONFIRMED",
@@ -233,7 +235,6 @@
    }
   ]
  },
- "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
  "conversion": {
   "format": "csv-surface-table/1",
   "counts": {
@@ -253,5 +254,6 @@
    "DUMMY_SURFACE"
   ]
  },
- "record_hash": "8426e8ef088256f144b648d4f8faf71d9b41b7b33b7818668e99c615fbe4a969"
+ "record_hash": "9099b9c5121abb7a0dcfab4ab3d909b2b55894f980ddad286653c9c1442da1ce",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }
