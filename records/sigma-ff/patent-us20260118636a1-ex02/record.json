@@ -1,0 +1,985 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "patent-us20260118636a1-ex02",
+ "record_revision": 1,
+ "title": "105 mm f/1.45 full-frame short telephoto (US20260118636A1 Numerical Example 2)",
+ "collection": {
+  "collection_id": "sigma-ff",
+  "batch_id": "sigma-ff-1",
+  "source": "Sigma Corporation patent publication",
+  "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+  "source_input_sha256": "7ba8d0761d8939adc177e4f45e6d7805d6dc04703986b2ae450cef21cbc620cc",
+  "source_input_sha256_method": "SHA-256 of the normalized tab-separated prescription extract in this record's evidence.json; it pins the transcription while the publication, table and example pin the source",
+  "attribution": "Sigma Corporation, US20260118636A1 \" Imaging optical system\". The prescription is the published numerical example; the native Project is a transcription of its surface table.",
+  "contributor": "OpenSci prescription intake",
+  "original_publication": {
+   "id": "US20260118636A1",
+   "reference": "Numerical Example 2",
+   "title": " Imaging optical system",
+   "assignee": "Sigma Corporation",
+   "publication_date": "2026-04-30",
+   "priority_date": "2024-10-31",
+   "url": "https://patents.google.com/patent/US20260118636A1/en"
+  },
+  "redistribution": "The numerical prescription is published in a patent application, a public record. The transcription, the native Project and this evidence extract are distributed under MIT. The patent document itself is not redistributed.",
+  "license": {
+   "spdx": "MIT",
+   "notice_path": "LICENSE",
+   "copyright": "Copyright (c) 2026 JunLin615"
+  },
+  "evidence_extract": {
+   "path": "records/sigma-ff/patent-us20260118636a1-ex02/evidence.json",
+   "sha256": "8a4583bec8ee2e281d8e7f73380f7feaf6c4f1843a13ec0c11ec440cdfb055c2"
+  }
+ },
+ "design": {
+  "source_reference": "US20260118636A1, Numerical Example 2",
+  "lens_type": "camera_lens",
+  "design_family_id": "sigma-us20260118636a1",
+  "design_scope": "COMPLETE_SYSTEM",
+  "design_basis": "LINKED_PATENT_NUMERICAL_EXAMPLE",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "structure_tags": [
+   "fixed_focal_length",
+   "refractive",
+   "aspheric"
+  ],
+  "lens_role": "short_telephoto_prime",
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1,
+  "configuration_note": "the publication's infinite-conjugate column; its other columns are focus states, not zoom positions",
+  "powered_element_count": 13,
+  "aspheric_element_count": null,
+  "aperture_validity": {
+   "state": "STOP_BLOCKING",
+   "stop_blocks_light": true,
+   "basis": "the stop plate reaches 18.2364 mm against an opening of 17.3643 mm",
+   "eligible_for_stop_dependent_evaluation": true,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "no field-dependent MTF, relative-illumination or pupil measurement is recorded, so a stop-dependent match is not claimed",
+   "consequence": "the record may be evaluated against a stop-dependent constraint but cannot satisfy one until pupil or field evidence is added"
+  }
+ },
+ "native_project": {
+  "path": "records/sigma-ff/patent-us20260118636a1-ex02/project.json",
+  "sha256": "d39bdea268027d1893b2b57ffe30ca0778ac5638b9604ffa7eb8504593a8ec64",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "instance_id": "LENS",
+  "model_id": "LENS",
+  "opening_outcome": "ACCEPTED",
+  "optical_validation": "PARAXIAL_MATCH"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   486.26347536895526,
+   587.7218645194316,
+   656.4481862902226
+  ],
+  "sampling_wavelengths_air_nm": [
+   486.13,
+   587.5618,
+   656.27
+  ],
+  "sampling_wavelengths_basis": "the F, d and C lines the publication prints, in air at 20 C and 101325 Pa, converted once to vacuum with the engine's own air model (material_physics.air_index_exact)",
+  "primary_wavelength_nm": 587.7218645194316,
+  "band_facets": [
+   "visible"
+  ],
+  "wavelength_precision": "computational values at full precision; a reviewer may pass them to the engine unchanged",
+  "sampling_span_nm": {
+   "min_nm": 486.26347536895526,
+   "max_nm": 656.4481862902226,
+   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+   "eligible_for": "DISCOVERY_ONLY"
+  },
+  "continuous_coverage_nm": {
+   "state": "UNCONFIRMED",
+   "min_nm": null,
+   "max_nm": null,
+   "note": "the publication states three sampling wavelengths, not a specified operating band"
+  }
+ },
+ "image_format": {
+  "format_facets": [
+   "full_frame"
+  ],
+  "width_mm": 36.0,
+  "height_mm": 24.0,
+  "image_circle_diameter_mm": 43.26,
+  "basis": "SOURCE_STATED: the publication prints the image height Y of the example; the 36 x 24 mm frame is the format the series covers, and 2Y is the tested diameter, not a coverage guarantee",
+  "image_height_mm": 21.63,
+  "image_height_kind": "REAL_IMAGE_HEIGHT"
+ },
+ "conversion": {
+  "source_format": "csv-surface-table/1",
+  "source_sha256": "020869810d80d35374a5e1676f7db9232b7b3bf3c78d3bbb8414c65c3cdb905a",
+  "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8; the Project's unit display name carries the same digest",
+  "intermediate_sha256": null,
+  "image_plane_z_mm": "146.0067",
+  "counts": {
+   "surfaces": 29,
+   "elements": 13,
+   "cemented_elements": 2,
+   "aperture_stops": 1,
+   "dummy_surfaces": 0,
+   "members": 14,
+   "materials": 14,
+   "materials_from_catalog": 0,
+   "materials_defined_in_file": 14,
+   "coatings": 0
+  },
+  "wavelength_band_nm": {
+   "min_nm": "400",
+   "max_nm": "700",
+   "basis": "stated in the file"
+  },
+  "warnings": []
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 105.0,
+   "basis": "SOURCE_STATED",
+   "definition": "effective focal length as printed for the example",
+   "conditions": "d line (587.7218645194 nm vacuum), object at infinity",
+   "engine_value_mm": 105.00247985215881
+  },
+  "back_focal_length_mm": {
+   "value": 20.1292,
+   "basis": "SOURCE_STATED",
+   "definition": "the printed BF: from the last surface vertex to the paraxial image point",
+   "engine_value_mm": 20.128876174908985
+  },
+  "total_track_mm": {
+   "value": 146.0,
+   "basis": "SOURCE_STATED",
+   "definition": "the printed total lens length: first surface vertex to the image plane",
+   "engine_value_mm": "146.0067"
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "basis": "ENGINE_COMPUTED",
+   "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
+   "effective_focal_length_mm": 105.00247985215881,
+   "back_focal_length_mm": 20.128876174908985,
+   "wavelength_nm": 587.7218645194316,
+   "comparison": {
+    "rule": "|engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
+    "atol_mm": 0.005,
+    "rtol": 0.0003,
+    "basis_of_the_allowance": "atol covers the two-decimal focal length the publication prints; rtol covers the four-decimal radii and thicknesses and the five-decimal indices",
+    "effective_focal_length": {
+     "source_mm": 105.0,
+     "engine_mm": 105.00247985215881,
+     "absolute_difference_mm": 0.0024798521588138556,
+     "scale_mm": 105.0,
+     "scale_basis": "|EFL|",
+     "tolerance_mm": 0.0365,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.06794115503599604
+    },
+    "back_focal_length": {
+     "source_mm": 20.1292,
+     "engine_mm": 20.128876174908985,
+     "absolute_difference_mm": 0.0003238250910158058,
+     "scale_mm": 105.0,
+     "scale_basis": "max(|BFL|, |EFL|)",
+     "tolerance_mm": 0.0365,
+     "within_tolerance": true,
+     "fraction_of_tolerance": 0.008871920301802899
+    }
+   }
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 1.45,
+   "basis": "SOURCE_STATED",
+   "definition": "image-space f-number as printed for the example",
+   "system_aperture": true
+  },
+  "entrance_pupil_diameter_mm": {
+   "value": 72.41550334615893,
+   "basis": "DERIVED",
+   "definition": "2 * EFL / f-number at the infinite conjugate"
+  },
+  "entrance_pupil_position_mm": {
+   "value": -158.26241663386375,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "the paraxial image of the stop through the front group, from the first surface vertex; negative lies on the object side"
+  },
+  "stop_opening_diameter_mm": {
+   "value": 34.72866854831041,
+   "basis": "DERIVED",
+   "definition": "diameter of the modelled stop opening that reproduces the stated f-number",
+   "system_aperture": false
+  }
+ },
+ "field": {
+  "kind": "IMAGE_HEIGHT",
+  "definition": "image-space field size; the publication prints the image height Y",
+  "max_image_height_mm": 21.63,
+  "image_height_kind": "REAL_IMAGE_HEIGHT",
+  "basis": "SOURCE_STATED ([Various Data], Image Height Y)",
+  "stated_full_field_deg": 22.41,
+  "stated_full_field_basis": "SOURCE_STATED ([Various Data], full angle of view); kept beside the image height, never converted into it",
+  "field_points_deg": null,
+  "field_points_basis": "the publication prints one field value per example",
+  "verification": {
+   "state": "NOT_CHECKED",
+   "basis": "one on-axis configuration per record; no chief-ray sweep is recorded in this batch"
+  }
+ },
+ "materials": {
+  "basis": "each glass is modelled from the printed nd and vd: a three-term Sellmeier at fixed poles, sampled from a published catalog glass of the same (nd, vd) region and corrected to reproduce nd and vd exactly",
+  "model_glasses": [
+   {
+    "model_id": "SIG-1.66382-27.35",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -2.1414908703277566,
+      3.7865860937901075,
+      -1.1568003220511403
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.66382,
+     "abbe_vd": 27.35
+    },
+    "shape_donor": {
+     "material_id": "OHARA_S-TIM25",
+     "nd": 1.67315748,
+     "vd": 32.095653377089015
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.6571799326553671,
+     1.66427326048889,
+     1.6814629536418346
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor OHARA_S-TIM25 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.55032-75.50",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      0.7453171727532127,
+      0.6303163176972221,
+      0.5521952590506424
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.55032,
+     "abbe_vd": 75.5
+    },
+    "shape_donor": {
+     "material_id": "HOYA_FCD705",
+     "nd": 1.55075146,
+     "vd": 75.4442479786609
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.5485186434427674,
+     1.5507423406384917,
+     1.5558143785702678
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor HOYA_FCD705 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.59282-68.62",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      0.656677897638472,
+      0.8453734928951708,
+      0.5337773840765837
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.59282,
+     "abbe_vd": 68.62
+    },
+    "shape_donor": {
+     "material_id": "HOYA_FCD505",
+     "nd": 1.593265348,
+     "vd": 68.57962729714235
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.5906336109074282,
+     1.5932539185560417,
+     1.5992800109415388
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor HOYA_FCD505 corrected to the printed nd and vd (max residual 0.00e+00)"
+   },
+   {
+    "model_id": "SIG-1.77047-29.74",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -2.302678772366993,
+      4.294906832356951,
+      -1.6494077804146388
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.77047,
+     "abbe_vd": 29.74
+    },
+    "shape_donor": {
+     "material_id": "CDGM_H-TF29",
+     "nd": 1.770973196,
+     "vd": 29.791066403465646
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.7634097105703772,
+     1.7709523142514,
+     1.7893290663769492
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor CDGM_H-TF29 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.73800-32.33",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -1.7062090742860139,
+      3.606532855838896,
+      -1.042772373574185
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.738,
+     "abbe_vd": 32.33
+    },
+    "shape_donor": {
+     "material_id": "OHARA_S-NBH53V",
+     "nd": 1.738465274,
+     "vd": 32.321825230364354
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.7317940765680853,
+     1.738473468722392,
+     1.7546327263872736
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor OHARA_S-NBH53V corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.80400-46.53",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -0.2514073363286399,
+      2.421740092994487,
+      0.6485461611963509
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.804,
+     "abbe_vd": 46.53
+    },
+    "shape_donor": {
+     "material_id": "OHARA_S-LAH65VS",
+     "nd": 1.804482757,
+     "vd": 46.516017667098566
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.7993056745424774,
+     1.8044914485472932,
+     1.8165950863270244
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor OHARA_S-LAH65VS corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.77830-23.91",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -3.782280684609329,
+      5.756258893865757,
+      -3.291980321592055
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.7783,
+     "abbe_vd": 23.91
+    },
+    "shape_donor": {
+     "material_id": "CSI_LI1976",
+     "nd": 1.787569243,
+     "vd": 24.017409673051024
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.7694086793636943,
+     1.7787844473124452,
+     1.801974252155711
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor CSI_LI1976 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.85451-25.15",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -4.0420146285876015,
+      6.273829937020256,
+      -3.9138133670942676
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.85451,
+     "abbe_vd": 25.15
+    },
+    "shape_donor": {
+     "material_id": "OHARA_S-NBH56",
+     "nd": 1.855290251,
+     "vd": 24.79555036993859
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.845256329378425,
+     1.8550152085617742,
+     1.879247832016194
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor OHARA_S-NBH56 corrected to the printed nd and vd (max residual 4.44e-16)"
+   },
+   {
+    "model_id": "SIG-1.94594-17.98",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -8.835183205248525,
+      11.24734993168649,
+      -11.606397940493649
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.94594,
+     "abbe_vd": 17.98
+    },
+    "shape_donor": {
+     "material_id": "HOYA_FDS18",
+     "nd": 1.946516179,
+     "vd": 17.974093194488432
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.9317509157117596,
+     1.9464701160676936,
+     1.9843819364925375
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor HOYA_FDS18 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.75211-25.05",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -3.3683222217238304,
+      5.262904779042167,
+      -3.5957373511617075
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.75211,
+     "abbe_vd": 25.05
+    },
+    "shape_donor": {
+     "material_id": "HOYA_FF8",
+     "nd": 1.752611042,
+     "vd": 25.03494119320039
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.7439965890434073,
+     1.7525873125910187,
+     1.7740345079644906
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor HOYA_FF8 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.75500-52.32",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      0.1956227739765552,
+      1.8197110696348726,
+      1.0271777271227112
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.755,
+     "abbe_vd": 52.32
+    },
+    "shape_donor": {
+     "material_id": "OHARA_S-YGH51",
+     "nd": 1.755463807,
+     "vd": 52.30636471212417
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.7511013410359566,
+     1.755478099889412,
+     1.7655410769026245
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor OHARA_S-YGH51 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.59349-67.00",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      0.6652943017836921,
+      0.8403751945636355,
+      0.8926493627353751
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.59349,
+     "abbe_vd": 67.0
+    },
+    "shape_donor": {
+     "material_id": "HIKARI_J-PSKH4",
+     "nd": 1.593935789,
+     "vd": 66.97174681987902
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.5912033384507398,
+     1.5939241010785068,
+     1.600068687771891
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor HIKARI_J-PSKH4 corrected to the printed nd and vd (max residual 2.22e-16)"
+   },
+   {
+    "model_id": "SIG-1.88300-40.81",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -0.9764088513752041,
+      3.406225702189663,
+      0.024407292951515926
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.883,
+     "abbe_vd": 40.81
+    },
+    "shape_donor": {
+     "material_id": "CDGM_H-ZLAF68C",
+     "nd": 1.883530738,
+     "vd": 40.824802263043104
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.8770885865759879,
+     1.8835129698528563,
+     1.8987371112716256
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor CDGM_H-ZLAF68C corrected to the printed nd and vd (max residual 0.00e+00)"
+   },
+   {
+    "model_id": "SIG-1.58144-40.89",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -0.4197971226302128,
+      1.8563724211903434,
+      -0.08725590662063201
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "printed": {
+     "index_nd": 1.58144,
+     "abbe_vd": 40.89
+    },
+    "shape_donor": {
+     "material_id": "HOYA_E-FL5",
+     "nd": 1.581882295,
+     "vd": 40.8710393430315
+    },
+    "samples_vacuum_nm": [
+     656.4481862902226,
+     587.7218645194316,
+     486.26347536895526
+    ],
+    "indices_absolute": [
+     1.5776611790199573,
+     1.5818708183983543,
+     1.5918895130037674
+    ],
+    "basis": "three-term Sellmeier at fixed poles, sampled from the shape donor HOYA_E-FL5 corrected to the printed nd and vd (max residual 0.00e+00)"
+   }
+  ],
+  "catalog_comparisons": [
+   {
+    "model_glass": "SIG-1.66382-27.35",
+    "catalog_glass": "OHARA_S-TIM25",
+    "catalog_nd": 1.67315748,
+    "catalog_vd": 32.095653377089015,
+    "nd_difference": -0.009337479999999898,
+    "vd_difference": -4.745653377089013,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.55032-75.50",
+    "catalog_glass": "HOYA_FCD705",
+    "catalog_nd": 1.55075146,
+    "catalog_vd": 75.4442479786609,
+    "nd_difference": -0.00043146000000016116,
+    "vd_difference": 0.05575202133910295,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.59282-68.62",
+    "catalog_glass": "HOYA_FCD505",
+    "catalog_nd": 1.593265348,
+    "catalog_vd": 68.57962729714235,
+    "nd_difference": -0.0004453480000001786,
+    "vd_difference": 0.0403727028576526,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.77047-29.74",
+    "catalog_glass": "CDGM_H-TF29",
+    "catalog_nd": 1.770973196,
+    "catalog_vd": 29.791066403465646,
+    "nd_difference": -0.000503195999999928,
+    "vd_difference": -0.05106640346564717,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.73800-32.33",
+    "catalog_glass": "OHARA_S-NBH53V",
+    "catalog_nd": 1.738465274,
+    "catalog_vd": 32.321825230364354,
+    "nd_difference": -0.00046527399999996,
+    "vd_difference": 0.008174769635644452,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.80400-46.53",
+    "catalog_glass": "OHARA_S-LAH65VS",
+    "catalog_nd": 1.804482757,
+    "catalog_vd": 46.516017667098566,
+    "nd_difference": -0.0004827569999998893,
+    "vd_difference": 0.013982332901434802,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.77830-23.91",
+    "catalog_glass": "CSI_LI1976",
+    "catalog_nd": 1.787569243,
+    "catalog_vd": 24.017409673051024,
+    "nd_difference": -0.009269243000000094,
+    "vd_difference": -0.10740967305102345,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.85451-25.15",
+    "catalog_glass": "OHARA_S-NBH56",
+    "catalog_nd": 1.855290251,
+    "catalog_vd": 24.79555036993859,
+    "nd_difference": -0.0007802509999998986,
+    "vd_difference": 0.35444963006140995,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.94594-17.98",
+    "catalog_glass": "HOYA_FDS18",
+    "catalog_nd": 1.946516179,
+    "catalog_vd": 17.974093194488432,
+    "nd_difference": -0.0005761790000000655,
+    "vd_difference": 0.005906805511568081,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.75211-25.05",
+    "catalog_glass": "HOYA_FF8",
+    "catalog_nd": 1.752611042,
+    "catalog_vd": 25.03494119320039,
+    "nd_difference": -0.0005010420000000071,
+    "vd_difference": 0.015058806799611801,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.75500-52.32",
+    "catalog_glass": "OHARA_S-YGH51",
+    "catalog_nd": 1.755463807,
+    "catalog_vd": 52.30636471212417,
+    "nd_difference": -0.00046380700000003827,
+    "vd_difference": 0.013635287875828794,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.59349-67.00",
+    "catalog_glass": "HIKARI_J-PSKH4",
+    "catalog_nd": 1.593935789,
+    "catalog_vd": 66.97174681987902,
+    "nd_difference": -0.00044578900000002974,
+    "vd_difference": 0.02825318012098421,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.88300-40.81",
+    "catalog_glass": "CDGM_H-ZLAF68C",
+    "catalog_nd": 1.883530738,
+    "catalog_vd": 40.824802263043104,
+    "nd_difference": -0.0005307379999999196,
+    "vd_difference": -0.014802263043101505,
+    "note": "the closest published glass, compared and never substituted"
+   },
+   {
+    "model_glass": "SIG-1.58144-40.89",
+    "catalog_glass": "HOYA_E-FL5",
+    "catalog_nd": 1.581882295,
+    "catalog_vd": 40.8710393430315,
+    "nd_difference": -0.00044229500000003696,
+    "vd_difference": 0.018960656968502576,
+    "note": "the closest published glass, compared and never substituted"
+   }
+  ],
+  "named_glasses": []
+ },
+ "approximations": [
+  {
+   "code": "GLASS_MODEL_FROM_ND_VD",
+   "description": "The publication states nd and vd only; those two numbers do not define a dispersion curve. Each glass is a three-term Sellmeier at the fixed poles (0.0035, 0.0125, 90) um^2 solved to a published catalog glass of the same (nd, vd) region, corrected with an affine term so it reproduces the printed nd and vd exactly. The index at the d line is the source's; the dispersion between the F, d and C lines is a model and the partial dispersion PgF is not reproduced."
+  },
+  {
+   "code": "INDEX_ABSOLUTE_FROM_AIR_REFERENCE",
+   "description": "The printed nd is a refractive index relative to air. The Project stores absolute indices (the printed value times the engine's air index at the d line), so the engine's air-referenced paraxial trace recovers the printed nd and the printed focal length."
+  },
+  {
+   "code": "CLEAR_APERTURES_DERIVED",
+   "description": "The publication states no clear apertures. Each semi-diameter is the envelope of the axial marginal ray at the stated f-number and the chief ray at the stated field, plus 4 percent and 0.20 mm."
+  },
+  {
+   "code": "ELEMENT_OUTLINE_FROM_EDGE_THICKNESS",
+   "description": "Each element is given one cylindrical outline radius: the largest that keeps 0.40 mm of glass at its edge, and that keeps consecutive surfaces 0.15 mm apart (0.40 mm across a glass)."
+  },
+  {
+   "code": "STOP_PLATE_OUTER_RADIUS",
+   "description": "The publication states no stop-plate outer radius; the plate reaches the largest clear semi-diameter beside the stop."
+  },
+  {
+   "code": "NO_MECHANICAL_DATA",
+   "description": "No flange, barrel, filter or mounting geometry is stated or claimed."
+  },
+  {
+   "code": "SURFACE_FIGURE_NOMINAL",
+   "description": "Nominal prescription surfaces; no figure, centring or roughness error is modelled."
+  },
+  {
+   "code": "APERTURE_CLIPPED_BY_OUTLINE",
+   "description": "The beam envelope exceeds the element outline on 15 surface(s), so the clear aperture is set to the outline and the extreme field is vignetted there: surface 1 (beam 37.86 mm, outline 36.61 mm), surface 3 (beam 35.82 mm, outline 32.70 mm), surface 5 (beam 32.64 mm, outline 26.97 mm), surface 6 (beam 27.45 mm, outline 26.97 mm), surface 8 (beam 25.09 mm, outline 23.76 mm), surface 9 (beam 23.97 mm, outline 23.76 mm), surface 11 (beam 21.75 mm, outline 20.41 mm), surface 13 (beam 19.31 mm, outline 19.05 mm), surface 16 (beam 18.30 mm, outline 18.24 mm), surface 18 (beam 18.22 mm, outline 17.76 mm), surface 20 (beam 15.14 mm, outline 14.99 mm), surface 22 (beam 14.97 mm, outline 13.48 mm), surface 24 (beam 12.47 mm, outline 11.31 mm), surface 27 (beam 11.26 mm, outline 10.31 mm), surface 29 (beam 12.23 mm, outline 11.97 mm)"
+  }
+ ],
+ "unsupported_constructs": [],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "MATCHED",
+  "paraxial_scope": "effective focal length and back focal length, both printed by the publication",
+  "engine_version": "0.14.0",
+  "solids_findings": [],
+  "evidence_notes": [
+   "engine paraxial EFL 105.002480 mm against the printed 105.00 mm",
+   "engine paraxial BFL 20.128876 mm against the printed 20.1292 mm",
+   "stop opening solved to 17.364334 mm radius so the modelled f-number reproduces the printed value",
+   "no field verification: this batch builds one on-axis configuration per record"
+  ]
+ },
+ "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline.",
+ "record_hash": "3d9b31fb275b66ad523d0cf69b96985625334805933dda6670009e1d542a5fb7"
+}

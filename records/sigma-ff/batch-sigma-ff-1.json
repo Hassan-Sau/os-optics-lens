@@ -1,0 +1,1193 @@
+{
+ "schema": "opensci.lens.batch",
+ "batch_schema_version": "1.0",
+ "batch_id": "sigma-ff-1",
+ "collection": {
+  "collection_id": "sigma-ff",
+  "source": "Sigma Corporation patent publications (US applications and grants)",
+  "source_url": "https://patents.google.com/",
+  "source_revision": null,
+  "redistribution": "The numerical prescriptions are published in patent applications and grants, public records. The transcriptions, native Projects and evidence extracts are distributed under MIT. The patent documents are not redistributed."
+ },
+ "engine": {
+  "name": "os-optics",
+  "version": "0.14.0",
+  "catalog_version": null,
+  "prescription_format": "csv-surface-table/1"
+ },
+ "hashing": {
+  "source_input_sha256": "SHA-256 of the normalized tab-separated prescription extract in the record's evidence.json, UTF-8, LF: it pins the transcription while the publication, the table and the example pin the source. A deferred input has no extract and therefore no hash.",
+  "project_sha256": "SHA-256 of the committed project.json file's bytes, UTF-8, LF line endings, one trailing newline",
+  "record_hash": "SHA-256 over the record's JSON with record_hash and record_hash_method removed: json.dumps(sort_keys=True, ensure_ascii=False) as UTF-8, no trailing newline"
+ },
+ "input_inventory": {
+  "count": 101,
+  "basis": "every numerical example printed by the Sigma publications retrieved for this batch, read from the [Surface Data] table of the Google Patents page (the PDFs are image-only). Fourteen publications were retrieved; one carries no parseable table.",
+  "publications": {
+   "US12196935B2": {
+    "title": "Imaging optical system",
+    "examples": 5,
+    "accepted": 0
+   },
+   "US20250172790A1": {
+    "title": "Telephoto zoom lens",
+    "examples": 13,
+    "accepted": 0
+   },
+   "US20250208379A1": {
+    "title": "Large aperture ratio ultra wide angle lens",
+    "examples": 14,
+    "accepted": 14
+   },
+   "US20250208387A1": {
+    "title": "Imaging optical system",
+    "examples": 5,
+    "accepted": 4
+   },
+   "US20250244566A1": {
+    "title": "Zoom lens",
+    "examples": 8,
+    "accepted": 0
+   },
+   "US20250258361A1": {
+    "title": "Optical system",
+    "examples": 6,
+    "accepted": 6
+   },
+   "US20250264702A1": {
+    "title": "High power zoom lens",
+    "examples": 5,
+    "accepted": 0
+   },
+   "US20250321401A1": {
+    "title": "Imaging optical system",
+    "examples": 6,
+    "accepted": 6
+   },
+   "US20250334778A1": {
+    "title": "Imaging optical system",
+    "examples": 6,
+    "accepted": 6
+   },
+   "US20250383527A1": {
+    "title": "",
+    "examples": 5,
+    "accepted": 0
+   },
+   "US20260036795A1": {
+    "title": "Variable magnification optical system",
+    "examples": 7,
+    "accepted": 0
+   },
+   "US20260118636A1": {
+    "title": "Imaging optical system",
+    "examples": 7,
+    "accepted": 7
+   },
+   "US20260126629A1": {
+    "title": "Variable magnification imaging optical system",
+    "examples": 6,
+    "accepted": 0
+   },
+   "US20260267137A1": {
+    "title": "Optical system",
+    "examples": 7,
+    "accepted": 0
+   },
+   "US12724248B2": {
+    "title": "Large aperture ratio telephoto zoom lens",
+    "examples": 0,
+    "accepted": 0
+   }
+  }
+ },
+ "counts": {
+  "inputs": 101,
+  "accepted": 43,
+  "deferred": 58,
+  "conversion_failed": 0
+ },
+ "accepted_record_ids": [
+  "patent-us20250208379a1-ex01",
+  "patent-us20250208379a1-ex02",
+  "patent-us20250208379a1-ex03",
+  "patent-us20250208379a1-ex04",
+  "patent-us20250208379a1-ex05",
+  "patent-us20250208379a1-ex06",
+  "patent-us20250208379a1-ex07",
+  "patent-us20250208379a1-ex08",
+  "patent-us20250208379a1-ex09",
+  "patent-us20250208379a1-ex10",
+  "patent-us20250208379a1-ex11",
+  "patent-us20250208379a1-ex12",
+  "patent-us20250208379a1-ex13",
+  "patent-us20250208379a1-ex14",
+  "patent-us20250208387a1-ex01",
+  "patent-us20250208387a1-ex02",
+  "patent-us20250208387a1-ex04",
+  "patent-us20250208387a1-ex05",
+  "patent-us20250258361a1-ex01",
+  "patent-us20250258361a1-ex02",
+  "patent-us20250258361a1-ex03",
+  "patent-us20250258361a1-ex04",
+  "patent-us20250258361a1-ex05",
+  "patent-us20250258361a1-ex06",
+  "patent-us20250321401a1-ex01",
+  "patent-us20250321401a1-ex02",
+  "patent-us20250321401a1-ex03",
+  "patent-us20250321401a1-ex04",
+  "patent-us20250321401a1-ex05",
+  "patent-us20250321401a1-ex06",
+  "patent-us20250334778a1-ex01",
+  "patent-us20250334778a1-ex02",
+  "patent-us20250334778a1-ex03",
+  "patent-us20250334778a1-ex04",
+  "patent-us20250334778a1-ex05",
+  "patent-us20250334778a1-ex06",
+  "patent-us20260118636a1-ex01",
+  "patent-us20260118636a1-ex02",
+  "patent-us20260118636a1-ex03",
+  "patent-us20260118636a1-ex04",
+  "patent-us20260118636a1-ex05",
+  "patent-us20260118636a1-ex06",
+  "patent-us20260118636a1-ex07"
+ ],
+ "outcomes": [
+  {
+   "source_input": "US12196935B2, [Surface Data], Numerical Value Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US12196935B2, [Surface Data], Numerical Value Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US12196935B2, [Surface Data], Numerical Value Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US12196935B2, [Surface Data], Numerical Value Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US12196935B2, [Surface Data], Numerical Value Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 6",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 7",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 8",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 9",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 10",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 11",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 12",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250172790A1, [Surface Data], Numerical Value Example 13",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 1",
+   "source_input_sha256": "94250be941ce57f75e14c70d33d5d414b34881f7b37c6b8f2d5a878d6b9697c5",
+   "record_id": "patent-us20250208379a1-ex01",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+   "source_input_sha256": "f25c1fa19fc6b9d8025ad78ca042d1685e9e5ee361f42845a895f33c8080e7e0",
+   "record_id": "patent-us20250208379a1-ex02",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 3",
+   "source_input_sha256": "81c46b83fd83216d5bc807ac79f9d73d294c3f3949bcd8022016376af599d925",
+   "record_id": "patent-us20250208379a1-ex03",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
+   "source_input_sha256": "a731791fa13738195856545622312565f8179c4a83013eac50d8071ab738d29a",
+   "record_id": "patent-us20250208379a1-ex04",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 5",
+   "source_input_sha256": "e185d5f0597597eddab5b740f2464304d3f101dfcedb26f4826736cd161a72e5",
+   "record_id": "patent-us20250208379a1-ex05",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 6",
+   "source_input_sha256": "c9185e45589e8887c2e72ace60216198b455bb9435c81661de098005243fccf6",
+   "record_id": "patent-us20250208379a1-ex06",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 7",
+   "source_input_sha256": "a27dbd72edc41527dbb95fac06ce6c6b72fe89e9890fe6442f7e53f5774ca89c",
+   "record_id": "patent-us20250208379a1-ex07",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 8",
+   "source_input_sha256": "b43b9b3d2fb1a4647aaacd568b32f971c53b7d8538c2952d84ac779bd26115e5",
+   "record_id": "patent-us20250208379a1-ex08",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 9",
+   "source_input_sha256": "0e21e3744bf8ca9af3e6539136bc1f69953a952a36a8bb7c4d5503659f56bcf7",
+   "record_id": "patent-us20250208379a1-ex09",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 10",
+   "source_input_sha256": "cf2162d07d9feae988643c41c7d502a8db235324166361864791cf8b4d4a8bc6",
+   "record_id": "patent-us20250208379a1-ex10",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 11",
+   "source_input_sha256": "ac8515b30e51d41ed1935fd3aab7fbc9fd36bb396b19d561c9c52fe5fbf4df14",
+   "record_id": "patent-us20250208379a1-ex11",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 12",
+   "source_input_sha256": "7b08ad5d029b22f48059a2f389e1cd149d1aaabf2f6156462ce47e572a029233",
+   "record_id": "patent-us20250208379a1-ex12",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 13",
+   "source_input_sha256": "0401b3a00444ccd8b53dfaf877170bb8984188701fc635c335d77ccfc9c95480",
+   "record_id": "patent-us20250208379a1-ex13",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208379A1, [Surface Data] and [Variable Distance Data], Numerical Example 14",
+   "source_input_sha256": "89153343d3952028be5b7490537d49adf78c7200b8335d8352e7d0a055922af4",
+   "record_id": "patent-us20250208379a1-ex14",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208387A1, [Surface Data] and [Variable Distance Data], Numerical Example 1",
+   "source_input_sha256": "10314fc2b4189a1cceddfaf0b0276014c50d1a69564b22f11566c2acd538b101",
+   "record_id": "patent-us20250208387a1-ex01",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208387A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+   "source_input_sha256": "7c20de1f018def85ff4a5e4868b37ffd172bde12bc5d102718787bed56ce811e",
+   "record_id": "patent-us20250208387a1-ex02",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208387A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "SOURCE_TABLE_INCONSISTENT",
+   "constructs": [
+    "SOURCE_TABLE_INCONSISTENT"
+   ],
+   "reason": "the rendered table does not reproduce the example's own printed first-order values: its [Lens Group Data] prints G1 = 166.46 mm, which the table gives only with surface 9 at -251.1669 mm (as rendered, +251.1669 mm, it gives 102.12 mm); with that sign the system gives 529.09 mm and 34.78 mm against the printed 485.01 mm and 29.8213 mm, and no single or double sign correction reconciles them."
+  },
+  {
+   "source_input": "US20250208387A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
+   "source_input_sha256": "18fff7a9849aee21a7dc66efab9d7744a0503d20faf025342112591c3ea041d2",
+   "record_id": "patent-us20250208387a1-ex04",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250208387A1, [Surface Data] and [Variable Distance Data], Numerical Example 5",
+   "source_input_sha256": "e5e40a9069eebecc8985b4d8f0104e83784712f6ad5e04cd9dc50af3c55a7bfe",
+   "record_id": "patent-us20250208387a1-ex05",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 6",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 7",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250244566A1, [Surface Data], Numerical Example 8",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20250258361A1, [Surface Data] and [Variable Distance Data], Numerical Example 1",
+   "source_input_sha256": "3e72a4db5feab93c8e92976335fc1cf06edd7e3e6b736b00be528707f8603d3f",
+   "record_id": "patent-us20250258361a1-ex01",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250258361A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+   "source_input_sha256": "8ab06ad58c8bee2c4eb88330235e9c800500310190935ecc13f2f3d46e212de2",
+   "record_id": "patent-us20250258361a1-ex02",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250258361A1, [Surface Data] and [Variable Distance Data], Numerical Example 3",
+   "source_input_sha256": "99f57dafd292eb467942667585e44cc00ff917e8b46904857e65f97906b0d6f0",
+   "record_id": "patent-us20250258361a1-ex03",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250258361A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
+   "source_input_sha256": "aa0673bdbb3d53ee78e4ec2608dbb941c7dae6a51a20f7d979e7a88c4831e184",
+   "record_id": "patent-us20250258361a1-ex04",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250258361A1, [Surface Data] and [Variable Distance Data], Numerical Example 5",
+   "source_input_sha256": "a93778b0094c0f3e55bf78c772401f8c58c448f614ff005360a392af44147ed8",
+   "record_id": "patent-us20250258361a1-ex05",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250258361A1, [Surface Data] and [Variable Distance Data], Numerical Example 6",
+   "source_input_sha256": "5b318120ef31b6b2c7708865f193cb5276d09344e1aa7100ec540feede766dfa",
+   "record_id": "patent-us20250258361a1-ex06",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250264702A1, [Surface Data], Numerical Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20250264702A1, [Surface Data], Numerical Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20250264702A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20250264702A1, [Surface Data], Numerical Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20250264702A1, [Surface Data], Numerical Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 1",
+   "source_input_sha256": "f18399920d9aac31ea7562aee0f35dc26815e7ba1e8df0b55146629db01c5582",
+   "record_id": "patent-us20250321401a1-ex01",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+   "source_input_sha256": "a3f6aae14a25c875fe4ebdcb2c406d5339d950d9eac5580cedf484860ac997d0",
+   "record_id": "patent-us20250321401a1-ex02",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 3",
+   "source_input_sha256": "85c1c5a948e03dd42df3fafd3afeef241f3d247a2e32eeb467474806860e5473",
+   "record_id": "patent-us20250321401a1-ex03",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
+   "source_input_sha256": "ec8369ea1cc69cbb14cf54c55a6b84bfb76c677d0ce1af2c6def8e3ee48550e2",
+   "record_id": "patent-us20250321401a1-ex04",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 5",
+   "source_input_sha256": "436d31eac1561e2b55775fc15a078845e6bc28ea383cd2a49d3ff637d12345cd",
+   "record_id": "patent-us20250321401a1-ex05",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 6",
+   "source_input_sha256": "64bc1405dc369272955d7d25a40995bfb2586f285715dc610dd8ead1de24c090",
+   "record_id": "patent-us20250321401a1-ex06",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250334778A1, [Surface Data] and [Variable Distance Data], Numerical Example 1",
+   "source_input_sha256": "4b2da4d8f77a7d9d185fd080c49de078aa5a5959bf6229e3ea06bcb70fb694d7",
+   "record_id": "patent-us20250334778a1-ex01",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250334778A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+   "source_input_sha256": "28ed13b7c0d1ed6f28a358f8a636b6d50452f3d1d0723b0625ff8b17a67bc014",
+   "record_id": "patent-us20250334778a1-ex02",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250334778A1, [Surface Data] and [Variable Distance Data], Numerical Example 3",
+   "source_input_sha256": "44809ec3ac81491066ebc80b515279816e64093df243c8eed10110849976bc40",
+   "record_id": "patent-us20250334778a1-ex03",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250334778A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
+   "source_input_sha256": "a5faa6396c1e6258798fd44a95991fd377a70bd222120cc7b9994e827b93c269",
+   "record_id": "patent-us20250334778a1-ex04",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250334778A1, [Surface Data] and [Variable Distance Data], Numerical Example 5",
+   "source_input_sha256": "644b15cc78d93ab656a8270ef2a55137e770c089a41f2d0953762c5f927cb409",
+   "record_id": "patent-us20250334778a1-ex05",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250334778A1, [Surface Data] and [Variable Distance Data], Numerical Example 6",
+   "source_input_sha256": "b4908d50a34ddc3ce9170242c378f0e43262455bc2429268590957c3838b3586",
+   "record_id": "patent-us20250334778a1-ex06",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20250383527A1, [Surface Data], Numerical Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US20250383527A1, [Surface Data], Numerical Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US20250383527A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US20250383527A1, [Surface Data], Numerical Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "IMAGE_FORMAT_NOT_FULL_FRAME",
+   "constructs": [
+    "LARGER_THAN_FULL_FRAME"
+   ],
+   "reason": "the publication prints Y = 27.39 mm for this example, a 54.78 mm image circle, larger than the 36 x 24 mm frame this series covers; the design belongs to whatever series covers that format, not to this one"
+  },
+  {
+   "source_input": "US20250383527A1, [Surface Data], Numerical Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "APS_C_IMAGE_FORMAT",
+   "constructs": [
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the publication prints image height Y = 14.20 mm, an APS-C frame; the design belongs to the APS-C series, not to this full-frame one"
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 6",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20260036795A1, [Surface Data], Numerical Example 7",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM",
+    "APS_C_IMAGE_FORMAT"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design; the publication also prints Y = 14.20 mm, an APS-C frame, so its examples belong to the APS-C series."
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 1",
+   "source_input_sha256": "65ce653f3ef194a84a29d34db37c8af9eee31a8eb91efda358a08ec8134fd2dc",
+   "record_id": "patent-us20260118636a1-ex01",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 2",
+   "source_input_sha256": "7ba8d0761d8939adc177e4f45e6d7805d6dc04703986b2ae450cef21cbc620cc",
+   "record_id": "patent-us20260118636a1-ex02",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 3",
+   "source_input_sha256": "3addb62d08b598efd0757bc2ba4d269925d28e6a205b484c09d62ab2e0db414b",
+   "record_id": "patent-us20260118636a1-ex03",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
+   "source_input_sha256": "9975a407f1d5d438383c1499facb683721e4301e4c41670a2ef6cc555b1980cd",
+   "record_id": "patent-us20260118636a1-ex04",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 5",
+   "source_input_sha256": "c3c72bbe2ab9f7b2c3869ffb2692fa650dd959f9f47762118157e485405e5d22",
+   "record_id": "patent-us20260118636a1-ex05",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 6",
+   "source_input_sha256": "6ef14d7f91ea8e60fce603e23ef7785aa122a74029a6661f048bed80a898557c",
+   "record_id": "patent-us20260118636a1-ex06",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260118636A1, [Surface Data] and [Variable Distance Data], Numerical Example 7",
+   "source_input_sha256": "f6f5399d559f9f69c185e38bbe4d3dd6842d7c8c9eec399d9574657aee0b7d8f",
+   "record_id": "patent-us20260118636a1-ex07",
+   "outcome": "ACCEPTED",
+   "reason_code": null,
+   "constructs": [],
+   "reason": null
+  },
+  {
+   "source_input": "US20260126629A1, [Surface Data], Numerical Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260126629A1, [Surface Data], Numerical Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260126629A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260126629A1, [Surface Data], Numerical Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260126629A1, [Surface Data], Numerical Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260126629A1, [Surface Data], Numerical Example 6",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 1",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 2",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 3",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 4",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 5",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 6",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US20260267137A1, [Surface Data], Numerical Example 7",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the example is a zoom: its [Variable Distance Data] gives several zoom positions, each a different set of air gaps, and this collection has no zoom configuration field yet. A single-position transcription would state one zoom position as if it were the design."
+  },
+  {
+   "source_input": "US12724248B2, [Surface Data]",
+   "source_input_sha256": null,
+   "record_id": null,
+   "outcome": "DEFERRED",
+   "reason_code": "NO_MACHINE_READABLE_TABLE",
+   "constructs": [
+    "MULTI_CONFIGURATION_ZOOM"
+   ],
+   "reason": "the retrieved Google Patents page carries no [Surface Data] table this intake could parse (the publication is a large-aperture-ratio telephoto zoom and its PDF is image-only), so no example of it was transcribed"
+  }
+ ]
+}
