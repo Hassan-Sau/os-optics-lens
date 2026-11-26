@@ -70,30 +70,42 @@ class PhoneTelephotoBatch(unittest.TestCase):
                 project_path = ROOT / record["native_project"]["path"]
                 project_bytes = project_path.read_bytes().replace(b"\r\n", b"\n")
                 self.assertEqual(sha256(project_bytes), record["native_project"]["sha256"])
-                evidence = json.loads(evidence_bytes)
-                self.assertEqual(record["collection"]["source_input_sha256"], evidence["prescription"]["sha256"])
-                self.assertEqual(sha256(evidence["prescription"]["text"].encode("utf-8")),
-                                 evidence["prescription"]["sha256"])
-                self.assertEqual(record["conversion"]["source_sha256"], evidence["engine"]["surface_table_sha256"])
+                sections = json.loads(evidence_bytes)["sections"]
+                self.assertEqual(record["collection"]["source_input_sha256"], sections["prescription"]["sha256"])
+                self.assertEqual(sha256(sections["prescription"]["text"].encode("utf-8")),
+                                 sections["prescription"]["sha256"])
+                self.assertEqual(record["conversion"]["source_sha256"], sections["engine"]["surface_table_sha256"])
                 project = json.loads(project_bytes)
                 unit = next(model for model in project["optical_models"] if model["model_id"] == "LENS")
                 self.assertIn(record["conversion"]["source_sha256"], unit["display_name"])
 
+    def test_evidence_extract_follows_the_shared_contract(self):
+        for name, record in self.records.items():
+            with self.subTest(record=name):
+                extract = load(ROOT / record["collection"]["evidence_extract"]["path"])
+                sections = extract.get("sections")
+                self.assertTrue(
+                    extract.get("schema") == "opensci.lens.evidence_extract"
+                    and extract.get("record_id") == name
+                    and isinstance(sections, dict) and bool(sections)
+                    and all(value is not None for value in sections.values()),
+                    "not the shared evidence-extract layout")
+
     def test_evidence_matches_the_record(self):
         for name, record in self.records.items():
             with self.subTest(record=name):
-                evidence = load(ROOT / record["collection"]["evidence_extract"]["path"])
-                stated = evidence["stated"]
+                sections = load(ROOT / record["collection"]["evidence_extract"]["path"])["sections"]
+                stated = sections["stated"]
                 self.assertEqual(stated["effective_focal_length_mm"],
                                  record["first_order"]["engine_check"]["comparison"]
                                  ["effective_focal_length"]["source_mm"])
                 self.assertEqual(stated["f_number"], record["aperture"]["f_number"]["value"])
                 self.assertEqual(stated["half_field_deg"], record["field"]["half_field_deg"])
-                self.assertEqual(evidence["engine"]["effective_focal_length_mm"],
+                self.assertEqual(sections["engine"]["effective_focal_length_mm"],
                                  record["first_order"]["engine_check"]["effective_focal_length_mm"])
-                self.assertEqual(evidence["field_trace"]["samples"], record["field"]["traced_chief_rays"])
+                self.assertEqual(sections["field_trace"]["samples"], record["field"]["traced_chief_rays"])
                 self.assertEqual(record["image_format"]["image_circle_diameter_mm"],
-                                 round(2 * evidence["field_trace"]["samples"][0]["image_height_mm"], 4))
+                                 round(2 * sections["field_trace"]["samples"][0]["image_height_mm"], 4))
 
     def test_paraxial_verdict_is_recomputable(self):
         for name, record in self.records.items():
