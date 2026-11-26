@@ -274,3 +274,86 @@ reproduce the source-stated values within the tolerance stated in the import not
 
 `counts` and `accepted_record_ids` are generated from the rows, so the manifest cannot drift from
 the records.
+
+## Record schema version 1.1: configurations
+
+`record_schema_version` `"1.1"` adds one optional top-level member, `configurations`. It is
+additive: every other field keeps the meaning stated above.
+
+A record uses it when its native Project declares several `os-optics` configurations (for
+example the wide and tele positions of a zoom). Each one is a separate candidate that a query can
+match:
+
+```json
+"configurations": [
+  {"configuration_id": "Wide", "label": "wide end",
+   "first_order": {...}, "aperture": {...}, "field": {...}, "performance": [...]},
+  {"configuration_id": "Tele", "label": "tele end",
+   "first_order": {...}, "aperture": {...}, "field": {...}, "performance": [...]}
+]
+```
+
+### Allowed keys
+
+An entry may contain exactly these keys:
+
+- `configuration_id` (required);
+- `label` (optional);
+- the section overrides `conjugate`, `first_order`, `aperture`, `field`, `image_format`,
+  `spectrum`, `performance`, `analysis_evidence` and `cost_proxy`.
+
+Any other key is `INVALID_FIELD`.
+
+### Identifiers
+
+- `configuration_id` must match exactly an id that the native Project declares in
+  `configurations[].configuration_id`.
+- A Project id must start with a letter, may contain only letters, digits, `_` and `-`, and may be
+  at most 64 characters long. Ids must be unique case-insensitively and must not be a reserved
+  device name.
+- Two entries may not share an id (compared case-insensitively).
+
+### Configuration view
+
+Each entry defines a configuration view:
+
+- the record is copied without `configurations`;
+- every section the entry contains **replaces** the top-level section of the same name, and is
+  never merged into it; an entry's `conjugate` replaces `design.conjugate`;
+- the view also carries `configuration = {configuration_id, label, native: true}`.
+
+Every constraint of a query is evaluated against one view. A record never matches because
+different configurations satisfy different constraints.
+
+### Sections that cannot be inherited
+
+`first_order`, `aperture`, `field`, `performance` and `design.conjugate` depend on the
+configuration. With `configurations`, each of them must either be absent at the top level or be
+overridden by every entry. Otherwise one configuration would silently inherit another's values,
+which is `INVALID_FIELD`. Sections that do not vary, such as `spectrum` or `image_format`, may stay
+at the top level and are shared.
+
+### Count and hash
+
+- `design.configuration_count`, when present, must equal the number of entries.
+- `record_hash` covers `configurations` like any other member.
+
+### Compatibility
+
+Every existing `1.0` record is valid unchanged. A record without `configurations` (every `1.0`
+record, and a `1.1` record that omits the member) is indexed as exactly one configuration:
+
+- If its native Project declares no configurations, the configuration is the Project as written:
+  `configuration_id` is `null`, `native` is false and the label is `"project as written"`.
+- If the Project declares exactly one configuration, the single indexed configuration takes that
+  native id and label.
+- If the Project declares two or more configurations, the record must map them in
+  `configurations` (`CONFIGURATION_UNMAPPED`).
+
+A `1.0` record must not carry `configurations`.
+
+### How the index reads records
+
+[INDEX_SCHEMA.md](INDEX_SCHEMA.md) gives the index tables and every build finding.
+[RETRIEVAL.md](RETRIEVAL.md) describes how the index reads records: discovery, configuration views,
+facets, typed facts, evidence resolution and the query semantics.

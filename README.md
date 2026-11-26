@@ -55,10 +55,47 @@ design is usable across the interval: a record's `spectrum.continuous_coverage_n
 unless the source states a range, so only established continuous coverage can satisfy a hard band
 constraint.
 
+## Search the collection
+
+The `os-optics-lens` package ships the retriever together with a prebuilt index and the
+collection it indexes. Queries run locally, using only the Python standard library (Python 3.10
+or newer). Every command prints one bounded JSON document.
+
+```
+pip install os-optics-lens
+os-optics-lens help quickstart
+```
+
+From brief to an editable Project:
+
+```
+os-optics-lens facets --facet design_type --facet image_format
+os-optics-lens fields --fact image_format.image_circle_diameter_mm
+os-optics-lens search --mode specification --filter design_type=camera_lens \
+  --where 'first_order.effective_focal_length_mm between_inclusive [17.1,18.9]' \
+  --where 'image_format.image_circle_diameter_mm gte 43.27'
+os-optics-lens project yutong-2025-mirrorless-18-p2b --out work/p2b.project.json
+```
+
+- **Specification search** reports each hard constraint as `MATCH`, `DOES_NOT_MATCH` or
+  `UNCONFIRMED`, with a reason code for each unknown.
+- **Starting-point search** (`--mode starting_point --target FACT=VALUE~TOL`) ranks near matches
+  and lists their shortfalls and unknowns.
+- `compare` and `inspect` load details on demand.
+- `project --out` writes the exact native Project bytes. Their SHA-256 equals the record's
+  `native_project.sha256`.
+
+On Windows PowerShell, pass JSON requests with `--request FILE`. Outside an installed wheel,
+build an index from a checkout with `os-optics-lens index build --corpus . --out
+build/os-optics-lens-index.sqlite`, then pass `--index` to each command.
+[Retrieval](docs/RETRIEVAL.md) documents installation, the request and response formats, the
+search semantics, the error codes and how to rebuild the index.
+[Index schema](docs/INDEX_SCHEMA.md) documents the index tables and build findings.
+
 ## Status and contributions
 
-The repository is in setup. The first usable PyPI release is planned to ship the search interface
-and a searchable collection together. The seed collection is the first batch of that collection.
+The first package ships the search interface and the searchable collection together. The seed
+collection is the first batch of that collection, and new series are added as further batches.
 [LensLibrary](https://github.com/nzhagen/LensLibrary)
 
 Use [ARCHITECTURE.md](ARCHITECTURE.md) for the design, [AGENTS.md](AGENTS.md) for repository rules,
