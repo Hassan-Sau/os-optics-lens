@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CASE = json.loads((ROOT / "acceptance/yutong-2025-mirrorless-problem-2.json").read_text(encoding="utf-8"))
 RECORD_PATH = ROOT / CASE["record"]["path"]
 RECORD = json.loads(RECORD_PATH.read_text(encoding="utf-8"))
+SONNAR_PATH = ROOT / "records/opensci-design-studies/portrait-85-sonnar-eight/record.json"
+CAMERA_RECORDS = (RECORD, json.loads(SONNAR_PATH.read_text(encoding="utf-8")))
 
 MATCH = "MATCH"
 UNCONFIRMED = "UNCONFIRMED"
@@ -43,6 +45,11 @@ def has_source(data):
 
 
 def evaluate(record, constraint):
+    if constraint.get("requires_blocking_stop"):
+        aperture_validity = at(record, ["design", "aperture_validity"]) or {}
+        if not (aperture_validity.get("stop_blocks_light") is True
+                and aperture_validity.get("eligible_for_stop_dependent_evaluation") is True):
+            return UNCONFIRMED
     scope = at(record, constraint["scope"])
     if "metric" in constraint:
         candidates = [entry for entry in scope or [] if entry.get("metric") == constraint["metric"]]
@@ -118,7 +125,10 @@ class YutongAcceptance(unittest.TestCase):
                 record = copy.deepcopy(RECORD)
                 constraint = constraints[case["constraint"]]
                 scope_path = constraint["scope"]
-                if case["path"]:
+                if "record_path" in case:
+                    *parent_path, key = case["record_path"]
+                    at(record, parent_path)[key] = case["value"]
+                elif case["path"]:
                     scope = at(record, scope_path)
                     if "metric" in constraint:
                         scope = next(entry for entry in scope if entry["metric"] == constraint["metric"])
@@ -134,12 +144,46 @@ class YutongAcceptance(unittest.TestCase):
                 self.assertEqual(evaluate(record, constraint), case["expected"])
 
     def test_record_and_native_project_hashes(self):
-        record = copy.deepcopy(RECORD)
-        recorded_hash = record.pop("record_hash")
-        payload = json.dumps(record, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
-        self.assertEqual(hashlib.sha256(payload).hexdigest(), recorded_hash)
-        project = ROOT / record["native_project"]["path"]
-        self.assertEqual(hashlib.sha256(project.read_bytes()).hexdigest(), record["native_project"]["sha256"])
+        for source in CAMERA_RECORDS:
+            with self.subTest(record=source["record_id"]):
+                record = copy.deepcopy(source)
+                recorded_hash = record.pop("record_hash")
+                record.pop("record_hash_method")
+                payload = json.dumps(record, sort_keys=True, ensure_ascii=False).encode("utf-8")
+                self.assertEqual(hashlib.sha256(payload).hexdigest(), recorded_hash)
+                project = ROOT / record["native_project"]["path"]
+                project_bytes = project.read_bytes().replace(b"\r\n", b"\n")
+                self.assertEqual(hashlib.sha256(project_bytes).hexdigest(), record["native_project"]["sha256"])
+
+    def test_seed_format_aperture_and_paraxial_evidence(self):
+        for record in CAMERA_RECORDS:
+            with self.subTest(record=record["record_id"]):
+                spectrum = record["spectrum"]
+                self.assertEqual(spectrum["sampling_span_nm"]["eligible_for"], "DISCOVERY_ONLY")
+                self.assertEqual(spectrum["continuous_coverage_nm"]["state"], "UNCONFIRMED")
+                aperture = record["aperture"]
+                declared_apertures = [key for key, fact in aperture.items() if fact.get("system_aperture")]
+                self.assertEqual(declared_apertures, ["stop_opening_diameter_mm"])
+                project = json.loads((ROOT / record["native_project"]["path"]).read_text(encoding="utf-8"))
+                stop_fact = aperture["stop_opening_diameter_mm"]
+                stop = next(item["model"] for item in project["optical_models"]
+                            if item["model_id"] == stop_fact["source_model_id"])
+                self.assertEqual(stop_fact["value"], 2 * float(stop["opening_radius_mm"]))
+                self.assertGreater(float(stop["edge_radius_mm"]), float(stop["opening_radius_mm"]))
+                engine = record["first_order"]["engine_check"]
+                self.assertEqual(engine["wavelength_nm"], spectrum["primary_wavelength_nm"])
+                comparison = engine["comparison"]
+                efl = comparison["effective_focal_length"]
+                bfl = comparison["back_focal_length"]
+                self.assertEqual(efl["scale_mm"], abs(efl["source_mm"]))
+                self.assertEqual(bfl["scale_mm"], max(abs(bfl["source_mm"]), abs(efl["source_mm"])))
+                for quantity in (efl, bfl):
+                    tolerance = comparison["atol_mm"] + comparison["rtol"] * quantity["scale_mm"]
+                    self.assertEqual(quantity["tolerance_mm"], tolerance)
+                    difference = abs(quantity["engine_mm"] - quantity["source_mm"])
+                    self.assertEqual(quantity["absolute_difference_mm"], difference)
+                    self.assertEqual(quantity["within_tolerance"], difference <= tolerance)
+                    self.assertTrue(quantity["within_tolerance"])
 
 
 if __name__ == "__main__":

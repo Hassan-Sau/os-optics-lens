@@ -5,8 +5,8 @@
   "evaluation_scope": "one_nominal_configuration",
   "record": {
     "id": "yutong-2025-mirrorless-18-p2b",
-    "revision": 2,
-    "path": "records/opensci-design-studies/yutong-2025-mirrorless-18-p2b/record.json"
+    "revision": 3,
+    "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/record.json"
   },
   "constraints": [
     {
@@ -43,7 +43,7 @@
       "id": "f_number",
       "scope": [
         "aperture",
-        "f_number"
+        "entrance_pupil_f_number"
       ],
       "predicates": [
         {
@@ -54,7 +54,8 @@
       ],
       "conditions": {
         "convention": "efl_over_admitted_entrance_pupil_diameter"
-      }
+      },
+      "requires_blocking_stop": true
     },
     {
       "id": "optical_back_focus",
@@ -262,7 +263,8 @@
             1
           ]
         }
-      }
+      },
+      "requires_blocking_stop": true
     },
     {
       "id": "mtf_0_to_0p8",
@@ -301,7 +303,8 @@
             1
           ]
         }
-      }
+      },
+      "requires_blocking_stop": true
     },
     {
       "id": "glass_only",
@@ -472,6 +475,21 @@
       "path": "methods",
       "expected": "UNCONFIRMED",
       "value": []
+    },
+    {
+      "id": "a_nonblocking_stop_cannot_confirm_a_pupil_based_match",
+      "constraint": "corner_relative_illumination",
+      "record_path": [
+        "design",
+        "aperture_validity"
+      ],
+      "expected": "UNCONFIRMED",
+      "value": {
+        "state": "STOP_NOT_BLOCKING",
+        "stop_blocks_light": false,
+        "eligible_for_stop_dependent_evaluation": false,
+        "satisfies_stop_dependent_constraints": false
+      }
     }
   ]
 }

@@ -2,7 +2,7 @@
   "schema": "opensci.lens.record",
   "record_schema_version": "1.0",
   "record_id": "portrait-85-sonnar-eight",
-  "record_revision": 1,
+  "record_revision": 2,
   "title": "85 mm-class f/2.35 full-frame all-spherical Sonnar portrait lens",
   "collection": {
     "collection_id": "opensci-design-studies",
@@ -38,11 +38,19 @@
     "configuration_count": 1,
     "powered_element_count": 8,
     "powered_group_count": 7,
-    "aspheric_element_count": 0
+    "aspheric_element_count": 0,
+    "aperture_validity": {
+      "state": "STOP_BLOCKING",
+      "stop_blocks_light": true,
+      "basis": "The native aperture plate extends beyond the clear opening.",
+      "eligible_for_stop_dependent_evaluation": true,
+      "satisfies_stop_dependent_constraints": true,
+      "satisfaction_basis": "Traced pupils and field tests support individual comparable matches under the recorded nominal conditions."
+    }
   },
   "native_project": {
     "path": "records/opensci-design-studies/portrait-85-sonnar-eight/project.json",
-    "sha256": "0b6d9c6d966a38f02eb9bb82e808ac82065ef4dbc9fe6472c5fa8b10c4149b75",
+    "sha256": "e3fc7315ee460c8d66e4f00857b65bab2804bd50ce883c93527145a5f33ade61",
     "engine_version": "0.14.0",
     "catalog_version": null,
     "instance_id": "OBJ",
@@ -63,14 +71,22 @@
       1
     ],
     "primary_wavelength_nm": 587.56,
-    "operating_range_nm": {
-      "min_nm": 486.13,
-      "max_nm": 656.27,
-      "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS"
-    },
     "band_facets": [
       "visible"
-    ]
+    ],
+    "wavelength_precision": "The original vacuum wavelength samples at full Project precision.",
+    "sampling_span_nm": {
+      "min_nm": 486.13,
+      "max_nm": 656.27,
+      "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+      "eligible_for": "DISCOVERY_ONLY"
+    },
+    "continuous_coverage_nm": {
+      "state": "UNCONFIRMED",
+      "min_nm": null,
+      "max_nm": null,
+      "note": "The study evaluates discrete wavelengths."
+    }
   },
   "image_format": {
     "format_facets": [
@@ -78,29 +94,46 @@
     ],
     "width_mm": 36,
     "height_mm": 24,
-    "image_circle_diameter_mm": 43.2666,
-    "basis": "DERIVED from the documented format and nominal probe coverage. The Project uses a receiving plane."
+    "image_circle_diameter_mm": 43.26,
+    "basis": "DERIVED from twice the largest verified real image height. The nominal frame is 36 × 24 mm."
   },
   "first_order": {
     "effective_focal_length_mm": {
       "value": 84.06939319914584,
       "basis": "ENGINE_COMPUTED",
-      "definition": "Paraxial EFL at the primary wavelength, 587.56 nm"
+      "definition": "Paraxial EFL at the primary wavelength, 587.56 nm",
+      "conditions": "Primary wavelength 587.56 nm (vacuum)."
     },
     "back_focal_length_mm": {
       "value": 8.7573082265464,
       "basis": "ENGINE_COMPUTED",
-      "definition": "Paraxial distance from the final modeled optical surface to the rear focal point at 587.56 nm. The finite-conjugate or optimized fixed sensor plane is described by the separate vertex-to-sensor distance."
+      "definition": "Paraxial distance from the final modeled optical surface to the rear focal point at 587.56 nm. The finite-conjugate or optimized fixed sensor plane is described by the separate vertex-to-sensor distance.",
+      "conditions": {
+        "distance_kind": "paraxial_focal_distance",
+        "from": "final_optical_surface_vertex",
+        "to": "paraxial_rear_focal_point",
+        "wavelength_nm": 587.56
+      }
     },
     "final_powered_vertex_to_sensor_mm": {
       "value": 12.70270313337896,
       "basis": "DERIVED",
-      "definition": "Last powered vertex to the fixed finite-conjugate image plane"
+      "definition": "Last powered vertex to the fixed finite-conjugate image plane",
+      "conditions": {
+        "distance_kind": "geometric_axial_distance",
+        "from": "last_powered_surface_vertex",
+        "to": "fixed_image_plane",
+        "includes_cover_glass": false
+      }
     },
     "total_track_mm": {
       "value": 133.21410153148526,
       "basis": "SOURCE_STATED",
-      "definition": "Axial distance from the first surface vertex to the fixed image plane"
+      "definition": "Axial distance from the first surface vertex to the fixed image plane",
+      "conditions": {
+        "from": "first_optical_surface_vertex",
+        "to": "fixed_image_plane"
+      }
     },
     "engine_check": {
       "engine_version": "0.14.0",
@@ -108,21 +141,54 @@
       "method": "Thick-lens ABCD at the primary wavelength, using the original unit-index propagation convention.",
       "effective_focal_length_mm": 84.06939319914584,
       "back_focal_length_mm": 8.7573082265464,
-      "efl_relative_difference": 0.0,
-      "bfl_relative_difference": 0.0,
-      "source_engine_version": "0.13.0"
+      "source_engine_version": "0.13.0",
+      "wavelength_nm": 587.56,
+      "comparison": {
+        "rule": "per quantity: |engine - source| <= atol + rtol * scale",
+        "atol_mm": 1e-05,
+        "rtol": 0.0001,
+        "effective_focal_length": {
+          "source_mm": 84.06939319914584,
+          "engine_mm": 84.06939319914584,
+          "absolute_difference_mm": 0.0,
+          "scale_mm": 84.06939319914584,
+          "scale_basis": "|EFL|",
+          "tolerance_mm": 0.008416939319914584,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.0
+        },
+        "back_focal_length": {
+          "source_mm": 8.7573082265464,
+          "engine_mm": 8.7573082265464,
+          "absolute_difference_mm": 0.0,
+          "scale_mm": 84.06939319914584,
+          "scale_basis": "max(|BFL|, |EFL|)",
+          "tolerance_mm": 0.008416939319914584,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.0
+        }
+      }
     }
   },
   "aperture": {
-    "f_number": {
-      "value": 2.3506869724813124,
-      "basis": "SOURCE_STATED",
-      "definition": "Nominal paraxial entrance-pupil f-number"
-    },
     "working_f_number": {
       "value": 2.5540000527805438,
       "basis": "SOURCE_STATED",
-      "definition": "1/(2 NA) for the axial d-line admitted marginal ray at the finite conjugate"
+      "definition": "1/(2 NA) for the axial d-line admitted marginal ray at the finite conjugate",
+      "system_aperture": false
+    },
+    "entrance_pupil_f_number": {
+      "value": 2.3506869724813124,
+      "basis": "SOURCE_STATED",
+      "definition": "Nominal paraxial entrance-pupil f-number",
+      "system_aperture": false
+    },
+    "stop_opening_diameter_mm": {
+      "value": 21.546088290071197,
+      "basis": "DERIVED",
+      "definition": "Diameter of the declared physical iris opening in the native Project.",
+      "source_model_id": "objective-STOP",
+      "system_aperture": true
     }
   },
   "field": {
@@ -135,7 +201,19 @@
       21.63
     ],
     "definition": "Image-plane field heights of the d-line chief-ray probes",
-    "basis": "SOURCE_STATED"
+    "basis": "SOURCE_STATED",
+    "image_height_kind": "REAL",
+    "max_image_height_mm": 21.63,
+    "verification": {
+      "state": "MATCHED",
+      "basis": "The frozen 0.13.0 finite-conjugate audit checked the primary chief-ray image heights.",
+      "wavelength_nm": 587.56,
+      "maximum_image_height_difference_mm": 1.243969194320016e-08,
+      "source": {
+        "sha256": "8982bbc496d3eefa285dcf74de32ae134b3cdd25dbe649872e268481653d57d3",
+        "source_path": "011-portrait-cost-down/runs/008-sonnar-corner-refinement/review/eight/result.json"
+      }
+    }
   },
   "materials": {
     "basis": "Original inline material and coating definitions preserved in project.json"
@@ -348,7 +426,9 @@
       "The independent 512-build holdout used one axial refocus per build. Its simulated P10 values are conditional on the stated error model.",
       "Project solids are valid. The engine reported an informational edge-thickness review at OBJ/L2, 16.91208 mm. Physical hardware and production yield are unverified.",
       "Thirty lp/mm refocused P10 at the two eyes and two corner heights, respectively: 0.697, 0.625, 0.522, 0.458."
-    ]
+    ],
+    "field": "MATCHED"
   },
-  "record_hash": "49c680f5a59109c33a1abded1403fdb18eb3dc5924b531f7ab29c2188e3a6510"
+  "record_hash": "099f46d149045f63bb28d52e7b6b2b5addf64c3df292f37409e0e1bfefea42ec",
+  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }

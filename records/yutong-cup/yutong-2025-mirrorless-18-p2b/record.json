@@ -2,10 +2,10 @@
   "schema": "opensci.lens.record",
   "record_schema_version": "1.0",
   "record_id": "yutong-2025-mirrorless-18-p2b",
-  "record_revision": 2,
+  "record_revision": 3,
   "title": "18 mm f/2 full-frame mirrorless P2b",
   "collection": {
-    "collection_id": "opensci-design-studies",
+    "collection_id": "yutong-cup",
     "source": "OpenSci camera lens design studies",
     "source_input": "Mirrorless-18mm-P2b-prototype, P2b_native/camera.json",
     "source_input_sha256": "9d644a4e4db0c6a26a54a2642b51a38557ef8051602643ae1c6e9b1798fc4806",
@@ -21,7 +21,10 @@
     "evidence_archive": {
       "filename": "Mirrorless-18mm-P2b-prototype.zip",
       "sha256": "794e6d42c4c17bd48a7cfcfafa69ac08f79d032c5f305d8f1830fa888f52bbce"
-    }
+    },
+    "problem_year": 2025,
+    "problem_number": 2,
+    "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/8"
   },
   "design": {
     "source_reference": "P2b finite-film and coated engineering model",
@@ -45,11 +48,19 @@
     "powered_element_count": 14,
     "powered_group_count": 12,
     "aspheric_element_count": 8,
-    "powered_element_material_class": "glass_only"
+    "powered_element_material_class": "glass_only",
+    "aperture_validity": {
+      "state": "STOP_BLOCKING",
+      "stop_blocks_light": true,
+      "basis": "The native aperture plate extends beyond the clear opening.",
+      "eligible_for_stop_dependent_evaluation": true,
+      "satisfies_stop_dependent_constraints": true,
+      "satisfaction_basis": "Traced pupils and field tests support individual comparable matches under the recorded nominal conditions."
+    }
   },
   "native_project": {
-    "path": "records/opensci-design-studies/yutong-2025-mirrorless-18-p2b/project.json",
-    "sha256": "a4059e1e65105e174809e273e1f52abc4d7c8d1875932d20f8cfe51ab77cc11d",
+    "path": "records/yutong-cup/yutong-2025-mirrorless-18-p2b/project.json",
+    "sha256": "14090b01fe27afcd61f8a3e111b4e8a9bdf5e726237a2f822a07a88d1176cbe2",
     "engine_version": "0.14.0",
     "catalog_version": null,
     "instance_id": "ML18",
@@ -70,14 +81,22 @@
       1
     ],
     "primary_wavelength_nm": 587,
-    "operating_range_nm": {
-      "min_nm": 486,
-      "max_nm": 656,
-      "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS"
-    },
     "band_facets": [
       "visible"
-    ]
+    ],
+    "wavelength_precision": "The original vacuum wavelength samples at full Project precision.",
+    "sampling_span_nm": {
+      "min_nm": 486,
+      "max_nm": 656,
+      "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+      "eligible_for": "DISCOVERY_ONLY"
+    },
+    "continuous_coverage_nm": {
+      "state": "UNCONFIRMED",
+      "min_nm": null,
+      "max_nm": null,
+      "note": "The study evaluates discrete wavelengths."
+    }
   },
   "image_format": {
     "format_facets": [
@@ -100,7 +119,8 @@
     "effective_focal_length_mm": {
       "value": 18.726068736671145,
       "basis": "ENGINE_COMPUTED",
-      "definition": "Paraxial EFL at the primary wavelength, 587 nm"
+      "definition": "Paraxial EFL at the primary wavelength, 587 nm",
+      "conditions": "Primary wavelength 587.0 nm (vacuum)."
     },
     "back_focal_length_mm": {
       "value": 1.0390024256495436,
@@ -143,19 +163,51 @@
       "method": "Thick-lens ABCD at the primary wavelength, using the original unit-index propagation convention.",
       "effective_focal_length_mm": 18.726068736671145,
       "back_focal_length_mm": 1.0390024256495436,
-      "efl_relative_difference": 0.0,
-      "bfl_relative_difference": 0.0,
-      "source_engine_version": "0.13.0"
+      "source_engine_version": "0.13.0",
+      "wavelength_nm": 587.0,
+      "comparison": {
+        "rule": "per quantity: |engine - source| <= atol + rtol * scale",
+        "atol_mm": 1e-05,
+        "rtol": 0.0001,
+        "effective_focal_length": {
+          "source_mm": 18.726068736671145,
+          "engine_mm": 18.726068736671145,
+          "absolute_difference_mm": 0.0,
+          "scale_mm": 18.726068736671145,
+          "scale_basis": "|EFL|",
+          "tolerance_mm": 0.0018826068736671146,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.0
+        },
+        "back_focal_length": {
+          "source_mm": 1.0390024256495436,
+          "engine_mm": 1.0390024256495436,
+          "absolute_difference_mm": 0.0,
+          "scale_mm": 18.726068736671145,
+          "scale_basis": "max(|BFL|, |EFL|)",
+          "tolerance_mm": 0.0018826068736671146,
+          "within_tolerance": true,
+          "fraction_of_tolerance": 0.0
+        }
+      }
     }
   },
   "aperture": {
-    "f_number": {
+    "entrance_pupil_f_number": {
       "value": 1.9789,
       "basis": "SOURCE_STATED",
       "definition": "Upper bracket of EFL divided by the physically admitted on-axis entrance-pupil diameter at infinity focus",
       "conditions": {
         "convention": "efl_over_admitted_entrance_pupil_diameter"
-      }
+      },
+      "system_aperture": false
+    },
+    "stop_opening_diameter_mm": {
+      "value": 24.852063868184835,
+      "basis": "DERIVED",
+      "definition": "Diameter of the declared physical iris opening in the native Project.",
+      "source_model_id": "ML18-STOP",
+      "system_aperture": true
     }
   },
   "field": {
@@ -163,7 +215,34 @@
     "half_field_deg": 49.555169168052586,
     "definition": "Object-space half angle to the full image diagonal at 587 nm",
     "basis": "DERIVED",
-    "max_image_height_mm": 21.635
+    "max_image_height_mm": 21.635,
+    "verification": {
+      "state": "MATCHED",
+      "basis": "Archived OpenSci 0.13.0 chief-ray heights match the prescribed diagonal image-plane samples.",
+      "wavelength_nm": 587,
+      "field_basis": "diagonal_image_height_fraction",
+      "image_circle_radius_mm": 21.635,
+      "sampled_field_fractions": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.55,
+        0.6,
+        0.7,
+        0.75,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "maximum_image_height_difference_mm": 7.545688518462157e-10,
+      "source": {
+        "archive_member": "mirrorless18/implementation/P2b_native/performance.csv",
+        "sha256": "1185219065059fe995496ab269197628d7e67ac7c85bd38d3bf181b452957f30"
+      }
+    }
   },
   "materials": {
     "basis": "Original inline material and coating definitions preserved in project.json"
@@ -331,7 +410,8 @@
       "Two 10 µm finite cement layers and the modeled broadband antireflection coating are preserved from the native Project.",
       "The 40 lp/mm competition MTF criterion covers the center through 0.8 of the diagonal image radius. Pixel integration is outside the optical MTF calculation.",
       "A replayed 96-build finite-film tolerance study gave 92 MTF passes under a three-cell active alignment process. Physical first-article performance and production yield are unverified."
-    ]
+    ],
+    "field": "MATCHED"
   },
   "cost_proxy": {
     "basis": "DERIVED",
@@ -424,5 +504,6 @@
       "physical_validation": "unverified"
     }
   },
-  "record_hash": "354ae388938759ba7d22e4beada81b9cbfeace457632f9f7a72478d84fcb4bbb"
+  "record_hash": "98e08bfd40e0ef49cd30417d147684d738eff2124bb382787dfc977313d3e7fb",
+  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }

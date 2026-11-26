@@ -22,6 +22,11 @@ generated from these files rather than stored beside them.
 Raw ZMX files, intermediate CSV surface tables, patent PDFs and layout images stay upstream or in
 a scratch workspace. They are cited by path and SHA-256, never committed.
 
+The [camera evidence extension](CAMERA_SEARCH_EVIDENCE.md) uses this shared
+format for native camera designs and provides an executable acceptance case.
+Camera records may carry verified real image heights, geometric back-focus
+endpoints, field-interval MTF, radiometry and sourced analysis evidence.
+
 ## Record identity
 
 | Field | Meaning |
@@ -30,6 +35,7 @@ a scratch workspace. They are cited by path and SHA-256, never committed.
 | `record_revision` | Integer, starts at 1. Bumped when the Project or a stated fact changes for the same source input. |
 | `record_hash` | SHA-256 over the record with `record_hash` and `record_hash_method` removed, so a consumer can detect an edited record. Recompute it from the **parsed JSON**, not the file's bytes: `json.dumps(body, sort_keys=True, ensure_ascii=False)` encoded as UTF-8, no trailing newline. The method is stated in the record itself. |
 | `record_hash_method` | The serialization above, in prose, so the hash is reproducible without reading this document. |
+| `native_project.sha256` | SHA-256 of the committed native Project bytes. Normalize checkout line endings to the repository's LF form when recomputing from a Windows worktree. |
 | `collection.source_revision` | The pinned upstream commit. A record is only comparable with another record of the same revision. |
 | `collection.source_input_sha256` | SHA-256 of the file's bytes **as the pinned revision stores them**, taken from the git blob, so a Windows CRLF checkout does not change it. |
 | `collection.source_links.source_file_url` | The upstream ZMX at the pinned revision, so a reviewer reads the exact input. |
