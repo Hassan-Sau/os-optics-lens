@@ -37,6 +37,24 @@ os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
 [Importing the LensLibrary seed collection](docs/LENSLIBRARY_IMPORT.md) records the conversion
 method, the material and surface decisions, the verification run and the known limits.
 
+### The expansion series
+
+`records/dry-microscope-objectives/` holds the first expansion batch: microscope objectives that work
+with air between the specimen or cover glass and the objective, from three patent publications.
+
+| | |
+|---|---|
+| Source examples assessed | 19 (US11067782B2, US7663807B2, US7643216B2 and five sources deferred before transcription) |
+| Accepted records | 11 |
+| Deferred, with a reason | 8 |
+| Conversion failed | 0 |
+
+The batch carries a 10×/0.40 family of eight variants, a 10×/0.80 pair and one 80 mm stereomicroscope
+objective. Read
+[preparing the dry-objective batch](docs/DRY_OBJECTIVE_INTAKE.md) for the transcription rules, the
+object-plane and aperture decisions and the deferrals, and the series issue
+[#26](https://github.com/JunLin615/os-optics-lens/issues/26) for the coordination record.
+
 ### Spectral band boundaries
 
 `band_facets` in a record uses these boundaries, in vacuum nanometres:
