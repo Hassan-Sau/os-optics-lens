@@ -37,6 +37,30 @@ os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
 [Importing the LensLibrary seed collection](docs/LENSLIBRARY_IMPORT.md) records the conversion
 method, the material and surface decisions, the verification run and the known limits.
 
+## The Nikon FX expansion series
+
+`records/nikon-fx/` holds a series of Nikon-branded FX photography lenses, prepared for
+[issue #11](https://github.com/JunLin615/os-optics-lens/issues/11). Two sources are used, and a
+record says which one it came from.
+
+| Batch | Source | Claim |
+|---|---|---|
+| `batch-nikon-fx-1.json` | A numerical example printed in a US patent publication | The surface table is transcribed from the publication |
+| `batch-nikon-fx-2.json` | The [FlareSim lens corpus](https://github.com/LocalStarlight/flaresim_nuke) at revision `0e28ead9` (MIT) | The surface table is reproduced from the corpus file |
+
+| | |
+|---|---|
+| Corpus files at the pinned revision | 1370 |
+| Nikon-branded files | 246 |
+| Candidates after the scope filter | 205 |
+| Accepted records in batch 2 | 104 |
+| Deferred, with a reason code | 100 |
+| Conversion failed | 1 |
+
+[Nikon FX intake](docs/NIKON_FX_INTAKE.md) records the selection, the conversion method, the
+acceptance rule, and the limits — including why a corpus record never claims a patent
+transcription.
+
 ### Spectral band boundaries
 
 `band_facets` in a record uses these boundaries, in vacuum nanometres:
