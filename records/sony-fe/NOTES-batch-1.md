@@ -14,6 +14,10 @@ f/1.85-class design with a printed image height of 21.633 mm, which is a 43.27 m
 | 4 | `patent-us20240061211a1-ex04` | 130.957 | 131.168 | accepted |
 | 5 | `patent-us20240061211a1-ex05` | 131.012 | 131.219 | accepted |
 
+Each Project places its image-plane observation after the last tabulated thickness, so
+`first_order.total_track_mm` equals the length `L` the publication prints: 145.000, 142.483, 144.819
+and 150.000 mm for the four accepted examples.
+
 The engine's focal length sits 0.10–0.16 % above the printed value in every accepted example. That
 offset is the same one the patent-derived `phone-modules` batch documents: the printed radii and
 thicknesses are rounded and the materials are constant indices at the reference wavelength, so the
