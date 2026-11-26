@@ -132,8 +132,9 @@ The publications print a half field of view and no image height. The records the
 - trace the chief ray at seven field fractions and record the image height and chief-ray angle at
   each (`field.traced_chief_rays`);
 - derive the image circle from **twice the traced image height at the largest field that traces
-  cleanly**, and state that field fraction. Nine records reach the printed half-field; two reach
-  0.95 of it, because the last surface's polynomial is undefined slightly beyond.
+  cleanly**, and state that field fraction. All eleven records reach the printed half-field; the
+  sweep also records 0.85, 0.7, 0.5 and 0.3 of it, so a reader can see the chief-ray curve rather
+  than one endpoint.
 
 The image circle is therefore `DERIVED`, not a sensor specification. It is a usable filter value,
 not a coverage guarantee; the records do not claim a sensor format, a pixel pitch or a cover-glass
