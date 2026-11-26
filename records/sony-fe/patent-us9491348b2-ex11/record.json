@@ -60,7 +60,7 @@
  },
  "native_project": {
   "path": "records/sony-fe/patent-us9491348b2-ex11/project.json",
-  "sha256": "4455a6f0c26d8233726a0e67707455300370e191471cc033d19925797982a866",
+  "sha256": "e90f71a71dacd3a38dc1b2159f0d04646c1d87fb0e4c7b49e7543a18419da267",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "OPTIC",
@@ -121,10 +121,10 @@
    "basis": "SOURCE_STATED",
    "definition": "Effective focal length as printed for the example",
    "conditions": "Reference wavelength (d-line); object at infinity.",
-   "engine_value_mm": 47.02808989033976
+   "engine_value_mm": 47.02540466527953
   },
   "back_focal_length_mm": {
-   "value": 1.0125642220248063,
+   "value": 1.0094836650316112,
    "basis": "ENGINE_COMPUTED",
    "definition": "Paraxial distance from the exit vertex to the rear focal point",
    "conditions": {
@@ -135,7 +135,7 @@
    }
   },
   "total_track_mm": {
-   "value": 72.480001,
+   "value": 72.481,
    "basis": "DERIVED",
    "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
   },
@@ -143,8 +143,8 @@
    "engine_version": "0.14.0",
    "basis": "ENGINE_COMPUTED",
    "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
-   "effective_focal_length_mm": 47.02808989033976,
-   "back_focal_length_mm": 1.0125642220248063,
+   "effective_focal_length_mm": 47.02540466527953,
+   "back_focal_length_mm": 1.0094836650316112,
    "wavelength_nm": 587.720064,
    "comparison": {
     "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 3-decimal focal length; rtol covers the printed radii and thicknesses, the constant-index material model and the engine's air-referenced index convention (about 0.13 % on EFL).",
@@ -152,17 +152,17 @@
     "rtol": 0.003,
     "effective_focal_length": {
      "source_mm": 47.0,
-     "engine_mm": 47.02808989033976,
-     "absolute_difference_mm": 0.028089890339757062,
+     "engine_mm": 47.02540466527953,
+     "absolute_difference_mm": 0.025404665279531002,
      "scale_mm": 47.0,
      "scale_basis": "|EFL|",
      "tolerance_mm": 0.14600000000000002,
      "within_tolerance": true,
-     "fraction_of_tolerance": 0.1923965091764182
+     "fraction_of_tolerance": 0.17400455670911644
     },
     "back_focal_length": {
      "state": "UNCONFIRMED",
-     "engine_mm": 1.0125642220248063,
+     "engine_mm": 1.0094836650316112,
      "basis": "The publication prints no back focal length, so this quantity has no source value."
     }
    }
@@ -194,16 +194,16 @@
   },
   {
    "code": "ZERO_GAP_SUBSTITUTED",
-   "statement": "The publication prints a 0.000 mm gap after surface(s) 13; the importer requires a positive thickness, so the gap is 1e-6 mm there. The optical effect is below a nanometre and the printed value is kept in the evidence."
+   "statement": "The publication prints a 0.000 mm gap after surface(s) 13; the importer requires a positive thickness, so the gap is 0.001 mm there. The optical effect is at the micrometre level and the printed value is kept in the evidence."
   }
  ],
  "unsupported_constructs": [],
  "validation": {
   "conversion": "PASSED",
-  "project_check": "REFUSED",
-  "optical_solids": "INVALID",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
   "paraxial": "MATCHED"
  },
  "record_hash_method": "SHA-256 over the record body with record_hash and record_hash_method removed, serialized as json.dumps(body, sort_keys=True, ensure_ascii=False) in UTF-8 with no trailing newline.",
- "record_hash": "4412c72c349bc9b5876421e57b87a9b8e5c909666c75400d597bb0c20c2dd8e0"
+ "record_hash": "5fa903f3c4a069d901b9300a5394c51251c5da0a3cdffe9e6de9f8d93fa51a24"
 }

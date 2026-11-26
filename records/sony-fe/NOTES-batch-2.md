@@ -41,8 +41,8 @@ it; a reviewer can read surface 5 of that example directly.
 ## One printed zero gap
 
 `US9491348B2` example 11 prints a 0.000 mm gap after surface 13, between two glass bodies. The
-importer requires a positive thickness, so the Project carries 1e-6 mm there and the record states
-`ZERO_GAP_SUBSTITUTED` with the printed value. The effect is below a nanometre; the alternative —
+importer requires a positive thickness, so the Project carries 0.001 mm there and the record states
+`ZERO_GAP_SUBSTITUTED` with the printed value. The effect is at the micrometre level; the alternative —
 dropping a surface — would have changed the design.
 
 ## What the sweep examined, and why the other publications are not here
@@ -88,12 +88,15 @@ What each code means here:
   block form this reader keys on. They were not inspected by hand either, so no claim is made about
   their format.
 - **`TABLE_IS_IMAGE`** — every numerical table in WO2020213337A1 is a page image
-  (`JPOXMLDOC01-appb-T000001..026.png`); the publication PDF has no text layer (`pdftotext` returns
-  97 bytes) and the CN and JP family members are the same. OCR of the bilevel scans does not hold:
-  after deskew and table-rule removal, tesseract returns character soup on the surface table. Digits
-  that cannot be read verbatim are not put into the corpus, and the engine's focal-length check only
-  catches aggregate error, not a wrong digit in a weak surface. This family needs a per-cell
-  extraction with confidence, or a double-keyed read, before it can be a batch.
+  (`JPOXMLDOC01-appb-T000001..026.png`). The family offers no text alternative: the WO PDF has no
+  text layer at all (`pdftotext` returns 97 bytes), and the JP grant (JP7428179B2) and the CN
+  application (CN113692367A) do carry text layers for their prose but not one number with three
+  decimals in either, so their tables are images as well. OCR of the bilevel scans does not hold:
+  after deskew and table-rule removal, tesseract returns character soup on the surface table, and
+  single-cell crops do not read either. Digits that cannot be read verbatim are not put into the
+  corpus, and the engine's focal-length check only catches aggregate error, not a wrong digit in a
+  weak surface. This family needs a per-cell extraction with confidence, or a double-keyed read,
+  before it can be a batch.
 
 ## What these records are not
 
