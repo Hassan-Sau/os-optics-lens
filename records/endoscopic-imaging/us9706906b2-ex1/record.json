@@ -1,0 +1,326 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "us9706906b2-ex1",
+ "record_revision": 1,
+ "collection": {
+  "collection_id": "endoscopic-imaging",
+  "source": "Published patent prescriptions (endoscopic imaging objectives)",
+  "source_url": "https://patents.google.com/",
+  "source_revision": "US9706906B2 as published",
+  "source_input": "US9706906B2, prescription table 1 of 4 in this publication (in order of appearance; the publication's own 'Example 1' label must be confirmed in the text): the surface table transcribed in this batch's brief",
+  "source_input_sha256": "1eb3a20c0b0fdc2d02206966b14a0e1ff981bf028e060ec498abca9e028ab891",
+  "source_prescription_table_sha256": "1eb3a20c0b0fdc2d02206966b14a0e1ff981bf028e060ec498abca9e028ab891",
+  "redistribution": "public patent document; the prescription numbers are transcribed as facts, no source asset is redistributed",
+  "attribution": "US9706906B2, Olympus Corporation; the design is cited by publication number and example",
+  "source_links": {
+   "source_file_url": "https://patents.google.com/patent/US9706906B2/en",
+   "source_tree_url": "https://patents.google.com/?q=US9706906B2"
+  },
+  "original_publication": {
+   "publication": "US9706906B2",
+   "url": "https://patents.google.com/patent/US9706906B2/en"
+  }
+ },
+ "title": "Endoscope objective optical system, US9706906B2 example 1",
+ "design": {
+  "source_reference": "US9706906B2 example 1 (prescription table 1 of 4 in page order). The publication's conditional expression (1) reproduces from this table: Fob_n/Fob_p = -0.25473044 stated, -0.254728974 from the transcribed radii",
+  "lens_type": "endoscope_objective",
+  "design_family_id": "us9706906b2",
+  "design_scope": "COMPLETE_SYSTEM",
+  "aperture_validity": {
+   "state": "STOP_BLOCKING",
+   "stop_blocks_light": true,
+   "basis": "surface 14 is a plane with air on both sides, marked as the aperture stop, and its opening is smaller than the surfaces beside it; the engine builds it as a separate plate",
+   "eligible_for_stop_dependent_evaluation": true,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "eligibility only: a stop-dependent match needs evidence (a field point or pupil sample), which this batch does not assert"
+  },
+  "structure_tags": [
+   "fixed_focal_length",
+   "retrofocus"
+  ],
+  "application_tags": [
+   "endoscopy",
+   "medical_imaging"
+  ],
+  "conjugate": "FINITE_TO_FINITE",
+  "configuration_count": 1
+ },
+ "native_project": {
+  "path": "records/endoscopic-imaging/us9706906b2-ex1/project.json",
+  "sha256": "73dcb9594c69c7ff0d5b9f8d42c3e1fcab7416094e23a9939370f25bacb5c946",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "model_id": "LENS",
+  "opening_outcome": "ACCEPTED",
+  "optical_validation": "NOT_CHECKED"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   587.7220645720764
+  ],
+  "sampling_wavelengths_basis": "SOURCE_STATED air wavelength 587.56 nm (the d line). The publication's index column is headed Ne, but the index pairs it carries (1.883 / 40.7645, 1.603 / 65.4427) are d-line values, so the record is evaluated at the d line. Converted once to vacuum with the engine's own air model (6432.8 / 2949810 / 25540, material_physics.air_index_exact)",
+  "sampling_wavelengths_air_nm": [
+   587.562
+  ],
+  "wavelength_precision": "full precision as used by the Project; rounded values are for display only",
+  "primary_wavelength_nm": 587.7220645720764,
+  "sampling_span_nm": {
+   "min_nm": 587.2220645720764,
+   "max_nm": 588.2220645720764,
+   "eligible_for": "DISCOVERY_ONLY",
+   "basis": "SINGLE_WAVELENGTH_BAND",
+   "note": "the source states indices at the d line only; the +/-0.5 nm window is a numerical convenience, not a second wavelength and not a measured band"
+  },
+  "continuous_coverage_nm": {
+   "min_nm": null,
+   "max_nm": null,
+   "state": "UNCONFIRMED",
+   "note": "the source states no operating wavelength range"
+  },
+  "band_facets": [
+   "visible"
+  ]
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication states no effective focal length for this example, only an F-number range across examples"
+  },
+  "back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
+  },
+  "total_track_mm": {
+   "value": 17.721464,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "first surface vertex to the image plane along the axis, from the import report"
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
+   "wavelength_nm": 587.7220645720764,
+   "effective_focal_length_mm": 0.80622,
+   "back_focal_length_mm": 3.468861,
+   "comparison": {
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
+    "atol_mm": 1e-05,
+    "rtol": 0.0001,
+    "verdict": "NOT_APPLICABLE",
+    "why": "the source states no effective focal length or back focal length, so the rule has no source value to compare against; the engine values are recorded as ENGINE_COMPUTED facts only"
+   },
+   "basis": "ENGINE_COMPUTED"
+  }
+ },
+ "aperture": {},
+ "field": {
+  "kind": null,
+  "definition": null,
+  "basis": null,
+  "note": "the publication's parameter table states an F-number, a half angle of view and an image height per example, but this batch did not confirm which row belongs to this table, so no field value is asserted"
+ },
+ "materials": {
+  "model_glasses": [
+   {
+    "name": "G188300",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.883,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.883 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G176182",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.76182,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.76182 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G163854",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.63854,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.63854 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G184666",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.84666,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.84666 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G174950",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.7495,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.7495 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G160300",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.603,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.603 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G154072",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.54072,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.54072 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G192286",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.92286,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.92286 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   },
+   {
+    "name": "G162041",
+    "kind": "CONSTANT_INDEX",
+    "index": 1.62041,
+    "min_nm": 480,
+    "max_nm": 660,
+    "source": "SOURCE_ND_VD",
+    "basis": "the source states nd 1.62041 with an Abbe number; a constant index at the stated nd, no dispersion claimed"
+   }
+  ],
+  "named_glasses": [],
+  "policy": "Every glass is a constant index at the source's stated Nd. A patent table gives Nd and vd only, which cannot define a dispersion curve; fitting one would invent a material.",
+  "catalog_comparisons": []
+ },
+ "approximations": [
+  {
+   "code": "CONSTANT_INDEX_NO_DISPERSION",
+   "detail": "every glass is a constant index at the source's stated nd; the stated Abbe number is recorded but no dispersion curve is modelled"
+  },
+  {
+   "code": "SINGLE_WAVELENGTH",
+   "detail": "the Project is evaluated at the d line only"
+  },
+  {
+   "code": "SEMI_DIAMETER_DERIVED",
+   "detail": "the source states no clear apertures; semi-diameters were derived from the axial marginal beam (0.08 mm at the stated F-number) with clearance for the 15 mm conjugate's off-axis beam, growing 0.45 mm to 0.60 mm toward the image. They set the stop plate and the solid checks, not the first-order values"
+  },
+  {
+   "code": "OBJECT_DISTANCE_15MM",
+   "detail": "the source's object row states a distance of 15 without naming the unit or confirming it as the object distance; it is read as 15 mm, the unit the rest of the table uses"
+  },
+  {
+   "code": "STOP_PLATE_OUTER_RADIUS",
+   "detail": "the source gives no stop-plate outer radius; the plate reaches the largest clear semi-diameter beside the stop"
+  },
+  {
+   "code": "SURFACE_FIGURE_NOMINAL",
+   "detail": "nominal prescription surfaces; no figure, centring or surface-roughness error is modelled"
+  }
+ ],
+ "unsupported_constructs": [],
+ "conversion": {
+  "format": "csv-surface-table/1",
+  "intermediate_sha256": "26e4c898e7d9b5f0b0a6d7066f539f125495323acaeeb2ff333d3ddf98eff4b2",
+  "source_sha256": "26e4c898e7d9b5f0b0a6d7066f539f125495323acaeeb2ff333d3ddf98eff4b2",
+  "counts": {
+   "surfaces": 18,
+   "elements": 8,
+   "cemented_elements": 1,
+   "aperture_stops": 1,
+   "dummy_surfaces": 0,
+   "members": 9,
+   "materials": 9,
+   "materials_from_catalog": 0,
+   "materials_defined_in_file": 9,
+   "coatings": 0
+  },
+  "image_plane_z_mm": "17.721464",
+  "warnings": [
+   {
+    "code": "EDGE_THICKNESS_IMPLAUSIBLE",
+    "message": "element L1 (surfaces 1-2): the G188300 between surfaces 1 and 2 is 1.5558 mm thick at its edge, 173% of its clear diameter 0.9 mm (above 150%); check the thicknesses and semi-diameters",
+    "location": {
+     "row": 7,
+     "surface": "1",
+     "section": "surfaces"
+    }
+   },
+   {
+    "code": "EDGE_THICKNESS_IMPLAUSIBLE",
+    "message": "element L2 (surfaces 3-4): the G176182 between surfaces 3 and 4 is 1.4774 mm thick at its edge, 164% of its clear diameter 0.9 mm (above 150%); check the thicknesses and semi-diameters",
+    "location": {
+     "row": 9,
+     "surface": "3",
+     "section": "surfaces"
+    }
+   },
+   {
+    "code": "EDGE_THICKNESS_IMPLAUSIBLE",
+    "message": "element L3 (surfaces 5-6): the G163854 between surfaces 5 and 6 is 1.5566 mm thick at its edge, 173% of its clear diameter 0.9 mm (above 150%); check the thicknesses and semi-diameters",
+    "location": {
+     "row": 11,
+     "surface": "5",
+     "section": "surfaces"
+    }
+   },
+   {
+    "code": "EDGE_THICKNESS_IMPLAUSIBLE",
+    "message": "element L4 (surfaces 7-9): the G174950 between surfaces 8 and 9 is 1.4882 mm thick at its edge, 155% of its clear diameter 0.96 mm (above 150%); check the thicknesses and semi-diameters",
+    "location": {
+     "row": 14,
+     "surface": "8",
+     "section": "surfaces"
+    }
+   },
+   {
+    "code": "EDGE_THICKNESS_IMPLAUSIBLE",
+    "message": "element L5 (surfaces 10-11): the G160300 between surfaces 10 and 11 is 1.6529 mm thick at its edge, 165% of its clear diameter 1 mm (above 150%); check the thicknesses and semi-diameters",
+    "location": {
+     "row": 16,
+     "surface": "10",
+     "section": "surfaces"
+    }
+   }
+  ],
+  "wavelength_band_nm": {
+   "min_nm": "480",
+   "max_nm": "660",
+   "basis": "the intersection of the valid bands of the materials and coatings used"
+  }
+ },
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "NOT_CHECKED",
+  "field": "NOT_CHECKED",
+  "notes": [
+   "project check accepted the committed Project with os-optics 0.14.0",
+   "project solids reported no error-severity finding",
+   "paraxial is NOT_CHECKED: the publication states no effective focal length or back focal length in millimetres",
+   "the source's image surface sits 3.503161 mm after the last vertex while the engine's paraxial focus is 3.468861 mm after it; the 0.034 mm difference is left as an ENGINE_COMPUTED observation, not resolved",
+   "no field verification: this batch built no per-field configurations"
+  ]
+ },
+ "record_hash": "571c52821892205dc02b895b09ee6985ecc3bba00f7425acfff41716a84d089e",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
+}
