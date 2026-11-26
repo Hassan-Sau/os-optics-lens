@@ -61,8 +61,11 @@ The `os-optics-lens` package ships the retriever together with a prebuilt index 
 collection it indexes. Queries run locally, using only the Python standard library (Python 3.10
 or newer). Every command prints one bounded JSON document.
 
+Until the first PyPI release, build the wheel from a checkout and install it:
+
 ```
-pip install os-optics-lens
+uv build --wheel
+pip install dist/os_optics_lens-0.1.0-py3-none-any.whl
 os-optics-lens help quickstart
 ```
 

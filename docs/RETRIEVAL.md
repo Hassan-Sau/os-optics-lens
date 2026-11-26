@@ -26,8 +26,12 @@ The runtime uses only the Python standard library (Python 3.10 or newer). The wh
 retriever, a prebuilt SQLite index and the corpus it was built from (records, native Projects,
 evidence extracts, license notices and acceptance fixtures).
 
+The package is not on PyPI yet; the first PyPI release is a separate release step. Until then,
+build the wheel from a checkout (below). After that release, `pip install os-optics-lens` installs
+the same wheel.
+
 ```
-pip install os-optics-lens            # or: uv pip install os-optics-lens
+pip install dist/os_optics_lens-0.1.0-py3-none-any.whl
 os-optics-lens info                   # snapshot id, record count, index source "bundled"
 python -m os_optics_lens info         # same CLI without the console script
 ```
