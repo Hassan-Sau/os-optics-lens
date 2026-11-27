@@ -1,0 +1,289 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "patent-de1268404-ex02",
+ "record_revision": 1,
+ "title": "4-element f/2.8 lens, 180 mm, 7.00 deg half field (DE1268404 example 2)",
+ "collection": {
+  "collection_id": "patent-examples",
+  "source": "DE patent publication",
+  "source_input": "DE1268404, numerical example 2, surface table (radii, thicknesses, refractive indices and Abbe numbers)",
+  "source_input_sha256": "096b3877002d8d8db218ffc48cc9e8b87562587e5add1850dbfabc69a43398bc",
+  "attribution": "The prescription is a published numerical example of DE1268404. The native Project is a transcription of the published surface table.",
+  "contributor": "OpenSci prescription intake",
+  "original_publication": {
+   "id": "DE1268404",
+   "reference": "Numerical example 2, surface data table",
+   "url": "https://patents.google.com/patent/DE1268404/en"
+  },
+  "redistribution": "The native Project and record metadata are distributed under MIT. The patent document is cited as the direct source.",
+  "license": {
+   "spdx": "MIT",
+   "notice_path": "LICENSE",
+   "copyright": "Copyright (c) 2026 JunLin615"
+  }
+ },
+ "design": {
+  "source_reference": "DE1268404, numerical example 2, surface data table",
+  "lens_type": "camera_lens",
+  "design_family_id": "patent-de1268404",
+  "design_scope": "complete_system",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "structure_tags": [
+   "fixed_focal_length",
+   "refractive"
+  ],
+  "folded": false,
+  "conjugate": "infinite_to_finite",
+  "configuration_count": 1,
+  "powered_element_count": 4,
+  "powered_group_count": 4,
+  "unpowered_element_count": 0,
+  "element_count_basis": "Counted from the transcribed surface table: a run of surfaces that carries an index is one element, a cemented interface stays inside its element.",
+  "aspheric_element_count": 0,
+  "aperture_validity": {
+   "state": "stop_blocking",
+   "stop_blocks_light": true,
+   "basis": "The imported aperture stop is an opaque plate with a finite opening.",
+   "eligible_for_stop_dependent_evaluation": true,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "No field-dependent MTF, relative-illumination or pupil measurement is recorded for this record, so a stop-dependent match is not claimed.",
+   "consequence": "The record may be evaluated against a stop-dependent constraint, but it cannot satisfy one until pupil or field evidence is added."
+  }
+ },
+ "native_project": {
+  "path": "records/patent-examples/patent-de1268404-ex02/project.json",
+  "sha256": "b49a4289ce5289b0563419603a23361c67cea4c3a46372d68afb1642d4a613b3",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "instance_id": "LENS",
+  "model_id": "LENS",
+  "opening_outcome": "ACCEPTED"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   587.56
+  ],
+  "sampling_wavelengths_air_nm": [
+   587.56
+  ],
+  "sampling_wavelengths_basis": "The publication states no wavelength; the intake uses the helium d line at 587.56 nm, at which the printed focal length and back focus are reproduced.",
+  "incident_weights": [
+   1
+  ],
+  "primary_wavelength_nm": 587.56,
+  "band_facets": [
+   "visible"
+  ],
+  "band_nm": {
+   "min_nm": 400.0,
+   "max_nm": 700.0,
+   "basis": "MODELLING_CONVENTION: the publication states a reference wavelength but no design band, so the model glasses are fitted over 400-700 nm and no wider validity is claimed."
+  },
+  "wavelength_precision": "One reference wavelength at the printed precision; no rounding is applied.",
+  "sampling_span_nm": {
+   "min_nm": 587.06,
+   "max_nm": 588.06,
+   "basis": "SINGLE_WAVELENGTH_BAND",
+   "eligible_for": "DISCOVERY_ONLY"
+  },
+  "continuous_coverage_nm": {
+   "state": "UNCONFIRMED",
+   "min_nm": null,
+   "max_nm": null,
+   "note": "The publication states a single reference wavelength, not a specified band."
+  }
+ },
+ "conversion": {
+  "source_format": "surface-table",
+  "source_sha256": "096b3877002d8d8db218ffc48cc9e8b87562587e5add1850dbfabc69a43398bc",
+  "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8 with LF line endings.",
+  "intermediate_sha256": null,
+  "image_plane_z_mm": 174.906,
+  "counts": {
+   "surfaces": 9,
+   "elements": 4,
+   "powered_elements": 4,
+   "groups": 4,
+   "plane_parallel_plates": 0,
+   "stops": 1
+  },
+  "wavelength_band_nm": {
+   "min_nm": 400.0,
+   "max_nm": 700.0
+  },
+  "warnings": []
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 180.0514216354797,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial effective focal length of the committed Project.",
+   "conditions": {
+    "wavelength_nm": 587.56,
+    "conjugate": "infinite_to_finite"
+   }
+  },
+  "back_focal_length_mm": {
+   "value": 74.36383259018635,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
+   "conditions": {
+    "distance_kind": "paraxial_focal_distance",
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "wavelength_nm": 587.56
+   }
+  },
+  "total_track_mm": {
+   "value": 174.906,
+   "basis": "DERIVED",
+   "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "basis": "ENGINE_COMPUTED",
+   "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
+   "effective_focal_length_mm": 180.0514216354797,
+   "back_focal_length_mm": 74.36383259018635,
+   "wavelength_nm": 587.56
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 2.8,
+   "basis": "SOURCE_STATED",
+   "definition": "F-number as printed for the example",
+   "system_aperture": true
+  },
+  "stop_opening_diameter_mm": {
+   "value": 64.28571428571429,
+   "basis": "DERIVED",
+   "definition": "Diameter of the modelled stop opening, taken from the traced axial marginal ray at the printed f-number",
+   "system_aperture": false
+  }
+ },
+ "materials": {
+  "basis": "Each glass is modelled from the printed nd and Abbe number: a two-term Cauchy curve through (nd, Vd), then a three-term Sellmeier with fixed poles fitted to it over the stated band. The model index is scaled by 1.0002772, the engine's air index at the d line, so that the index ratio at a glass-air surface is the printed nd.",
+  "catalog_comparisons": [],
+  "model_glasses": [
+   {
+    "model_id": "M-1.6204-60.29",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      0.490033019772,
+      1.09390786828,
+      0.726699600981
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+   },
+   {
+    "model_id": "M-1.7552-27.53",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -2.14306795688,
+      4.10171070445,
+      2.11295873538
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+   },
+   {
+    "model_id": "M-1.7847-26.10",
+    "dispersion": {
+     "kind": "SELLMEIER",
+     "b": [
+      -2.57677196791,
+      4.62545182372,
+      2.3117346615
+     ],
+     "c_um2": [
+      0.0035,
+      0.0125,
+      90.0
+     ]
+    },
+    "valid_band_nm": {
+     "min_nm": 400.0,
+     "max_nm": 700.0
+    },
+    "basis": "ND_VD_CAUCHY_SELLMEIER fit to the printed nd and Vd"
+   }
+  ]
+ },
+ "approximations": [
+  {
+   "code": "ND_VD_DISPERSION_MODEL",
+   "description": "The publication states nd and Vd only. A two-term Cauchy curve is solved exactly from those two values and a three-term Sellmeier with fixed poles is fitted to it. The relative index at the reference wavelength is the source's nd; the dispersion curve is a model."
+  },
+  {
+   "code": "CLEAR_APERTURES_DERIVED",
+   "description": "The semi-diameters in the Project are derived, not transcribed: each is the larger of the traced axial marginal and field-edge chief-ray heights at the printed f-number and half field with a 2 % margin, reduced where the element geometry does not admit it. No clear-aperture value is taken from the publication."
+  },
+  {
+   "code": "ABSOLUTE_INDEX_CONVENTION",
+   "description": "The engine treats a model glass as an absolute refractive index and a gap as air at 20 C and 101325 Pa (n = 1.0002772 at the d line), so the ratio it uses at a glass-air surface is nd / 1.0002772. The model glasses are fitted to nd * 1.0002772 to make that ratio the printed nd."
+  },
+  {
+   "code": "STOP_FROM_DERIVED_APERTURE",
+   "description": "The publication states the f-number but not the stop diameter. The modelled stop opening is solved so that the paraxial marginal ray reproduces the printed f-number."
+  }
+ ],
+ "unsupported_constructs": [],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "engine_version": "0.14.0",
+  "solids_findings": [],
+  "evidence_notes": [
+   "Engine paraxial EFL 180.051422 mm against the source's printed 180 mm.",
+   "Engine paraxial back focal length 74.363833 mm against the source's printed 74.268 mm.",
+   "The engine values and the printed values disagree beyond the intake tolerance."
+  ],
+  "paraxial": "DIFFERS"
+ },
+ "field": {
+  "kind": "angular",
+  "half_field_deg": 7.0,
+  "full_field_deg": 14.0,
+  "basis": "SOURCE_STATED",
+  "definition": "Half angle of view as printed for the example"
+ },
+ "image_format": {
+  "format_facets": [
+   "full_frame"
+  ],
+  "width_mm": 36.0,
+  "height_mm": 24.0,
+  "basis": "SOURCE_STATED: the stated image height is the 36 x 24 mm frame diagonal."
+ },
+ "record_hash": "3a4d3cfa0f8769e1f32e2a539697a4426f05b4610825b71aa708c271a60b6429",
+ "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
+}
