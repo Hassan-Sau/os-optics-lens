@@ -63,6 +63,14 @@ The series contains 102 native Projects including the patent example. Each zoom 
 one position. [Nikon FX intake](docs/NIKON_FX_INTAKE.md) records the sources, conversion decisions,
 acceptance checks and limits.
 
+## Canon full-frame photography lenses
+
+The Canon collection includes 18 native Projects from published patent numerical examples for
+full-frame photography, including wide-angle, telephoto and individual zoom positions. Each
+record identifies the publication, example and modeled configuration. The
+[collection notes](docs/CANON_FULL_FRAME_INTAKE.md) describe the material and aperture models
+and the conditions for the retained chief-ray traces.
+
 ### Spectral band boundaries
 
 `band_facets` in a record uses these boundaries, in vacuum nanometres:
@@ -129,9 +137,43 @@ The first package ships the search interface and the searchable collection toget
 collection is the first batch of that collection, and new series are added as further batches.
 [LensLibrary](https://github.com/nzhagen/LensLibrary)
 
+## The phone-module collection
+
+`records/phone-modules/` holds the first expansion batch: seven-element main-camera and
+five-element ultrawide modules transcribed from two granted US patent publications. Each record
+names its table and embodiment, carries the search facts with their basis, and holds a compact
+evidence extract beside the Project.
+
+| | |
+|---|---|
+| Source examples | 22, across US9366845B2 and US10247911B2 |
+| Accepted records | 11 (6 main camera, 5 ultrawide) |
+| Deferred, with a reason | 11 |
+
+[Phone main-camera and ultrawide modules](docs/PHONE_MODULE_INTAKE.md) records the transcription
+rules, the material and aperture models, the field evidence, the verification run and the limits.
+
 Use [ARCHITECTURE.md](ARCHITECTURE.md) for the design, [AGENTS.md](AGENTS.md) for repository rules,
 and [CONTRIBUTING.md](CONTRIBUTING.md) for proposals, single-record contributions and batch intake.
 The project uses the [MIT License](LICENSE).
+
+## The phone-telephoto collection
+
+`records/phone-telephoto/` holds the telephoto batch: five-element straight telephoto modules
+transcribed from two granted US patent publications, in a short group (5.7–7.0 mm focal length) and
+a long group (8.6–10.1 mm). Each record names its table and embodiment, marks itself
+`module_role: telephoto` and `folded: false`, and holds a compact evidence extract beside the
+Project.
+
+| | |
+|---|---|
+| Source examples | 22, across US20220299735A1 and US11372203B2 |
+| Accepted records | 7 straight telephoto modules |
+| Deferred, with a reason | 15 (13 near-duplicate variants, 2 with two aperture stops) |
+
+[Phone telephoto modules](docs/PHONE_TELEPHOTO_INTAKE.md) records the transcription rules, the stop
+and tolerance decisions, the field evidence, the verification run and the limits. Folded periscope
+designs are out of scope for the surface-table format.
 
 ## Data sources and acknowledgments
 
