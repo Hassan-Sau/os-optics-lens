@@ -1,0 +1,262 @@
+{
+  "vocabulary_version": "1",
+  "term_normalization": "Terms and aliases are matched case-insensitively after replacing spaces and hyphens with underscores.",
+  "facets": {
+    "collection": {
+      "level": "record",
+      "controlled": false,
+      "description": "Collection the record belongs to (collection.collection_id)."
+    },
+    "family": {
+      "level": "record",
+      "controlled": false,
+      "description": "Design family grouping meaningful variants of one design (design.design_family_id)."
+    },
+    "design_scope": {
+      "level": "record",
+      "controlled": true,
+      "description": "Whether the prescription is a complete system, a lens group or a singlet (design.design_scope)."
+    },
+    "design_type": {
+      "level": "record",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "Kind of prescription, mapped from the source lens type (design.lens_type) by this vocabulary."
+    },
+    "source_lens_type": {
+      "level": "record",
+      "controlled": false,
+      "description": "The source's own lens type label, verbatim (design.lens_type)."
+    },
+    "function": {
+      "level": "record",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "What the prescription does to light (design.function_tags; imaging is mapped from an imaging design type when no tags are given)."
+    },
+    "application": {
+      "level": "record",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "Documented use of the design (design.application_tags plus mappings from the source lens type)."
+    },
+    "structure": {
+      "level": "record",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "Supported optical layout or property (design.structure_tags)."
+    },
+    "band": {
+      "level": "configuration",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "Spectral band label derived from the sampling wavelengths (spectrum.band_facets). Discovery only: it never confirms spectral coverage."
+    },
+    "image_format": {
+      "level": "configuration",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "Nominal image format label (image_format.format_facets). Use image_format dimensions and the image circle for coverage checks."
+    },
+    "conjugate": {
+      "level": "configuration",
+      "controlled": true,
+      "description": "Object and image conjugates of the configuration (design.conjugate)."
+    },
+    "field_kind": {
+      "level": "configuration",
+      "controlled": true,
+      "description": "How the design file states its field: angular, object height or image height (field.kind)."
+    },
+    "system_aperture": {
+      "level": "configuration",
+      "controlled": false,
+      "description": "Name of the aperture fact the design file declares as its system aperture (aperture.<name>.system_aperture true)."
+    },
+    "module_role": {
+      "level": "record",
+      "controlled": true,
+      "warn_unknown": true,
+      "description": "Where a phone module sits in its device (design.module_role); not a statement about what the prescription is."
+    },
+    "stop_state": {
+      "level": "record",
+      "controlled": true,
+      "description": "Whether the Project's stop blocks light (design.aperture_validity.state)."
+    },
+    "evidence": {
+      "level": "configuration",
+      "controlled": false,
+      "description": "Condition-specific evidence present in the configuration: each performance metric and each analysis study (<study>_study)."
+
+    }
+  },
+  "terms": {
+    "design_scope": ["complete_system", "lens_group", "singlet"],
+    "design_type": [
+      "beam_expander",
+      "camera_lens",
+      "collector",
+      "collimator",
+      "condenser",
+      "endoscope_objective",
+      "eyepiece",
+      "microscope_objective",
+      "projection_lens",
+      "relay_lens",
+      "spectrometer",
+      "telescope",
+      "tube_lens"
+    ],
+    "function": [
+      "beam_scanning",
+      "beam_shaping",
+      "collimation",
+      "illumination",
+      "imaging",
+      "optical_coupling",
+      "spectral_dispersion"
+    ],
+    "application": [
+      "astronomy",
+      "endoscopy",
+      "machine_vision",
+      "medical_imaging",
+      "microscopy",
+      "mobile_imaging",
+      "photography",
+      "projection_display",
+      "spectroscopy",
+      "wide_field"
+    ],
+    "structure": [
+      "aspheric",
+      "catadioptric",
+      "cemented_group",
+      "cooke_triplet",
+      "double_gauss",
+      "fixed_focal_length",
+      "folded",
+      "image_space_telecentric",
+      "object_space_telecentric",
+      "reflective",
+      "refractive",
+      "tessar",
+      "zoom"
+    ],
+    "band": [
+      "extreme_ultraviolet",
+      "long_wave_infrared",
+      "mid_wave_infrared",
+      "near_infrared",
+      "ultraviolet",
+      "visible"
+    ],
+    "image_format": ["aps_c", "full_frame"],
+    "module_role": ["front_camera", "main_camera", "telephoto", "ultrawide"],
+    "conjugate": ["finite_to_finite", "finite_to_infinite", "infinite_to_finite", "infinite_to_infinite"],
+    "field_kind": ["angular", "image_height", "object_height"],
+    "stop_state": ["no_stop", "stop_blocking", "stop_not_blocking"]
+  },
+  "aliases": {
+    "application": {
+      "cell_phone": "mobile_imaging",
+      "mobile": "mobile_imaging",
+      "phone": "mobile_imaging",
+      "smartphone": "mobile_imaging"
+    },
+    "design_type": {
+      "camera": "camera_lens",
+      "photographic_lens": "camera_lens"
+    },
+    "image_format": {
+      "35mm_full_frame": "full_frame",
+      "apsc": "aps_c",
+      "ff": "full_frame"
+    },
+    "band": {
+      "lwir": "long_wave_infrared",
+      "mwir": "mid_wave_infrared",
+      "nir": "near_infrared",
+      "uv": "ultraviolet",
+      "vis": "visible"
+    },
+    "conjugate": {
+      "infinity": "infinite_to_finite"
+    },
+    "module_role": {
+      "front": "front_camera",
+      "main": "main_camera",
+      "tele": "telephoto",
+      "ultra_wide": "ultrawide"
+    }
+  },
+  "ambiguous": {
+    "design_type": {
+      "objective": ["endoscope_objective", "microscope_objective"]
+    }
+  },
+  "lens_type_mapping": {
+    "camera": {"design_type": "camera_lens"},
+    "camera_cooke": {"design_type": "camera_lens"},
+    "camera_lens": {"design_type": "camera_lens"},
+    "camera_tessar": {"design_type": "camera_lens"},
+    "cell_phone": {"design_type": "camera_lens", "application": ["mobile_imaging"]},
+    "endoscope_objective": {"design_type": "endoscope_objective", "application": ["endoscopy"]},
+    "microscope_objective": {"design_type": "microscope_objective"},
+    "stereo_microscope_obj": {"design_type": "microscope_objective", "application": ["microscopy"]},
+    "wide_view": {"design_type": "camera_lens"}
+  },
+  "design_type_functions": {
+    "camera_lens": ["imaging"],
+    "endoscope_objective": ["imaging"],
+    "microscope_objective": ["imaging"]
+  },
+  "stop_dependent": {
+    "description": "Facts whose value depends on a light-blocking stop. Every member of these sections is stop-dependent unless listed in stop_independent.",
+    "sections": ["aperture"],
+    "facts": ["performance.mtf", "performance.mtf_field_minimum", "performance.relative_illumination"]
+  },
+  "stop_independent": ["aperture.property_list_comparison", "aperture.stop_opening_diameter_mm"],
+  "fact_extraction": {
+    "fact_sections": ["aperture", "cost_proxy", "design", "field", "first_order", "image_format"],
+    "special_sections": ["analysis_evidence", "performance", "spectrum"],
+    "non_fact_sections": [
+      "approximations",
+      "collection",
+      "configuration",
+      "configurations",
+      "conversion",
+      "materials",
+      "native_project",
+      "record_hash",
+      "record_hash_method",
+      "record_id",
+      "record_revision",
+      "record_schema_version",
+      "schema",
+      "title",
+      "unsupported_constructs",
+      "validation"
+    ],
+    "check_members": ["catalog_comparison", "catalog_comparisons", "engine_check", "prescription_dump_check", "property_list_comparison"],
+    "skip_members": [
+      "application_tags",
+      "band_facets",
+      "basis",
+      "condition",
+      "conditions",
+      "consequence",
+      "definition",
+      "format_facets",
+      "function_tags",
+      "note",
+      "notes",
+      "source",
+      "source_locator",
+      "structure_tags",
+      "wavelength_precision"
+    ],
+    "skip_suffixes": ["_basis"]
+  }
+}
