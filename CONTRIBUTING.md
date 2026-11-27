@@ -14,19 +14,20 @@ Include the Project path, the `os-optics` version used to check it and the hashe
 
 **Lens takes search metrics from the committed Project and calculations on it.** Submit the Project without transcribing optical numbers into metadata. Leave unsupported metrics absent. If you include an optional Project analysis, give its configuration, units and calculation conditions. Comparisons with printed or upstream numbers are optional transcription evidence for the contribution discussion. A source match is not an admission requirement. Keep source files and source-specific conversion scripts outside this repository.
 
-Run the native Project check from the repository root, substituting your record path.
+Run the same intake check as CI from the repository root. Stage or commit new files before comparing against a base branch.
 
 ```console
-os-optics project check records/example-lab/example-lab-doublet/project.json
+python -m pip install os-optics==0.14.0
+python scripts/check_intake.py --base origin/main --output intake-report.json
 ```
 
-Use the engine version stated for the Project. Look for `ACCEPTED` and a `VALID` optical-solids result where applicable. For a Project with configurations, check that each submitted configuration passes in the report.
+The check validates the collection's record, Project and evidence references, then opens each affected Project and checks all its native configurations. For supported single-lens configurations, the report contains EFL and BFL recomputed at the native vacuum wavelengths. For those configurations, the check verifies indexable `ENGINE_COMPUTED` EFL and BFL against its results. Leave unsupported metrics absent. Run without `--base` to check all Projects.
 
 ## Open a pull request
 
-A single record or correction can come directly in a focused pull request. Describe the intended change and list the checks you ran. For a new collection, bulk import, or change to the record format or retrieval interface, first check the issue tracker and use the relevant issue to coordinate the scope.
+A single record or correction can come directly in a focused pull request. Describe the intended change. For a new collection, bulk import, or change to the record format or retrieval interface, first check the issue tracker and use the relevant issue to coordinate the scope.
 
-The contribution workflow is designed for CI to decide routine data-only submissions, with maintainer review for changes to the retrieval code, record contract or validation rules. While repository CI is being set up, report the native check result in the data PR for the maintainer. A draft data PR can show a representative Project when a format or validation change is under discussion.
+The **Lens intake** check reports the result for routine data submissions and attaches a `lens-intake-report` JSON artifact. Maintainers review changes to the retrieval code, record contract or validation rules. A draft data PR can show a representative Project when a format or validation change is under discussion.
 
 ## Prepare a collection or batch
 
