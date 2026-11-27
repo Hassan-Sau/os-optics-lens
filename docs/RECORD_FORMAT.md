@@ -58,7 +58,7 @@ Use the contributor's account of the input used to make the Project. A library c
 that library, the input identifier, its revision or edition when available, and applicable
 attribution and redistribution terms. For a direct patent transcription, identify the publication
 and example. For an original submission, name the contributor and the terms of the contribution.
-These details are available on explicit request. The source's own references can stay upstream.
+Use `os-optics-lens inspect ID --provenance` to read these details. The source's own references can stay upstream.
 
 Existing fields such as `collection.source_revision`, `collection.source_input_sha256`,
 `collection.source_links`, `collection.original_publication` and `design.source_reference` can be
@@ -76,7 +76,9 @@ common bases.
 
 | Basis | Meaning |
 |---|---|
-| `DERIVED` | Computed from other values. The derivation must use the committed Project or results for it for the output to be a search fact. |
+| `PROJECT_DECLARED` | Declared in the native Project. |
+| `PROJECT_DERIVED` | Computed from the committed Project or results for it. |
+| `DERIVED` | Legacy label for a derived value. Eligibility depends on its documented Project basis. |
 | `ENGINE_COMPUTED` | Produced by `os-optics` for the committed Project. |
 | `SOURCE_STATED` | Written in the direct source and retained as provenance or transcription evidence. A source label may inform a discovery facet. |
 
@@ -96,15 +98,11 @@ interpret it. Source targets and side-by-side numerical comparisons belong to co
 - `wavelength_precision` — states that these are computational values at full precision, so a
   reviewer may pass them to the engine unchanged; rounding in this document or in prose is for
   display only.
-- `sampling_span_nm` — the numeric span of the sampling wavelengths, **eligible for discovery only**.
-  It is not a coverage claim and not an operating range. Two `basis` values occur:
-  - `SPAN_OF_STATED_SAMPLING_WAVELENGTHS` — the min and max of several enabled wavelengths. The span
-    is a summary of the samples; the samples themselves are `sampling_wavelengths_nm`.
-  - `SINGLE_WAVELENGTH_BAND` — **ten records** enable exactly one wavelength. A zero-width interval
-    cannot be filtered or evaluated, so the span is a **±0.5 nm window around that one sample**
-    (1 nm wide). It is a numerical convenience, not a second wavelength: `sampling_wavelengths_nm`
-    still holds exactly one value, and the window must never be read as two observed samples or as
-    a measured band. Only `sampling_wavelengths_nm` is observed.
+- `sampling_span_nm` gives the minimum and maximum of the sampled wavelengths for discovery.
+  The bounds coincide for a Project with one sample. The legacy seed records retain
+  `SPAN_OF_STATED_SAMPLING_WAVELENGTHS` and `SINGLE_WAVELENGTH_BAND` labels. The latter used a
+  synthetic ±0.5 nm window for a single sample. The native sampling wavelengths determine the
+  retrieval span where the Project supplies them.
 - `continuous_coverage_nm` — **the only interval that can satisfy a hard band constraint.** Its
   `state` is `UNCONFIRMED` with null bounds until there is evidence for the range on the Project.
   A hard coverage constraint remains unconfirmed when the record supplies only discrete samples or
@@ -189,11 +187,10 @@ documented here for the contract's sake and does not occur in the data. The prop
 `property_list_comparison` only. A record with no stated aperture leaves every system-aperture field
 out rather than inferring one.
 
-### Dump-derived f-number facts
+### Historical dump f-number entries
 
-The dump prints several f-number conventions side by side. Each is kept as its own fact with
-`system_aperture: false` and a `source_locator` naming where it came from, and is **never** merged
-into the system-aperture value:
+The dump prints several f-number conventions side by side. The seed records preserve them for
+review with `system_aperture: false` and a `source_locator` naming the original entry.
 
 | Field | Meaning |
 |---|---|
@@ -250,6 +247,97 @@ Two checks sit beside the value and are **not** values:
 
 A missing value is left out. An unknown field leaves the field constraint unconfirmed.
 
+## Provenance checks
+
+These legacy members hold source comparisons for contribution review. A constraint naming one
+reports `UNCONFIRMED` with `COMPARISON_ONLY`. A target, preference, range or field naming one
+reports `UNKNOWN_FIELD`. Whole-section requests use the projected Project facts.
+
+| member | compares |
+|---|---|
+| `first_order.engine_check` | engine paraxial values against the source's |
+| `aperture.property_list_comparison`, `field.property_list_comparison` | the collection's property list |
+| `field.prescription_dump_check` | the upstream dump's field table against the design file's |
+| `materials.catalog_comparisons`, `materials.named_glasses[].catalog_comparison` | published catalog glasses of the same name (all glasses, or one) |
+
+A new check member must be added to `fact_extraction.check_members` in
+`src/os_optics_lens/vocabulary.json` and to the evaluator.
+
+## Sampling grids
+
+`sampled_field_fractions` on a performance entry (or another fact object) lists the ordered
+sample positions behind a sampled value such as an interval MTF minimum. It is a comparison
+condition of that value: queries pin it with `required_sampled_field_fractions`, and `compare`
+treats different grids as not comparable.
+
+## Evidence extracts
+
+An evidence extract is a committed JSON file that holds the sourced data a record's facts rest on.
+Every extract follows one contract:
+
+- the top level is a JSON object;
+- `schema` is `"opensci.lens.evidence_extract"`;
+- `record_id` (a string) names the record the extract belongs to;
+- `sections` is a non-empty object, and no member of it is `null`. A section is the unit a
+  reference addresses; its value is any other JSON value;
+- every other top-level member is metadata (for example `source`, `license`, `scope`,
+  `upstream_archive`, `schema_version`). It travels with the file but is **not addressable**: no
+  reference and no `inspect --evidence` name reaches it.
+
+References:
+
+- a fact's `source` is `{path, sha256, section}` and names one member of `sections`;
+- `collection.evidence_extract` is `{path, sha256}` and names the record's extract as a whole, so
+  `inspect --evidence` can address each of its sections;
+- `path` is corpus-relative with `/` separators, and `sha256` is the SHA-256 of the file's
+  LF-normalized bytes.
+
+Strict intake enforces the object root, the `schema` string and the `sections` object of every
+referenced file. For the file named by `collection.evidence_extract` it also requires the
+top-level `record_id` to be a string equal to that record's `record_id`: the hash proves which
+bytes the record pins, and only `record_id` says they are this record's extract, so a copied or
+mistyped path is caught. A fact `source` may name a section of another record's file; its
+`record_id` is not compared. Each violation is `EVIDENCE_MALFORMED`, naming the file and the
+field, and a warning under `--allow-unresolved-evidence`. The reference then stays unresolved,
+and a rejected `collection.evidence_extract` makes no section addressable through it, even when
+another reference put the same file in the index. The index stores only files that pass the
+checks of the reference that reached them, and re-hashes their bytes on every read.
+
+## Member types
+
+The builder indexes, hashes or iterates the members below, so each must have its stated type when
+present (`null` counts as absent unless noted). A violation is an error finding naming the file and
+the field (`INVALID_FIELD` unless noted), never a crash.
+
+| member | type |
+|---|---|
+| `aperture`, `cost_proxy`, `field`, `first_order`, `image_format`, `spectrum`, `validation`, `analysis_evidence` | object |
+| each `analysis_evidence.<study>`, its `status` | object, string |
+| every section, fact object and performance entry: `basis`, `definition`, `condition`, `eligible_for`, `state` | string |
+| the same: `conditions` | object or string |
+| the same: `system_aperture` | boolean |
+| the same: `sampled_field_fractions` | non-empty list of finite numbers |
+| a member named `source` at any depth of the fact data (every top-level member except `collection`, `materials` and the other non-fact members of `fact_extraction.non_fact_sections`; also in `configurations[]` entries and inside lists, e.g. `analysis_evidence.ghost.methods[0].source`) | evidence reference object (`EVIDENCE_MALFORMED`, downgradable). The `source` members of `collection` and `materials` are prose |
+| a section's `<member>_basis` | string |
+| `design.lens_type`, `design.design_scope`, `design.conjugate` | string |
+| `design.module_role` | non-empty string; `null` is invalid (see below) |
+| `design.aperture_validity` | object |
+| `collection.license`, its `copyright` and `spdx` | object, string |
+| `collection.evidence_extract` | object; `null` is invalid (`EVIDENCE_MALFORMED`, downgradable) |
+| `native_project.engine_version`, `validation.paraxial`, `validation.field`, `validation.project_check` | string |
+| a Project's `configurations[].label` and `.name` | string (`PROJECT_CONFIGURATION_INVALID`) |
+| a batch manifest's `collection`, `collection.collection_id` | object, non-empty string (both required) |
+
+A record, Project, batch manifest or evidence file whose top level is not an object (the literal
+`null` included) is an error finding too; a discovered file is never skipped silently.
+
+### `design.module_role`
+
+Optional. For a phone module, where it sits in a device: `main_camera`, `ultrawide`, `telephoto`
+or `front_camera` (aliases `main`, `ultra_wide`, `tele`, `front`). It is a record-level facet, not
+a statement about what the prescription is. Another string is indexed verbatim with an
+`UNKNOWN_TERM` warning.
+
 ## Materials
 
 `materials.model_glasses` holds every glass defined from the source's own per-surface index table
@@ -293,7 +381,8 @@ support for each searchable Project fact. A source comparison is useful for spot
 errors. Resolve any issue it reveals with the Project or its advertised facts during intake.
 
 Keep detailed checks and source discrepancies with the contribution. Routine retrieval reports
-confidence in the requested Project facts through their conditions and match states.
+confidence in the requested Project facts through their conditions and match states. The legacy
+`validation` verdicts are contribution metadata.
 
 ## Batch manifest
 
@@ -307,3 +396,83 @@ confidence in the requested Project facts through their conditions and match sta
 
 `counts` and `accepted_record_ids` are generated from the rows, so the manifest cannot drift from
 the records.
+
+## Record schema version 1.1: configurations
+
+`record_schema_version` `"1.1"` adds one optional top-level member, `configurations`. It is
+additive: every other field keeps the meaning stated above.
+
+A record uses it when its native Project declares several `os-optics` configurations (for
+example the wide and tele positions of a zoom). Each one is a separate candidate that a query can
+match:
+
+```json
+"configurations": [
+  {"configuration_id": "Wide", "label": "wide end",
+   "first_order": {...}, "aperture": {...}, "field": {...}, "performance": [...]},
+  {"configuration_id": "Tele", "label": "tele end",
+   "first_order": {...}, "aperture": {...}, "field": {...}, "performance": [...]}
+]
+```
+
+### Allowed keys
+
+An entry may contain exactly these keys:
+
+- `configuration_id` (required);
+- `label` (optional);
+- the section overrides `conjugate`, `first_order`, `aperture`, `field`, `image_format`,
+  `spectrum`, `performance`, `analysis_evidence` and `cost_proxy`.
+
+Any other key is `INVALID_FIELD`.
+
+### Identifiers
+
+- `configuration_id` must match exactly an id that the native Project declares in
+  `configurations[].configuration_id`.
+- A Project id must start with a letter, may contain only letters, digits, `_` and `-`, and may be
+  at most 64 characters long. Ids must be unique case-insensitively and must not be a reserved
+  device name.
+- Two entries may not share an id (compared case-insensitively).
+
+### Configuration view
+
+Each entry defines a configuration view. Its section **replaces** the top-level section of the
+same name. An entry's `conjugate` replaces `design.conjugate`. The index projects each view onto
+eligible Project facts and attaches `configuration = {configuration_id, label, native: true}`.
+
+Every constraint of a query is evaluated against one view. A record never matches because
+different configurations satisfy different constraints.
+
+### Sections that cannot be inherited
+
+`first_order`, `aperture`, `field`, `performance` and `design.conjugate` depend on the
+configuration. With `configurations`, each of them must either be absent at the top level or be
+overridden by every entry. Otherwise one configuration would silently inherit another's values,
+which is `INVALID_FIELD`. Sections that do not vary, such as `spectrum` or `image_format`, may stay
+at the top level and are shared.
+
+### Count and hash
+
+- `design.configuration_count`, when present, must equal the number of entries.
+- `record_hash` covers `configurations` like any other member.
+
+### Compatibility
+
+Every existing `1.0` record is valid unchanged. A record without `configurations` (every `1.0`
+record, and a `1.1` record that omits the member) is indexed as exactly one configuration:
+
+- If its native Project declares no configurations, the configuration is the Project as written:
+  `configuration_id` is `null`, `native` is false and the label is `"project as written"`.
+- If the Project declares exactly one configuration, the single indexed configuration takes that
+  native id and label.
+- If the Project declares two or more configurations, the record must map them in
+  `configurations` (`CONFIGURATION_UNMAPPED`).
+
+A `1.0` record must not carry `configurations`.
+
+### How the index reads records
+
+[INDEX_SCHEMA.md](INDEX_SCHEMA.md) gives the index tables and every build finding.
+[RETRIEVAL.md](RETRIEVAL.md) describes how the index reads records: discovery, configuration views,
+facets, typed facts, evidence resolution and the query semantics.
