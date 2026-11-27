@@ -41,24 +41,11 @@ method, the material and surface decisions, the verification run and the known l
 
 ## Canon full-frame photography lenses
 
-`records/canon-full-frame/` extends the library from Zemax exchange files to prescriptions
-transcribed from published patent numerical examples: Canon full-frame photography lenses, from a
-24.74 mm f/1.24 ultra-wide prime to an 814.8 mm f/5.88 super-telephoto, with zoom ends and aspheric
-designs among them. Each record cites its publication, the example it transcribes and the
-configuration, and carries the transcribed prescription as evidence beside the native Project.
-
-| | |
-|---|---|
-| Candidate inventory | 227 full-frame examples in 37 publications, screened from 629 examples in 54 publications |
-| Inputs considered | 31 published numerical examples |
-| Accepted records | 18 |
-| Deferred, with a reason | 5 |
-| Conversion failed | 8 |
-
-[Intake of the Canon full-frame collection](docs/CANON_FULL_FRAME_INTAKE.md) records the inventory,
-the selection, the glass and aperture models, the field evidence, the verification run and the open
-work — including the three wide-angle examples whose printed half field does not reproduce their
-printed image height, and the reflective and odd-order-asphere systems this format cannot represent.
+The Canon collection includes 18 native Projects from published patent numerical examples for
+full-frame photography, including wide-angle, telephoto and individual zoom positions. Each
+record identifies the publication, example and modeled configuration. The
+[collection notes](docs/CANON_FULL_FRAME_INTAKE.md) describe the material and aperture models
+and the conditions for the retained chief-ray traces.
 
 ### Spectral band boundaries
 

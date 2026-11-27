@@ -17,15 +17,11 @@
       "assignee": "Canon Kabushiki Kaisha",
       "url": "https://patents.google.com/patent/US20250231376A1/en"
     },
-    "redistribution": "The numerical prescription is published in a US patent, a public record. The transcription, the native Project and this evidence extract are distributed under MIT. The patent document itself is not redistributed.",
+    "redistribution": "The native Project and record metadata are distributed under MIT. The patent document is cited as the direct source.",
     "license": {
       "spdx": "MIT",
       "notice_path": "LICENSE",
       "copyright": "Copyright (c) 2026 JunLin615"
-    },
-    "evidence_extract": {
-      "path": "records/canon-full-frame/patent-us20250231376a1-ex04/evidence.json",
-      "sha256": "a30498916149acb920b0ec32ebe87a767e7bae0349d38a6f3c93961240af4d84"
     }
   },
   "design": {
@@ -70,8 +66,7 @@
     "catalog_version": null,
     "instance_id": "LENS",
     "model_id": "LENS",
-    "opening_outcome": "ACCEPTED",
-    "optical_validation": "PARAXIAL_MATCH"
+    "opening_outcome": "ACCEPTED"
   },
   "spectrum": {
     "sampling_wavelengths_nm": [
@@ -80,7 +75,7 @@
     "sampling_wavelengths_air_nm": [
       587.56
     ],
-    "sampling_wavelengths_basis": "The publication prints the d-line as its reference wavelength. That value is an air wavelength at 20 C and 101325 Pa; the record keeps it as printed and uses the same value in the Project.",
+    "sampling_wavelengths_basis": "The Project stores the printed air-line numerical values as its vacuum wavelengths. Engine results use the Project values unchanged.",
     "incident_weights": [
       1
     ],
@@ -113,8 +108,7 @@
     ],
     "width_mm": 36.0,
     "height_mm": 24.0,
-    "image_circle_diameter_mm": 42.5378,
-    "basis": "DERIVED from the traced chief-ray image height at the stated half field; the publication prints an image height of 21.64 mm, which is the full-frame half diagonal."
+    "basis": "SOURCE_STATED: the 36 × 24 mm dimensions describe the intended patent-example format."
   },
   "conversion": {
     "source_format": "tsv",
@@ -138,17 +132,24 @@
   },
   "first_order": {
     "effective_focal_length_mm": {
-      "value": 24.74,
-      "basis": "SOURCE_STATED",
-      "definition": "Effective focal length as printed for the example",
-      "conditions": "Reference wavelength (d-line); object at infinity.",
-      "engine_value_mm": 24.736412718816297
+      "value": 24.736412718816297,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Signed paraxial effective focal length of the committed Project.",
+      "conditions": {
+        "wavelength_nm": 587.56,
+        "conjugate": "INFINITE_TO_FINITE"
+      }
     },
     "back_focal_length_mm": {
       "value": 13.44364203196501,
       "basis": "ENGINE_COMPUTED",
-      "definition": "Paraxial distance from the exit vertex to the rear focal point",
-      "conditions": "Reference wavelength 587.56 nm."
+      "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
+      "conditions": {
+        "distance_kind": "paraxial_focal_distance",
+        "from": "final_optical_surface_vertex",
+        "to": "paraxial_rear_focal_point",
+        "wavelength_nm": 587.56
+      }
     },
     "total_track_mm": {
       "value": 143.99,
@@ -161,32 +162,7 @@
       "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
       "effective_focal_length_mm": 24.736412718816297,
       "back_focal_length_mm": 13.44364203196501,
-      "wavelength_nm": 587.56,
-      "comparison": {
-        "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed focal length precision; rtol covers the prescription printed to three decimals and the model dispersion fitted to nd/Vd.",
-        "atol_mm": 0.02,
-        "rtol": 0.005,
-        "effective_focal_length": {
-          "source_mm": 24.74,
-          "engine_mm": 24.736412718816297,
-          "absolute_difference_mm": 0.0035872811837016627,
-          "scale_mm": 24.74,
-          "scale_basis": "|EFL|",
-          "tolerance_mm": 0.1437,
-          "within_tolerance": true,
-          "fraction_of_tolerance": 0.024963682558814634
-        },
-        "back_focal_length": {
-          "source_mm": 13.45,
-          "engine_mm": 13.44364203196501,
-          "absolute_difference_mm": 0.006357968034988559,
-          "scale_mm": 24.74,
-          "scale_basis": "max(|BFL|, |EFL|)",
-          "tolerance_mm": 0.1437,
-          "within_tolerance": true,
-          "fraction_of_tolerance": 0.044244732324207094
-        }
-      }
+      "wavelength_nm": 587.56
     }
   },
   "aperture": {
@@ -211,54 +187,57 @@
     "definition": "Half angle of view as printed for the example",
     "field_points_deg": null,
     "field_points_basis": "The publication prints one half field; it lists no field points.",
-    "traced_chief_rays": [
-      {
-        "field_fraction": 1.0,
-        "field_deg": 41.17,
-        "image_height_mm": 21.268903,
-        "cra_deg": 18.453
+    "traced_chief_rays": {
+      "basis": "PROJECT_DERIVED",
+      "definition": "Real meridional chief-ray heights and angles at the committed Project image plane, sampled up to the half field stated by the publication.",
+      "conditions": {
+        "wavelength_nm": 587.56,
+        "conjugate": "INFINITE_TO_FINITE"
       },
-      {
-        "field_fraction": 0.95,
-        "field_deg": 39.1115,
-        "image_height_mm": 19.754331,
-        "cra_deg": 16.799
-      },
-      {
-        "field_fraction": 0.9,
-        "field_deg": 37.053,
-        "image_height_mm": 18.348216,
-        "cra_deg": 15.406
-      },
-      {
-        "field_fraction": 0.85,
-        "field_deg": 34.9945,
-        "image_height_mm": 17.026015,
-        "cra_deg": 14.192
-      },
-      {
-        "field_fraction": 0.7,
-        "field_deg": 28.819,
-        "image_height_mm": 13.428386,
-        "cra_deg": 11.192
-      },
-      {
-        "field_fraction": 0.5,
-        "field_deg": 20.585,
-        "image_height_mm": 9.214159,
-        "cra_deg": 7.859
-      },
-      {
-        "field_fraction": 0.3,
-        "field_deg": 12.351,
-        "image_height_mm": 5.397905,
-        "cra_deg": 4.711
-      }
-    ],
-    "verification": {
-      "state": "TRACED",
-      "basis": "Real meridional chief rays through the committed prescription at the reference wavelength. The traced image height is compared with the printed image height in evidence.json.",
-      "wavelength_nm": 587.56
+      "samples": [
+        {
+          "field_fraction": 1.0,
+          "field_deg": 41.17,
+          "image_height_mm": 21.268903,
+          "cra_deg": 18.453
+        },
+        {
+          "field_fraction": 0.95,
+          "field_deg": 39.1115,
+          "image_height_mm": 19.754331,
+          "cra_deg": 16.799
+        },
+        {
+          "field_fraction": 0.9,
+          "field_deg": 37.053,
+          "image_height_mm": 18.348216,
+          "cra_deg": 15.406
+        },
+        {
+          "field_fraction": 0.85,
+          "field_deg": 34.9945,
+          "image_height_mm": 17.026015,
+          "cra_deg": 14.192
+        },
+        {
+          "field_fraction": 0.7,
+          "field_deg": 28.819,
+          "image_height_mm": 13.428386,
+          "cra_deg": 11.192
+        },
+        {
+          "field_fraction": 0.5,
+          "field_deg": 20.585,
+          "image_height_mm": 9.214159,
+          "cra_deg": 7.859
+        },
+        {
+          "field_fraction": 0.3,
+          "field_deg": 12.351,
+          "image_height_mm": 5.397905,
+          "cra_deg": 4.711
+        }
+      ]
     }
   },
   "materials": {
@@ -563,8 +542,6 @@
     "conversion": "PASSED",
     "project_check": "ACCEPTED",
     "optical_solids": "VALID",
-    "paraxial": "MATCHED",
-    "paraxial_scope": "effective focal length and back focal length",
     "engine_version": "0.14.0",
     "solids_findings": [],
     "evidence_notes": [
@@ -573,6 +550,6 @@
       "Traced chief ray at the stated half field lands at 21.2689 mm against the printed image height 21.64 mm."
     ]
   },
-  "record_hash": "1967ee025d6d03a3f4d90a44af5770df04c564f6615d3123173b8b12d45684b3",
+  "record_hash": "0dd2388edec546be831649ba0698d32141faa957ab029f55b87f68d8a3e5d3f9",
   "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
