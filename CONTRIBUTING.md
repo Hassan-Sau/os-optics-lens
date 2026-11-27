@@ -1,26 +1,38 @@
 # Contributing
 
-Individuals, research groups and companies can contribute a single optical prescription, a related design family or an independently maintainable collection. Agents can help prepare and check submissions. The contributor is responsible for the content and evidence in the pull request.
+## Submit a native Project
 
-## Coordinate the work
+For a single prescription, submit the editable `os-optics` Project and a small record with its identity and direct provenance. For example, a contributor named Example Lab could submit an original design as follows.
 
-1. Search the issue tracker for the collection, design family or tool change. Join an existing discussion when one covers the work. Open an issue for a new collection, bulk import, or change to the record format or retrieval interface. Include the scope, source, expected coverage and how the result can be checked.
-2. Fork the repository and work on a focused branch. A single record or correction using an agreed format can come in a pull request directly. For a collection or bulk import, use its issue to agree on how to partition the work and avoid duplicate conversions.
-3. Open a pull request with the intended change, related issue if any, and the checks run. Respond to review in the pull request. Maintainers review and merge into `main`.
+```text
+records/example-lab/example-lab-doublet/
+  project.json   Native Project with the geometry, materials and configurations needed to open it
+  record.json    ID example-lab-doublet, revision 1, source Example Lab, attribution and redistribution terms
+```
 
-During repository setup, contributors can open a draft data pull request to review representative native Projects alongside the proposed format and validation procedure. If a format proposal is already under review, link it and identify any fields or checks the new records need. Before merge, align the submission with the accepted record format and validation procedure.
+Include the Project path, the `os-optics` version used to check it and the hashes defined in the [record format](docs/RECORD_FORMAT.md#record-identity). For a library conversion, name the library, input and revision when available. For a direct transcription, name the publication and example. Include any required license notice. Optional classification can use the [optical search vocabulary](SEARCH_VOCABULARY.md).
 
-## Prepare a prescription
+**Lens takes search metrics from the committed Project and calculations on it.** Submit the Project without transcribing optical numbers into metadata. Leave unsupported metrics absent. If you include an optional Project analysis, give its configuration, units and calculation conditions. Comparisons with printed or upstream numbers are optional transcription evidence for the contribution discussion. A source match is not an admission requirement. Keep source files and source-specific conversion scripts outside this repository.
 
-- Supply the editable native `os-optics` Project with the material and configuration information it needs. Record the engine version used to check it.
-- Supply the search facts relevant to the design, with units, conditions and their source or calculation basis. Use the [optical search vocabulary](SEARCH_VOCABULARY.md) to assign supported labels and propose new terms with a source record or a concrete search task. Record any substitutions or assumptions that affect the interpretation. Mark unknown values and state what was actually checked.
-- Give a precise source reference and identify the design within it. Include the attribution and applicable license or other redistribution permission. For an original design, identify its contributor and confirm the terms for publishing it. Keep source files upstream and link to them.
-- Report the checks you ran, starting with opening the Project in `os-optics`. Record relevant comparisons if you ran optical validation. If conversion fails, attach the failure details to the intake issue so the blocker is visible without adding an incomplete prescription to the corpus.
+Run the same intake check as CI from the repository root. Stage or commit new files before comparing against a base branch.
+
+```console
+python -m pip install os-optics==0.14.0
+python scripts/check_intake.py --base origin/main --output intake-report.json
+```
+
+The check validates the collection's record, Project and evidence references, then opens each affected Project and checks all its native configurations. For supported single-lens configurations, the report contains EFL and BFL recomputed at the native vacuum wavelengths. For those configurations, the check verifies indexable `ENGINE_COMPUTED` EFL and BFL against its results. Leave unsupported metrics absent. Run without `--base` to check all Projects.
+
+## Open a pull request
+
+A single record or correction can come directly in a focused pull request. Describe the intended change. For a new collection, bulk import, or change to the record format or retrieval interface, first check the issue tracker and use the relevant issue to coordinate the scope.
+
+The **Lens intake** check reports the result for routine data submissions and attaches a `lens-intake-report` JSON artifact. Maintainers review changes to the retrieval code, record contract or validation rules. A draft data PR can show a representative Project when a format or validation change is under discussion.
 
 ## Prepare a collection or batch
 
 - Propose a collection identity, identify its maintainers and pin the source revision or edition where possible. Describe how source record IDs map to contributed records and how future updates can be tracked.
-- Record the input count, successful conversions and pending or failed conversions, with reasons. Keep material substitutions and optical validation distinct from conversion status. Split large submissions into independently checkable batches.
-- Review existing records for duplicates. Identify related designs and retain distinct variants when their optical parameters or structure make them useful. Let the shared index be generated from the individual records.
+- In the PR or series issue, summarize the inputs, submitted records and any deferrals or failures. Split large submissions into independently checkable batches.
+- Review existing records for duplicates. Keep the positions of one design in the same Project when native configurations can represent them. Retain distinct prescriptions where their optical parameters or structure make them useful, and group related designs by family.
 
-Project code and documentation use the [MIT License](LICENSE). Imported records retain their applicable attribution and license or permission. Reviewers check that the submitted files fit the corpus boundary, the source and redistribution basis are recorded, and the evidence supports each claimed result.
+Project code and documentation use the [MIT License](LICENSE). Imported records retain their applicable attribution and license or permission.
