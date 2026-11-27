@@ -57,7 +57,7 @@ class RecordFiles(unittest.TestCase):
         for d in record_dirs():
             rec = load(d / "record.json")
             ev = load(d / "evidence.json")
-            text = ev["prescription"]["text"].encode("utf-8")
+            text = ev["sections"]["prescription"]["text"].encode("utf-8")
             self.assertEqual(hashlib.sha256(text).hexdigest(), rec["collection"]["source_input_sha256"],
                              f"{d.name}: the transcription hash does not match the evidence extract")
 
@@ -120,7 +120,7 @@ class RecordSemantics(unittest.TestCase):
                 self.assertIn("derived", na["definition"].lower(), d.name)
             codes = {a["code"] for a in rec["approximations"]}
             ev = load(d / "evidence.json")
-            if ev["derivation"]["clear_apertures"].startswith("DERIVED"):
+            if ev["sections"]["derivation"]["clear_apertures"].startswith("DERIVED"):
                 self.assertIn("CLEAR_APERTURES_DERIVED", codes, d.name)
 
 
@@ -139,22 +139,23 @@ class FamilyAndManifest(unittest.TestCase):
         manifest = load(BATCH)
         on_disk = sorted(d.name for d in record_dirs())
         self.assertEqual(sorted(manifest["accepted_record_ids"]), on_disk)
-        self.assertEqual(manifest["counts"]["ACCEPTED"], len(on_disk))
-        self.assertEqual(manifest["source_count"], len(manifest["rows"]))
-        outcomes = [r["outcome"] for r in manifest["rows"]]
-        for outcome, count in manifest["counts"].items():
-            self.assertEqual(outcomes.count(outcome), count, outcome)
-        for row in manifest["rows"]:
+        self.assertEqual(manifest["counts"]["accepted"], len(on_disk))
+        self.assertEqual(manifest["source_count"], len(manifest["outcomes"]))
+        outcomes = [r["outcome"] for r in manifest["outcomes"]]
+        self.assertEqual(len(outcomes), manifest["counts"]["inputs"])
+        self.assertEqual(outcomes.count("ACCEPTED"), manifest["counts"]["accepted"])
+        self.assertEqual(outcomes.count("DEFERRED"), manifest["counts"]["deferred"])
+        self.assertEqual(outcomes.count("CONVERSION_FAILED"), manifest["counts"]["conversion_failed"])
+        for row in manifest["outcomes"]:
             if row["outcome"] == "ACCEPTED":
                 self.assertIn(row["record_id"], on_disk)
             else:
-                self.assertIsNone(row["record_id"])
                 self.assertTrue(row["reason_code"])
                 self.assertTrue(row["reason"])
 
     def test_manifest_focal_lengths_match_the_records(self):
         manifest = load(BATCH)
-        for row in manifest["rows"]:
+        for row in manifest["outcomes"]:
             if row["outcome"] != "ACCEPTED":
                 continue
             rec = load(COLLECTION / row["record_id"] / "record.json")
