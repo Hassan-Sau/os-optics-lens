@@ -1,14 +1,16 @@
 # os-optics-lens
 
-A planned library of optical prescriptions for AI agents. An agent uses an optical design brief to find candidate prescriptions, inspects a few relevant properties or structural details, and retrieves a native Project to continue design in `os-optics`.
+A searchable library of optical prescriptions for AI agents. Start with an optical design brief, inspect relevant facts and structural details, and retrieve an editable native Project to continue design in `os-optics`.
 
 ## Project rules
 
-- Design the library, index, retriever and documentation for agents with limited context. Return compact candidate summaries and load details on demand.
-- Keep the corpus to native `os-optics` Projects and the metadata needed to search and cite them. Link to original sources. Keep PDFs, exchange files, images and 3D assets outside the corpus.
-- Keep a specification match and a promising optimization starting point distinguishable in search results. The agent chooses which candidate to use and verifies it against its brief.
+- Search the available native Projects using their own optical values. Return short candidate summaries with the facts that help an agent choose and open a Project.
+- Keep the corpus focused on Projects, compact search metadata and any small supporting data needed to interpret a Project fact. Keep preparation material in the contribution workspace or PR. Record the contributor's direct source and attribution, available through explicit provenance inspection.
+- Keep a specification match and a promising optimization starting point distinguishable in search results. Show a missing value when it matters to the query.
 
-`os-optics` owns the native model and optical evaluation. `os-optics-lens` will own the prescription collection and its installed retrieval interface. `os-optics-kit` provides agent skills, study tools and worked cases. [Engine](https://github.com/JunLin615/os-optics) · [Kit](https://github.com/JunLin615/os-optics-kit)
+`os-optics` owns the native model and optical evaluation. `os-optics-lens` ships the prescription collection and its retrieval interface. `os-optics-kit` provides agent skills, study tools and worked cases. [Engine](https://github.com/JunLin615/os-optics) · [Kit](https://github.com/JunLin615/os-optics-kit)
+
+To add a prescription, follow [Submit a native Project](CONTRIBUTING.md#submit-a-native-project). The seed below preserves its original intake metadata.
 
 ## The seed collection
 
@@ -50,15 +52,57 @@ method, the material and surface decisions, the verification run and the known l
 | `mid_wave_infrared` | 3000 – 8000 |
 | `long_wave_infrared` | 8000 – 15000 |
 
-A facet is a **discovery** label derived from the record's sampling span. It never asserts that the
-design is usable across the interval: a record's `spectrum.continuous_coverage_nm` is `UNCONFIRMED`
-unless the source states a range, so only established continuous coverage can satisfy a hard band
-constraint.
+A facet is a **discovery** label derived from the record's sampling span. A hard band constraint
+uses confirmed continuous coverage of the Project. The state is `UNCONFIRMED` when the record
+supplies only discrete samples or a sampling span.
+
+## Search the collection
+
+The `os-optics-lens` package ships the retriever together with a prebuilt index and the
+collection it indexes. Queries run locally, using only the Python standard library (Python 3.10
+or newer). Every command prints one bounded JSON document.
+
+Until the first PyPI release, build the wheel from a checkout and install it:
+
+```
+uv build --wheel
+pip install dist/os_optics_lens-0.1.0-py3-none-any.whl
+os-optics-lens help quickstart
+```
+
+From brief to an editable Project:
+
+```
+os-optics-lens facets --facet design_type --facet image_format
+os-optics-lens fields --fact image_format.image_circle_diameter_mm
+os-optics-lens search --mode specification --filter design_type=camera_lens \
+  --where 'first_order.effective_focal_length_mm between_inclusive [17.1,18.9]' \
+  --where 'image_format.image_circle_diameter_mm gte 43.27'
+os-optics-lens project yutong-2025-mirrorless-18-p2b --out work/p2b.project.json
+```
+
+- **Specification search** reports each hard constraint as `MATCH`, `DOES_NOT_MATCH` or
+  `UNCONFIRMED`, with a reason code for each unknown.
+- **Starting-point search** (`--mode starting_point --target FACT=VALUE~TOL`) ranks near matches
+  and lists their shortfalls and unknowns.
+- `compare` compares selected Project facts. `inspect` shows Project facts, configurations and
+  prescription details. Use `inspect ID --evidence SECTION` to read supporting analysis.
+- `project --out` writes the exact native Project bytes. Their SHA-256 equals the record's
+  `native_project.sha256`.
+- Use `inspect ID --provenance` when you need the record's direct source, attribution or
+  redistribution terms.
+
+On Windows PowerShell, pass JSON requests with `--request FILE`. Outside an installed wheel,
+build an index from a checkout with `os-optics-lens index build --corpus . --out
+build/os-optics-lens-index.sqlite`, then pass `--index` to each command.
+[Retrieval](docs/RETRIEVAL.md) documents installation, the request and response formats, the
+search semantics, the error codes and how to rebuild the index.
+[Index schema](docs/INDEX_SCHEMA.md) documents the index tables and build findings.
 
 ## Status and contributions
 
-The repository is in setup. The first usable PyPI release is planned to ship the search interface
-and a searchable collection together. The seed collection is the first batch of that collection.
+The first package ships the search interface and the searchable collection together. The seed
+collection is the first batch of that collection, and new series are added as further batches.
 [LensLibrary](https://github.com/nzhagen/LensLibrary)
 
 Use [ARCHITECTURE.md](ARCHITECTURE.md) for the design, [AGENTS.md](AGENTS.md) for repository rules,
@@ -67,7 +111,7 @@ The project uses the [MIT License](LICENSE).
 
 ## Data sources and acknowledgments
 
-The initial prescription records are derived from Nathan Hagen's [LensLibrary](https://github.com/nzhagen/LensLibrary), using [revision `86b2c0ca`](https://github.com/nzhagen/LensLibrary/tree/86b2c0cac5a67e2112d58518230c4d8728154f4e). Thanks to Nathan Hagen for compiling and sharing the collection. See the [LensLibrary MIT notice](licenses/LensLibrary-MIT.txt) for the upstream copyright and license. Individual records cite the upstream design and its original publication or patent when available.
+The initial prescription records are derived from Nathan Hagen's [LensLibrary](https://github.com/nzhagen/LensLibrary), using [revision `86b2c0ca`](https://github.com/nzhagen/LensLibrary/tree/86b2c0cac5a67e2112d58518230c4d8728154f4e). Thanks to Nathan Hagen for compiling and sharing the collection. See the [LensLibrary MIT notice](licenses/LensLibrary-MIT.txt) for the upstream copyright and license. The records identify the library inputs used for conversion.
 
 The LensLibrary notice must stay with the converted records in any distribution. The repository's
 own [MIT License](LICENSE) covers its code and documentation.
