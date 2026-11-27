@@ -48,20 +48,20 @@ record says which one it came from.
 | Batch | Source | Claim |
 |---|---|---|
 | `batch-nikon-fx-1.json` | A numerical example printed in a US patent publication | The surface table is transcribed from the publication |
-| `batch-nikon-fx-2.json` | The [FlareSim lens corpus](https://github.com/LocalStarlight/flaresim_nuke) at revision `0e28ead9` (MIT) | The surface table is reproduced from the corpus file |
+| `batch-nikon-fx-2.json` | The [FlareSim lens corpus](https://github.com/LocalStarlight/flaresim_nuke) at revision `0e28ead9` (MIT) | Each Project models a corpus prescription using catalog glass approximations |
 
 | | |
 |---|---|
 | Corpus files at the pinned revision | 1370 |
 | Nikon-branded files | 246 |
-| Candidates after the scope filter | 205 |
-| Accepted records in batch 2 | 104 |
+| Distinct source inputs in batch 2 | 202 |
+| Accepted records in batch 2 | 101 |
 | Deferred, with a reason code | 100 |
 | Conversion failed | 1 |
 
-[Nikon FX intake](docs/NIKON_FX_INTAKE.md) records the selection, the conversion method, the
-acceptance rule, and the limits — including why a corpus record never claims a patent
-transcription.
+The series contains 102 native Projects including the patent example. Each zoom Project represents
+one position. [Nikon FX intake](docs/NIKON_FX_INTAKE.md) records the sources, conversion decisions,
+acceptance checks and limits.
 
 ### Spectral band boundaries
 

@@ -7,7 +7,7 @@
  "collection": {
   "collection_id": "nikon-fx",
   "source": "LocalStarlight/flaresim_nuke lens corpus, Nikon-branded prescriptions",
-  "source_basis": "The prescription is a corpus file: it carries, per surface, the radius, the axial thickness, the refractive index, the Abbe number, the element outline and the stop plane. The corpus is MIT licensed and is what this record reproduces; the patent number the file cites is kept as the design's own reference and is not claimed as a transcription of that publication.",
+  "source_basis": "The corpus file is the direct source for the surface table. The Project uses derived apertures and named catalog glass approximations. A patent named in the file is a source citation from the corpus.",
   "source_revision": "0e28ead9a3ec4898c7568f27b1ce8c0de6df7a08",
   "source_input": "lenses/lens_files/Nikon_392mm_F2.86_IF_OS_(Nikon_AF-S_Nikkor_400mm_F2.8G_ED_VR).lens",
   "source_input_sha256": "00379e1f7c9adc8d506eaedd4f1fc5431010580f01cf64b41ddf65edc54909ba",
@@ -22,11 +22,11 @@
   },
   "attribution": "Prescription from the LocalStarlight/flaresim_nuke corpus (MIT), file Nikon_392mm_F2.86_IF_OS_(Nikon_AF-S_Nikkor_400mm_F2.8G_ED_VR).lens. The file's header cites US20080158694. The file states: Converted from photonstophotos.net Optical Bench data.",
   "contributor": "Prepared for the Nikon FX expansion series through JunLin615",
-  "redistribution": "The corpus is MIT licensed and its notice is committed at licenses/FlareSim-MIT.txt; the record reproduces one of its prescriptions as a native Project.",
+  "redistribution": "The corpus is MIT licensed. Its notice is committed at licenses/FlareSim-MIT.txt.",
   "license": {
    "spdx": "MIT",
    "notice_path": "licenses/FlareSim-MIT.txt",
-   "copyright": "Copyright (c) 2026 Eamonn Nugent (space55/blackhole-rt); Copyright (c) 2026 Steve Watts Kennedy (LocalStarlight/flaresim_nuke)"
+   "copyright": "Copyright (c) 2026 Eamonn Nugent (space55/blackhole-rt)\nCopyright (c) 2026 Steve Watts Kennedy (LocalStarlight/flaresim_nuke)"
   }
  },
  "design": {
@@ -109,9 +109,14 @@
   ],
   "width_mm": 36,
   "height_mm": 24,
-  "image_circle_diameter_mm": 43.2394,
-  "basis": "DERIVED: twice the largest image height the modelled field covers at the paraxial focal length under the stated projection. It is the field the prescription is evaluated over, not a tested image circle.",
-  "format_basis": "SOURCE_STATED: the corpus pairs this design with an FX product; the derived field is the numerical check beside it",
+  "image_circle_diameter_mm": {
+   "value": 43.2394,
+   "basis": "ESTIMATED",
+   "eligible_for": "DISCOVERY_ONLY",
+   "definition": "Twice the paraxial image height at the outer modeled angle. Geometric coverage remains unconfirmed."
+  },
+  "basis": "SOURCE_STATED: Nominal FX format dimensions used for discovery and comparison to the estimate.",
+  "format_basis": "Nominal FX format classification used for discovery. Coverage remains unconfirmed.",
   "fx_diagonal_mm": 43.2666,
   "fx_diagonal_coverage_ratio": 0.9994
  },
@@ -257,7 +262,7 @@
   }
  },
  "materials": {
-  "basis": "Every glass is a published catalog material copied into the Project; the corpus states only nd and vd",
+  "basis": "The Project uses named catalog glasses as approximations to the source nd and vd values.",
   "model_glasses": [
    {
     "material_id": "OHARA_S-FPL53",
@@ -268,7 +273,7 @@
     "catalog_vd": 94.8962,
     "index_difference": 0.000429,
     "abbe_difference": 0.1038,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "CDGM_D-FK61B-25",
@@ -279,7 +284,7 @@
     "catalog_vd": 81.5687,
     "index_difference": 5.7e-05,
     "abbe_difference": 0.0313,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "S-LAH64",
@@ -290,7 +295,7 @@
     "catalog_vd": 47.3559,
     "index_difference": 0.000479,
     "abbe_difference": 0.0441,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "HIKARI_J-LASF015",
@@ -301,7 +306,7 @@
     "catalog_vd": 46.5811,
     "index_difference": 0.000493,
     "abbe_difference": 0.0189,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "HIKARI_J-SF03",
@@ -312,7 +317,7 @@
     "catalog_vd": 23.79,
     "index_difference": 0.000538,
     "abbe_difference": 0.01,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "OHARA_S-FSL5",
@@ -323,7 +328,7 @@
     "catalog_vd": 70.2158,
     "index_difference": 0.000415,
     "abbe_difference": 0.0158,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "CDGM_H-ZK9B",
@@ -334,7 +339,7 @@
     "catalog_vd": 60.3056,
     "index_difference": 0.00045,
     "abbe_difference": 0.0056,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "SUMITA_K-SFLD6",
@@ -345,7 +350,7 @@
     "catalog_vd": 25.3922,
     "index_difference": 0.000526,
     "abbe_difference": 0.0078,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "HIKARI_J-LAK14",
@@ -356,7 +361,7 @@
     "catalog_vd": 55.4991,
     "index_difference": 0.000472,
     "abbe_difference": 0.0009,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "SCHOTT_N-BASF2",
@@ -367,7 +372,7 @@
     "catalog_vd": 35.9833,
     "index_difference": 0.001309,
     "abbe_difference": 2.3167,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "OHARA_L-TIM28P",
@@ -378,7 +383,7 @@
     "catalog_vd": 30.6537,
     "index_difference": 0.000359,
     "abbe_difference": 0.2537,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    },
    {
     "material_id": "CDGM_D-K9-25",
@@ -389,7 +394,7 @@
     "catalog_vd": 63.9551,
     "index_difference": 0.00013,
     "abbe_difference": 0.1449,
-    "basis": "SOURCE_STATED (nd, vd); the catalog glass is the closest published glass, compared and never substituted: its own dispersion curve is what the Project carries"
+    "basis": "SOURCE_STATED (nd, vd). The Project substitutes the nearest named catalog glass and uses its catalog dispersion curve."
    }
   ]
  },
@@ -400,11 +405,11 @@
   },
   {
    "code": "GLASS_MATCHED_BY_ND_VD",
-   "description": "The corpus file states a refractive index and an Abbe number per surface and no glass name. Each pair is matched to the closest published catalog glass and the Project carries that glass's own dispersion curve; the differences are recorded in materials.model_glasses."
+   "description": "The Project substitutes the nearest named glass for each source nd/vd pair and uses its catalog dispersion curve. The differences are recorded in materials.model_glasses."
   },
   {
    "code": "FIELD_FROM_FORMAT",
-   "description": "The prescription covers the FX format, so the modelled field is the angle the FX diagonal subtends at the design focal length: 6.3176 deg full field. It is the field the lens is sold to cover, not a field the corpus file states."
+   "description": "The modeled field comes from the angle subtended by the nominal FX diagonal at the design focal length. Actual coverage remains unconfirmed."
   }
  ],
  "unsupported_constructs": [],
@@ -417,7 +422,7 @@
   "solids_findings": [],
   "evidence_notes": [
    "The corpus states the design focal length as 392.0 mm; the engine gives 391.753674 mm, a difference of 0.126 of the allowance.",
-   "The modelled field of 6.318 deg covers 43.24 mm of image at 391.754 mm."
+   "The modelled field of 6.318 deg gives a paraxial image diameter estimate of 43.24 mm at 391.754 mm EFL."
   ]
  },
  "performance": [
@@ -443,5 +448,5 @@
   }
  ],
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline.",
- "record_hash": "fb1a1361523946a900cb524986c719fcc849b9e8c6ee56fcbca88f8d86a5eda1"
+ "record_hash": "429a1e5f01c037922416aaf11d4cf0b65f4b06bb4a26a66bda0ad146bcfcf87d"
 }

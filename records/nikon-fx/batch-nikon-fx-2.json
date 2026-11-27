@@ -4,13 +4,13 @@
  "batch_id": "nikon-fx-2",
  "series": {
   "issue": "https://github.com/JunLin615/os-optics-lens/issues/11",
-  "scope": "Nikon-branded FX photography lenses, across mounts and product generations"
+  "scope": "Nikon-branded FX photography lens models, with one optical position per Project"
  },
  "collection": {
   "collection_id": "nikon-fx",
   "source": "LocalStarlight/flaresim_nuke lens corpus, Nikon-branded prescriptions",
   "source_revision": "0e28ead9a3ec4898c7568f27b1ce8c0de6df7a08",
-  "source_basis": "The corpus is MIT licensed and carries, per surface, the radius, the axial thickness, the refractive index, the Abbe number, the element outline and the stop plane. Each record reproduces one of its prescriptions as a native Project; the patent number a file cites stays a reference, never a transcription claim.",
+  "source_basis": "The MIT-licensed corpus supplies surface radii, axial thicknesses, refractive indices, Abbe numbers, element outlines and stop planes. Each Project models one optical position using catalog glass approximations and derived apertures. A cited patent is a reference from the corpus file.",
   "redistribution": "MIT (see licenses/FlareSim-MIT.txt); the repository's MIT licence covers the records."
  },
  "engine": {
@@ -25,20 +25,21 @@
   "record_hash": "SHA-256 over the record's JSON with record_hash and record_hash_method removed: json.dumps(sort_keys=True, ensure_ascii=False) as UTF-8, no trailing newline"
  },
  "acceptance": {
-  "rule": "A candidate becomes a record only when the engine reproduces the file's stated focal length within the tolerance its digits support, the element bodies close as solids, every declared field reaches the image plane at some sampling wavelength, and the distortion at the modelled field stays inside 12.0 per cent.",
+  "rule": "For each source position, the batch screened Engine acceptance, solid validity, agreement with source focal length, chief-ray arrival at modeled samples, and absolute distortion at those samples. Identical native Projects are represented by one accepted record.",
   "distortion_limit_percent": 12.0,
   "reason_counts": {
+   "DUPLICATE_PROJECT": 1,
    "ENGINE_UNSUPPORTED_CONSTRUCT": 1,
    "FIELD_BEYOND_DESIGN": 16,
-   "FIELD_NOT_DELIVERED": 34,
+   "FIELD_NOT_DELIVERED": 33,
    "GEOMETRY_HAS_NO_EDGE": 1,
    "NO_STATED_APERTURE": 4,
    "PARAXIAL_DIFFERS": 45
   }
  },
  "counts": {
-  "inputs": 205,
-  "accepted": 104,
+  "inputs": 202,
+  "accepted": 101,
   "deferred": 100,
   "conversion_failed": 1
  },
@@ -53,7 +54,6 @@
   "nikon-fx-nikkor-80-400mm-f4p5-5p6d-ed-vr",
   "nikon-fx-nikkor-n-5cm-f1p1",
   "nikon-fx-nikkor-n-auto-24mm-f2p8",
-  "nikon-fx-nikkor-s-auto-50mm-f1-4",
   "nikon-fx-nikkor-s-auto-50mm-f1p4",
   "nikon-fx-nikon-100mm-f1p4",
   "nikon-fx-nikon-100mm-f1p8",
@@ -65,7 +65,6 @@
   "nikon-fx-nikon-105mm-f4p5-uv-macro-nikon-105mm-f4-uv-macro",
   "nikon-fx-nikon-124-291mm-f2p91-iz-if-nikon-af-s-nikkor-120-300mm-f2p8e-fl-ed-sr-vr",
   "nikon-fx-nikon-132mm-f1p8-if-os",
-  "nikon-fx-nikon-135mm-f2-8-ai-nikkor-135mm-f2-8s",
   "nikon-fx-nikon-135mm-f2p8-ai-nikkor-135mm-f2p8s",
   "nikon-fx-nikon-180-400mm-f4-if-os-af-s-nikkor-180-400mm-f4e-tc1p4-fl-ed-vr-with-tc",
   "nikon-fx-nikon-180-400mm-f4-if-os-af-s-nikkor-180-400mm-f4e-tc1p4-fl-ed-vr-without-tc",
@@ -145,7 +144,6 @@
   "nikon-fx-nikon-ai-nikkor-28mm-f2p8s",
   "nikon-fx-nikon-ai-nikkor-35mm-f2s",
   "nikon-fx-nikon-ai-nikkor-45mm-f2p8p",
-  "nikon-fx-nikon-ai-nikkor-85mm-f1p4s",
   "nikon-fx-w-nikkor-3p5cm-f1p8"
  ],
  "outcomes": [
@@ -278,19 +276,6 @@
    "engine_bfl_mm": 37.343746,
    "elements": 7,
    "max_distortion_percent": 2.5833
-  },
-  {
-   "source_input": "lenses/lens_files/Nikkor-S_Auto_50mm_F1.4.lens",
-   "source_input_sha256": "779a3684871e90a2131657cba84cf3bc7c73e6034a639af862df9a4e75f750bf",
-   "product": "Nikkor-S Auto 50mm F1.4",
-   "design": "Nikkor-S Auto 50mm F1.4",
-   "cited_publication": "US003560079",
-   "outcome": "ACCEPTED",
-   "record_id": "nikon-fx-nikkor-s-auto-50mm-f1-4",
-   "engine_efl_mm": 49.999904,
-   "engine_bfl_mm": 37.4459,
-   "elements": 5,
-   "max_distortion_percent": 2.0603
   },
   {
    "source_input": "lenses/lens_files/Nikkor-S_Auto_50mm_F1.4.lens",
@@ -434,19 +419,6 @@
    "engine_bfl_mm": 42.427327,
    "elements": 10,
    "max_distortion_percent": 0.8066
-  },
-  {
-   "source_input": "lenses/lens_files/Nikon_135mm_F2.8_(AI_Nikkor_135mm_F2.8S).lens",
-   "source_input_sha256": "0a76f442b450c92c52c3e24e8cf00c7ab42ab8f76f72c9e785d7d385108f20f9",
-   "product": "AI Nikkor 135mm F2.8S",
-   "design": "Nikon 135mm F2.8",
-   "cited_publication": "US004057330",
-   "outcome": "ACCEPTED",
-   "record_id": "nikon-fx-nikon-135mm-f2-8-ai-nikkor-135mm-f2-8s",
-   "engine_efl_mm": 135.000299,
-   "engine_bfl_mm": 59.510358,
-   "elements": 4,
-   "max_distortion_percent": 0.6541
   },
   {
    "source_input": "lenses/lens_files/Nikon_135mm_F2.8_(AI_Nikkor_135mm_F2.8S).lens",
@@ -1481,12 +1453,10 @@
    "product": "Nikon AI Nikkor 85mm F1.4S",
    "design": "Nikon AI Nikkor 85mm F1.4S",
    "cited_publication": "US004396256",
-   "outcome": "ACCEPTED",
-   "record_id": "nikon-fx-nikon-ai-nikkor-85mm-f1p4s",
-   "engine_efl_mm": 85.231512,
-   "engine_bfl_mm": 42.787485,
-   "elements": 5,
-   "max_distortion_percent": 0.0907
+   "outcome": "DEFERRED",
+   "reason_code": "DUPLICATE_PROJECT",
+   "reason": "This source path produced a byte-identical native Project.",
+   "duplicate_of_record_id": "nikon-fx-nikon-85mm-f1p4-ai-nikkor-85mm-f1p4s"
   },
   {
    "source_input": "lenses/lens_files/W-Nikkor_3.5cm_F1.8.lens",
@@ -1682,16 +1652,6 @@
    "reason": "At least one declared field angle reaches the image plane at no sampling wavelength, so the prescription does not deliver the field the format asks for."
   },
   {
-   "source_input": "lenses/lens_files/Nikon_14-24mm_F2.88_(AF-S_Nikkor_14-24mm_F2.8G_ED).lens",
-   "source_input_sha256": "9471b31498e5780aa4ae91a43908c34cd3f06bddd67fd2813a4239779363f48d",
-   "product": "AF-S Nikkor 14-24mm F2.8G ED",
-   "design": "Nikon 14-24mm F2.88",
-   "cited_publication": "US007359125",
-   "outcome": "DEFERRED",
-   "reason_code": "FIELD_NOT_DELIVERED",
-   "reason": "At least one declared field angle reaches the image plane at no sampling wavelength, so the prescription does not deliver the field the format asks for."
-  },
-  {
    "source_input": "lenses/lens_files/Nikon_14-29mm_F4_(Nikkor_Z_14-30mm_F4_S).lens",
    "source_input_sha256": "c0fa202df9aa50c064963294d2f7c067ffcf49a18787d4b150f143c10dbe081f",
    "product": "Nikkor Z 14-30mm F4 S",
@@ -1779,7 +1739,7 @@
    "cited_publication": "US009256059",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 21.54 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 21.54 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_180mm_F2.8_(Nikon_Nikkor_180mm_F2.8_ED).lens",
@@ -1889,7 +1849,7 @@
    "cited_publication": "US008867147",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 27.08 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 27.08 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_20mm_F1.85_EF.lens",
@@ -1919,7 +1879,7 @@
    "cited_publication": "JP2016-021011",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 23.11 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 23.11 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_21mm_F4_(Nikon_Nikkor-O_2.1cm_F4).lens",
@@ -1959,7 +1919,7 @@
    "cited_publication": "WO2019-049372",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 27.98 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 27.98 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_24mm_F1.65_IF.lens",
@@ -1969,7 +1929,7 @@
    "cited_publication": "JP2017-161848",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 19.92 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 19.92 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_24mm_F1.86_IF_(AF-S_Nikkor_24mm_F1.8G_ED).lens",
@@ -1989,7 +1949,7 @@
    "cited_publication": "US20040218274",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 69.77 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 69.77 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-117mm_F4_IF_(Nikon_Nikkor_Z_24-120mm_F4_S).lens",
@@ -1999,7 +1959,7 @@
    "cited_publication": "WO2022-259649",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 25.75 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 25.75 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-194mm_F4.12-6.5_IF_(Nikon_Nikkor_Z_24-200mm_F4-6.3_VR).lens",
@@ -2009,7 +1969,7 @@
    "cited_publication": "WO2020-157904",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 15.70 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 15.70 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-49mm_F4.08-6.337_(Nikon_Nikkor_Z_24-50mm_F4-6.3).lens",
@@ -2019,7 +1979,7 @@
    "cited_publication": "JP2021-189377",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 15.78 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 15.78 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-68mm_F2.91_(AF-S_Nikkor_24-70mm_F2.8G_ED).lens",
@@ -2029,7 +1989,7 @@
    "cited_publication": "US007508592",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 18.82 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 18.82 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-68mm_F2.92_IF_(Nikon_AF-S_Nikkor_24-70mm_F2.8E_ED_VR).lens",
@@ -2049,7 +2009,7 @@
    "cited_publication": "WO2020-136749",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 28.58 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 28.58 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-83mm_F2.79-4.12_(Nikon_AF_Zoom-Nikkor_24-85mm_F2.8-4D_IF).lens",
@@ -2059,7 +2019,7 @@
    "cited_publication": "JP2000-321497",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 20.66 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 20.66 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25-83mm_F3.6-4.7_(Nikon_AF-S_Zoom-Nikkor_24-85mm_F3.5-4.5G_IF-ED).lens",
@@ -2089,7 +2049,7 @@
    "cited_publication": "JP2017-161849",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 20.51 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 20.51 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_25mm_F3.6_PC_(Nikon_PC-E_Nikkor_24mm_F3.5D_ED).lens",
@@ -2109,7 +2069,7 @@
    "cited_publication": "US20100220400",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 97.80 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 97.80 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_28mm_F1.45_(AF-S_Nikkor_28mm_F1.4E_ED).lens",
@@ -2119,7 +2079,7 @@
    "cited_publication": "JP2017-227799",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 15.95 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 15.95 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_29-102mm_F3.58-4.572_IF_(Nikon_AF_Zoom-Nikkor_28-105mm_F3.5-4.5D_IF).lens",
@@ -2129,7 +2089,7 @@
    "cited_publication": "JP1999-142740",
    "outcome": "DEFERRED",
    "reason_code": "FIELD_BEYOND_DESIGN",
-   "reason": "Distortion at the modelled field reaches 12.68 per cent, which is the signature of a field wider than the prescription is corrected over."
+   "reason": "Distortion at the modelled field reaches 12.68 per cent, above the batch screening limit."
   },
   {
    "source_input": "lenses/lens_files/Nikon_29-67mm_F3.97-7.lens",

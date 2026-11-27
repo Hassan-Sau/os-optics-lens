@@ -13,29 +13,21 @@ before using a record.
 
 ## Scope
 
-The series covers Nikon-branded **FX photography lenses** across mounts and product generations:
-F, AI, AI-S, AF, AF-D, AF-S, AF-P, and the Z line, primes and zooms, including designs a DX body
-can also use. A shared optical design appears once. Two classes are out of scope: afocal
-attachments (teleconverters, close-up lenses), which have no focal length of their own, and
-reflecting designs, which a sequential surface table cannot carry.
+The series targets Nikon-branded **FX photography lenses** across F and Z mounts and across
+product generations. It includes primes and individual positions of zoom lenses. Each native
+Project represents one optical position. Afocal attachments and reflecting designs are outside
+the batch scope.
 
 ## Two sources, two kinds of claim
 
-The series uses two sources, and a record says which one it came from. The distinction matters:
-one is a transcription of numbers a publication prints, the other is a reproduction of a
-prescription a corpus distributes.
-
-| Batch | Source | Claim |
+| Batch | Direct source | Model and check |
 |---|---|---|
-| `nikon-fx-1` | A numerical example printed in a United States patent publication | The surface table is **transcribed** from the publication, and the engine reproduces the focal length and back focal distance the publication states |
-| `nikon-fx-2` | The [FlareSim lens corpus](https://github.com/LocalStarlight/flaresim_nuke) at revision [`0e28ead9`](https://github.com/LocalStarlight/flaresim_nuke/tree/0e28ead9a3ec4898c7568f27b1ce8c0de6df7a08) | The surface table is **reproduced** from the corpus file, and the engine reproduces the design focal length the file states in its own header |
+| `nikon-fx-1` | A numerical example printed in a United States patent publication | The surface table is transcribed from the example, scaled to 28 mm and modeled with catalog glass approximations. The Engine agrees with the scaled source EFL and back focal distance within the recorded tolerance. |
+| `nikon-fx-2` | The FlareSim lens corpus at revision `0e28ead9` | Each source surface table supplies a prescription for the model. The Engine agrees with the focal length the corpus file states within the recorded tolerance. [Pinned corpus](https://github.com/LocalStarlight/flaresim_nuke/tree/0e28ead9a3ec4898c7568f27b1ce8c0de6df7a08) |
 
-The corpus is MIT licensed; its notice is committed at `licenses/FlareSim-MIT.txt`. Most corpus
-files cite a patent number in their header, and those numbers are kept in
-`collection.original_publication` as the design's own reference. They are **not** a transcription
-claim: a corpus file is a third party's reading of a publication, and this series does not vouch
-for it. The one record that does claim a transcription is `nikon-fx-us4099850a-ex1`, whose surface
-table was read from the publication itself and checked number by number against the rendered text.
+The FlareSim corpus carries an MIT license. The records keep the source file's patent citation
+in `collection.original_publication` when available. The patent transcription record
+`nikon-fx-us4099850a-ex1` cites the publication as its direct source. [FlareSim MIT notice](../licenses/FlareSim-MIT.txt)
 
 ## Inventory
 
@@ -50,17 +42,18 @@ the corpus file's own name, with these exclusions:
 | `TC`, `teleconverter`, FCL attachments | afocal: no focal length and no f-number of their own |
 | repro, industrial, medical, measuring, stereoscopic | not photography |
 
-That leaves **205 candidates**, one per corpus file, each with an `entry.json` recording the file's
-own facts: its header, its patent citation, its stated focal length and every surface.
+The batch 2 manifest accounts for **202 distinct source paths**. The prior 205 rows included three
+repeated paths. Two repeated paths had duplicate Projects under alternate IDs and one had a repeated
+deferral. The two distinct 85 mm source paths produced byte-identical Projects, so the alias stays
+in the manifest with a reference to the retained record.
 
 | Outcome | Count |
 |---|---|
-| Accepted records | 104 |
+| Accepted records | 101 |
 | Deferred, with a reason code | 100 |
-| Conversion failed (the engine refused the table) | 1 |
+| Conversion failed (the Engine refused the table) | 1 |
 
-Every candidate appears in the manifest with its own row, so the inventory, the accepted records
-and the deferrals reconcile.
+With the patent example, the series contains **102 Projects**.
 
 ## Conversion method
 
@@ -73,10 +66,10 @@ Per file:
 1. **Read the file.** The corpus prints, per surface, the radius, the axial thickness, the
    refractive index, the Abbe number, the element outline diameter and a coating column, plus one
    stop plane. A row with no index is air. A zero-radius row is a plane.
-2. **Match the glass.** The corpus states `nd` and `vd` and no glass name. Each pair is matched to
-   the closest published catalog glass by `|Δnd| / 0.001 + |Δvd| / 0.5`, and the Project carries
-   that glass's own dispersion curve. The catalog glass is **compared, never substituted**: the
-   record keeps the stated `nd` and `vd` beside the catalog values and their differences.
+2. **Approximate the glass.** The corpus gives `nd` and `vd`. The Project uses the named glass
+   from the published catalog that minimizes `|Δnd| / 0.001 + |Δvd| / 0.5` and uses its catalog
+   dispersion curve as a substitute for the source glass. The record keeps both sets of values
+   and their differences.
 3. **Derive the apertures.** The corpus states one outline per element and no clear aperture. The
    stop is sized so the entrance pupil gives the product's f-number; each element's clear aperture
    is the smaller of the unvignetted envelope for the axial marginal ray plus the chief ray of the
@@ -84,14 +77,14 @@ Per file:
    the adjacent glass thickness. Two neighbouring outlines that overlap where the air gap is narrow
    are edged down in 10 per cent steps until the bodies clear, and every reduction is recorded in
    `approximations`.
-4. **Derive the field.** The prescription covers the FX format, so the modelled field is the angle
-   the FX diagonal (43.27 mm) subtends at the design focal length — `atan(h/f)` for a rectilinear
-   design, `h/f` in radians for a fish eye, whose projection maps angle to height directly. A file
-   that states its own field angle in its name (the 220° fish eyes) uses that instead.
+4. **Choose modeled field samples.** The angle subtended by the nominal FX diagonal (43.27 mm) at
+   the design focal length supplies the modeled field. The calculation uses `atan(h/f)` for
+   rectilinear designs or `h/f` in radians for an equidistant projection. The format provides an
+   input to the estimate. Actual geometric coverage remains unconfirmed.
 5. **Place the image plane at the paraxial focus.** The corpus prints a finite-conjugate spacing,
    and a collimated beam focuses elsewhere: for `AI Nikkor 180mm f/2.8 ED` the file's last
    thickness lands the image 30 mm short of the focus. The plane is therefore the exit vertex plus
-   the engine's paraxial back focal distance, and `facts.json` records which basis was used.
+   the Engine's paraxial back focal distance.
 6. **Aim each field's chief ray at the stop.** A field angle is defined by the ray that crosses the
    stop's centre. A collimated beam aimed at the *paraxial* entrance pupil does not do that in a
    retrofocus wide angle, where pupil aberration is large: the beam crosses the stop off centre and
@@ -117,18 +110,16 @@ A candidate becomes a record only when all four hold:
 | Optical solids | every element body closes as a solid at the stated outlines |
 | Field | the chief ray of every declared field reaches the image plane at some sampling wavelength |
 
-and the traced distortion at the modelled field stays inside **12 per cent**. That
-last gate is a statement about the model, not about the lens: a design whose traced distortion is
-far above what its type can have is a design whose modelled field is wider than the prescription is
-corrected over, and the record would claim a field it does not deliver. Such a candidate is
-deferred, not published with a field claim it cannot support.
+The batch also screened for absolute distortion within **12 per cent** at the modeled samples.
+The chief-ray and distortion gates describe these modeled samples. Actual geometric coverage and
+image quality remain unconfirmed.
 
 | Deferral reason | Count |
 |---|---|
+| `DUPLICATE_PROJECT` | 1 |
 | `ENGINE_UNSUPPORTED_CONSTRUCT` | 1 |
 | `FIELD_BEYOND_DESIGN` | 16 |
-| `FIELD_NOT_DELIVERED` | 34 |
-| `GEOMETRY_HAS_NO_EDGE` | 1 |
+| `FIELD_NOT_DELIVERED` | 33 |
 | `NO_STATED_APERTURE` | 4 |
 | `PARAXIAL_DIFFERS` | 45 |
 | **Total deferred** | **100** |
@@ -136,32 +127,27 @@ deferred, not published with a field claim it cannot support.
 One candidate is a `CONVERSION_FAILED` row (`GEOMETRY_HAS_NO_EDGE`): the engine refuses the glass
 between two surfaces of `AF-S Nikkor 24mm f/1.4G ED` at the outline the file states.
 
-The accepted set is not evenly spread over the range. By design focal length:
+The batch 2 counts below use the focal length stated for each accepted source position.
 
-| Range | Accepted |
+| Source focal length | Accepted |
 |---|---|
-| under 24 mm | 2 |
-| 24 – 35 mm | 14 |
-| 36 – 85 mm | 48 |
-| 86 – 200 mm | 20 |
-| over 200 mm | 20 |
+| Under 24 mm | 1 |
+| 24 to under 36 mm | 19 |
+| 36 to under 86 mm | 46 |
+| 86 to under 201 mm | 16 |
+| At least 201 mm | 19 |
 
-The wide end is thin because that is where the modelled FX field is widest, and a wide design is
-the first to fail the field gates: either its chief ray does not survive to the image plane at the
-corner, or the traced distortion says the modelled field is wider than the prescription is
-corrected over. Those designs are deferred rather than published with a field claim that does not
-hold.
+## What the model supports
 
-## What a record does not claim
-
-- **No modulation transfer function.** The corpus states none, and this series measures none. A
-  record carries first-order values, the glass list, the aperture, the field and its traced
-  distortion. It is a starting point for a design study, not a specification sheet.
-- **No relative illumination, no colour reproduction, no CRA.** None is measured here.
-- **No tested image circle.** `image_format.image_circle_diameter_mm` is the field the record is
-  evaluated over, derived from the format; it is not a coverage measurement.
-- **No claim about the product.** The corpus pairs a design with a product name. The record repeats
-  that pairing in `design.product_identification` and does not independently establish it.
+- The records contain first-order values, the material and aperture assumptions, and the original
+  sampled chief-ray distortion results. MTF, relative illumination, color reproduction and CRA
+  remain unconfirmed.
+- The stored image-circle estimate is twice the paraxial image height at the outer modeled angle.
+  The patent example takes the angle from the publication, and batch 2 takes it from the nominal
+  FX diagonal and source focal length. The estimate is excluded from the search index. The full-frame
+  label is available for discovery.
+- `design.product_identification` records the source association. Independent product identification
+  remains unconfirmed.
 
 ## Known limits
 
@@ -170,17 +156,16 @@ hold.
   `Nikon_100mm_F3.5.lens` cites `US 4,099,850 Example 1` but carries radii about 9.2× the
   publication's, and its focal length is 28.6 mm against the publication's 28.0 mm. That is why a
   corpus record never claims a transcription.
-- **DX leakage.** Selection is by file name. A DX-only design whose corpus name omits `DX` can pass
-  the filter; the field gate is what removes it, because such a design does not deliver the FX
-  corner.
-- **Apertures are derived, not stated.** Every record says so in `approximations`
-  (`APERTURES_DERIVED`), and a reviewer who has the real clear apertures should prefer them.
-- **Distortion is reported, not corrected.** Wide designs show larger values than the products do,
-  which is a property of the derived apertures and the modelled field. Read
-  `performance[].value_percent` as an upper bound on what the prescription delivers at that field,
-  not as the product's published distortion.
-- **One configuration per zoom.** A corpus file is one zoom position. A zoom record is that
-  position, named by the design's focal length, and its `configuration_count` is 1.
+- **Format screening uses file names.** A DX-only design can pass the name filter when the file
+  omits `DX`. The chief-ray gate checks the modeled samples and does not validate the format label.
+- **Derived apertures.** The `APERTURES_DERIVED` approximation describes the stop and clear-aperture
+  assumptions. The two 60 mm f/2.8 Micro-Nikkor inputs cite `US005751485` and share a source SHA-256.
+  Their Projects differ in stop opening and three surface clear radii. Both remain pending source
+  and aperture reconciliation.
+- **Sampled distortion.** `performance[].value_percent` describes the modeled chief-ray distortion
+  at its stated sample. Product distortion and full-field behavior remain unconfirmed.
+- **Single-position zoom models.** Each zoom Project holds the one position represented by its source
+  file, with `configuration_count` set to 1. A zoom range in a title identifies the design family.
 
 ## Reproducing a record
 
@@ -201,7 +186,8 @@ every committed record.
 
 | Code | Meaning |
 |---|---|
-| `NO_STATED_APERTURE` | an afocal attachment: no focal length, no f-number |
+| `DUPLICATE_PROJECT` | A Project with identical committed bytes is retained under `duplicate_of_record_id`. |
+| `NO_STATED_APERTURE` | The source supplies neither a focal length nor an f-number for an afocal attachment. |
 | `ENGINE_UNSUPPORTED_CONSTRUCT` | the engine refuses the table's construct, with its own message |
 | `GEOMETRY_*` | the engine refuses the geometry; the code names which check failed |
 | `PARAXIAL_DIFFERS` | the engine's focal length is outside the tolerance the file's digits support |

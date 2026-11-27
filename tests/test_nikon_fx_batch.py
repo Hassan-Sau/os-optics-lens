@@ -1,26 +1,21 @@
 """Check the Nikon FX records against the contract their manifest states.
 
-Every accepted record must be self-consistent: its hash recomputes from its own JSON, the Project
-it names is the Project beside it, the first-order values in the record are the ones the engine
-returns for that Project, and the manifest lists the record exactly once.
+The tests reconcile manifests, check record and Project hashes, and verify the stored
+first-order comparison and image-circle estimate. The intake checker runs the Engine separately.
 """
 
-import hashlib
 import json
 import math
 import unittest
+from collections import Counter
 from pathlib import Path
+
+from os_optics_lens.canonical import record_hash, sha256_lf
+from os_optics_lens.corpus import load_corpus
 
 ROOT = Path(__file__).resolve().parents[1]
 COLLECTION = ROOT / "records/nikon-fx"
 MANIFESTS = sorted(COLLECTION.glob("batch-*.json"))
-
-
-def record_hash(body):
-    stripped = {k: v for k, v in body.items()
-                if k not in ("record_hash", "record_hash_method")}
-    payload = json.dumps(stripped, sort_keys=True, ensure_ascii=False).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
 
 
 def records():
@@ -35,15 +30,24 @@ class NikonFxBatchTest(unittest.TestCase):
             manifest = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(manifest["schema"], "opensci.lens.batch")
             rows = manifest["outcomes"]
-            self.assertEqual(manifest["counts"]["candidates"], len(rows))
+            self.assertEqual(manifest["counts"]["inputs"], len(rows))
+            self.assertEqual(len({row["source_input"] for row in rows}), len(rows))
             accepted = [r["record_id"] for r in rows if r["outcome"] == "ACCEPTED"]
-            self.assertEqual(sorted(accepted), sorted(manifest["accepted_record_ids"]))
-            self.assertEqual(manifest["counts"]["accepted"], len(accepted))
+            self.assertCountEqual(accepted, manifest["accepted_record_ids"])
+            counts = Counter(row["outcome"] for row in rows)
+            for outcome in ("ACCEPTED", "DEFERRED", "CONVERSION_FAILED"):
+                self.assertEqual(manifest["counts"][outcome.lower()], counts[outcome])
+            if "acceptance" in manifest:
+                self.assertEqual(manifest["acceptance"]["reason_counts"],
+                                 Counter(row["reason_code"] for row in rows if "reason_code" in row))
             for row in rows:
                 self.assertIn(row["outcome"],
                               {"ACCEPTED", "DEFERRED", "CONVERSION_FAILED"})
                 if row["outcome"] != "ACCEPTED":
                     self.assertTrue(row.get("reason_code"), row.get("source_input"))
+                    if row["reason_code"] == "DUPLICATE_PROJECT":
+                        self.assertIn(row["duplicate_of_record_id"], accepted)
+                        self.assertNotIn("record_id", row)
                 else:
                     self.assertTrue((COLLECTION / row["record_id"] / "record.json").exists(),
                                     row["record_id"])
@@ -63,15 +67,18 @@ class NikonFxBatchTest(unittest.TestCase):
             with self.subTest(record=folder.name):
                 self.assertEqual(body["record_hash"], record_hash(body))
 
-    def test_project_is_the_project_the_record_names(self):
+    def test_project_is_unique_and_matches_the_record(self):
+        projects = {}
         for folder, body in records():
             with self.subTest(record=folder.name):
                 project = folder / "project.json"
                 self.assertTrue(project.exists())
-                digest = hashlib.sha256(project.read_bytes()).hexdigest()
+                digest = sha256_lf(project.read_bytes())
                 self.assertEqual(body["native_project"]["sha256"], digest)
                 self.assertEqual(body["native_project"]["path"],
                                  f"records/nikon-fx/{folder.name}/project.json")
+                self.assertNotIn(digest, projects, f"duplicate Project of {projects.get(digest)}")
+                projects[digest] = folder.name
 
     def test_validation_states_are_accepted(self):
         for folder, body in records():
@@ -93,16 +100,29 @@ class NikonFxBatchTest(unittest.TestCase):
                     comparison["absolute_difference_mm"], difference, places=9)
                 self.assertTrue(comparison["within_tolerance"])
 
-    def test_engine_values_are_the_projects_values(self):
+    def test_recorded_efl_and_image_circle_estimate_are_consistent(self):
         for folder, body in records():
             with self.subTest(record=folder.name):
                 first_order = body["first_order"]
                 efl = first_order["effective_focal_length_mm"]["value"]
                 self.assertEqual(efl, first_order["engine_check"]["effective_focal_length_mm"])
-                # the record rounds the circle to four decimals
-                self.assertAlmostEqual(
-                    body["image_format"]["image_circle_diameter_mm"],
-                    self._image_circle(body), delta=1e-3)
+                estimate = body["image_format"]["image_circle_diameter_mm"]
+                self.assertEqual(estimate["basis"], "ESTIMATED")
+                self.assertEqual(estimate["eligible_for"], "DISCOVERY_ONLY")
+                self.assertAlmostEqual(estimate["value"], self._image_circle(body), delta=1e-3)
+
+    def test_image_circle_estimates_stay_out_of_project_facts(self):
+        corpus = load_corpus(ROOT)
+        nikon = [record for record in corpus.records if record.collection_id == "nikon-fx"]
+        self.assertEqual(len(nikon), sum(1 for _ in records()))
+        for record in nikon:
+            with self.subTest(record=record.record_id):
+                for view in record.views:
+                    image_format = view.view["image_format"]
+                    self.assertEqual(image_format["format_facets"], ["full_frame"])
+                    for member in ("image_circle_diameter_mm", "width_mm", "height_mm",
+                                   "fx_diagonal_mm", "fx_diagonal_coverage_ratio"):
+                        self.assertNotIn(member, image_format)
 
     @staticmethod
     def _image_circle(body):
