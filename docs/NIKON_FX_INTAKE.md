@@ -151,8 +151,8 @@ The batch 2 counts below use the focal length stated for each accepted source po
 
 ## Known limits
 
-- **The corpus is a third party's reading.** Its files are converted from photonstophotos.net
-  Optical Bench data, as most headers state. A file can be mislabelled: the corpus file named
+- **The corpus is a third party's reading.** Most of its file headers state that the data was
+  converted from an upstream optical dataset. A file can be mislabelled: the corpus file named
   `Nikon_100mm_F3.5.lens` cites `US 4,099,850 Example 1` but carries radii about 9.2× the
   publication's, and its focal length is 28.6 mm against the publication's 28.0 mm. That is why a
   corpus record never claims a transcription.
