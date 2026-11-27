@@ -127,17 +127,20 @@
   },
   "first_order": {
     "effective_focal_length_mm": {
-      "value": 5.18,
-      "basis": "SOURCE_STATED",
-      "definition": "Effective focal length as printed for the example",
-      "conditions": "Reference wavelength (d-line); object at infinity.",
-      "engine_value_mm": 5.190509324802675
+      "value": 5.190509324802675,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Paraxial effective focal length of the native Project.",
+      "conditions": {
+        "wavelength_nm": 587.720064
+      }
     },
     "back_focal_length_mm": {
       "value": 0.19924090749875015,
       "basis": "ENGINE_COMPUTED",
       "definition": "Paraxial distance from the exit vertex to the rear focal point",
-      "conditions": "Reference wavelength 587.56 nm."
+      "conditions": {
+        "wavelength_nm": 587.720064
+      }
     },
     "total_track_mm": {
       "value": 6.529,
@@ -150,7 +153,7 @@
       "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
       "effective_focal_length_mm": 5.190509324802675,
       "back_focal_length_mm": 0.19924090749875015,
-      "wavelength_nm": 587.56,
+      "wavelength_nm": 587.720064,
       "comparison": {
         "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 2-decimal focal length; rtol covers the 3-decimal radii and thicknesses and the engine's air-referenced index convention (about 0.13 % on EFL).",
         "atol_mm": 0.005,
@@ -363,6 +366,6 @@
       "Stop opening solved to 2.134200 mm so the modelled f-number reproduces the printed value."
     ]
   },
-  "record_hash": "5f7144ace8d1988c7dbfd0b453173597313f2bdcd52a584a1eace9fdf5a995b1",
+  "record_hash": "3729904c00b0f1c17b5e7f812c409fa697f16989533be6709858705a8382ab24",
   "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
