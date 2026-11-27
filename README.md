@@ -10,6 +10,8 @@ A planned library of optical prescriptions for AI agents. An agent uses an optic
 
 `os-optics` owns the native model and optical evaluation. `os-optics-lens` will own the prescription collection and its installed retrieval interface. `os-optics-kit` provides agent skills, study tools and worked cases. [Engine](https://github.com/JunLin615/os-optics) · [Kit](https://github.com/JunLin615/os-optics-kit)
 
+To add a prescription, follow [Submit a native Project](CONTRIBUTING.md#submit-a-native-project). The seed below preserves its original intake metadata.
+
 ## The seed collection
 
 `records/lenslibrary/` holds the first records: native `os-optics` Projects converted from

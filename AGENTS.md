@@ -10,7 +10,7 @@ Help an agent find a usable optical design starting point or reference structure
 - Keep a native Project and compact retrieval metadata per record. Give each record a stable ID and revision. Preserve meaningful configurations and variants, and identify the design family when known.
 - Use values defined by, measured on or computed from the committed Project for search, ranking and comparison. Identify their units, configuration and relevant conditions. Leave a requested fact unconfirmed when the Project has no comparable value.
 - Record the direct source identified by the contributor, such as the library and file used for a conversion, the example used for a direct transcription, or the contributor for an original design. Keep applicable attribution and redistribution terms. A direct source is sufficient.
-- Keep supporting data only when it makes a Project fact usable. Put transcription comparisons, intake reports, preparation scripts and raw assets in the contribution workspace, upstream, or in the batch discussion. Include required license notices in distributions.
+- Follow [Submit a native Project](CONTRIBUTING.md#submit-a-native-project) for new records. Keep supporting data only when it makes a Project fact usable. Keep source files and source-specific conversion scripts outside this repository. Share optional transcription comparisons and intake reports in the contribution discussion. Include required license notices in distributions.
 
 ## Retrieval requirements for the future package
 

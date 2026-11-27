@@ -1,8 +1,9 @@
 # Record layout and field semantics
 
-This document defines the record contract and describes the existing seed layout.
-[ARCHITECTURE.md](../ARCHITECTURE.md) defines retrieval behavior. Field names, units and bases are
-part of the record contract. Use a new `record_schema_version` when changing their meaning.
+Start with [Submit a native Project](../CONTRIBUTING.md#submit-a-native-project) for the files and checks
+required for a new contribution. This document defines the record contract and describes the existing
+seed layout. [ARCHITECTURE.md](../ARCHITECTURE.md) defines retrieval behavior. Field names, units and
+bases are part of the record contract. Use a new `record_schema_version` when changing their meaning.
 
 ## What retrieval uses
 
