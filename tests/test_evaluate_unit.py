@@ -280,7 +280,8 @@ class StopGates(unittest.TestCase):
         result = run(P2B, {"id": "f", "fact": "aperture.f_number", "op": "lte", "value": 2})
         self.assertEqual((result["outcome"], result["reason"]), ("UNCONFIRMED", "FACT_MISSING"))
         alternatives = {alt["fact"]: alt for alt in result["details"]["available_alternatives"]}
-        self.assertEqual(alternatives["aperture.entrance_pupil_f_number"]["value"], 1.9789)
+        self.assertEqual(alternatives["aperture.entrance_pupil_f_number"]["value"],
+                         P2B["aperture"]["entrance_pupil_f_number"]["value"])
         self.assertIn("aperture.stop_opening_diameter_mm", alternatives)
 
 

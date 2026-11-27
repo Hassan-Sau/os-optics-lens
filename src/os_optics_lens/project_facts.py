@@ -514,12 +514,4 @@ def project_view(record: dict[str, Any], project: Any, *, as_written: bool,
         image_height = field.get("max_image_height_mm")
         if is_number(image_height):
             view.setdefault("image_format", {})["image_circle_diameter_mm"] = 2 * image_height
-        # This legacy SOURCE_STATED entry describes the admitted-pupil analysis of the nominal P2b
-        # study preserved in the committed Project. The brief's sensor pixel pitch is independent.
-        pupil = _object(_object(record.get("aperture")).get("entrance_pupil_f_number"))
-        if (collection == "yutong-cup" and record.get("record_id") == "yutong-2025-mirrorless-18-p2b"
-                and _object(pupil.get("conditions")).get("convention") == "efl_over_admitted_entrance_pupil_diameter"
-                and is_number(pupil.get("value"))):
-            fact = _pick(pupil, "value", "conditions", "definition", "system_aperture")
-            view.setdefault("aperture", {})["entrance_pupil_f_number"] = dict(fact, basis="ENGINE_COMPUTED")
     return view
