@@ -1,0 +1,593 @@
+{
+ "schema": "opensci.project",
+ "project_schema_version": "2.0",
+ "components": [
+  {
+   "instance_id": "LENS",
+   "optical_role": "lens",
+   "custom_part": {
+    "custom_part_key": "LENS",
+    "description": "US02528468-1: imported from a csv-surface-table/1 prescription (2 elements, 1 aperture stop)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "optical_model_id": "LENS"
+  },
+  {
+   "instance_id": "SRC1",
+   "custom_part": {
+    "custom_part_key": "SRC1",
+    "description": "on-axis source at 486.266176 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 486.266176,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC2",
+   "custom_part": {
+    "custom_part_key": "SRC2",
+    "description": "on-axis source at 550.150191 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 550.150191,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC3",
+   "custom_part": {
+    "custom_part_key": "SRC3",
+    "description": "on-axis source at 587.721865 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 587.721865,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC4",
+   "custom_part": {
+    "custom_part_key": "SRC4",
+    "description": "on-axis source at 656.450687 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 656.450687,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  }
+ ],
+ "observations": [
+  {
+   "observation_id": "image_plane",
+   "pose": {
+    "position_mm": [
+     68.27972256998001,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     0.5,
+     0.5,
+     0.5,
+     0.5
+    ]
+   },
+   "aperture": {
+    "shape": "circle",
+    "radius_mm": 19.0,
+    "center_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "obstruction_radius_mm": 0.0
+   },
+   "absorbing": true,
+   "medium": "air"
+  }
+ ],
+ "targets": [],
+ "optical_models": [
+  {
+   "model_id": "LENS",
+   "display_name": "US02528468-1 (csv-surface-table/1, source SHA-256 5e3c14d1c457006e4070613b5581e366ffd25767775e59d22b3f51c99787d10d)",
+   "model": {
+    "model_kind": "COMPOUND",
+    "model_version": "1",
+    "members": [
+     {
+      "member_id": "STOP",
+      "model_id": "LENS-STOP",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        0.0
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L1",
+      "model_id": "LENS-L1",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        19.05
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L2",
+      "model_id": "LENS-L2",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        41.7068
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     }
+    ],
+    "envelope": {
+     "kind": "CYLINDER",
+     "diameter_mm": "38",
+     "z_min_mm": "0",
+     "z_max_mm": "49.4284",
+     "status": "DERIVED"
+    },
+    "ports": [
+     {
+      "port_id": "IN",
+      "role": "INPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "0"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     },
+     {
+      "port_id": "OUT",
+      "role": "OUTPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "49.4284"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     }
+    ]
+   }
+  },
+  {
+   "model_id": "LENS-STOP",
+   "display_name": "US02528468-1: aperture stop STOP, surface 1 (row 15, csv-surface-table/1)",
+   "model": {
+    "model_kind": "APERTURE_STOP",
+    "model_version": "1",
+    "opening_radius_mm": "4.49999999998",
+    "edge_radius_mm": "19",
+    "plane_z_mm": "0",
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L1",
+   "display_name": "US02528468-1: cemented element L1, surfaces 2-5 (rows 16-19, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "clear_radius_mm": "18",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "7.7216",
+      "radius_mm": "-25.7293354856",
+      "clear_radius_mm": "18",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S3",
+      "vertex_z_mm": "8.1026",
+      "radius_mm": "51.4899655492",
+      "clear_radius_mm": "18",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S4",
+      "vertex_z_mm": "20.9804",
+      "radius_mm": "-25.0443699518",
+      "conic": "-1",
+      "clear_radius_mm": "18",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "SCHOTT_N-LAK9",
+     "MODEL_SF12_ND1P64831_VD33P8412",
+     "MODEL_ND1P651_VD58P6"
+    ],
+    "edge_radius_mm": "18",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "CATALOG_MATERIAL_DISPERSION",
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L2",
+   "display_name": "US02528468-1: element L2, surfaces 6-7 (rows 20-21, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "45.4139102388",
+      "clear_radius_mm": "19",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "7.7216",
+      "clear_radius_mm": "19",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "MODEL_SK20_ND1P55963_VD61P2426"
+    ],
+    "edge_radius_mm": "19",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  }
+ ],
+ "model_materials": [
+  {
+   "material_id": "MODEL_ND1P651_VD58P6",
+   "display_name": "MODEL_ND1P651_VD58P6",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.82062628339",
+     "-0.0650907298032",
+     "11.9206341396"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.651 vd 58.6 solved to the vacuum C, d and F lines"
+  },
+  {
+   "material_id": "MODEL_SF12_ND1P64831_VD33P8412",
+   "display_name": "MODEL_SF12_ND1P64831_VD33P8412",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.43449045365",
+     "0.334391297519",
+     "20.5554879361"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.648310014814 vd 33.84118712047 solved to the vacuum C, d and F lines"
+  },
+  {
+   "material_id": "MODEL_SK20_ND1P55963_VD61P2426",
+   "display_name": "MODEL_SK20_ND1P55963_VD61P2426",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.538730367",
+     "-0.0832285479595",
+     "9.26114174057"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.55963040963 vd 61.24258056678 solved to the vacuum C, d and F lines"
+  },
+  {
+   "material_id": "SCHOTT_N-LAK9",
+   "display_name": "SCHOTT N-LAK9",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.46231905",
+     "0.344399589",
+     "1.15508372"
+    ],
+    "c_um2": [
+     "0.00724270156",
+     "0.0243353131",
+     "85.4686868"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "300.086",
+    "max_nm": "2500.67",
+    "status": "SPECIFIED"
+   },
+   "basis": "Sellmeier law: the Sellmeier formula of SCHOTT N-LAK9 (SCHOTT glass catalogue 2017-01-20b; refractiveindex.info database page specs/schott/optical/N-LAK9.yml (CC0 1.0)); wavelength in air, index relative to air (20 C, 101325 Pa); copied from public optical catalog 2026-11-25.1",
+   "index_reference": {
+    "wavelength": "AIR",
+    "index": "RELATIVE_TO_AIR",
+    "reference_air": {
+     "model": "EDLEN_1953_OPTICSTUDIO",
+     "temperature_c": "20",
+     "pressure_pa": "101325"
+    },
+    "source_band_nm": [
+     "300",
+     "2500"
+    ],
+    "stated_by": "CATALOGUE_FORMAT",
+    "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+   },
+   "bulk_loss": {
+    "kind": "EXTINCTION_COEFFICIENT",
+    "wavelength_nm": [
+     "320",
+     "334",
+     "350",
+     "365",
+     "370",
+     "380",
+     "390",
+     "400",
+     "405",
+     "420",
+     "436",
+     "460",
+     "500",
+     "546",
+     "580",
+     "620",
+     "660",
+     "700",
+     "1060",
+     "1530",
+     "1970",
+     "2325",
+     "2500"
+    ],
+    "k": [
+     "0.0000039848",
+     "0.0000017111",
+     "0.00000066604",
+     "0.00000028569",
+     "0.00000021945",
+     "0.00000014096",
+     "0.00000009009",
+     "0.000000065309",
+     "0.000000056661",
+     "0.000000040721",
+     "0.000000032293",
+     "0.000000023617",
+     "0.000000012784",
+     "0.000000010459",
+     "0.000000011111",
+     "0.0000000098924",
+     "0.000000010531",
+     "0.0000000089305",
+     "0.000000016913",
+     "0.00000016847",
+     "0.00000094577",
+     "0.0000064201",
+     "0.000015646"
+    ],
+    "basis": "measured extinction coefficient k of SCHOTT N-LAK9 (refractiveindex.info page specs/schott/optical/N-LAK9.yml, as tabulated; zero rows are not measured loss)"
+   },
+   "thermo_optic": {
+    "kind": "SCHOTT_DN_DT",
+    "d0": "0.00000211",
+    "d1": "0.0000000111",
+    "d2": "0.00000000000182",
+    "e0": "0.000000474",
+    "e1": "-0.000000000347",
+    "lambda_tk_um": "0.146",
+    "reference_temperature_c": "20",
+    "basis": "Schott dn/dT coefficients of SCHOTT N-LAK9 (refractiveindex.info thermal_dispersion formula A), reference temperature 20 C (the page states 293 K)"
+   },
+   "copied_from": {
+    "catalog_version": "2026-11-25.1",
+    "material_id": "SCHOTT_N-LAK9",
+    "source_edition": "SCHOTT glass catalogue 2017-01-20b"
+   }
+  }
+ ]
+}
