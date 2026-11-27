@@ -100,6 +100,21 @@ The file marks one surface `STOP`. The import places an aperture stop there with
 clear semi-diameter. A record states `STOP_BLOCKING` when that opening is the smallest in the
 system, and `STOP_NOT_BLOCKING` otherwise, with the basis. No record claims a stop-dependent result.
 
+## One axis, one image plane
+
+Every Project puts its light path on one axis. The compound keeps the design frame's +Z axis; each
+source sits on that axis 100 mm before the first vertex and emits along it, and the observation lies
+on the same axis behind the last vertex. The engine then reads the sources as the light's direction —
+`paraxial_analysis` reports `light_direction.rule` as `PROJECT_SOURCE` instead of an assumed direction —
+and the repository's own geometry mapping accepts the observation as an image receiver, which is what
+supplies `total_track_mm` and `final_powered_vertex_to_sensor_mm`.
+
+The image plane is the paraxial conjugate of the committed Project, not the sum of the transcribed
+thicknesses: for a converging design it is the exit vertex plus the engine's back focal length, so a
+collimated input focuses exactly on the plane. A design whose EFL or BFL is not positive has no real
+rear focus; its observation stays at the file's own image distance, on the axis, and the record says
+that the focus is virtual.
+
 ## Verification
 
 Three outcomes are tracked separately, and a record is accepted only when all three hold.
