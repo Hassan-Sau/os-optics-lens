@@ -1,0 +1,364 @@
+{
+ "schema": "opensci.project",
+ "project_schema_version": "2.0",
+ "components": [
+  {
+   "instance_id": "LENS",
+   "optical_role": "lens",
+   "custom_part": {
+    "custom_part_key": "LENS",
+    "description": "Cox1-01: imported from a csv-surface-table/1 prescription (1 element, 0 aperture stops)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "optical_model_id": "LENS"
+  },
+  {
+   "instance_id": "SRC1",
+   "custom_part": {
+    "custom_part_key": "SRC1",
+    "description": "on-axis source at 486.266176 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 486.266176,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC2",
+   "custom_part": {
+    "custom_part_key": "SRC2",
+    "description": "on-axis source at 550.150191 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 550.150191,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC3",
+   "custom_part": {
+    "custom_part_key": "SRC3",
+    "description": "on-axis source at 587.721865 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 587.721865,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC4",
+   "custom_part": {
+    "custom_part_key": "SRC4",
+    "description": "on-axis source at 656.450687 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     -100.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 656.450687,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  }
+ ],
+ "observations": [
+  {
+   "observation_id": "image_plane",
+   "pose": {
+    "position_mm": [
+     28.621634692020002,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     0.5,
+     0.5,
+     0.5,
+     0.5
+    ]
+   },
+   "aperture": {
+    "shape": "circle",
+    "radius_mm": 3.906195920029,
+    "center_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "obstruction_radius_mm": 0.0
+   },
+   "absorbing": true,
+   "medium": "air"
+  }
+ ],
+ "targets": [],
+ "optical_models": [
+  {
+   "model_id": "LENS",
+   "display_name": "Cox1-01 (csv-surface-table/1, source SHA-256 793201b2705d40e5cee46049ca55f4bc6c4e877c71928ca2d09a1ea282c8c40e)",
+   "model": {
+    "model_kind": "COMPOUND",
+    "model_version": "1",
+    "members": [
+     {
+      "member_id": "L1",
+      "model_id": "LENS-L1",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        0.0
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     }
+    ],
+    "envelope": {
+     "kind": "CYLINDER",
+     "diameter_mm": "6",
+     "z_min_mm": "0",
+     "z_max_mm": "3.429",
+     "status": "DERIVED"
+    },
+    "ports": [
+     {
+      "port_id": "IN",
+      "role": "INPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "0"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     },
+     {
+      "port_id": "OUT",
+      "role": "OUTPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "3.429"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     }
+    ]
+   }
+  },
+  {
+   "model_id": "LENS-L1",
+   "display_name": "Cox1-01: cemented element L1, surfaces 1-3 (rows 14-16, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "16.4935064846",
+      "clear_radius_mm": "3",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "2.794",
+      "radius_mm": "-11.3901345222",
+      "clear_radius_mm": "3",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S3",
+      "vertex_z_mm": "3.429",
+      "radius_mm": "-85.3781512652",
+      "clear_radius_mm": "3",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "MODEL_SSK4_ND1P5_VD40P0",
+     "MODEL_SF18_ND1P5_VD40P0"
+    ],
+    "edge_radius_mm": "3",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  }
+ ],
+ "model_materials": [
+  {
+   "material_id": "MODEL_SF18_ND1P5_VD40P0",
+   "display_name": "MODEL_SF18_ND1P5_VD40P0",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.16739793495",
+     "0.113481205901",
+     "12.2224185673"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.5 vd 40.0 solved to the vacuum C, d and F lines"
+  },
+  {
+   "material_id": "MODEL_SSK4_ND1P5_VD40P0",
+   "display_name": "MODEL_SSK4_ND1P5_VD40P0",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.16739793495",
+     "0.113481205901",
+     "12.2224185673"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.5 vd 40.0 solved to the vacuum C, d and F lines"
+  }
+ ]
+}
