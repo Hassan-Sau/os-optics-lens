@@ -107,11 +107,21 @@
    "effective_focal_length_mm": 1.5200987105068815,
    "back_focal_length_mm": -0.03672821843920951,
    "comparison": {
-    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 1e-05,
-    "rtol": 0.0001,
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length. atol = 0.005 mm is half a unit in the last decimal of the coarsest focal length these publications print (two decimals); rtol = 2e-3 is 1e-3 for a prescription printed to four decimals on radii as small as 0.27 mm plus 1e-3 for the engine's air-referenced index convention",
+    "atol_mm": 0.005,
+    "rtol": 0.002,
     "verdict": "NOT_APPLICABLE",
-    "why": "the source states no effective focal length or back focal length, so the rule has no source value to compare against; the engine values are recorded as ENGINE_COMPUTED facts only"
+    "effective_focal_length": {
+     "state": "NOT_STATED",
+     "engine_mm": 1.5200987105068815,
+     "basis": "the source states no such first-order value"
+    },
+    "back_focal_length": {
+     "state": "NOT_STATED",
+     "engine_mm": -0.03672821843920951,
+     "basis": "the source states no such first-order value"
+    },
+    "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "note": "the engine's back focal length is the component's infinite-conjugate value: the paraxial focus of an object at infinity lies 0.0367 mm before the last surface vertex. The design's own conjugate is finite (36.0000 mm object distance); for that conjugate the same ABCD puts the focus at z = 6.93146 mm, 0.0051 mm behind the source's stated image plane at z = 6.9264 mm",
    "basis": "ENGINE_COMPUTED"
@@ -126,7 +136,8 @@
     "note": "the source states no clear aperture. The opening was set to 0.25 mm as a nominal endoscope pupil (about f/3.0 at the engine's 1.5201 mm focal length); it is a conversion choice, not a source value, and it changes no first-order quantity"
    },
    "source_surface": "7 (the plane front face of the 0.30 mm plate, nd 1.52113)"
-  }
+  },
+  "stated": false
  },
  "field": {
   "kind": null,
@@ -391,6 +402,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "79e5a4777779c4f04a18f3bea692062dfd89dcdabb000e7f050a732386a8b1cd",
+ "record_hash": "135ff0c63400976a91bed4b9a2f3a3f4ae44b8a75639eea9400ed699fe23407a",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

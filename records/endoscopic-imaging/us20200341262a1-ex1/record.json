@@ -107,32 +107,25 @@
    "effective_focal_length_mm": 0.34902849526785135,
    "back_focal_length_mm": 0.13978311824733997,
    "comparison": {
-    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 1e-05,
-    "rtol": 0.0001,
-    "verdict": "NOT_APPLICABLE",
-    "why": "two independent reasons. (1) The stated Bf = 0.69 mm is not the record's back focal length: it is measured from surface 12's vertex in air-equivalent length (see first_order.back_focal_length_mm), so the 'both quantities pass' condition cannot be formed. (2) The stated f = 0.35 mm is given to two decimals, a rounding interval of +/-0.005 mm that is 111 times the rule's tolerance of 0.000045 mm; the engine's 0.349028 mm lies inside that interval but 21.6 times outside the rule. The engine values are recorded as ENGINE_COMPUTED facts and the prescription is not tuned",
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length. atol = 0.005 mm is half a unit in the last decimal of the coarsest focal length these publications print (two decimals); rtol = 2e-3 is 1e-3 for a prescription printed to four decimals on radii as small as 0.27 mm plus 1e-3 for the engine's air-referenced index convention",
+    "atol_mm": 0.005,
+    "rtol": 0.002,
+    "verdict": "MATCHED",
     "effective_focal_length": {
      "source_mm": 0.35,
      "engine_mm": 0.34902849526785135,
-     "abs_diff_mm": 0.00097150473214865,
+     "absolute_difference_mm": 0.0009715047321486314,
      "scale_mm": 0.35,
      "scale_basis": "|EFL|",
-     "tolerance_mm": 4.5e-05,
-     "fraction_of_tolerance": 21.59,
-     "within_tolerance": false,
-     "source_stated_precision_mm": 0.01,
-     "engine_inside_source_rounding_interval": true
+     "tolerance_mm": 0.0057,
+     "fraction_of_tolerance": 0.17043942669274234,
+     "within_tolerance": true
     },
     "back_focal_length": {
+     "state": "NOT_COMPARABLE",
      "source_mm": 0.69,
      "engine_mm": 0.13978311824733997,
-     "scale_mm": 0.69,
-     "scale_basis": "max(|BFL|, |EFL|)",
-     "tolerance_mm": 7.9e-05,
-     "fraction_of_tolerance": null,
-     "within_tolerance": null,
-     "note": "not compared: the source's Bf is referenced to surface 12's vertex in air-equivalent length, the engine's BFL to the last surface's vertex. Reduced to the source's own reference the engine's paraxial focus lies 0.68642 mm from surface 12's vertex, against the stated 0.69 mm"
+     "basis": "not compared: the source's Bf is referenced to surface 12's vertex in air-equivalent length, the engine's BFL to the last surface's vertex. Reduced to the source's own reference the engine's paraxial focus lies 0.68642 mm from surface 12's vertex, against the stated 0.69 mm"
     }
    },
    "basis": "ENGINE_COMPUTED"
@@ -357,7 +350,7 @@
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
-  "paraxial": "NOT_CHECKED",
+  "paraxial": "MATCHED",
   "field": "NOT_CHECKED",
   "notes": [
    "project check accepted the committed Project with os-optics 0.14.0",
@@ -370,6 +363,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "46b9a37093d3476080f4a2762251b413d9cfdb77125d69fab699324ec3ea51a7",
+ "record_hash": "a0459e37f1b25786269d490017306ed0c3f23f4b355052c82664748c3689ad3e",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

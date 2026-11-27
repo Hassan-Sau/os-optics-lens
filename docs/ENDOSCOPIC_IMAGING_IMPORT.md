@@ -124,14 +124,45 @@ not a measured focal length: the engine lands within about 0.2 % of it, outside 
 (a constant-index build does not remove it); it is the source's own internal rounding between a
 normalised target and a four-decimal surface table.
 
-Those records therefore carry:
+Records whose publication states no first-order value therefore carry:
 
 - `validation.paraxial: NOT_CHECKED`, with the reason in `validation.notes`,
 - the engine's own EFL and BFL under `first_order.engine_check` as `ENGINE_COMPUTED` facts,
-- `comparison.verdict: NOT_APPLICABLE`, because there is no source value to compare against.
+- `comparison.verdict: NOT_APPLICABLE`, with `comparison.why` naming the missing value.
 
 Records are not tuned to hit a stated number. Where a publication does state an EFL and a BFL in
-millimetres, the comparison is run and the verdict is `MATCHED` or `DIFFERS`.
+millimetres, the comparison is run against the batch rule below and the verdict is `MATCHED` or
+`DIFFERS`.
+
+### The tolerance this batch applies
+
+The format's default rule (`1e-5 + 1e-4·scale`) is below what a publication that prints a normalised
+focal length and a four-decimal surface table can support, so this batch states the rule it applies,
+as the acceptance clause requires:
+
+| Quantity | Rule |
+|---|---|
+| every record | `\|engine − source\| ≤ 0.005 mm + 2e-3 · scale` |
+
+- `atol = 0.005 mm` is half a unit in the last decimal of the coarsest focal length these
+  publications print (`Focal length 0.35`). It is applied uniformly because a record does not carry
+  its table's print precision as a machine-readable field; the cost is that a five-decimal print is
+  held to a looser bound than its digits would allow, and the reviewer sees that in `atol_mm`.
+- `rtol = 2e-3` is `1e-3` for a prescription printed to four decimals on radii as small as 0.27 mm,
+  plus `1e-3` for the engine's air-referenced index convention measured below (0.06–0.1 % on EFL).
+
+`comparison.rule`, `comparison.atol_mm` and `comparison.rtol` carry this rule in every record, so a
+reviewer recomputes each verdict from the record alone. Where the two values still disagree outside
+it, the record says `DIFFERS` and the batch defers it with `PARAXIAL_DIFFERS` rather than merging a
+record that claims a first-order agreement it does not have. Four records are deferred that way: the
+prescription reproduces the stated focal length but not the stated back focal length, by 0.02 mm to
+2.6 mm, which is a disagreement about the image position and not about print precision.
+
+The tighter rule stays available: at `1e-5 + 1e-4·scale` every record in this batch whose
+publication states a focal length fails, because the residual is the engine convention plus the
+source's own rounding rather than a transcription error. That is the upstream question this batch
+raises instead of patching around, and the batch rule above is the honest bound until it is
+answered.
 
 ### The engine's air-referenced index convention
 

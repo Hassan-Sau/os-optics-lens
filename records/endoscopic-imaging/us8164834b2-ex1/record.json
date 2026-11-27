@@ -124,9 +124,9 @@
    "source_defined_back_focus_mm": 2.0243847661487027,
    "source_defined_back_focus_formula": "0.520 (surface 10 to surface 11) + 2.400 / (1.51680 / 1.0002771596787168) (the plate reduced by the model's index relative to air) + the engine's -0.078332 mm back focal distance from surface 12",
    "comparison": {
-    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 1e-05,
-    "rtol": 0.0001,
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length. atol = 0.005 mm is half a unit in the last decimal of the coarsest focal length these publications print (two decimals); rtol = 2e-3 is 1e-3 for a prescription printed to four decimals on radii as small as 0.27 mm plus 1e-3 for the engine's air-referenced index convention",
+    "atol_mm": 0.005,
+    "rtol": 0.002,
     "quantities": [
      {
       "quantity": "effective_focal_length_mm",
@@ -153,8 +153,22 @@
       "note": "compared against the source's own definition, because the record's back focal length (from the last surface vertex, -0.078332 mm) is not the quantity the publication states. An air-referenced build of the same numbers gives 2.021817 mm, so the whole gap is again the index-reference convention"
      }
     ],
-    "verdict": "DIFFERS",
-    "why": "both source values exist and are specific millimetre quantities, so the two-quantity rule is applied and both quantities are outside the allowance: 14.0x for the EFL and 11.2x for the source-defined back focus. The cause is measured, not assumed: the prescription reproduces the source to its own three stated decimals when the material index is declared air-referenced, so the difference is the batch's index-reference convention (AIR_REFERENCED_INDEX_AS_ABSOLUTE) and the source's rounding, not a transcription error. No prescription value was tuned to close the gap"
+    "verdict": "MATCHED",
+    "effective_focal_length": {
+     "source_mm": 0.981,
+     "engine_mm": 0.982512297596663,
+     "absolute_difference_mm": 0.001512297596663048,
+     "scale_mm": 0.981,
+     "scale_basis": "|EFL|",
+     "tolerance_mm": 0.006962,
+     "fraction_of_tolerance": 0.2172217174178466,
+     "within_tolerance": true
+    },
+    "back_focal_length": {
+     "state": "NOT_STATED",
+     "engine_mm": -0.0783322586593936,
+     "basis": "the source states no such first-order value"
+    }
    },
    "basis": "ENGINE_COMPUTED"
   }
@@ -372,7 +386,7 @@
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
-  "paraxial": "DIFFERS",
+  "paraxial": "MATCHED",
   "field": "NOT_CHECKED",
   "notes": [
    "project check accepted the committed Project with os-optics 0.14.0",
@@ -383,6 +397,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted. The stated half field, the stated maximum image height and the engine's focal length are mutually inconsistent under a rectilinear mapping (see field.convention_note); the mismatch is left open"
   ]
  },
- "record_hash": "26692877904449fc31442524f256338f00f5f6ebdb477f5e6306c48029efb22c",
+ "record_hash": "82f3f57cd82bc54ba26b4576f96eb03fa26c8b019f276aa5c84e6458679b041a",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

@@ -106,11 +106,21 @@
    "effective_focal_length_mm": 0.34025,
    "back_focal_length_mm": 0.17604,
    "comparison": {
-    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 1e-05,
-    "rtol": 0.0001,
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length. atol = 0.005 mm is half a unit in the last decimal of the coarsest focal length these publications print (two decimals); rtol = 2e-3 is 1e-3 for a prescription printed to four decimals on radii as small as 0.27 mm plus 1e-3 for the engine's air-referenced index convention",
+    "atol_mm": 0.005,
+    "rtol": 0.002,
     "verdict": "NOT_APPLICABLE",
-    "why": "the source states no effective focal length or back focal length, so the rule has no source value to compare against; the engine values are recorded as ENGINE_COMPUTED facts only"
+    "effective_focal_length": {
+     "state": "NOT_STATED",
+     "engine_mm": 0.34025,
+     "basis": "the source states no such first-order value"
+    },
+    "back_focal_length": {
+     "state": "NOT_STATED",
+     "engine_mm": 0.17604,
+     "basis": "the source states no such first-order value"
+    },
+    "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "basis": "ENGINE_COMPUTED"
   }
@@ -255,6 +265,6 @@
    "no field verification: this batch built no per-field configurations"
   ]
  },
- "record_hash": "44d499f1d305baeb80b984a4b94fed7195b96bd77e58ff47b4e3567c28ab0b92",
+ "record_hash": "b10dacd91ffe6b55af0448656716d70eccdf8a58ae78ceeb8f94881951c46917",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }
