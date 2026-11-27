@@ -53,29 +53,25 @@
  },
  "native_project": {
   "path": "records/patent-machine-vision/us10061102-example-1/project.json",
-  "sha256": "687b79972f5218a0133c897a9314b9e19cd062391f05e6f2ae5ae6693dae9ce9",
+  "sha256": "fc81e3f56c74d434d34c080966c6d59e0b0d84e28554f8de3eb1606b3d4cb3be",
   "engine_version": "0.14.0",
   "catalog_version": "2026-11-25.1",
   "model_id": "MV35F18",
-  "opening_outcome": "ACCEPTED",
-  "optical_validation": "PARAXIAL_MATCH"
+  "opening_outcome": "ACCEPTED"
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
-   435.8,
-   486.1,
-   587.6,
-   656.3
+   587.760075
   ],
-  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths: the source names the d-line 587.6 nm, F-line 486.1 nm, C-line 656.3 nm and g-line 435.8 nm",
-  "primary_wavelength_nm": 587.6,
-  "wavelength_precision": "as stated by the source; the Project uses these values unchanged",
+  "sampling_wavelengths_basis": "PROJECT_DECLARED vacuum wavelength from the native source.",
+  "primary_wavelength_nm": 587.760075,
+  "wavelength_precision": "Native d-line in vacuum, converted from 587.6 nm in air at 20 C and 101325 Pa.",
   "sampling_span_nm": {
-   "min_nm": 435.8,
-   "max_nm": 656.3,
+   "min_nm": 587.760075,
+   "max_nm": 587.760075,
    "eligible_for": "DISCOVERY_ONLY",
-   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
-   "note": "the span of the stated sampling wavelengths; the source states no separate operating range"
+   "basis": "PROJECT_DECLARED",
+   "note": "Single modeled wavelength."
   },
   "continuous_coverage_nm": {
    "min_nm": null,
@@ -85,6 +81,12 @@
   },
   "band_facets": [
    "visible"
+  ],
+  "sampling_wavelengths_air_nm": [
+   435.8,
+   486.1,
+   587.6,
+   656.3
   ]
  },
  "image_format": {
@@ -97,14 +99,19 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 34.97497576765844,
+   "value": 34.97504450026897,
    "basis": "ENGINE_COMPUTED",
-   "conditions": "paraxial, primary wavelength 587.6 nm (vacuum)"
+   "conditions": {
+    "wavelength_nm": 587.760075
+   }
   },
   "back_focal_length_mm": {
-   "value": 9.658729891938325,
+   "value": 9.658778109831792,
    "basis": "ENGINE_COMPUTED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "definition": "from the last surface vertex to the paraxial image point",
+   "conditions": {
+    "wavelength_nm": 587.760075
+   }
   },
   "total_track_mm": {
    "value": 112.245,
@@ -115,35 +122,9 @@
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
-   "wavelength_nm": 587.6,
-   "effective_focal_length_mm": 34.97497576765844,
-   "back_focal_length_mm": 9.658729891938325,
-   "comparison": {
-    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 1e-05,
-    "rtol": 0.0001,
-    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
-    "effective_focal_length": {
-     "source_mm": 34.976,
-     "engine_mm": 34.97497576765844,
-     "absolute_difference_mm": 0.0010242323415567967,
-     "scale_mm": 34.976,
-     "scale_basis": "|EFL|",
-     "tolerance_mm": 0.0035076,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.2920037465950498
-    },
-    "back_focal_length": {
-     "source_mm": 9.656,
-     "engine_mm": 9.658729891938325,
-     "absolute_difference_mm": 0.0027298919383245135,
-     "scale_mm": 34.976,
-     "scale_basis": "max(|BFL|, |EFL|)",
-     "tolerance_mm": 0.0035076,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.778279147657804
-    }
-   },
+   "wavelength_nm": 587.760075,
+   "effective_focal_length_mm": 34.97504450026897,
+   "back_focal_length_mm": 9.658778109831792,
    "basis": "ENGINE_COMPUTED"
   }
  },
@@ -350,7 +331,7 @@
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
-  "paraxial": "MATCHED",
+  "paraxial": "NOT_CHECKED",
   "engine_version": "0.14.0",
   "solids_findings": []
  },
@@ -363,6 +344,6 @@
   "retrieved": "2026-11-26",
   "transcription": "surface radius, thickness, nd and vd read from TABLE 1; f', FNo. and 2w read from TABLE 2"
  },
- "record_hash": "ef30abd3b04b691fa87259b6714c066a91ba1ee110727509b087bd16a61f9a15",
+ "record_hash": "669966f65996e67c3b55275b3479fe96fd13f9d366f818d80bcd610ed136ca64",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }

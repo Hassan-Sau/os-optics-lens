@@ -54,28 +54,25 @@
  },
  "native_project": {
   "path": "records/patent-machine-vision/us11092788b2-example-3/project.json",
-  "sha256": "29fa4d3577194c82420755c7a80dbcbbcb1c7e55995f26f29ea328833a80627e",
+  "sha256": "92d1bfe8bb2ef4cc878ac5f508e0f0a9188dda129109663290e075b0aa3ce121",
   "engine_version": "0.14.0",
   "catalog_version": "2026-11-25.1",
   "model_id": "MVA1643",
-  "opening_outcome": "ACCEPTED",
-  "optical_validation": "PARAXIAL_MATCH"
+  "opening_outcome": "ACCEPTED"
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
-   486.13,
-   587.56,
-   656.27
+   587.720064
   ],
-  "sampling_wavelengths_basis": "SOURCE_STATED air wavelengths: the source defines the d line as 587.56 nm, the C line as 656.27 nm and the F line as 486.13 nm, and states that its tables are based on the d line",
-  "primary_wavelength_nm": 587.56,
-  "wavelength_precision": "as stated by the source; the Project uses these values unchanged",
+  "sampling_wavelengths_basis": "PROJECT_DECLARED vacuum wavelength from the native source.",
+  "primary_wavelength_nm": 587.720064,
+  "wavelength_precision": "Native d-line in vacuum, converted from 587.56 nm in air at 20 C and 101325 Pa.",
   "sampling_span_nm": {
-   "min_nm": 486.13,
-   "max_nm": 656.27,
+   "min_nm": 587.720064,
+   "max_nm": 587.720064,
    "eligible_for": "DISCOVERY_ONLY",
-   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
-   "note": "the span of the stated sampling wavelengths; the source states no separate operating range"
+   "basis": "PROJECT_DECLARED",
+   "note": "Single modeled wavelength."
   },
   "continuous_coverage_nm": {
    "min_nm": null,
@@ -85,6 +82,11 @@
   },
   "band_facets": [
    "visible"
+  ],
+  "sampling_wavelengths_air_nm": [
+   486.13,
+   587.56,
+   656.27
   ]
  },
  "image_format": {
@@ -95,14 +97,19 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 16.43042886985755,
+   "value": 16.430336946183942,
    "basis": "ENGINE_COMPUTED",
-   "conditions": "paraxial, primary wavelength 587.56 nm (vacuum)"
+   "conditions": {
+    "wavelength_nm": 587.720064
+   }
   },
   "back_focal_length_mm": {
-   "value": 11.207052786355696,
+   "value": 11.207283190002858,
    "basis": "ENGINE_COMPUTED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "definition": "from the last surface vertex to the paraxial image point",
+   "conditions": {
+    "wavelength_nm": 587.720064
+   }
   },
   "total_track_mm": {
    "value": 83.355,
@@ -113,36 +120,9 @@
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
-   "wavelength_nm": 587.56,
-   "effective_focal_length_mm": 16.43042886985755,
-   "back_focal_length_mm": 11.207052786355696,
-   "comparison": {
-    "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 1e-05,
-    "rtol": 0.0001,
-    "why_this_scale": "a back focal length can pass through zero, so it cannot set its own tolerance; the system focal length sets the scale of a first-order comparison, and the larger of the two covers a long back focus behind a short focal length",
-    "effective_focal_length": {
-     "source_mm": 16.43,
-     "engine_mm": 16.43042886985755,
-     "absolute_difference_mm": 0.000428869857550751,
-     "scale_mm": 16.43,
-     "scale_basis": "|EFL|",
-     "tolerance_mm": 0.0016530000000000002,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.25944939960722985
-    },
-    "back_focal_length": {
-     "source_mm": 21.865,
-     "engine_mm": 21.86633545508324,
-     "absolute_difference_mm": 0.0013354550832431755,
-     "scale_mm": 21.865,
-     "scale_basis": "max(|BFL|, |EFL|)",
-     "tolerance_mm": 0.0021965,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.6079922983123949,
-     "reference": "measured from the vertex of surface 20, the reference the source states; the engine's distance from the last surface is 11.207053 mm and the air-conversion offset from surface 20 to it is 10.659283 mm"
-    }
-   },
+   "wavelength_nm": 587.720064,
+   "effective_focal_length_mm": 16.430336946183942,
+   "back_focal_length_mm": 11.207283190002858,
    "basis": "ENGINE_COMPUTED"
   }
  },
@@ -369,7 +349,7 @@
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
-  "paraxial": "MATCHED",
+  "paraxial": "NOT_CHECKED",
   "engine_version": "0.14.0",
   "solids_findings": []
  },
@@ -382,6 +362,6 @@
   "retrieved": "2026-11-27",
   "transcription": "surface radius, thickness, nd and vd read from the lens-data table; f', FNo. and 2w read from the specification table; the variable spacings are the infinity-column values"
  },
- "record_hash": "4ae6fbae46ae20e9b8350adca8f73c4757932f17c06190721949a9db2863fbe0",
+ "record_hash": "bb3d9904c82bddb6e6a9cd76a0f80d2d4abd83bc0c0e70064f7e5be6a6bf0ab1",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }

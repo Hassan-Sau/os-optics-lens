@@ -32,14 +32,8 @@
   "conversion_failed": 0
  },
  "verification": {
-  "acceptance_rule": "a record is accepted only when all four hold: conversion PASSED, project_check ACCEPTED, optical_solids VALID, paraxial MATCHED. No record in this batch is accepted with a DIFFERS flag, and no clear aperture was forced to make one pass.",
-  "paraxial_rule": "per quantity |engine - source| <= atol + rtol * scale, atol = 1e-5 mm, rtol = 1e-4, scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length, as docs/RECORD_FORMAT.md states it",
-  "independent_cross_check": "every accepted prescription was also traced by a standalone thick-lens ABCD written from the transcribed table alone, with no engine involvement. It reproduces the source-stated f' and Bf to 3e-4 mm on us10061102-example-1..3, which is the check that the numbers are transcribed right rather than merely consistent with the engine",
-  "two_conventions_that_had_to_be_established": [
-   "a source-stated nd is an index RELATIVE TO AIR at 20 C; written as a bare constant index the engine reads it as absolute, divides by the air index and makes the medium 2.8e-4 too weak, which is enough to turn a MATCHED record into DIFFERS on a six-element lens",
-   "a printed Bf is not always a last-surface back focus: US11092788B2 states it as an air-conversion length from the last lens surface through a 1.000 mm plate, 10.659 mm in front of the image. The reference surface is identified per example and recorded, not assumed"
-  ],
-  "source_precision_limit": "14 CN221993702U examples reproduce the stated f' to 0.0001-0.0040 mm, all inside the +-0.005 mm the source prints that value to, but outside the series tolerance of 0.0008 mm. They are withheld rather than accepted, and the rule is raised for a maintainer decision in the pull request: the tolerance is 6x tighter than the source's own printing on an 8 mm lens"
+  "native_project": "CI checks each Project with os-optics 0.14.0 and recomputes the standard paraxial EFL and BFL at the native vacuum wavelength.",
+  "source_comparisons": "The original batch preparation and optional transcription comparisons are recorded in pull request #49."
  },
  "accepted_record_ids": [
   "cn110967810-example-1",
