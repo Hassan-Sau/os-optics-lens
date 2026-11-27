@@ -17,15 +17,11 @@
    "assignee": "Sony Corp",
    "url": "https://patents.google.com/patent/US9491348B2/en"
   },
-  "redistribution": "The numerical prescription is published in a patent application, a public record. The transcription, the native Project and this evidence extract are distributed under MIT. The patent document itself is not redistributed.",
+  "redistribution": "The native Project and record metadata are distributed under MIT. The patent document is cited as the direct source.",
   "license": {
    "spdx": "MIT",
    "notice_path": "LICENSE",
    "copyright": "Copyright (c) 2026 JunLin615"
-  },
-  "evidence_extract": {
-   "path": "records/sony-fe/patent-us9491348b2-ex04/evidence.json",
-   "sha256": "a983ed5899c6e7ed754f3165d902a9fb1871e0478afd7890c54a18751a887aa4"
   },
   "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
  },
@@ -67,8 +63,7 @@
   "catalog_version": null,
   "instance_id": "OPTIC",
   "model_id": "OPTIC",
-  "opening_outcome": "ACCEPTED",
-  "optical_validation": "PARAXIAL_MATCH"
+  "opening_outcome": "ACCEPTED"
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
@@ -107,29 +102,32 @@
   "width_mm": 36,
   "height_mm": 24,
   "image_circle_diameter_mm": 43.86,
-  "basis": "Derived as 2 f tan(omega) from the printed focal length and half field angle: 43.86 mm, 1.4 % above the 43.27 mm diagonal of a 36 x 24 mm frame. The facet follows the family's 36 x 24 design and the derivation sits in the 2 % window used for that claim."
+  "basis": "SOURCE_STATED: the 36 × 24 mm dimensions describe the intended format of the cited design.",
+  "image_circle_diameter_basis": "DERIVED: source-only estimate 2 f tan(omega). Project coverage is unconfirmed."
  },
  "field": {
   "kind": "ANGULAR",
   "full_field_deg": 44.655,
   "half_field_deg": 22.3275,
   "basis": "SOURCE_STATED",
-  "definition": "Object-space half angle to the image height the example is corrected for.",
+  "definition": "Object-space half angle printed for the cited example.",
   "max_image_height_mm": 21.93,
-  "image_height_basis": "DERIVED from f tan(omega): the publication prints the angle, not the height."
+  "image_height_basis": "DERIVED: source-only estimate f tan(omega) from the printed focal length and half field."
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 53.3984,
-   "basis": "SOURCE_STATED",
-   "definition": "Effective focal length as printed for the example",
-   "conditions": "Reference wavelength (d-line); object at infinity.",
-   "engine_value_mm": 53.427208631289396
+   "value": 53.427208631289396,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial effective focal length of the committed Project.",
+   "conditions": {
+    "wavelength_nm": 587.720064,
+    "conjugate": "INFINITE_TO_FINITE"
+   }
   },
   "back_focal_length_mm": {
    "value": 1.010012738142102,
    "basis": "ENGINE_COMPUTED",
-   "definition": "Paraxial distance from the exit vertex to the rear focal point",
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
    "conditions": {
     "distance_kind": "paraxial_focal_distance",
     "from": "final_optical_surface_vertex",
@@ -148,27 +146,7 @@
    "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
    "effective_focal_length_mm": 53.427208631289396,
    "back_focal_length_mm": 1.010012738142102,
-   "wavelength_nm": 587.720064,
-   "comparison": {
-    "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 3-decimal focal length; rtol covers the printed radii and thicknesses, the constant-index material model and the engine's air-referenced index convention (about 0.13 % on EFL).",
-    "atol_mm": 0.005,
-    "rtol": 0.003,
-    "effective_focal_length": {
-     "source_mm": 53.3984,
-     "engine_mm": 53.427208631289396,
-     "absolute_difference_mm": 0.028808631289393816,
-     "scale_mm": 53.3984,
-     "scale_basis": "|EFL|",
-     "tolerance_mm": 0.16519520000000001,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.17439145501439396
-    },
-    "back_focal_length": {
-     "state": "UNCONFIRMED",
-     "engine_mm": 1.010012738142102,
-     "basis": "The publication prints no back focal length, so this quantity has no source value."
-    }
-   }
+   "wavelength_nm": 587.720064
   }
  },
  "aperture": {
@@ -181,7 +159,7 @@
   }
  },
  "materials": {
-  "basis": "The publication prints one index and one Abbe number per element at the d-line, so every element is a constant index at the reference wavelength. No dispersion law is claimed and no catalogue glass is substituted; the vd values are kept in the evidence extract.",
+  "basis": "Each Project material uses a constant index at the reference wavelength, based on the publication’s d-line index. The printed Abbe numbers are outside the material model.",
   "model_glasses": [
    {
     "model": "CONSTANT_INDEX",
@@ -259,7 +237,7 @@
  "approximations": [
   {
    "code": "CONSTANT_INDEX_FROM_ND",
-   "statement": "Each element is a constant index equal to its printed nd, valid only at the reference wavelength; the printed vd values are kept in the evidence extract but are not modelled."
+   "statement": "Each element uses its printed d-line refractive index as a constant at the reference wavelength. The printed Abbe numbers are outside the material model."
   },
   {
    "code": "CLEAR_APERTURE_ASSUMED",
@@ -267,16 +245,15 @@
   },
   {
    "code": "SINGLE_FOCUS_STATE",
-   "statement": "The Project is the infinity-focus state; the printed gaps for the closer conjugates are kept in the evidence extract."
+   "statement": "The Project represents infinity focus. See the cited example for spacings at closer conjugates."
   }
  ],
  "unsupported_constructs": [],
  "validation": {
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
-  "optical_solids": "VALID",
-  "paraxial": "MATCHED"
+  "optical_solids": "VALID"
  },
- "record_hash": "5a06eec42a2e57d7efd8b663b29676f7001b93c79d7458f8f983dcfe198ed602",
+ "record_hash": "86087312839242c24770525754563cae891655caae3287008c372879b347692e",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }
