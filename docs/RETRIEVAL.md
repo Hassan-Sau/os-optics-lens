@@ -588,6 +588,13 @@ Use the Project fact for the aperture convention in your brief.
 - an object-side numerical aperture;
 - a stop opening diameter.
 
+For ordinary on-axis infinite-conjugate imaging, filter with `aperture.entrance_pupil_f_number`.
+For finite-conjugate imaging, use `aperture.paraxial_working_f_number` and pin `object_distance_mm`
+in the constraint's `conditions` when the brief specifies it. These checked facts can be limited
+by a modeled stop or a lens surface's clear aperture. They remain scoped to their native
+configuration and vacuum wavelength. A source-stated nominal target supplies no searchable
+value on its own.
+
 The `system_aperture` facet names the aperture the design file declares. Constrain the quantity
 the brief means. A record without it is FACT_MISSING, and `available_alternatives` shows which
 aperture facts it has.
