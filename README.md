@@ -39,6 +39,14 @@ os-optics project paraxial records/lenslibrary/lenslibrary-528155/project.json \
 [Importing the LensLibrary seed collection](docs/LENSLIBRARY_IMPORT.md) records the conversion
 method, the material and surface decisions, the verification run and the known limits.
 
+## Canon full-frame photography lenses
+
+The Canon collection includes 18 native Projects from published patent numerical examples for
+full-frame photography, including wide-angle, telephoto and individual zoom positions. Each
+record identifies the publication, example and modeled configuration. The
+[collection notes](docs/CANON_FULL_FRAME_INTAKE.md) describe the material and aperture models
+and the conditions for the retained chief-ray traces.
+
 ### Spectral band boundaries
 
 `band_facets` in a record uses these boundaries, in vacuum nanometres:
