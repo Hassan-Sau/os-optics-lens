@@ -136,7 +136,7 @@ class PhoneTelephotoBatch(unittest.TestCase):
                 self.assertEqual(record["validation"]["optical_solids"], "VALID")
 
                 first = record["first_order"]
-                efl = first["effective_focal_length_mm"]["engine_value_mm"]
+                efl = first["effective_focal_length_mm"]["value"]
                 track = first["total_track_mm"]["value"]
                 self.assertLess(track / efl, 1.1, "a telephoto record must keep its track below 1.1 x EFL")
 
@@ -157,7 +157,7 @@ class PhoneTelephotoBatch(unittest.TestCase):
                 self.assertIn("CLEAR_APERTURES_DERIVED", codes)
 
     def test_batch_covers_both_telephoto_classes(self):
-        focal = sorted(record["first_order"]["effective_focal_length_mm"]["engine_value_mm"]
+        focal = sorted(record["first_order"]["effective_focal_length_mm"]["value"]
                        for record in self.records.values())
         self.assertLess(min(focal), 6.5)
         self.assertGreater(max(focal), 8.5)

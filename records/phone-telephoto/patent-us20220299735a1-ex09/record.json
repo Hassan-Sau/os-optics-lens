@@ -129,17 +129,20 @@
   },
   "first_order": {
     "effective_focal_length_mm": {
-      "value": 6.33,
-      "basis": "SOURCE_STATED",
-      "definition": "Effective focal length as printed for the example",
-      "conditions": "Reference wavelength (d-line); object at infinity.",
-      "engine_value_mm": 6.3443317824270355
+      "value": 6.3443317824270355,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Paraxial effective focal length of the native Project.",
+      "conditions": {
+        "wavelength_nm": 587.720064
+      }
     },
     "back_focal_length_mm": {
       "value": 0.4977172084411423,
       "basis": "ENGINE_COMPUTED",
       "definition": "Paraxial distance from the exit vertex to the rear focal point",
-      "conditions": "Reference wavelength 587.56 nm."
+      "conditions": {
+        "wavelength_nm": 587.720064
+      }
     },
     "total_track_mm": {
       "value": 5.838,
@@ -152,7 +155,7 @@
       "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
       "effective_focal_length_mm": 6.3443317824270355,
       "back_focal_length_mm": 0.4977172084411423,
-      "wavelength_nm": 587.56,
+      "wavelength_nm": 587.720064,
       "comparison": {
         "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed 2-decimal focal length; rtol covers the prescription printed to three decimals in radius, thickness and index (about 0.3 % on EFL for these five-element plastic designs) together with the engine's air-referenced index convention (about 0.13 %). The batch's largest measured deviation is 0.4 %.",
         "atol_mm": 0.005,
@@ -365,6 +368,6 @@
       "Stop opening solved to 1.773600 mm so the modelled f-number reproduces the printed value."
     ]
   },
-  "record_hash": "149a68b08f5bc9b8e757ecc7573eca6473511a8d9a6bd572a086de5faab4aec7",
+  "record_hash": "0cf54a51650fcbff0c624e44f38804eda4dad9e607d2e1b062f3d782256a88a6",
   "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
