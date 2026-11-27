@@ -1,0 +1,271 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "lens-designs-us20060245079-example05p",
+ "record_revision": 1,
+ "title": "Nikon AF-S DX Zoom-Nikkor 55-200mm f/4-5.6G ED",
+ "collection": {
+  "collection_id": "lens-designs",
+  "source": "lens-designs.com, Dan Reiley's collection of optical designs in Zemax format",
+  "source_basis": "The .zmx file is the direct source for the surface table: radii, thicknesses, glasses, clear semi-diameters, conic constants and aspheric terms are read from it. The collection's summary sheet, where it lists this input, is the independent check of the first-order values.",
+  "source_revision": "site snapshot read on 2026-11-27; the collection states no version of its own",
+  "source_input": "photographic-zooms/US20060245079_Example05P.zmx",
+  "source_input_sha256": "33671f7b0ce1bc0b568a190996b2c58f5976f0dd9c2f04d8e8ef436bfd296ba8",
+  "source_links": {
+   "source_file_url": "https://drive.google.com/file/d/1WYuP3A_daddEJQyZTmc7stcW9w4xrZFD/view",
+   "license_url": "https://www.lens-designs.com/note-on-ip"
+  },
+  "original_publication": {
+   "id": "US20060245079",
+   "reference": "named in the input's file name",
+   "url": null
+  },
+  "attribution": "Prescription from lens-designs.com (photographic-zooms), file US20060245079_Example05P.zmx. The collection states that every file carries the MIT licence unless its own Notes section says otherwise; this file carries no Notes section.",
+  "contributor": "Prepared for the lens-designs collection through JunLin615",
+  "redistribution": "The collection states the MIT licence for its files (note-on-ip page) and that the designs themselves are public domain, being transcriptions of patent or journal publications. The notice is committed at licenses/LensDesigns-MIT.txt.",
+  "license": {
+   "spdx": "MIT",
+   "notice_path": "licenses/LensDesigns-MIT.txt",
+   "copyright": "Copyright (c) Dan Reiley, lens-designs.com"
+  },
+  "source_summary": {
+   "basis": "US20060245079_Example05P",
+   "program": "Zemax",
+   "sheet": "photographic-zooms"
+  }
+ },
+ "design": {
+  "source_reference": "US20060245079_Example05P",
+  "lens_type": "camera_lens",
+  "design_family_id": "us20060245079",
+  "design_scope": "COMPLETE_SYSTEM",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "structure_tags": [
+   "refractive",
+   "zoom"
+  ],
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1,
+  "powered_element_count": 9,
+  "powered_group_count": 5,
+  "aspheric_element_count": 0,
+  "aperture_validity": {
+   "state": "STOP_NOT_BLOCKING",
+   "stop_blocks_light": false,
+   "basis": "The file marks this surface as the stop but a neighbouring surface states a smaller clear semi-diameter, so the stop plate may not limit the beam.",
+   "consequence": "The Project is not eligible for stop-dependent evaluation as committed.",
+   "eligible_for_stop_dependent_evaluation": false,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "No pupil sample or illumination measurement is recorded."
+  }
+ },
+ "native_project": {
+  "path": "records/lens-designs/lens-designs-us20060245079-example05p/project.json",
+  "sha256": "8fa1b148fe8a22bce57711ff3eac31eda68279ee730b86671462169b6630d7b9",
+  "engine_version": "0.14.0"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   486.266176,
+   550.150191,
+   587.721865,
+   656.450687
+  ],
+  "sampling_wavelengths_basis": "DERIVED: the file's WAVM lines are air wavelengths at the reference environment; each is converted once to vacuum with the engine's own air model",
+  "sampling_wavelengths_air_nm": [
+   486.1327,
+   587.5618,
+   656.2725,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0
+  ],
+  "primary_wavelength_nm": 587.721865,
+  "band_facets": [
+   "visible"
+  ],
+  "wavelength_precision": "Vacuum nanometres, full precision, as the engine evaluates them.",
+  "sampling_span_nm": {
+   "min_nm": 486.266176,
+   "max_nm": 656.450687,
+   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+   "eligible_for": "DISCOVERY_ONLY"
+  },
+  "continuous_coverage_nm": {
+   "state": "UNCONFIRMED",
+   "min_nm": null,
+   "max_nm": null,
+   "note": "The file states its sampling wavelengths only; it states no operating band."
+  }
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 56.70741096318656,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Paraxial EFL at 587.721865 nm",
+   "conditions": "Primary wavelength (vacuum), object at infinity."
+  },
+  "back_focal_length_mm": {
+   "value": 41.174284631107135,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Paraxial distance from the final surface vertex to the rear focal point",
+   "conditions": {
+    "distance_kind": "paraxial_focal_distance",
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "wavelength_nm": 587.721865
+   }
+  },
+  "total_track_mm": {
+   "value": 122.9,
+   "basis": "DERIVED",
+   "definition": "First surface vertex to the image plane along the axis",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "image_plane"
+   }
+  }
+ },
+ "aperture": {
+  "stop_opening_diameter_mm": {
+   "value": 20.041,
+   "basis": "PROJECT_DECLARED",
+   "system_aperture": false,
+   "definition": "Diameter of the aperture stop's clear opening as the file states it"
+  }
+ },
+ "field": {
+  "basis": "SOURCE_STATED",
+  "field_type_flag": 3,
+  "kind": "IMAGE_HEIGHT",
+  "max_image_height_mm": 14.1,
+  "image_height_kind": "REAL",
+  "field_points_mm": [
+   9.87,
+   14.1
+  ],
+  "definition": "Image-space field heights, from the file's FTYP and YFLN lines"
+ },
+ "materials": {
+  "policy": "Glasses the file names are taken from the published catalog when the engine resolves the name; a ___BLANK glass is defined from the nd and vd the file states, as recorded here.",
+  "model_glasses": [
+   {
+    "material_id": "MODEL_ND1P4978_VD82P6",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P5168_VD64P1",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P603_VD65P5",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P618_VD63P4",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P62_VD36P2",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P6516_VD58P5",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P7725_VD49P6",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P788_VD47P4",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P8038_VD33P9",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P8348_VD42P7",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P834_VD37P2",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P8467_VD23P8",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   }
+  ]
+ },
+ "approximations": [
+  {
+   "code": "GLASS_ND_VD_SELLMEIER",
+   "description": "The file states model glasses by nd and vd only. Each is modelled as a three-term Sellmeier solved through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60; the d-line index is exact."
+  }
+ ],
+ "unsupported_constructs": [],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "NOT_CHECKED",
+  "engine_version": "0.14.0",
+  "solids_findings": [],
+  "evidence_notes": [
+   "The file states 23 surfaces in 9 elements and 1 aperture stop(s); the import reproduces that decomposition.",
+   "The collection's summary sheet states no first-order value for this input, so no source comparison is claimed.",
+   "The image plane is placed at 122.900000 mm from the first surface vertex, the sum of the transcribed thicknesses."
+  ]
+ },
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline",
+ "record_hash": "408938d44f864fb1c4bf967f51bc6ff083e460d7f95fed24fcf10be8ae4ca483"
+}
