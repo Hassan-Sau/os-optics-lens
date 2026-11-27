@@ -10,7 +10,7 @@
   "source": "Sigma Corporation patent publication",
   "source_input": "US20250321401A1, [Surface Data] and [Variable Distance Data], Numerical Example 4",
   "source_input_sha256": "ec8369ea1cc69cbb14cf54c55a6b84bfb76c677d0ce1af2c6def8e3ee48550e2",
-  "source_input_sha256_method": "SHA-256 of the normalized tab-separated prescription extract in this record's evidence.json; it pins the transcription while the publication, table and example pin the source",
+  "source_input_sha256_method": "SHA-256 of the normalized tab-separated source transcription used at intake. The publication, table and example identify the direct source.",
   "attribution": "Sigma Corporation, US20250321401A1 \" Imaging optical system\". The prescription is the published numerical example; the native Project is a transcription of its surface table.",
   "contributor": "OpenSci prescription intake",
   "original_publication": {
@@ -22,15 +22,11 @@
    "priority_date": "2024-04-16",
    "url": "https://patents.google.com/patent/US20250321401A1/en"
   },
-  "redistribution": "The numerical prescription is published in a patent application, a public record. The transcription, the native Project and this evidence extract are distributed under MIT. The patent document itself is not redistributed.",
+  "redistribution": "The native Project and record metadata are distributed under MIT. The patent document is cited as the direct source.",
   "license": {
    "spdx": "MIT",
    "notice_path": "LICENSE",
    "copyright": "Copyright (c) 2026 JunLin615"
-  },
-  "evidence_extract": {
-   "path": "records/sigma-ff/patent-us20250321401a1-ex04/evidence.json",
-   "sha256": "70796ce3801beced7f473afe83fba231770b85b61ece5bfb7c0c66c05ba06edb"
   }
  },
  "design": {
@@ -72,8 +68,7 @@
   "catalog_version": null,
   "instance_id": "LENS",
   "model_id": "LENS",
-  "opening_outcome": "ACCEPTED",
-  "optical_validation": "PARAXIAL_MATCH"
+  "opening_outcome": "ACCEPTED"
  },
  "spectrum": {
   "sampling_wavelengths_nm": [
@@ -143,17 +138,24 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 193.0,
-   "basis": "SOURCE_STATED",
-   "definition": "effective focal length as printed for the example",
-   "conditions": "d line (587.7218645194 nm vacuum), object at infinity",
-   "engine_value_mm": 192.9996394902189
+   "value": 192.9996394902189,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial effective focal length of the committed Project.",
+   "conditions": {
+    "wavelength_nm": 587.721865,
+    "conjugate": "INFINITE_TO_FINITE"
+   }
   },
   "back_focal_length_mm": {
-   "value": 25.2219,
-   "basis": "SOURCE_STATED",
-   "definition": "the printed BF: from the last surface vertex to the paraxial image point",
-   "engine_value_mm": 25.222926315192336
+   "value": 25.222926315192336,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
+   "conditions": {
+    "distance_kind": "paraxial_focal_distance",
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "wavelength_nm": 587.721865
+   }
   },
   "total_track_mm": {
    "value": 202.47,
@@ -167,33 +169,7 @@
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
    "effective_focal_length_mm": 192.9996394902189,
    "back_focal_length_mm": 25.222926315192336,
-   "wavelength_nm": 587.7218645194316,
-   "comparison": {
-    "rule": "|engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length",
-    "atol_mm": 0.005,
-    "rtol": 0.0003,
-    "basis_of_the_allowance": "atol covers the two-decimal focal length the publication prints; rtol covers the four-decimal radii and thicknesses and the five-decimal indices",
-    "effective_focal_length": {
-     "source_mm": 193.0,
-     "engine_mm": 192.9996394902189,
-     "absolute_difference_mm": 0.0003605097811032465,
-     "scale_mm": 193.0,
-     "scale_basis": "|EFL|",
-     "tolerance_mm": 0.0629,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.005731475057285318
-    },
-    "back_focal_length": {
-     "source_mm": 25.2219,
-     "engine_mm": 25.222926315192336,
-     "absolute_difference_mm": 0.001026315192333982,
-     "scale_mm": 193.0,
-     "scale_basis": "max(|BFL|, |EFL|)",
-     "tolerance_mm": 0.0629,
-     "within_tolerance": true,
-     "fraction_of_tolerance": 0.016316616730269982
-    }
-   }
+   "wavelength_nm": 587.7218645194316
   }
  },
  "aperture": {
@@ -968,8 +944,6 @@
   "conversion": "PASSED",
   "project_check": "ACCEPTED",
   "optical_solids": "VALID",
-  "paraxial": "MATCHED",
-  "paraxial_scope": "effective focal length and back focal length, both printed by the publication",
   "engine_version": "0.14.0",
   "solids_findings": [],
   "evidence_notes": [
@@ -980,5 +954,5 @@
   ]
  },
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline.",
- "record_hash": "ad07135d8747f5c6c93ebd6ff9f56d84ad25a35246f419e6d956332e6498bb3c"
+ "record_hash": "9a16e24531d10d851206479939e3481280697eaf9f7475b93374208b1bd33953"
 }
