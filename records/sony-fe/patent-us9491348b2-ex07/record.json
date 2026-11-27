@@ -1,0 +1,266 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "patent-us9491348b2-ex07",
+ "record_revision": 1,
+ "title": "Sony 46.2 mm f/1.85 full-frame imaging lens (US9491348B2, example 7)",
+ "collection": {
+  "collection_id": "sony-fe",
+  "source": "US patent publication",
+  "source_input": "US9491348B2, EXAMPLE 7",
+  "source_input_sha256": "3b992ebfc34c79c307239b375878c95dcf73f5c0ea16a29cee884870bd850646",
+  "attribution": "Sony Corp, US9491348B2 \"Imaging lens and imaging apparatus\". The prescription is the published numerical example 7; the native Project is a transcription of its surface table.",
+  "contributor": "OpenSci prescription intake",
+  "original_publication": {
+   "id": "US9491348B2",
+   "reference": "numerical example 7",
+   "assignee": "Sony Corp",
+   "url": "https://patents.google.com/patent/US9491348B2/en"
+  },
+  "redistribution": "The native Project and record metadata are distributed under MIT. The patent document is cited as the direct source.",
+  "license": {
+   "spdx": "MIT",
+   "notice_path": "LICENSE",
+   "copyright": "Copyright (c) 2026 JunLin615"
+  },
+  "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/13"
+ },
+ "design": {
+  "source_reference": "US9491348B2, numerical example 7",
+  "lens_type": "camera_lens",
+  "design_family_id": "sony-us9491348b2",
+  "design_scope": "COMPLETE_SYSTEM",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "structure_tags": [
+   "fixed_focal_length",
+   "refractive",
+   "aspheric"
+  ],
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1,
+  "powered_element_count": 10,
+  "powered_group_count": 9,
+  "aspheric_element_count": 2,
+  "aperture_validity": {
+   "state": "STOP_NOT_BLOCKING",
+   "stop_blocks_light": false,
+   "basis": "The publication states no clear or mechanical semi-diameter, so the transcription uses one uniform clear semi-diameter; the stop row is then the same size as its neighbours and does not bound the beam.",
+   "eligible_for_stop_dependent_evaluation": false,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "No pupil or field evidence is recorded, and the modelled stop does not bound the beam, so no stop-dependent match is claimed.",
+   "consequence": "The record supports first-order and structural queries only; a stop-dependent constraint stays unconfirmed."
+  }
+ },
+ "native_project": {
+  "path": "records/sony-fe/patent-us9491348b2-ex07/project.json",
+  "sha256": "0bc82c058a7d4f2678c543283ef41e60358129cb574b1f40b8c56ef2ec158d54",
+  "engine_version": "0.14.0",
+  "catalog_version": null,
+  "instance_id": "OPTIC",
+  "model_id": "OPTIC",
+  "opening_outcome": "ACCEPTED"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   587.720064
+  ],
+  "sampling_wavelengths_air_nm": [
+   587.56
+  ],
+  "sampling_wavelengths_basis": "The publication prints the d-line as its reference wavelength (587.56 nm in air). That value is converted once to the vacuum wavelength the engine evaluates, as the existing patent-derived records do.",
+  "incident_weights": [
+   1
+  ],
+  "primary_wavelength_nm": 587.720064,
+  "band_facets": [
+   "visible"
+  ],
+  "wavelength_precision": "A single sample; no rounding in the Project.",
+  "sampling_span_nm": {
+   "min_nm": 587.220064,
+   "max_nm": 588.220064,
+   "basis": "SINGLE_WAVELENGTH_BAND",
+   "eligible_for": "DISCOVERY_ONLY",
+   "note": "One sample, so the span is a 1 nm numerical window around it. It is not a second wavelength and not a measured band: sampling_wavelengths_nm holds exactly one value."
+  },
+  "continuous_coverage_nm": {
+   "state": "UNCONFIRMED",
+   "min_nm": null,
+   "max_nm": null,
+   "note": "The example states one reference wavelength only."
+  }
+ },
+ "image_format": {
+  "format_facets": [
+   "full_frame"
+  ],
+  "width_mm": 36,
+  "height_mm": 24,
+  "image_circle_diameter_mm": 43.668,
+  "basis": "SOURCE_STATED: the 36 × 24 mm dimensions describe the intended format of the cited design.",
+  "image_circle_diameter_basis": "DERIVED: source-only estimate 2 f tan(omega). Project coverage is unconfirmed."
+ },
+ "field": {
+  "kind": "ANGULAR",
+  "full_field_deg": 50.6,
+  "half_field_deg": 25.3,
+  "basis": "SOURCE_STATED",
+  "definition": "Object-space half angle printed for the cited example.",
+  "max_image_height_mm": 21.834,
+  "image_height_basis": "DERIVED: source-only estimate f tan(omega) from the printed focal length and half field."
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 46.22854527611691,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial effective focal length of the committed Project.",
+   "conditions": {
+    "wavelength_nm": 587.720064,
+    "conjugate": "INFINITE_TO_FINITE"
+   }
+  },
+  "back_focal_length_mm": {
+   "value": 1.0096254374089604,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
+   "conditions": {
+    "distance_kind": "paraxial_focal_distance",
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "wavelength_nm": 587.720064
+   }
+  },
+  "total_track_mm": {
+   "value": 76.11,
+   "basis": "DERIVED",
+   "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "basis": "ENGINE_COMPUTED",
+   "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
+   "effective_focal_length_mm": 46.22854527611691,
+   "back_focal_length_mm": 1.0096254374089604,
+   "wavelength_nm": 587.720064
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 1.85,
+   "basis": "SOURCE_STATED",
+   "convention": "Image-space F-number as printed for the example (Fno).",
+   "system_aperture": true,
+   "definition": "image-space f-number; this is the system aperture the record declares, taken from the value the source states for the example"
+  }
+ },
+ "materials": {
+  "basis": "Each Project material uses a constant index at the reference wavelength, based on the publication’s d-line index. The printed Abbe numbers are outside the material model.",
+  "model_glasses": [
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.83441,
+    "valid_at_nm": 587.720064,
+    "element_index": 1,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.75211,
+    "valid_at_nm": 587.720064,
+    "element_index": 2,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.883,
+    "valid_at_nm": 587.720064,
+    "element_index": 3,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.72903,
+    "valid_at_nm": 587.720064,
+    "element_index": 4,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.516798,
+    "valid_at_nm": 587.720064,
+    "element_index": 5,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.945945,
+    "valid_at_nm": 587.720064,
+    "element_index": 6,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.72903,
+    "valid_at_nm": 587.720064,
+    "element_index": 7,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.7552,
+    "valid_at_nm": 587.720064,
+    "element_index": 8,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.75211,
+    "valid_at_nm": 587.720064,
+    "element_index": 9,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.617998,
+    "valid_at_nm": 587.720064,
+    "element_index": 10,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   },
+   {
+    "model": "CONSTANT_INDEX",
+    "index": 1.516798,
+    "valid_at_nm": 587.720064,
+    "element_index": 11,
+    "basis": "SOURCE_STATED nd, used as a constant index"
+   }
+  ],
+  "catalog_comparisons": []
+ },
+ "approximations": [
+  {
+   "code": "CONSTANT_INDEX_FROM_ND",
+   "statement": "Each element uses its printed d-line refractive index as a constant at the reference wavelength. The printed Abbe numbers are outside the material model."
+  },
+  {
+   "code": "CLEAR_APERTURE_ASSUMED",
+   "statement": "The publication states no semi-diameters; the Project uses one uniform 13.0 mm clear semi-diameter for every surface, which does not affect first-order properties."
+  },
+  {
+   "code": "SINGLE_FOCUS_STATE",
+   "statement": "The Project represents infinity focus. See the cited example for spacings at closer conjugates."
+  }
+ ],
+ "unsupported_constructs": [],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID"
+ },
+ "record_hash": "c791fbf11ec4b0f844b6753a18841ac300c5a62e85d7ad130a3c72669e6e0307",
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
+}

@@ -1,0 +1,62 @@
+name: Lens intake
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  intake:
+    name: Lens intake
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: src
+    steps:
+      - name: Check out event commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install os-optics
+        run: python -m pip install os-optics==0.14.0
+
+      - name: Run intake unit tests
+        run: python -m unittest discover -s tests -p test_contribution_check.py -v
+
+      - name: Check pull request intake
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python scripts/check_intake.py --base "$PR_BASE_SHA" --output "$RUNNER_TEMP/lens-intake-report.json"
+
+      - name: Check repository intake
+        if: github.event_name != 'pull_request'
+        env:
+          PREVIOUS_SHA: ${{ github.event.before }}
+        run: |
+          args=()
+          if [[ -n "$PREVIOUS_SHA" ]] && git merge-base --is-ancestor "$PREVIOUS_SHA" HEAD; then
+            args+=(--base "$PREVIOUS_SHA")
+          fi
+          python scripts/check_intake.py "${args[@]}" --output "$RUNNER_TEMP/lens-intake-report.json"
+
+      - name: Upload intake report
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lens-intake-report
+          path: ${{ runner.temp }}/lens-intake-report.json
+          if-no-files-found: ignore

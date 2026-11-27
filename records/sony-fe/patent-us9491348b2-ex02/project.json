@@ -1,0 +1,773 @@
+{
+ "schema": "opensci.project",
+ "project_schema_version": "2.0",
+ "components": [
+  {
+   "instance_id": "OPTIC",
+   "optical_role": "lens",
+   "custom_part": {
+    "custom_part_key": "OPTIC",
+    "description": "US9491348B2-02: imported from a csv-surface-table/1 prescription (7 elements, 1 aperture stop)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "optical_model_id": "OPTIC"
+  },
+  {
+   "instance_id": "SRC",
+   "optical_role": "source",
+   "custom_part": {
+    "custom_part_key": "source-d-line",
+    "description": "On-axis collimated source at the d-line."
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     -150.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 587.720064,
+    "power_w": 0.001,
+    "waist_radius_mm": 20.0,
+    "waist_position_mm": -150.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "LINEAR",
+     "angle_deg": 0.0
+    }
+   }
+  }
+ ],
+ "observations": [
+  {
+   "observation_id": "image_plane",
+   "pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     79.21
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "aperture": {
+    "shape": "circle",
+    "radius_mm": 24.0,
+    "center_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "obstruction_radius_mm": 0.0
+   },
+   "absorbing": true,
+   "medium": "air"
+  }
+ ],
+ "targets": [],
+ "optical_models": [
+  {
+   "model_id": "OPTIC",
+   "display_name": "US9491348B2-02 (csv-surface-table/1, source SHA-256 9e426b3f95765933efd7fa8bb9f0a16d015330cbbb1eda190d34a6426d2c124c)",
+   "model": {
+    "model_kind": "COMPOUND",
+    "model_version": "1",
+    "members": [
+     {
+      "member_id": "L1",
+      "model_id": "OPTIC-L1",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        0.0
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L2",
+      "model_id": "OPTIC-L2",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        11.5
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "STOP",
+      "model_id": "OPTIC-STOP",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        22.32
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L3",
+      "model_id": "OPTIC-L3",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        25.52
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L4",
+      "model_id": "OPTIC-L4",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        37.96
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L5",
+      "model_id": "OPTIC-L5",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        43.3
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L6",
+      "model_id": "OPTIC-L6",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        63.33
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L7",
+      "model_id": "OPTIC-L7",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        76.21
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     }
+    ],
+    "envelope": {
+     "kind": "CYLINDER",
+     "diameter_mm": "26",
+     "z_min_mm": "-2.009599",
+     "z_max_mm": "78.21",
+     "status": "DERIVED"
+    },
+    "ports": [
+     {
+      "port_id": "IN",
+      "role": "INPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "-2.009599"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     },
+     {
+      "port_id": "OUT",
+      "role": "OUTPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "78.21"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     }
+    ]
+   }
+  },
+  {
+   "model_id": "OPTIC-L1",
+   "display_name": "US9491348B2-02: cemented element L1, surfaces 1-3 (rows 9-11, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "-43.053",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "3.08",
+      "radius_mm": "37.418",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S3",
+      "vertex_z_mm": "11.1",
+      "radius_mm": "-55.49",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P01",
+     "P02"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-L2",
+   "display_name": "US9491348B2-02: cemented element L2, surfaces 4-6 (rows 12-14, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "35.214",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "1.8",
+      "radius_mm": "22.739",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S3",
+      "vertex_z_mm": "7.32",
+      "radius_mm": "163.86",
+      "conic": "0.0000000000437616",
+      "aspheric_coefficients": [
+       "0.00000508908",
+       "-0.00000000787859",
+       "0.0000000000437616",
+       "-0.000000000000073833"
+      ],
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P03",
+     "P04"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-STOP",
+   "display_name": "US9491348B2-02: aperture stop STOP, surface 7 (row 15, csv-surface-table/1)",
+   "model": {
+    "model_kind": "APERTURE_STOP",
+    "model_version": "1",
+    "opening_radius_mm": "13",
+    "edge_radius_mm": "13",
+    "plane_z_mm": "0",
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-L3",
+   "display_name": "US9491348B2-02: element L3, surfaces 8-9 (rows 16-17, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "170.589",
+      "conic": "-0.000000000252021",
+      "aspheric_coefficients": [
+       "-0.000019738",
+       "0.0000000969186",
+       "-0.000000000252021"
+      ],
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "1",
+      "radius_mm": "20.602",
+      "conic": "-0.000000000103567",
+      "aspheric_coefficients": [
+       "-0.0000221576",
+       "0.00000008729",
+       "-0.000000000103567",
+       "-0.000000000000912021"
+      ],
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P05"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-L4",
+   "display_name": "US9491348B2-02: element L4, surfaces 10-11 (rows 18-19, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "55.812",
+      "conic": "0.000000000233914",
+      "aspheric_coefficients": [
+       "-0.00000538071",
+       "-0.0000000291411",
+       "0.000000000233914",
+       "-0.00000000000123731"
+      ],
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "4.57",
+      "radius_mm": "49.021",
+      "conic": "0.000000000159168",
+      "aspheric_coefficients": [
+       "-0.0000158052",
+       "-0.0000000381825",
+       "0.000000000159168",
+       "-0.00000000000090496"
+      ],
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P06"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-L5",
+   "display_name": "US9491348B2-02: element L5, surfaces 12-13 (rows 20-21, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "45.288",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "10",
+      "radius_mm": "-47.014",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P07"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-L6",
+   "display_name": "US9491348B2-02: element L6, surfaces 14-15 (rows 22-23, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "-18.854",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "1.2",
+      "radius_mm": "-35.051",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P08"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "OPTIC-L7",
+   "display_name": "US9491348B2-02: element L7, surfaces 16-17 (rows 24-25, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "2",
+      "clear_radius_mm": "13",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "P09"
+    ],
+    "edge_radius_mm": "13",
+    "valid_band_nm": {
+     "min_nm": "587.719064",
+     "max_nm": "587.721064",
+     "status": "SPECIFIED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  }
+ ],
+ "model_materials": [
+  {
+   "material_id": "P01",
+   "display_name": "P01",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.58144"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P02",
+   "display_name": "P02",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.72916"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P03",
+   "display_name": "P03",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.74077"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P04",
+   "display_name": "P04",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.772501"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P05",
+   "display_name": "P05",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.487489"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P06",
+   "display_name": "P06",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.58313"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P07",
+   "display_name": "P07",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.696802"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P08",
+   "display_name": "P08",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.846663"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  },
+  {
+   "material_id": "P09",
+   "display_name": "P09",
+   "dispersion": {
+    "kind": "CONSTANT_INDEX",
+    "refractive_index": "1.516798"
+   },
+   "valid_band_nm": {
+    "min_nm": "587.719064",
+    "max_nm": "587.721064",
+    "status": "SPECIFIED"
+   },
+   "basis": "Defined in the imported prescription."
+  }
+ ]
+}
