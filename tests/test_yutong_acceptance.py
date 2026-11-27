@@ -122,6 +122,8 @@ def evaluate(record, constraint):
         elif op == "has_sourced_method":
             sourced = any(evidence_section(method.get("source")) is not None for method in value)
             outcomes.append(MATCH if sourced else UNCONFIRMED)
+        elif op in {"gt", "gte", "lte", "between_inclusive"} and type(value) not in (int, float):
+            outcomes.append(UNCONFIRMED)
         else:
             outcomes.append(MATCH if OPERATORS[op](value, predicate["value"]) else DOES_NOT_MATCH)
 
