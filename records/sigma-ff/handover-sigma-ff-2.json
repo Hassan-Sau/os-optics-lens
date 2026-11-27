@@ -1,0 +1,203 @@
+{
+  "schema": "opensci.lens.batch",
+  "batch_schema_version": "1.0",
+  "batch_id": "sigma-ff-2",
+  "status": "HANDOVER — nothing transcribed, nothing built, nothing committed",
+  "predecessor": {
+    "batch_id": "sigma-ff-1",
+    "branch": "sigma-ff/a1",
+    "commit": "525eb4fd7c98ff08b85a72b82b45b14fe1c5b2ee",
+    "pull_request": "https://github.com/JunLin615/os-optics-lens/pull/44",
+    "counts": {
+      "inputs": 101,
+      "accepted": 43,
+      "deferred": 58,
+      "conversion_failed": 0
+    },
+    "note": "batch-sigma-ff-1.json in the same directory is the authoritative record of what batch 1 accepted and what it deferred, with a reason for each of the 101 inputs. Read it before picking up batch 2."
+  },
+  "collection": {
+    "collection_id": "sigma-ff",
+    "source": "Sigma Corporation patent publications (US applications and grants)",
+    "source_url": "https://patents.google.com/",
+    "source_revision": null,
+    "redistribution": "The numerical prescriptions are published in patent applications and grants, public records. The transcriptions, native Projects and evidence extracts are distributed under MIT. The patent documents are not redistributed."
+  },
+  "engine": {
+    "name": "os-optics",
+    "version": "0.14.0",
+    "catalog_version": null,
+    "prescription_format": "csv-surface-table/1"
+  },
+  "hashing": {
+    "source_input_sha256": "SHA-256 of the normalized tab-separated prescription extract in the record's evidence.json, UTF-8, LF: it pins the transcription while the publication, the table and the example pin the source. A deferred input has no extract and therefore no hash.",
+    "project_sha256": "SHA-256 of the committed project.json file's bytes, UTF-8, LF line endings, one trailing newline",
+    "record_hash": "SHA-256 over the record's JSON with record_hash and record_hash_method removed: json.dumps(sort_keys=True, ensure_ascii=False) as UTF-8, no trailing newline"
+  },
+  "scope": {
+    "statement": "The 58 numerical examples that batch 1 deferred, drawn from the fourteen publications already retrieved. The counts below per publication are the publication's printed example counts; examples_remaining is what batch 2 would actually touch. The two publications batch 1 partly accepted are listed because the remainder is where a single salvageable example sits.",
+    "inputs": 58,
+    "accepted": 0,
+    "deferred": 0,
+    "conversion_failed": 0,
+    "expected_accepts": 0,
+    "expected_accepts_basis": "Zero, on the evidence batch 1 left behind: every one of the 58 is deferred for a reason that is a property of the publication, not of the transcription. Reaching a non-zero accept count requires a decision by the repository, not by an intake agent — see opens_questions.",
+    "arithmetic": "58 deferred + 43 accepted = 101 inputs, matching batch-sigma-ff-1.json -> counts.",
+    "counting_note": "inputs is authoritative: 58 deferred + 43 accepted = 101, matching batch-sigma-ff-1.json -> counts."
+  },
+  "publications": [
+    {
+      "patent": "US20250172790A1",
+      "title": "Telephoto zoom lens",
+      "batch1_outcome": "13 deferred, ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+      "class": "zoom",
+      "published_full_frame": true,
+      "note": "Thirteen examples, all deferred for the zoom format. Frame size was not considered; this is the publication where the zoom question is worth the most, since all thirteen ride on it.",
+      "examples_remaining": 13,
+      "examples_deferred_in_batch1": 13
+    },
+    {
+      "patent": "US20250244566A1",
+      "title": "Zoom lens",
+      "batch1_outcome": "8 deferred, ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+      "class": "zoom",
+      "published_full_frame": true,
+      "note": "Eight examples, all deferred for the zoom format. Frame size was not adjudicated.",
+      "examples_remaining": 8,
+      "examples_deferred_in_batch1": 8
+    },
+    {
+      "patent": "US20260126629A1",
+      "title": "Variable magnification imaging optical system",
+      "batch1_outcome": "6 deferred, ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+      "class": "zoom",
+      "published_full_frame": true,
+      "note": "Six examples, all deferred for the zoom format. Frame size was not adjudicated.",
+      "examples_remaining": 6,
+      "examples_deferred_in_batch1": 6
+    },
+    {
+      "patent": "US20260036795A1",
+      "title": "Variable magnification optical system",
+      "batch1_outcome": "7 deferred, ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+      "class": "zoom",
+      "published_full_frame": true,
+      "note": "Seven examples, all deferred for the zoom format. The survey flags one candidate full-frame example by image height (Y = 21.63 mm); the others were never adjudicated on frame size because the zoom question decided them first.",
+      "examples_remaining": 7,
+      "examples_deferred_in_batch1": 7
+    },
+    {
+      "patent": "US20250264702A1",
+      "title": "High power zoom lens",
+      "batch1_outcome": "5 deferred, ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+      "class": "zoom",
+      "published_full_frame": null,
+      "note": "Five examples, all deferred for the zoom format. Frame size was not adjudicated, so whether any example belongs to this collection is unestablished, not negative.",
+      "examples_remaining": 5,
+      "examples_deferred_in_batch1": 5
+    },
+    {
+      "patent": "US20260267137A1",
+      "title": "Optical system",
+      "batch1_outcome": "7 deferred, ZOOM_CONFIGURATIONS_NOT_IN_FORMAT",
+      "class": "zoom",
+      "published_full_frame": null,
+      "note": "Seven examples, all deferred for the zoom format. The survey recorded no image height, so its frame size is unestablished.",
+      "examples_remaining": 7,
+      "examples_deferred_in_batch1": 7
+    },
+    {
+      "patent": "US12196935B2",
+      "title": "Imaging optical system",
+      "batch1_outcome": "5 deferred, APS_C_IMAGE_FORMAT",
+      "class": "fixed",
+      "published_full_frame": false,
+      "note": "Five examples, all APS-C (Y = 14.20 mm). Correctly out of scope here; it belongs to an APS-C collection if one is opened.",
+      "examples_remaining": 5,
+      "examples_deferred_in_batch1": 5
+    },
+    {
+      "patent": "US20250383527A1",
+      "title": "(untitled in the retrieved page)",
+      "batch1_outcome": "4 deferred APS_C_IMAGE_FORMAT, 1 deferred IMAGE_FORMAT_NOT_FULL_FRAME",
+      "class": "fixed",
+      "published_full_frame": false,
+      "note": "Four APS-C examples (Y = 14.20 mm) and one larger than the 36 x 24 frame (Y = 27.39 mm, a 54.78 mm image circle). Neither is this collection's frame, but the larger one is a real design that wants a home.",
+      "examples_remaining": 5,
+      "examples_deferred_in_batch1": 5
+    },
+    {
+      "patent": "US12724248B2",
+      "title": "Large aperture ratio telephoto zoom lens",
+      "batch1_outcome": "1 deferred, NO_MACHINE_READABLE_TABLE",
+      "class": "unavailable",
+      "published_full_frame": null,
+      "note": "One example, and the retrieved Google Patents page carries no parseable [Surface Data] table, so it cannot be read at all. Its publication number postdates the batch-1 harvest window, so a fresh fetch may behave differently; try that before treating it as unavailable.",
+      "examples_remaining": 1,
+      "examples_deferred_in_batch1": null,
+      "printed_examples_note": "The inventory counted one example; the page renders no table."
+    },
+    {
+      "patent": "US20250208387A1",
+      "title": "Imaging optical system",
+      "batch1_outcome": "4 accepted, 1 deferred SOURCE_TABLE_INCONSISTENT",
+      "class": "salvage",
+      "published_full_frame": true,
+      "note": "Batch 1 accepted four examples and deferred only Numerical Example 3, as SOURCE_TABLE_INCONSISTENT. That single example is the one input in the whole batch that is a transcription-scale problem rather than a format problem: its [Lens Group Data] prints G1 = 166.46 mm, and the rendered table reproduces that only with surface 9 at -251.1669 mm, while on that reading the system first-order values still come out 529.09 / 34.78 mm against the printed 485.01 / 29.8213 mm. No single or double sign correction reconciles them. A fresh reading of the source, for example the application's own PDF, may settle it. Do not repair it by fitting signs until the numbers close.",
+      "examples_remaining": 1,
+      "examples_deferred_in_batch1": 1,
+      "printed_examples_note": "Five printed examples; batch 1 accepted four."
+    }
+  ],
+  "defects_in_scope": [],
+  "work_named": "None. The 58 remaining inputs are all deferred for source-format reasons, so there is no transcription task waiting in this batch.",
+  "opens_questions": [
+    {
+      "id": "Q1",
+      "question": "Does the corpus want zoom prescriptions, and in what form?",
+      "detail": "A record holds one on-axis configuration (see the configuration_count / configuration_note in any committed record's validation block). A zoom example prints several [Variable Distance Data] columns for the same surface table. Two viable forms exist and need an owner's decision before any of the 46 zoom inputs can be transcribed:",
+      "options": [
+        "One record per zoom position, with the shared prescription repeated and the position named in the record; simple, consistent with the current format, but multiplies the surface tables and risks the records drifting apart.",
+        "/workspace/tools/zoom_split.py already does the other form: it splits an imported single-compound Project into per-group components and writes configurations that translate the groups along the axis. That is the native way, and it needs the record format's configuration block, the evidence extract's per-column distances and the batch schema's per-record configuration count to be defined together."
+      ],
+      "who": "A repository maintainer, because it changes the record format, not just a batch.",
+      "effect": "Until it is answered, batch 2 has nothing to accept. If it is answered, 27 of the 58 inputs become transcribable (13 + 8 + 6, the full-frame zoom publications)."
+    },
+    {
+      "id": "Q2",
+      "question": "Should APS-C and other sub-full-frame publications have their own collection?",
+      "detail": "US12196935B2 (5 examples) and US20250383527A1 (4 examples) are complete, well-formed tables that batch 1 deferred only because the frame is smaller than full frame. The transcription cost is already paid in the retrieved pages; only the collection boundary blocks them.",
+      "who": "A repository maintainer.",
+      "effect": "Nine inputs, and possibly others in the already-retrieved pages."
+    },
+    {
+      "id": "Q3",
+      "question": "Is US20250208387A1 example 3 worth re-reading from the PDF?",
+      "detail": "One example, one sign ambiguity, and the application's own PDF is image-only so it needs a vision read rather than the HTML table. Low cost, and it would close the only SOURCE_TABLE_INCONSISTENT entry in the batch.",
+      "who": "An intake agent, if someone asks for it.",
+      "effect": "One record at most."
+    }
+  ],
+  "retrieval_state": {
+    "pages_dir": "/workspace/build/pages/",
+    "note": "The retrieved Google Patents HTML pages are the only machine-readable source; the PDFs are image-only. Twenty pages were retained. Do not assume this sandbox still exists: re-fetch with /workspace/tools/fetch_pages*.py, which take the publication numbers.",
+    "fetch_failures": [
+      "US4624536A — 404 after four retries",
+      "US4647171A — 404 after four retries",
+      "US20250370233A1 — empty body after four retries",
+      "US20260227611A1 — empty body after four retries",
+      "US12724248B2 — retrieved, but the page has no parseable table"
+    ]
+  },
+  "procedure": {
+    "playbook": "/workspace/tools/PLAYBOOK.md — the full pipeline: parse page, draft case, build record, verify, commit.",
+    "builder": "/root/venv/bin/python /workspace/tools/build_record.py <case>.json --out <dir>",
+    "verify": "Exit code 0 only means the Project imported. Then read record.json -> validation: project_check ACCEPTED, optical_solids VALID, paraxial MATCHED. A DIFFERS paraxial verdict is a defect, never something to explain away.",
+    "deferral": "If the source cannot support a faithful transcription, defer with a reason code and do not guess. Batch 1's outcomes list is the precedent for the shape and the wording."
+  },
+  "handover_notes": [
+    "This file is a scope and question transfer, not a batch result. It commits no records, and batch-sigma-ff-2.json should be renamed or rewritten once batch 2 actually produces outcomes, in the same shape as batch-sigma-ff-1.json.",
+    "batch 1 is still an open pull request (#44). Land or close it before opening a batch that changes the same collection's format assumptions.",
+    "The one thing an agent can do without waiting for a decision is Q3; everything else is blocked on Q1 or Q2."
+  ]
+}
