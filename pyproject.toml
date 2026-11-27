@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "os-optics-lens"
+version = "0.1.0"
+description = "Local retrieval of native os-optics lens Projects from a bundled, indexed prescription collection."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE", "licenses/*.txt"]
+dependencies = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+[project.scripts]
+os-optics-lens = "os_optics_lens.cli:main"
+
+[tool.hatch.build.targets.wheel]
+# The bundled index and corpus (os_optics_lens/_data/) are never taken from the source tree
+# (src/os_optics_lens/_data/ is gitignored and excluded): the build hook builds them from records/
+# and force-includes them into standard wheels only.
+packages = ["src/os_optics_lens"]
+exclude = ["src/os_optics_lens/_data"]
+
+[tool.hatch.build.targets.wheel.hooks.custom]
+# hatch_build.py, class CustomBuildHook (spec §8, amendment 10.20).
+path = "hatch_build.py"
+
+[tool.hatch.build.targets.sdist]
+# Everything needed to rebuild the wheel (including its bundled index) and to run the tests.
+include = [
+    "/src",
+    "/records",
+    "/licenses",
+    "/acceptance",
+    "/docs",
+    "/tests",
+    "/scripts",
+    "/hatch_build.py",
+    "/LICENSE",
+    "/README.md",
+    "/AGENTS.md",
+    "/ARCHITECTURE.md",
+    "/CONTRIBUTING.md",
+    "/SEARCH_VOCABULARY.md",
+]
+exclude = ["/src/os_optics_lens/_data"]
