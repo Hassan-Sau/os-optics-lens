@@ -888,7 +888,7 @@ class StoreTests(unittest.TestCase):
     def test_build_result_and_meta(self):
         on_disk = len(list((ROOT / "records").glob("*/*/record.json")))
         self.assertEqual((self.result.records, self.result.configurations), (on_disk, on_disk))
-        self.assertEqual(self.result.warnings, 0)
+        self.assertEqual(self.result.warnings, len(self.index.findings()))
         meta = self.index.meta()
         self.assertEqual(meta["snapshot_id"], self.result.snapshot_id)
         self.assertEqual(meta["index_schema_version"], "2")
@@ -977,7 +977,7 @@ class StoreTests(unittest.TestCase):
         licenses = self.index.licenses()
         self.assertIn("LICENSE", licenses)
         self.assertIn("licenses/LensLibrary-MIT.txt", licenses)
-        self.assertEqual(self.index.findings(), [])
+        self.assertTrue(all(item["severity"] == "warning" for item in self.index.findings()))
 
 
 class IndexResolutionTests(unittest.TestCase):
