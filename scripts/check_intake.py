@@ -180,14 +180,23 @@ def check_native(record: NormalizedRecord) -> tuple[dict[str, Any], list[Finding
     return report, problems
 
 
+def check_layout(root: Path) -> list[Finding]:
+    problems = []
+    for path in sorted(p for name in ("record.json", "project.json") for p in (root / "records").rglob(name)):
+        relative = path.relative_to(root)
+        if len(relative.parts) != 4 or not path.is_file():
+            problems.append(finding(ERROR, "INVALID_RECORD_LAYOUT", None, relative.as_posix(), "",
+                                    "Use records/<collection>/<record>/ for each record and Project."))
+        elif path.name == "project.json" and not path.with_name("record.json").is_file():
+            problems.append(finding(ERROR, "ORPHAN_PROJECT", None, relative.as_posix(), "",
+                                    "Add record.json next to this Project."))
+    return problems
+
+
 def run(root: Path, paths: set[str] | None) -> dict[str, Any]:
     corpus = load_corpus(root)
     selected = selected_records(corpus.records, paths)
-    findings = list(corpus.findings)
-    for project in sorted(root.glob("records/**/project.json")):
-        if not project.with_name("record.json").is_file():
-            findings.append(finding(ERROR, "ORPHAN_PROJECT", None, project.relative_to(root).as_posix(), "",
-                                    "Add record.json next to this Project."))
+    findings = [*corpus.findings, *check_layout(root)]
     findings.extend(duplicate_projects(corpus.records, {record.record_id for record in selected}))
     reports = []
     for record in selected:
