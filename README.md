@@ -141,8 +141,8 @@ publication, its example and a SHA-256 of the transcribed table text.
 | | |
 |---|---|
 | Candidates inventoried | 168 prescriptions from 25 publications |
-| Accepted records | 27, from 23 publications |
-| Deferred, with a reason | 2 |
+| Accepted records | 22, from 18 publications |
+| Deferred, with a reason | 7 |
 | Conversion failed | 0 |
 
 This source forces one decision the seed collection did not. A patent table states `nd` and `vd`, and

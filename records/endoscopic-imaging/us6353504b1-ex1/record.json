@@ -53,7 +53,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us6353504b1-ex1/project.json",
-  "sha256": "88def4625c54f6cd22bc878703e997adb0660e75aad1cfa3f1ebcfb43a4f8cac",
+  "sha256": "962ea1b467ce37a1445ed27a35322db955c5c4f2e8d45a1da2320912496f1b45",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -89,20 +89,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "note": "the publication states no effective focal length in millimetres for this example: its tables give object distances, magnifications and the values of eight conditional expressions, but no absolute focal length. Its TABLE 2 gives the object distance, the magnification and the three variable spacings for each state, and its TABLE 6 gives conditional-expression values (f_T/f_W = 1.431), but no absolute focal length, so no source-stated first-order value exists to compare against"
+   "value": 1.002362057802986,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7218645194318
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the publication states no back focal length for this example; TABLE 2 gives the object distance, the magnification and the three variable spacings only"
+   "value": -0.08353451036039249,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7218645194318,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 10.1013,
-   "basis": "DERIVED",
-   "note": "sum of the publication's stated thicknesses from surface 1 to the image plane at the wide end; it equals the importer's image plane position"
+   "value": 10.1023,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -154,11 +167,35 @@
     "basis": "ENGINE_COMPUTED",
     "note": "same method on the scratch telephoto Project; the paraxial image lands at z = 10.11804 mm against 10.1013 mm"
    }
-  ]
+  ],
+  "nominal_effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication states no effective focal length in millimetres for this example: its tables give object distances, magnifications and the values of eight conditional expressions, but no absolute focal length. Its TABLE 2 gives the object distance, the magnification and the three variable spacings for each state, and its TABLE 6 gives conditional-expression values (f_T/f_W = 1.431), but no absolute focal length, so no source-stated first-order value exists to compare against"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the publication states no back focal length for this example; TABLE 2 gives the object distance, the magnification and the three variable spacings only"
+  }
  },
  "aperture": {
   "note": "the publication's tables for this example (TABLE 1, TABLE 2, TABLE 6) state no F-number, no entrance pupil diameter and no numerical aperture, and the batch's text excerpt states none either, so no system-aperture field is recorded and none is inferred. The stop opening in the Project (0.2970 mm) is a derived modelling value, not a source value; see the SEMI_DIAMETER_DERIVED approximation",
-  "stated": false
+  "stated": false,
+  "paraxial_working_f_number": {
+   "value": 5.4837798940439635,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7218645194318,
+    "object_distance_mm": 10.4159
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
+  }
  },
  "field": {
   "kind": null,
@@ -422,6 +459,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "3a7b61c795732f95f29bd5a374ba0b2b8fb1a5f8faa49b4eae80838b0fbd0886",
+ "record_hash": "81f0308099bccadc7af730217ed15e1cbb5d149c441c27ff26b4cfc11f37f1f6",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

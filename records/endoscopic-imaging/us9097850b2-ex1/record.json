@@ -50,7 +50,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us9097850b2-ex1/project.json",
-  "sha256": "c2bd609d6101222ef288e7979b1b613f7aaec973c7805fa5e37659678196137c",
+  "sha256": "6d9a387a3440854ea509489ff481714539ee97fefd1a221b326fd83d2f809177",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -86,28 +86,40 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 1.25,
-   "basis": "SOURCE_STATED",
-   "conditions": "the publication's parameter table for example 1 states f 1.25-1.46 mm; 1.25 mm is the value for the normal observation state, the state this record transcribes. It is an effective focal length in millimetres, not a normalised target: the same table's F no 7.59 and the conditional-expression table's ratios are computed from it"
+   "value": 1.2567256471444042,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the publication states no back focal length and no image distance for any of its examples, so no source value exists for this quantity"
+   "value": -0.052215653765620956,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 13.91,
-   "basis": "DERIVED",
-   "definition": "first surface vertex to the image plane along the axis",
-   "note": "the sum of the source's spacings at this state, with the last plane-parallel plate closed at its stated 0.650 mm and no air gap after it (see the IMPLIED_REAR_SURFACE_ADDED approximation)"
+   "value": 13.911,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
    "wavelength_nm": 587.7220645720764,
    "effective_focal_length_mm": 1.2567256471444042,
-   "back_focal_length_mm": 0.04956527980278069,
+   "back_focal_length_mm": -0.052215653765620956,
    "back_focal_length_definition": "the image distance from the exit vertex (surface 23) at the Project's stated 14.5 mm object distance, from the same ABCD: s = -(A*L + B)/(C*L + D) with L = 14.5 mm",
    "rear_focal_distance_infinite_conjugate_mm": -0.052215653765620956,
    "rear_focal_distance_note": "the quantity `os-optics project paraxial` reports as system.bfl_mm (-A/C, from the exit vertex to the rear focal point of an object at infinity)",
@@ -134,6 +146,17 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 1.25,
+   "basis": "SOURCE_STATED",
+   "conditions": "the publication's parameter table for example 1 states f 1.25-1.46 mm; 1.25 mm is the value for the normal observation state, the state this record transcribes. It is an effective focal length in millimetres, not a normalised target: the same table's F no 7.59 and the conditional-expression table's ratios are computed from it"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the publication states no back focal length and no image distance for any of its examples, so no source value exists for this quantity"
   }
  },
  "aperture": {
@@ -144,7 +167,20 @@
    "system_aperture": true,
    "note": "the stop surface is identified, not labelled: the opening 0.250 mm is the paraxial marginal-ray height at surface 10 for this F-number (image-space NA = 1/(2*7.59) = 0.06588), traced through the stated prescription at the stated 14.5 mm object distance"
   },
-  "property_list_comparison": null
+  "property_list_comparison": null,
+  "paraxial_working_f_number": {
+   "value": 7.584270907530872,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 14.5
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
+  }
  },
  "field": {
   "kind": null,
@@ -467,6 +503,6 @@
    "no field verification: the publication states no field angle and no image height for this example, so no field value is recorded and no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "003b908b779c95dfae45b60d7e346d6092ff8f463ff5f648a05afb29a724c7b7",
+ "record_hash": "b15a616ed198a232399768454ed691016baf8c16121ce556331517ddf8931083",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

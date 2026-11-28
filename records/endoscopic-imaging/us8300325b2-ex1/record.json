@@ -49,7 +49,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us8300325b2-ex1/project.json",
-  "sha256": "9386b73f816cdba922f027dcf4e55d1f97610f70c1ab24dafd21136d1de809ee",
+  "sha256": "25d1d61fcf32514c9c9cf5102ddb035e745b446019752bba7e6a2f5efd7118eb",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -85,20 +85,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "note": "the publication states no effective focal length in millimetres for this table. Its TABLE 1 of conditional expressions prints 'a focal length of the entire system' as a normalised 1.000 for every example, which is a design target, not a measured focal length, so no source-stated first-order value exists to compare against"
+   "value": 1.0017288685183006,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "value": -0.09445115806416035,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 6.318,
-   "basis": "DERIVED",
-   "definition": "first surface vertex to the image plane along the axis",
-   "note": "the source states no total length; this is the sum of the transcribed spacings from surface 1 to the image plane, and it is the image plane position the engine reports (6.318 mm)"
+   "value": 6.319,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -124,9 +137,33 @@
     "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication states no effective focal length in millimetres for this table. Its TABLE 1 of conditional expressions prints 'a focal length of the entire system' as a normalised 1.000 for every example, which is a design target, not a measured focal length, so no source-stated first-order value exists to compare against"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
   }
  },
- "aperture": {},
+ "aperture": {
+  "paraxial_working_f_number": {
+   "value": 4.621874391668334,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 9.756
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
+  }
+ },
  "field": {
   "kind": null,
   "definition": null,
@@ -314,6 +351,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "2591adc74c32127bc70f05b02a9ca8a1208f8ee7a3a84b70b108e134e149d092",
+ "record_hash": "9b89a95577749087d3b6fd3559291c63f5772b3a90891cbf0c87043d7a84c3a2",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

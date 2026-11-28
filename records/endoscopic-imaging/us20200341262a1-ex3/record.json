@@ -50,7 +50,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us20200341262a1-ex3/project.json",
-  "sha256": "9c45ab0d13da381868f01e5ee951fd4a56931e62f201e90d5dcec62aedc13736",
+  "sha256": "11a61bfe955af975c4fcb07f8b97f7da3c4a588154606dc3b137a4e119a0cc9d",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -86,25 +86,40 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "note": "the publication states no effective focal length for this example, only an F-number range across examples"
+   "value": 0.3678350712747367,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "value": 0.13607733562195454,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED"
+   "value": 2.4859,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
    "method": "thick-lens paraxial ABCD through the committed Project's COMPOUND unit",
    "wavelength_nm": 587.7220645720764,
-   "effective_focal_length_mm": 0.36784,
-   "back_focal_length_mm": 0.13608,
+   "effective_focal_length_mm": 0.3678350712747367,
+   "back_focal_length_mm": 0.13607733562195454,
    "comparison": {
     "rule": "per quantity: |engine - source| <= atol + rtol * scale, with scale = |EFL| for the effective focal length and max(|BFL|, |EFL|) for the back focal length. atol = 0.005 mm is half a unit in the last decimal of the coarsest focal length these publications print (two decimals); rtol = 2e-3 is 1e-3 for a prescription printed to four decimals on radii as small as 0.27 mm plus 1e-3 for the engine's air-referenced index convention",
     "atol_mm": 0.005,
@@ -123,9 +138,32 @@
     "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication states no effective focal length for this example, only an F-number range across examples"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
   }
  },
- "aperture": {},
+ "aperture": {
+  "entrance_pupil_f_number": {
+   "value": 2.6070029047712815,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter."
+  }
+ },
  "field": {
   "kind": null,
   "definition": null,
@@ -270,6 +308,6 @@
    "no field verification: this batch built no per-field configurations"
   ]
  },
- "record_hash": "b05b9427932c0d4934a53f5461779ef648503c0989a5f5cf7fe1b25f78141abf",
+ "record_hash": "ba66a6a99e33adb76a3bee0db14959069403f4b3348e8e99bd11fb77fcd866e5",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

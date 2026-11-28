@@ -30,8 +30,8 @@
   "aperture_validity": {
    "state": "STOP_NOT_BLOCKING",
    "stop_blocks_light": false,
-   "basis": "the source marks surface 2 as the aperture stop with a thickness of 0, so the stop plane is coincident with surface 3's vertex. A zero spacing cannot be represented and a nominal gap would invent geometry, so the stop is carried as surface 3's clear aperture (0.55 mm, the element's stated D/2), and the engine builds no separate plate (conversion counts report aperture_stops 0, and the importer states 'the aperture stop is surface 3's clear aperture: a stop on a refracting surface is that surface's edge')",
-   "consequence": "the opening is present as surface 3's clear aperture but there is no opaque plate outside it, so the record is not eligible for stop-dependent evaluation. The bore the stated F/5.674 implies (about 0.088 mm at the engine's 1.0006 mm focal length) is not represented by the geometry",
+   "basis": "The native Project clips the axial cone at L1/S2 with a 0.091327 mm clear radius at the coincident mask plane.",
+   "consequence": "The clear aperture clips rays at the refracting interface. A downstream paraxial image in air is unconfirmed.",
    "eligible_for_stop_dependent_evaluation": false,
    "satisfies_stop_dependent_constraints": false,
    "satisfaction_basis": "no separate blocking plate is modelled and this batch asserts no stop-dependent evidence"
@@ -49,7 +49,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us9372336b2-ex1/project.json",
-  "sha256": "635a5298ebeb2ad5633003655fc09d5efad3f6a2944014c1d213e88cd4fdd672",
+  "sha256": "14c7586c96e9fb5da611c504e81ad13ce82da367950028da41cd9027ff8fb0d3",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -85,20 +85,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "note": "the publication states no effective focal length in millimetres. Its TABLE 1 of conditional expressions prints ratios only (Ih/f 0.778, L/f 2.695) and the miscellaneous data prints Ih = 0.778 mm, so the design is normalised to f = 1.000 mm; that is a derived design target, not a measured focal length, and it is not used as a comparison value"
+   "value": 1.0005975543077639,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 546.2231601210934
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "value": -0.0683034854572246,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 546.2231601210934,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 2.6946,
-   "basis": "DERIVED",
-   "definition": "first surface vertex to the image plane along the axis",
-   "note": "the sum of the transcribed spacings from surface 1 to the image plane; the publication's conditional table states L/f = 2.695 at f = 1 mm, and the engine reports the image plane at 2.6946 mm"
+   "value": 2.6955999999999998,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -124,6 +137,16 @@
     "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication states no effective focal length in millimetres. Its TABLE 1 of conditional expressions prints ratios only (Ih/f 0.778, L/f 2.695) and the miscellaneous data prints Ih = 0.778 mm, so the design is normalised to f = 1.000 mm; that is a derived design target, not a measured focal length, and it is not used as a comparison value"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
   }
  },
  "aperture": {
@@ -132,7 +155,7 @@
    "definition": "image-space f-number as the publication states it (the miscellaneous data table of example 1: F/5.674)",
    "basis": "SOURCE_STATED (the publication's miscellaneous data table for example 1)",
    "system_aperture": true,
-   "note": "the stated f-number is not reproduced by the modelled geometry: the stop's bore is merged into surface 3 and the record's clear aperture there is the element's stated D/2 (0.55 mm). At the engine's 1.0006 mm focal length, F/5.674 implies a bore of about 0.088 mm"
+   "note": "The native Project clips the axial cone at L1/S2 with a 0.091327 mm clear radius at the coincident mask plane. The aperture calculator leaves the finite conjugate f-number unconfirmed because the axial focus lies at the final interface."
   }
  },
  "field": {
@@ -250,7 +273,7 @@
   },
   {
    "code": "STOP_MERGED_INTO_REFRACTING_SURFACE",
-   "detail": "the source's aperture stop (surface 2) is a plane with a thickness of 0, coincident with surface 3's vertex. A zero spacing is refused by the format and a nominal gap would invent geometry, so the stop is carried as surface 3's clear aperture (0.55 mm, the element's stated D/2). The opaque plate outside the opening is not modelled and the record states STOP_NOT_BLOCKING; the bore the stated F/5.674 implies (about 0.088 mm) is therefore not in the geometry"
+   "detail": "The native Project clips the axial cone at L1/S2 with a 0.091327 mm clear radius at the coincident mask plane."
   },
   {
    "code": "IMAGE_SPACE_AIR_AT_LAST_GLASS",
@@ -305,6 +328,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "03cfdd3cfd6cb6e1a255038baa6f3660cf09bb37ab60d6d48fb8b5cd8d9d3f46",
+ "record_hash": "684822457ce121d41376ab5571d67e66ec353faa94dae29ffd2b1f18a75bd715",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

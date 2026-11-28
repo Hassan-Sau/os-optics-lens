@@ -52,7 +52,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us20090237807a1-ex1/project.json",
-  "sha256": "e7030e57dfac4af6ffabc545f523ffff8ea7f433338d047b3fc2d3ba1e562f55",
+  "sha256": "caef687a07e37d96a33c395d7cba11b02cf44fc0a2681bee97e178ea25249647",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -88,23 +88,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 1.0,
-   "basis": "SOURCE_STATED",
-   "conditions": "the source's parameter table for this example states 'Focal length 1.00000', and its table header states the unit is mm, so the value is 1.00000 mm at the d line",
-   "definition": "effective focal length of the whole system in air",
-   "note": "a unit focal length to five decimals in a summary table is a design target rather than a measured focal length, which is why paraxial is NOT_CHECKED below"
+   "value": 1.0011185322722416,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the source states no back focal length"
+   "value": -0.053563548253271094,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 7.2464,
-   "basis": "SOURCE_STATED",
-   "definition": "first surface vertex to the image plane along the axis, which is the publication's 'Full length of lens'",
-   "note": "the engine places the image plane at 7.2464 mm from the first vertex, the same number, and it is also the exact sum of the transcribed spacings"
+   "value": 7.2474,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -134,6 +144,19 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 1.0,
+   "basis": "SOURCE_STATED",
+   "conditions": "the source's parameter table for this example states 'Focal length 1.00000', and its table header states the unit is mm, so the value is 1.00000 mm at the d line",
+   "definition": "effective focal length of the whole system in air",
+   "note": "a unit focal length to five decimals in a summary table is a design target rather than a measured focal length, which is why paraxial is NOT_CHECKED below"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the source states no back focal length"
   }
  },
  "aperture": {
@@ -143,7 +166,20 @@
    "basis": "SOURCE_STATED (the source's parameter table for this example: F number 3.476)",
    "system_aperture": true
   },
-  "stop_opening_note": "the stop plate's clear semi-diameter in the CSV is 0.1438 mm = 1.00000/(2*3.476), so the modelled stop reproduces the source's stated F-number. The aperture fact itself is the source's, not derived from the model"
+  "stop_opening_note": "the stop plate's clear semi-diameter in the CSV is 0.1438 mm = 1.00000/(2*3.476), so the modelled stop reproduces the source's stated F-number. The aperture fact itself is the source's, not derived from the model",
+  "paraxial_working_f_number": {
+   "value": 6.928138671674188,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 13.5
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
+  }
  },
  "field": {
   "kind": "ANGULAR",
@@ -322,6 +358,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "ee36ebeeb095fc031ee58597ab2e3f159b88aae82676af1e2ea7cf1786045943",
+ "record_hash": "d0656c7b7cbecea28aacb0adbc64185bd0e365a0b10c39dfa90881a39e91ddb4",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

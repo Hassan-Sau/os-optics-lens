@@ -53,7 +53,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us8164836b2-ex1/project.json",
-  "sha256": "508aab0a7465b4489efc156e5aa19d820cbd3bd6073040af4df426348e56b9c9",
+  "sha256": "f54bcbb771b864152531b83ce91e046bbb6e820209aeed4e490fc5c8787b12dc",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -89,22 +89,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 1.933,
-   "basis": "SOURCE_STATED",
-   "conditions": "the source's zoom table gives f = 1.933 for the wide-angle far-focus state at the d line; the same table gives 2.650 (middle) and 3.848 (tele) at that working distance, and 1.863 / 2.467 / 3.374 at the near working distance. Those belong to the other states and are not compared here",
-   "definition": "effective focal length of the whole system in air"
+   "value": 1.936778742336069,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the source states no back focal length for this or any state"
+   "value": -0.1201628146510773,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "first surface vertex to the image plane along the axis",
-   "note": "the source states no total length. The Project's own first-vertex-to-image distance is 15.58034 mm, the sum of the transcribed spacings (ENGINE_COMPUTED)"
+   "value": 15.581339999999999,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -134,6 +145,18 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 1.933,
+   "basis": "SOURCE_STATED",
+   "conditions": "the source's zoom table gives f = 1.933 for the wide-angle far-focus state at the d line; the same table gives 2.650 (middle) and 3.848 (tele) at that working distance, and 1.863 / 2.467 / 3.374 at the near working distance. Those belong to the other states and are not compared here",
+   "definition": "effective focal length of the whole system in air"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the source states no back focal length for this or any state"
   }
  },
  "aperture": {
@@ -143,7 +166,20 @@
    "basis": "SOURCE_STATED (the source's zoom table: Fno 7.9 at the wide-angle far-focus state; the same table gives 9.0 and 11.5 for the middle and tele states at that working distance and 7.6 / 8.4 / 10.3 at the near working distance)",
    "system_aperture": true
   },
-  "stop_opening_note": "the stop plate's clear semi-diameter in the CSV is 0.1223 mm = 1.933/(2*7.9), so the modelled stop reproduces the source's stated F-number at this state. The aperture facts themselves are the source's, not derived from the model"
+  "stop_opening_note": "the stop plate's clear semi-diameter in the CSV is 0.1223 mm = 1.933/(2*7.9), so the modelled stop reproduces the source's stated F-number at this state. The aperture facts themselves are the source's, not derived from the model",
+  "paraxial_working_f_number": {
+   "value": 16.125713068245908,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 30.0
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
+  }
  },
  "field": {
   "kind": "ANGULAR",
@@ -467,6 +503,6 @@
    "the source's own surface table is drawn at the wide-angle far-focus state, and this record is that state; the other five states are not transcribed"
   ]
  },
- "record_hash": "7f28c84c5645e21abf238ecb5eb81c0a6b70d02416f858c812cb83bd0f157a2d",
+ "record_hash": "5f5a91a780ac57100adb2a729dd129e57880562afa71d1fe92c58c9a6679a98e",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

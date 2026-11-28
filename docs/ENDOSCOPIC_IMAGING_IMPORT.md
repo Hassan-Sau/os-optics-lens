@@ -10,6 +10,9 @@ the material decision that this source forces, the verification actually run, an
 - **Format:** `csv-surface-table/1`
 - **Batch:** `records/endoscopic-imaging/batch-endoscopic-imaging-1.json`
 
+The current manifest lists the accepted records and the deferred configurations.
+The native finite-object entries place the source waist at their object plane.
+
 ## Source search
 
 The series asks for an inventory of candidates with a batch plan, so the search is recorded rather

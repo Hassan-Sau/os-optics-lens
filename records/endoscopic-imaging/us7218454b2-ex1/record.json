@@ -51,7 +51,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us7218454b2-ex1/project.json",
-  "sha256": "b387e1b86b70ec8b6104e8024e7f5cc3b58337ae4f8ce6a38c50a8e7995a191b",
+  "sha256": "e184dfba041e453b59e3057d0660782d05bc8e14a1bb9c2a71c6aaccdb0af8b0",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -87,21 +87,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 0.5,
-   "basis": "SOURCE_STATED",
-   "conditions": "d line; the publication's TABLE 4 'f' row for Example 1, in the same millimetre units as its surface table (TABLE 1). TABLE 4 is headed 'TABLE 4' and has one column per example; the value is a specific focal length, not a normalised target (f = 1.000 would be the normalised form)",
-   "source_locator": "TABLE 4, Example 1 column, row 'f'"
+   "value": 0.5004733387012785,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the publication states no back focal length: TABLE 4 lists f, f1, f2, f3, d1-2, R2F and R2R only, and no other table in the publication states one. The value is left null rather than inferred from the prescription"
+   "value": -0.023684127156723335,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 2.7205,
-   "basis": "DERIVED",
-   "note": "the sum of the source's stated thicknesses from surface 1 to surface 7. The source states no image distance, so the last surface's zero thickness is the image distance and the last surface vertex is the image plane"
+   "value": 2.7215,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -156,6 +168,18 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 0.5,
+   "basis": "SOURCE_STATED",
+   "conditions": "d line; the publication's TABLE 4 'f' row for Example 1, in the same millimetre units as its surface table (TABLE 1). TABLE 4 is headed 'TABLE 4' and has one column per example; the value is a specific focal length, not a normalised target (f = 1.000 would be the normalised form)",
+   "source_locator": "TABLE 4, Example 1 column, row 'f'"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the publication states no back focal length: TABLE 4 lists f, f1, f2, f3, d1-2, R2F and R2R only, and no other table in the publication states one. The value is left null rather than inferred from the prescription"
   }
  },
  "aperture": {
@@ -321,6 +345,6 @@
    "no aperture is stated by the publication, so no system-aperture field is recorded"
   ]
  },
- "record_hash": "6470311c0d6fd4fa58089d2965319cf579e1dc124526afb60f08155a3a2921d1",
+ "record_hash": "0d888f21945130ee75078c8853483f95b0fb5edc6a7e90d807e322cbbb6a0839",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

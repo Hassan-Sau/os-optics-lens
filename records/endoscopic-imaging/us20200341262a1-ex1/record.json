@@ -49,7 +49,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us20200341262a1-ex1/project.json",
-  "sha256": "01285acf0cc3c66183e8e2a0356b4ace4c865b68eab878e102ff010fe2cff719",
+  "sha256": "43e9f6f17ece614a4a1cc73cca2f06b78f0e40e3609226af1739e1794c2567a8",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -85,20 +85,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 0.35,
-   "basis": "SOURCE_STATED",
-   "conditions": "the publication's parameter table for this example: f = 0.35, stated to two decimals in the prescription's own length unit (millimetres)",
-   "note": "the engine's paraxial EFL of 0.349028 mm differs from it by 0.000972 mm (0.28 %), 21.6 times the batch's tolerance but inside the source's own rounding interval [0.345, 0.355]; it is a design-target-level agreement, not a match, and the prescription is not tuned"
+   "value": 0.34902849526785135,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": 0.69,
-   "basis": "SOURCE_STATED",
-   "definition": "as the publication states it: Bf = 0.69 mm. Its reference surface is not stated, and the table shows what it is: the air-equivalent distance from surface 12's vertex (the rear face of the rear group's last lens, before the two plane-parallel plates) to the paraxial image. Reduced that way, the committed Project's own paraxial rear focal point lies 0.68642 mm from surface 12's vertex against the stated 0.69 mm, and the same construction applied to the publication's other two prescriptions gives 0.722 and 0.682 mm against their stated 0.72 and 0.68. It is therefore NOT the record's back focal length from the last surface's vertex, which the engine computes as 0.139783 mm"
+   "value": 0.13978311824733997,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
    "value": 2.5143,
-   "basis": "DERIVED",
-   "note": "the sum of the stated spacings from surface 1's vertex to the image plane (the table has no image-plane row; the last surface's 0.1675 mm is the image distance). It is the importer's image_plane_z_mm"
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -129,6 +142,17 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 0.35,
+   "basis": "SOURCE_STATED",
+   "conditions": "the publication's parameter table for this example: f = 0.35, stated to two decimals in the prescription's own length unit (millimetres)",
+   "note": "the engine's paraxial EFL of 0.349028 mm differs from it by 0.000972 mm (0.28 %), 21.6 times the batch's tolerance but inside the source's own rounding interval [0.345, 0.355]; it is a design-target-level agreement, not a match, and the prescription is not tuned"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": 0.69,
+   "basis": "SOURCE_STATED",
+   "definition": "as the publication states it: Bf = 0.69 mm. Its reference surface is not stated, and the table shows what it is: the air-equivalent distance from surface 12's vertex (the rear face of the rear group's last lens, before the two plane-parallel plates) to the paraxial image. Reduced that way, the committed Project's own paraxial rear focal point lies 0.68642 mm from surface 12's vertex against the stated 0.69 mm, and the same construction applied to the publication's other two prescriptions gives 0.722 and 0.682 mm against their stated 0.72 and 0.68. It is therefore NOT the record's back focal length from the last surface's vertex, which the engine computes as 0.139783 mm"
   }
  },
  "aperture": {
@@ -137,6 +161,18 @@
    "definition": "image-space f-number as the publication states it",
    "basis": "SOURCE_STATED (the publication's parameter table for this example: FNo. 4.36)",
    "system_aperture": true
+  },
+  "entrance_pupil_f_number": {
+   "value": 4.3645764469508395,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter."
   }
  },
  "field": {
@@ -363,6 +399,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "a0459e37f1b25786269d490017306ed0c3f23f4b355052c82664748c3689ad3e",
+ "record_hash": "987773422e387fb6f5b8e8a913fa5abcfe556e8c44335ae6fb270578fa6933e0",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

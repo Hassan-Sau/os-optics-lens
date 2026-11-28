@@ -48,7 +48,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us11543647b2-ex2/project.json",
-  "sha256": "29f14fd2fa9ae653be01ce23ad3f533e6c32d3b0deade3859aad3544aedfb977",
+  "sha256": "df696db668d4df91608629dd12386980043f062fa668fd2d2368c8aa562cddb6",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -84,19 +84,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "note": "the publication states an F-number, a half angle of view and an image height, but no effective focal length, so no source-stated first-order value exists to compare against"
+   "value": 0.5290983547212186,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 546.219159071447
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "value": -0.01632232141455984,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 546.219159071447,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 5.3513,
-   "basis": "DERIVED",
-   "definition": "first surface vertex to the image plane along the axis; the sum of the source's own stated surface spacings"
+   "value": 5.3523,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -122,6 +136,16 @@
     "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication states an F-number, a half angle of view and an image height, but no effective focal length, so no source-stated first-order value exists to compare against"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
   }
  },
  "aperture": {
@@ -305,6 +329,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "2ebe7f450fc0afd175da5aeb6dcfbadfe05e4606ff7d3c147c45b616f518cf9b",
+ "record_hash": "db68f0243059e998dc5880827c3c65a517cd09a26efc50caf45beaee11c7ed1f",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

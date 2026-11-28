@@ -49,7 +49,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us20120154932a1-ex1/project.json",
-  "sha256": "fb35727f21c0f0c25f357e0737b264e78ca9c9d33082748a484801d44b649dd0",
+  "sha256": "3cc688c685b3faa04c07fd2ee9079afd8bca5cb9512584bc4301b9992b780d34",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -85,21 +85,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 1.0,
-   "basis": "SOURCE_STATED",
-   "conditions": "the publication's TABLE 1 column 'Focal Length of Entire [System]', stated as 1.000 for this example; the table states no unit, and the prescription is dimensioned on a millimetre scale (the engine's paraxial EFL of 1.002886 mm confirms it)",
-   "note": "a normalised design target, not a measured focal length: the engine lands 0.29 % above it, outside the batch's 1e-4 comparison rule, so it is recorded as a source statement and not as a matched value"
+   "value": 1.002885626966166,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the publication states no back focal length for this example. The table's last spacing (surface 15 to IMG) is 0.0000 mm, so the source's image plane sits at the last surface's vertex for the stated 9.8584 mm object distance: an image distance of 0, not a stated BFL. The engine's BFL of -0.075997 mm is the rear focal distance for a parallel input (the infinite conjugate), a different quantity"
+   "value": -0.07599696374341369,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 6.8918,
-   "basis": "DERIVED",
-   "note": "the sum of the stated spacings from surface 1's vertex to the image plane; the importer's image_plane_z_mm"
+   "value": 6.8928,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -129,11 +141,36 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 1.0,
+   "basis": "SOURCE_STATED",
+   "conditions": "the publication's TABLE 1 column 'Focal Length of Entire [System]', stated as 1.000 for this example; the table states no unit, and the prescription is dimensioned on a millimetre scale (the engine's paraxial EFL of 1.002886 mm confirms it)",
+   "note": "a normalised design target, not a measured focal length: the engine lands 0.29 % above it, outside the batch's 1e-4 comparison rule, so it is recorded as a source statement and not as a matched value"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the publication states no back focal length for this example. The table's last spacing (surface 15 to IMG) is 0.0000 mm, so the source's image plane sits at the last surface's vertex for the stated 9.8584 mm object distance: an image distance of 0, not a stated BFL. The engine's BFL of -0.075997 mm is the rear focal distance for a parallel input (the infinite conjugate), a different quantity"
   }
  },
  "aperture": {
   "stated": false,
-  "note": "the publication states no f-number, entrance pupil diameter or object-side numerical aperture for this example (TABLE 1 gives the focal length, n3, v3, df, Ih and r3 only), so no system-aperture field is recorded rather than inferred. The 0.150 mm stop opening in the Project is a conversion parameter (see approximations.STOP_OPENING_MODELLED), not a source value"
+  "note": "the publication states no f-number, entrance pupil diameter or object-side numerical aperture for this example (TABLE 1 gives the focal length, n3, v3, df, Ih and r3 only), so no system-aperture field is recorded rather than inferred. The 0.150 mm stop opening in the Project is a conversion parameter (see approximations.STOP_OPENING_MODELLED), not a source value",
+  "paraxial_working_f_number": {
+   "value": 6.8370425199627025,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 9.8584
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
+  }
  },
  "field": {
   "kind": "IMAGE_HEIGHT",
@@ -384,6 +421,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "d2b9c50b7a087d3fb59cd3c0a9f157fa66a6f231ca06c7b4761da65cb34061f1",
+ "record_hash": "ddd729a60527699591be09d12d51c69a930dffc1c705cd4d8228cc5328808314",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

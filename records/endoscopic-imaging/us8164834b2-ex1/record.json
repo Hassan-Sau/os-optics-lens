@@ -56,7 +56,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us8164834b2-ex1/project.json",
-  "sha256": "782b1c4e91d46ea32583ea8815058836204302a65594e7776b8be1c3be6d0e36",
+  "sha256": "7bec8d74622525bbd9ed6aaf778969f7a829cf84e66bae8685f8f1117ff4ba5c",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -92,16 +92,24 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 0.981,
-   "basis": "SOURCE_STATED",
-   "conditions": "d line; the publication's TABLE 15 'Focal Length f' row for Example 1, in the same millimetre units as its surface table (TABLE 1) and its stated 11.83 mm object distance. A specific focal length, not a normalised target",
-   "source_locator": "TABLE 15, Example 1 column, row 'Focal Length f'"
+   "value": 0.982512297596663,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point",
-   "note": "the publication states Bf = 2.022 mm, but under a different definition: the air-equivalent distance from the last lens surface (surface 10) to the image plane, with the 2.400 mm parallel plate (surfaces 11-12) reduced by its index. That is not this record's back focal length, so no source value is stored here; the source's value is kept in source_stated_back_focus_mm and the like-for-like comparison is under engine_check"
+   "value": -0.0783322586593936,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "source_stated_back_focus_mm": {
    "value": 2.022,
@@ -111,9 +119,13 @@
    "verification": "the definition reproduces every one of the publication's twelve examples from their own surface tables to within 0.0005 mm (the stated precision): e.g. Example 7 2.35857 against 2.359, Example 9 2.34385 against 2.344. The same reading applied to this prescription gives 2.021817 mm with an air-referenced index, 2.024385 mm from the committed Project"
   },
   "total_track_mm": {
-   "value": 6.843,
-   "basis": "DERIVED",
-   "note": "the sum of the source's stated thicknesses from surface 1 to surface 12. The source states no image distance, so the last surface's zero thickness is the image distance and the last surface vertex is the image plane"
+   "value": 6.844,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -171,6 +183,18 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 0.981,
+   "basis": "SOURCE_STATED",
+   "conditions": "d line; the publication's TABLE 15 'Focal Length f' row for Example 1, in the same millimetre units as its surface table (TABLE 1) and its stated 11.83 mm object distance. A specific focal length, not a normalised target",
+   "source_locator": "TABLE 15, Example 1 column, row 'Focal Length f'"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point",
+   "note": "the publication states Bf = 2.022 mm, but under a different definition: the air-equivalent distance from the last lens surface (surface 10) to the image plane, with the 2.400 mm parallel plate (surfaces 11-12) reduced by its index. That is not this record's back focal length, so no source value is stored here; the source's value is kept in source_stated_back_focus_mm and the like-for-like comparison is under engine_check"
   }
  },
  "aperture": {
@@ -185,6 +209,19 @@
    "definition": "the publication's 'Aperture Diameter' for Example 1, used verbatim as the aperture stop's opening",
    "basis": "SOURCE_STATED (TABLE 15, Example 1 column, row 'Aperture Diameter')",
    "system_aperture": false
+  },
+  "paraxial_working_f_number": {
+   "value": 5.59834495483559,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 11.83
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
   }
  },
  "field": {
@@ -397,6 +434,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted. The stated half field, the stated maximum image height and the engine's focal length are mutually inconsistent under a rectilinear mapping (see field.convention_note); the mismatch is left open"
   ]
  },
- "record_hash": "82f3f57cd82bc54ba26b4576f96eb03fa26c8b019f276aa5c84e6458679b041a",
+ "record_hash": "b32410fc5f8a67d74b55176e6fd78098dd186079dd78540186741af13bb8f594",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

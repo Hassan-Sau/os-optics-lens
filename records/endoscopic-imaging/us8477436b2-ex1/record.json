@@ -48,7 +48,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us8477436b2-ex1/project.json",
-  "sha256": "65db5525445fa43786ad4e5f1f4a0f285d607c2927f874f1e01f3d76653e1927",
+  "sha256": "52310575ac09ee1d528dfb3d86a6689e69a906227a33c45d57338b04574b8a1f",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -84,20 +84,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "note": "the publication's parameter table prints a focal length of 1.00000 with no unit basis other than the prescription's millimetres, i.e. a normalised f = 1.000 mm design target rather than a measured focal length; it is not used as a comparison value, and no back focal length is stated at all"
+   "value": 1.0011185322722416,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point"
+   "value": -0.053563548253271094,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.7220645720764,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 7.2464,
-   "basis": "SOURCE_STATED",
-   "definition": "first surface vertex to the image plane along the axis",
-   "note": "the parameter table states 'Full length of lens 7.2464'; the transcribed spacings sum to the same 7.2464 mm and the engine reports the image plane at 7.2464 mm"
+   "value": 7.2474,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -123,6 +136,16 @@
     "why": "the publication states neither an effective focal length nor a back focal length for this example, so the two-quantity rule has no pair to judge. The engine's values are recorded under engine_check as ENGINE_COMPUTED facts and no verdict is claimed"
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "note": "the publication's parameter table prints a focal length of 1.00000 with no unit basis other than the prescription's millimetres, i.e. a normalised f = 1.000 mm design target rather than a measured focal length; it is not used as a comparison value, and no back focal length is stated at all"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point"
   }
  },
  "aperture": {
@@ -132,6 +155,19 @@
    "basis": "SOURCE_STATED (the publication's parameter table for example 1)",
    "system_aperture": true,
    "note": "the derived stop opening is consistent with the stated f-number: 0.1440 mm at the engine's 1.001119 mm focal length implies F/3.4761"
+  },
+  "paraxial_working_f_number": {
+   "value": 6.91851625685242,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "paraxial_image_space_marginal_ray",
+    "conjugate": "finite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.7220645720764,
+    "object_distance_mm": 13.5
+   },
+   "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle."
   }
  },
  "field": {
@@ -304,6 +340,6 @@
    "the stop is a real air-spaced plate here, so the record is STOP_BLOCKING and eligible for stop-dependent evaluation, although no such match is claimed"
   ]
  },
- "record_hash": "901f0748243f31cd787c8eaf64f7185c29e441812e2602533c8e57a010661af9",
+ "record_hash": "56bcdba1aadbd3ef2fc28eaa9edf72ce54b13f5d3b2347787de57ee4f4beaf26",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }

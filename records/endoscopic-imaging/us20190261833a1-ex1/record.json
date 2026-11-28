@@ -51,7 +51,7 @@
  },
  "native_project": {
   "path": "records/endoscopic-imaging/us20190261833a1-ex1/project.json",
-  "sha256": "809b0d467f16ef8010952ab48cf1370226ebd5f273de4d0280b08664d1595009",
+  "sha256": "a8d9c14f71190a655f04fe8321a1acb3667f077c741bedc3579d9c8a74bfdcad",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "model_id": "LENS",
@@ -87,20 +87,33 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 0.99,
-   "basis": "SOURCE_STATED",
-   "conditions": "the publication's various data table, normal observation state: f = 0.99 (unit mm) at the e line, with the object at 12.00 mm and the spacings d8/d13 of that state"
+   "value": 0.9940342415113969,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 546.2191590714472
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": null,
-   "basis": "SOURCE_STATED",
-   "definition": "from the last surface vertex to the paraxial image point, positive downstream",
-   "note": "the publication states no back focal length"
+   "value": -0.08179581685065948,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 546.2191590714472,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 7.65,
-   "basis": "DERIVED",
-   "definition": "first surface vertex to the image plane along the axis: the sum of the source's stated spacings for the normal observation state (object distance excluded)"
+   "value": 7.651000000000001,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -141,6 +154,17 @@
     }
    },
    "basis": "ENGINE_COMPUTED"
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 0.99,
+   "basis": "SOURCE_STATED",
+   "conditions": "the publication's various data table, normal observation state: f = 0.99 (unit mm) at the e line, with the object at 12.00 mm and the spacings d8/d13 of that state"
+  },
+  "nominal_back_focal_length_mm": {
+   "value": null,
+   "basis": "SOURCE_STATED",
+   "definition": "from the last surface vertex to the paraxial image point, positive downstream",
+   "note": "the publication states no back focal length"
   }
  },
  "aperture": {
@@ -498,6 +522,6 @@
    "no field verification: this batch built no per-field configurations, so no field-dependent quantity is asserted"
   ]
  },
- "record_hash": "c07217add56066f3d2f7b3d35a8d7864921f1fd9f4aac3b2e67a286b8311ead1",
+ "record_hash": "5e9440243ac899b63a1a5b94c1afe9e76a39dcaa8eeefdf0d0a7f78cf4bf3213",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(..., sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline. Recompute it from the committed record.json after parsing the JSON, not from the file's bytes."
 }
