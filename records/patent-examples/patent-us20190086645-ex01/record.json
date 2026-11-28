@@ -59,7 +59,7 @@
  },
  "native_project": {
   "path": "records/patent-examples/patent-us20190086645-ex01/project.json",
-  "sha256": "3fb9509bdf4b7fa363a0c5039f7a32524fc919c6b0a7fe51e44869b75e7bf2fe",
+  "sha256": "7bff81a055637e15c25c02514ee75b5ce1a9c5fdb1e8cb96c9785739c305b3e4",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -142,9 +142,13 @@
    }
   },
   "total_track_mm": {
-   "value": 251.7597999999999,
-   "basis": "DERIVED",
-   "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
+   "value": 251.7698,
+   "basis": "PROJECT_DERIVED",
+   "definition": "Axial distance from the first optical surface vertex to the fixed observation plane in the native Project.",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   }
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -697,6 +701,6 @@
   "basis": "SOURCE_STATED",
   "definition": "Half angle of view as printed for the example"
  },
- "record_hash": "dc943139cc5aaabd81693cde23f7c1d286dda2f17afd817e29b8b028d24bf8d5",
+ "record_hash": "5d975a6f9e2e25e0d813b451154f19bab0a7d31ab80930984e0cd58faf324742",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
