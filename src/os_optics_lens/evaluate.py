@@ -5,7 +5,7 @@ A *configuration view* is a record's JSON with one configuration's sections in p
 `view["configuration"]` attached (SPEC §2.3). A 1.0 record is its own view apart from that key.
 Everything here is a pure function of the view, the constraint and an `EvalContext`; the context
 injects the stop-dependent fact keys (from the vocabulary) and the evidence resolver (from the index
-or, in tests, from a checkout), so this module imports nothing else from the package.
+or, in tests, from a checkout).
 
 Outcomes are `MATCH`, `UNCONFIRMED` and `DOES_NOT_MATCH`. An `UNCONFIRMED` evaluation always carries
 one reason code from `REASON_CODES`. Value equality everywhere is JSON value equality
@@ -32,6 +32,8 @@ import re
 import sys
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Sequence
+
+from .project_facts import is_checked_paraxial_fact
 
 __all__ = [
     "MATCH",
@@ -417,16 +419,17 @@ def _stop_details(stop: Mapping[str, Any]) -> dict[str, Any]:
     return {"state": stop["state"], "satisfaction_basis": stop["satisfaction_basis"]}
 
 
-def _prefix_stop_dependent(segments: Sequence[str], ctx: EvalContext) -> str | None:
+def _prefix_stop_dependent(segments: Sequence[str], ctx: EvalContext, view: Mapping[str, Any]) -> str | None:
     """The shortest prefix of `segments` naming a stop-dependent fact, or None."""
     for end in range(1, len(segments) + 1):
         key = ".".join(segments[:end])
-        if ctx.is_stop_dependent(key):
+        if ctx.is_stop_dependent(key) and not is_checked_paraxial_fact(key, _at(view, segments[:end])):
             return key
     return None
 
 
-def _contained_stop_dependent(full: Sequence[str], node: object, ctx: EvalContext) -> str | None:
+def _contained_stop_dependent(full: Sequence[str], node: object, ctx: EvalContext,
+                              view: Mapping[str, Any]) -> str | None:
     """A stop-dependent fact *inside* the value a predicate compares as a whole, or None.
 
     A predicate whose path ends at a section (`aperture`, or the `performance` list) compares every
@@ -444,10 +447,11 @@ def _contained_stop_dependent(full: Sequence[str], node: object, ctx: EvalContex
                      if isinstance(entry, dict) and isinstance(entry.get("metric"), str)]
         for name in names:
             key = f"{prefix}.{name}"
-            if ctx.is_stop_dependent(key):
+            if _prefix_stop_dependent(key.split("."), ctx, view) is not None:
                 return key
     for key in sorted(ctx.stop_dependent):
-        if key.startswith(prefix + ".") and _has_path(node, key[len(prefix) + 1:].split(".")):
+        if (key.startswith(prefix + ".") and _has_path(node, key[len(prefix) + 1:].split("."))
+                and not is_checked_paraxial_fact(key, _at(view, key.split(".")))):
             return key
     return None
 
@@ -1076,7 +1080,7 @@ def _locate(view: Mapping[str, Any], c: Mapping[str, Any], ctx: EvalContext, *,
     key_segments = scope + ([metric] if metric is not None else [])
     stop = stop_status(view)
     required = bool(c.get("requires_blocking_stop")) or \
-        _prefix_stop_dependent(key_segments, ctx) is not None
+        _prefix_stop_dependent(key_segments, ctx, view) is not None
     located = _Located(key_segments=key_segments, gate_required=required, stop=stop)
     # Selectors cannot use evidence references or intake checks to choose the compared fact.
     select_keys = list(c.get("select") or {})
@@ -1249,7 +1253,7 @@ def _path_guards(view: Mapping[str, Any], located: _Located, segments: Sequence[
         target = target.get(segment) if isinstance(target, dict) else None
     gated = False
     if not located.gate_required:
-        key = _prefix_stop_dependent(full, ctx) or _contained_stop_dependent(full, target, ctx)
+        key = _prefix_stop_dependent(full, ctx, view) or _contained_stop_dependent(full, target, ctx, view)
         if key is not None:
             gated = True
             if not located.stop["eligible"]:
@@ -1774,7 +1778,7 @@ def preference_value(view: Mapping[str, Any], preference: Mapping[str, Any], ctx
         info["details"] = not_fact
         return None, COMPARISON_ONLY, info
     stop = stop_status(view)
-    if _prefix_stop_dependent(scope + [metric], ctx) is not None and not stop["eligible"]:
+    if _prefix_stop_dependent(scope + [metric], ctx, view) is not None and not stop["eligible"]:
         info["details"] = {"state": stop["state"]}
         return None, STOP_NOT_ELIGIBLE, info
     obj = _at(view, scope)
