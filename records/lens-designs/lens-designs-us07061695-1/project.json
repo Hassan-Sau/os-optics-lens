@@ -1,0 +1,710 @@
+{
+ "schema": "opensci.project",
+ "project_schema_version": "2.0",
+ "components": [
+  {
+   "instance_id": "LENS",
+   "optical_role": "lens",
+   "custom_part": {
+    "custom_part_key": "LENS",
+    "description": "US07061695-1: imported from a csv-surface-table/1 prescription (4 elements, 1 aperture stop)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "selected_parameters": [],
+   "retained_dofs": [],
+   "optical_model_id": "LENS"
+  },
+  {
+   "instance_id": "SRC1",
+   "custom_part": {
+    "custom_part_key": "SRC1",
+    "description": "on-axis source at 486.266178 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     -100.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 486.266178,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC2",
+   "custom_part": {
+    "custom_part_key": "SRC2",
+    "description": "on-axis source at 550.150192 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     -100.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 550.150192,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC3",
+   "custom_part": {
+    "custom_part_key": "SRC3",
+    "description": "on-axis source at 587.721866 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     -100.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 587.721866,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  },
+  {
+   "instance_id": "SRC4",
+   "custom_part": {
+    "custom_part_key": "SRC4",
+    "description": "on-axis source at 656.450688 nm (vacuum)"
+   },
+   "nominal_pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     -100.0
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "optical_role": "source",
+   "retained_dofs": [],
+   "selected_parameters": [],
+   "source_model": {
+    "model_kind": "GAUSSIAN_BEAM",
+    "wavelength_nm": 656.450688,
+    "power_w": 0.001,
+    "waist_radius_mm": 3.0,
+    "waist_position_mm": 0.0,
+    "m2": 1.0,
+    "polarization": {
+     "kind": "UNPOLARIZED"
+    }
+   }
+  }
+ ],
+ "observations": [
+  {
+   "observation_id": "image_plane",
+   "pose": {
+    "position_mm": [
+     0.0,
+     0.0,
+     6.045966286383128
+    ],
+    "quaternion_wxyz": [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "aperture": {
+    "shape": "circle",
+    "radius_mm": 2.703,
+    "center_offset_mm": [
+     0.0,
+     0.0
+    ],
+    "obstruction_radius_mm": 0.0
+   },
+   "absorbing": true,
+   "medium": "air"
+  }
+ ],
+ "targets": [],
+ "optical_models": [
+  {
+   "model_id": "LENS",
+   "display_name": "US07061695-1 (csv-surface-table/1, source SHA-256 59098ed6979dbaff68549e08988d4934bbb68cf0c3b576daf13d8bbfb243fbe3)",
+   "model": {
+    "model_kind": "COMPOUND",
+    "model_version": "1",
+    "members": [
+     {
+      "member_id": "L1",
+      "model_id": "LENS-L1",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        0.0
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "STOP",
+      "model_id": "LENS-STOP",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        1.2532
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L2",
+      "model_id": "LENS-L2",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        2.0873
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L3",
+      "model_id": "LENS-L3",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        2.8679
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "member_id": "L4",
+      "model_id": "LENS-L4",
+      "pose": {
+       "position_mm": [
+        0.0,
+        0.0,
+        5.5694
+       ],
+       "quaternion_wxyz": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+       ]
+      }
+     }
+    ],
+    "envelope": {
+     "kind": "CYLINDER",
+     "diameter_mm": "5.406",
+     "z_min_mm": "0",
+     "z_max_mm": "5.9754",
+     "status": "DERIVED"
+    },
+    "ports": [
+     {
+      "port_id": "IN",
+      "role": "INPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "0"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     },
+     {
+      "port_id": "OUT",
+      "role": "OUTPUT",
+      "point_mm": [
+       "0",
+       "0",
+       "5.9754"
+      ],
+      "direction": [
+       "0",
+       "0",
+       "1"
+      ],
+      "status": "DERIVED"
+     }
+    ]
+   }
+  },
+  {
+   "model_id": "LENS-L1",
+   "display_name": "US07061695-1: element L1, surfaces S1-S2 (rows 7-8, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "1.484628",
+      "clear_radius_mm": "0.899",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "1.048",
+      "radius_mm": "3.87226",
+      "clear_radius_mm": "0.701",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "SCHOTT_BK7"
+    ],
+    "edge_radius_mm": "0.899",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "CATALOG_MATERIAL_DISPERSION",
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-STOP",
+   "display_name": "US07061695-1: aperture stop STOP, surface STO (row 9, csv-surface-table/1)",
+   "model": {
+    "model_kind": "APERTURE_STOP",
+    "model_version": "1",
+    "opening_radius_mm": "0.67",
+    "edge_radius_mm": "2.703",
+    "plane_z_mm": "0",
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L2",
+   "display_name": "US07061695-1: element L2, surfaces S4-S5 (rows 10-11, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "-1.050646",
+      "aspheric_coefficients": [
+       "0.00742",
+       "0.103",
+       "-0.28",
+       "-0.0938",
+       "0.562",
+       "0.167",
+       "-0.902"
+      ],
+      "clear_radius_mm": "0.841",
+      "edge_radius_mm": "0.841",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.6998",
+      "radius_mm": "-1.709228",
+      "aspheric_coefficients": [
+       "0.048190457",
+       "-0.026627216",
+       "0.016146376",
+       "0.0051990544",
+       "-0.0029898661",
+       "-0.002458555",
+       "0.0010958537"
+      ],
+      "clear_radius_mm": "1.334",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "MODEL_POLYSTYR_ND1P59_VD30P8"
+    ],
+    "edge_radius_mm": "1.334",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L3",
+   "display_name": "US07061695-1: element L3, surfaces S6-S7 (rows 12-13, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "radius_mm": "4.370839",
+      "clear_radius_mm": "2.305",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "1.4786",
+      "radius_mm": "22.94755",
+      "clear_radius_mm": "2.403",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "MODEL_COC_ND1P53373_VD56P2279"
+    ],
+    "edge_radius_mm": "2.403",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  },
+  {
+   "model_id": "LENS-L4",
+   "display_name": "US07061695-1: element L4, surfaces S8-S9 (rows 14-15, csv-surface-table/1)",
+   "model": {
+    "model_kind": "SURFACE_SEQUENCE",
+    "model_version": "2",
+    "fidelity": "SURFACE_PRESCRIPTION",
+    "surfaces": [
+     {
+      "surface_id": "S1",
+      "vertex_z_mm": "0",
+      "clear_radius_mm": "2.645",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     },
+     {
+      "surface_id": "S2",
+      "vertex_z_mm": "0.406",
+      "clear_radius_mm": "2.703",
+      "traced": "TRANSMITTED",
+      "status": "SPECIFIED"
+     }
+    ],
+    "media": [
+     "SCHOTT_BK7"
+    ],
+    "edge_radius_mm": "2.703",
+    "valid_band_nm": {
+     "min_nm": "380",
+     "max_nm": "1200",
+     "status": "DERIVED"
+    },
+    "approximations": [
+     "CATALOG_MATERIAL_DISPERSION",
+     "EDGE_AS_OPAQUE_RIM",
+     "GHOST_REFLECTIONS_NOT_TRACED",
+     "IDEAL_SURFACE_FIGURE",
+     "NOMINAL_PRESCRIPTION"
+    ],
+    "status": "SPECIFIED"
+   }
+  }
+ ],
+ "model_materials": [
+  {
+   "material_id": "MODEL_COC_ND1P53373_VD56P2279",
+   "display_name": "MODEL_COC_ND1P53373_VD56P2279",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.4223318050232472",
+     "-0.04633277011353476",
+     "9.469509826029528"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.53373 vd 56.2279 solved to the vacuum C d and F lines"
+  },
+  {
+   "material_id": "MODEL_POLYSTYR_ND1P59_VD30P8",
+   "display_name": "MODEL_POLYSTYR_ND1P59_VD30P8",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.2104828556519824",
+     "0.3678230353490579",
+     "19.83191975039225"
+    ],
+    "c_um2": [
+     "0.0035",
+     "0.0125",
+     "90"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "380",
+    "max_nm": "1200",
+    "status": "SPECIFIED"
+   },
+   "basis": "nd 1.59 vd 30.8 solved to the vacuum C d and F lines"
+  },
+  {
+   "material_id": "SCHOTT_BK7",
+   "display_name": "SCHOTT BK7",
+   "dispersion": {
+    "kind": "SELLMEIER",
+    "b": [
+     "1.03961212",
+     "0.231792344",
+     "1.01046945"
+    ],
+    "c_um2": [
+     "0.00600069867",
+     "0.0200179144",
+     "103.560653"
+    ]
+   },
+   "valid_band_nm": {
+    "min_nm": "310.089",
+    "max_nm": "2325.623",
+    "status": "SPECIFIED"
+   },
+   "basis": "Sellmeier law: the Sellmeier formula of SCHOTT BK7 (SCHOTT glass catalogue (SCHOTT. status as of 1 June 2018 + Grp glass dec 2011. preferred. inquiry and obsolete data since 2006.)); wavelength in air, index relative to air (20 C, 101325 Pa); the manufacturer lists it as obsolete (as of SCHOTT. status as of 1 June 2018 + Grp glass dec 2011. preferred. inquiry and obsolete data since 2006.): kept for reproducing designs, not a statement of availability; copied from public optical catalog 2026-11-25.1",
+   "index_reference": {
+    "wavelength": "AIR",
+    "index": "RELATIVE_TO_AIR",
+    "reference_air": {
+     "model": "EDLEN_1953_OPTICSTUDIO",
+     "temperature_c": "20",
+     "pressure_pa": "101325"
+    },
+    "source_band_nm": [
+     "310",
+     "2325"
+    ],
+    "stated_by": "CATALOGUE_FORMAT",
+    "basis": "glass catalogue convention: the formula takes wavelengths in air and gives the index relative to air at 20 C and 101325 Pa (the glass's reference temperature, 1 atm)"
+   },
+   "bulk_loss": {
+    "kind": "INTERNAL_TRANSMITTANCE",
+    "wavelength_nm": [
+     "310",
+     "320",
+     "334",
+     "350",
+     "365",
+     "370",
+     "380",
+     "390",
+     "400",
+     "420",
+     "460",
+     "500",
+     "580",
+     "660",
+     "700",
+     "850",
+     "1060",
+     "1260",
+     "1529",
+     "1970.1",
+     "2325"
+    ],
+    "internal_transmittance": [
+     "0.07",
+     "0.35",
+     "0.77",
+     "0.93",
+     "0.969",
+     "0.974",
+     "0.98",
+     "0.989",
+     "0.991",
+     "0.993",
+     "0.994",
+     "0.996",
+     "0.996",
+     "0.997",
+     "0.998",
+     "0.998",
+     "0.998",
+     "0.991",
+     "0.985",
+     "0.85",
+     "0.57"
+    ],
+    "thickness_mm": [
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25",
+     "25"
+    ],
+    "basis": "internal transmittance of SCHOTT BK7 as its catalogue states it (IT lines: wavelength, internal transmittance, sample thickness; the thickest sample per wavelength), bulk only: no surface reflection"
+   },
+   "thermo_optic": {
+    "kind": "SCHOTT_DN_DT",
+    "d0": "0.00000186",
+    "d1": "0.0000000131",
+    "d2": "-0.0000000000137",
+    "e0": "0.000000434",
+    "e1": "0.000000000627",
+    "lambda_tk_um": "0.17",
+    "reference_temperature_c": "20",
+    "basis": "Schott dn/dT coefficients of SCHOTT BK7 (the catalogue's TD line), reference temperature 20 C"
+   },
+   "copied_from": {
+    "catalog_version": "2026-11-25.1",
+    "material_id": "SCHOTT_BK7",
+    "source_edition": "SCHOTT. status as of 1 June 2018 + Grp glass dec 2011. preferred. inquiry and obsolete data since 2006."
+   }
+  }
+ ]
+}

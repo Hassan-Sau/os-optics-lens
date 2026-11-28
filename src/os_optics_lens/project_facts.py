@@ -11,6 +11,13 @@ from .canonical import is_number
 from .normalize import FROM_SUFFIX, member_stem
 
 PROJECT_BASES = {"PROJECT_DECLARED", "PROJECT_DERIVED", "ENGINE_COMPUTED"}
+AXIAL_PARAXIAL_METHOD = "axial_paraxial_clear_apertures"
+ENTRANCE_PUPIL_F_NUMBER = "entrance_pupil_f_number"
+PARAXIAL_WORKING_F_NUMBER = "paraxial_working_f_number"
+PARAXIAL_F_NUMBER_CONVENTIONS = {
+    ENTRANCE_PUPIL_F_NUMBER: "efl_over_admitted_entrance_pupil_diameter",
+    PARAXIAL_WORKING_F_NUMBER: "paraxial_image_space_marginal_ray",
+}
 DESIGN_CLASSIFICATION = (
     "lens_type", "design_family_id", "design_scope", "function_tags", "application_tags",
     "structure_tags", "module_role", "conjugate", "folded", "focus",
@@ -33,6 +40,25 @@ BANDS = (
 
 def _object(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
+
+
+def is_checked_paraxial_fact(key: str, fact: Any) -> bool:
+    """Identify the contribution checker's aperture facts, scoped to their own admitted cone."""
+    section, _, name = key.partition(".")
+    if section != "aperture" or name not in PARAXIAL_F_NUMBER_CONVENTIONS:
+        return False
+    fact = _object(fact)
+    conditions = _object(fact.get("conditions"))
+    value = fact.get("value")
+    finite = name == PARAXIAL_WORKING_F_NUMBER
+    wavelength = conditions.get("wavelength_nm")
+    distance = conditions.get("object_distance_mm")
+    return (fact.get("basis") == "PROJECT_DERIVED" and conditions.get("method") == AXIAL_PARAXIAL_METHOD
+            and conditions.get("convention") == PARAXIAL_F_NUMBER_CONVENTIONS[name]
+            and conditions.get("conjugate") == ("finite_to_finite" if finite else "infinite_to_finite")
+            and conditions.get("field") == "on_axis" and is_number(wavelength) and wavelength > 0
+            and (not finite or is_number(distance) and distance > 0)
+            and is_number(value) and value > 0)
 
 
 def _objects(value: Any) -> list[dict[str, Any]]:
@@ -488,12 +514,4 @@ def project_view(record: dict[str, Any], project: Any, *, as_written: bool,
         image_height = field.get("max_image_height_mm")
         if is_number(image_height):
             view.setdefault("image_format", {})["image_circle_diameter_mm"] = 2 * image_height
-        # This legacy SOURCE_STATED entry describes the admitted-pupil analysis of the nominal P2b
-        # study preserved in the committed Project. The brief's sensor pixel pitch is independent.
-        pupil = _object(_object(record.get("aperture")).get("entrance_pupil_f_number"))
-        if (collection == "yutong-cup" and record.get("record_id") == "yutong-2025-mirrorless-18-p2b"
-                and _object(pupil.get("conditions")).get("convention") == "efl_over_admitted_entrance_pupil_diameter"
-                and is_number(pupil.get("value"))):
-            fact = _pick(pupil, "value", "conditions", "definition", "system_aperture")
-            view.setdefault("aperture", {})["entrance_pupil_f_number"] = dict(fact, basis="ENGINE_COMPUTED")
     return view
