@@ -30,7 +30,7 @@
   "series_issue_url": "https://github.com/JunLin615/os-optics-lens/issues/36"
  },
  "design": {
-  "lens_type": "telescope_objective",
+  "lens_type": "telescope",
   "design_type": "telescope_objective",
   "design_family_id": "optiland-48-inch-telescope-objective",
   "function_tags": [
@@ -61,7 +61,7 @@
  },
  "native_project": {
   "path": "records/telescope-observation/optiland-48-inch-telescope-objective/project.json",
-  "sha256": "2ebdbfff03d9b50cea7f80a6d27104d94981504ec214aafbd9d6a43c0e34b2d5",
+  "sha256": "d2ba263cc5859de79eb5cf452ac30367b6c665b6a42faaffe7fb070a26fc13f5",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "OPTIC",
@@ -110,34 +110,41 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 48.06279630877449,
+   "value": 1220.795026242873,
    "basis": "ENGINE_COMPUTED",
-   "definition": "Paraxial effective focal length",
-   "conditions": "Reference wavelength (587.5618 nm in air); object at infinity.",
-   "engine_value_mm": 48.06279630877449
+   "conditions": {
+    "wavelength_nm": 587.721866
+   },
+   "definition": "Signed paraxial effective focal length of the native Project.",
+   "engine_value_mm": 1220.795026242873
   },
   "back_focal_length_mm": {
-   "value": 44.417745221228365,
+   "value": 1128.2107286192015,
    "basis": "ENGINE_COMPUTED",
-   "definition": "Paraxial distance from the exit vertex to the rear focal point",
    "conditions": {
-    "distance_kind": "paraxial_focal_distance",
+    "wavelength_nm": 587.721866,
     "from": "final_optical_surface_vertex",
     "to": "paraxial_rear_focal_point",
-    "wavelength_nm": 587.721866
-   }
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 49.6787,
-   "basis": "DERIVED",
-   "definition": "Sum of the tabulated thicknesses from the first lens surface to the image plane; the eye-pupil standoff in front of the first surface is not part of it"
+   "value": 1263.5546286192016,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
    "basis": "ENGINE_COMPUTED",
    "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
-   "effective_focal_length_mm": 48.06279630877449,
-   "back_focal_length_mm": 44.417745221228365,
+   "effective_focal_length_mm": 1220.795026242873,
+   "back_focal_length_mm": 1128.2107286192015,
    "wavelength_nm": 587.721866,
    "comparison": {
     "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed precision of the stated focal length; rtol covers the printed precision of the radii and thicknesses, the constant-index material model and the engine's air-referenced index convention.",
@@ -171,10 +178,29 @@
    "definition": "image-space f-number; this is the system aperture the record declares, taken from the value the source states for the example"
   },
   "entrance_pupil_diameter_mm": {
-   "value": 7.998950408712528,
-   "basis": "DERIVED",
-   "definition": "Diameter of the modelled aperture that bounds the axial beam",
+   "value": 211.84460751134807,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.721866
+   },
+   "definition": "Diameter of the admitted axial entrance pupil of the native Project.",
    "system_aperture": false
+  },
+  "entrance_pupil_f_number": {
+   "value": 5.7626910620204415,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.721866
+   },
+   "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter."
   }
  },
  "field": {
@@ -263,6 +289,6 @@
    "DUMMY_SURFACE"
   ]
  },
- "record_hash": "2c88a66e620af8c7959c452c412063505e4822388d65afe5c57a60c4d489e540",
+ "record_hash": "d649e0003565c22fcc000aa7df462ce6c5c9765e6f490585f410649de0889c52",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }

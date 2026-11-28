@@ -88,6 +88,27 @@ A facet is a **discovery** label derived from the record's sampling span. A hard
 uses confirmed continuous coverage of the Project. The state is `UNCONFIRMED` when the record
 supplies only discrete samples or a sampling span.
 
+## The telescope and observation collection
+
+`records/telescope-observation/` holds the second collection: nine classical eyepieces from
+MIL-HDBK-141 section 14, one Nikon eyepiece numerical example, and four MIT-licensed sample designs
+— refracting telescope objectives and eyepieces. Every record is a coaxial sequential refracting
+prescription with a real image plane, because that is what the prescription importer accepts;
+reflecting systems, prism erectors and afocal trains are deferred with a reason rather than
+approximated.
+
+| | |
+|---|---|
+| Candidates examined | 88 |
+| Accepted records | 14 |
+| Deferred, with a reason | 74 |
+| Conversion failed | 0 |
+
+[Collection README](records/telescope-observation/README.md) covers the scope, the record table, the
+aperture and stop conventions, the validation run and the deferred sources.
+[Batch manifest](records/telescope-observation/batch-telescope-observation-1.json) reports one
+outcome per candidate.
+
 ## Search the collection
 
 The `os-optics-lens` package ships the retriever together with a prebuilt index and the
@@ -130,27 +151,6 @@ build/os-optics-lens-index.sqlite`, then pass `--index` to each command.
 [Retrieval](docs/RETRIEVAL.md) documents installation, the request and response formats, the
 search semantics, the error codes and how to rebuild the index.
 [Index schema](docs/INDEX_SCHEMA.md) documents the index tables and build findings.
-
-## The telescope and observation collection
-
-`records/telescope-observation/` holds the second collection: nine classical eyepieces from
-MIL-HDBK-141 section 14, one Nikon eyepiece numerical example, and four MIT-licensed sample designs
-— refracting telescope objectives and eyepieces. Every record is a coaxial sequential refracting
-prescription with a real image plane, because that is what the prescription importer accepts;
-reflecting systems, prism erectors and afocal trains are deferred with a reason rather than
-approximated.
-
-| | |
-|---|---|
-| Candidates examined | 88 |
-| Accepted records | 14 |
-| Deferred, with a reason | 74 |
-| Conversion failed | 0 |
-
-[Collection README](records/telescope-observation/README.md) covers the scope, the record table, the
-aperture and stop conventions, the validation run and the deferred sources.
-[Batch manifest](records/telescope-observation/batch-telescope-observation-1.json) reports one
-outcome per candidate.
 
 ## Status and contributions
 

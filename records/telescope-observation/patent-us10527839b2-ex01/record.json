@@ -63,7 +63,7 @@
  },
  "native_project": {
   "path": "records/telescope-observation/patent-us10527839b2-ex01/project.json",
-  "sha256": "76a06421925985ebd2f81edb44846809ff1ae78c416aa5c0b06072576b37d838",
+  "sha256": "3e372953cfc69f4b414282cdb5799264554573c9c7361b2279a0c899faf92f92",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "OPTIC",
@@ -103,27 +103,34 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 25.79,
-   "basis": "SOURCE_STATED",
-   "definition": "Effective focal length as printed for the example",
-   "conditions": "Reference wavelength (587.562 nm in air); object at infinity.",
+   "value": 25.81842245208171,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.722066
+   },
+   "definition": "Signed paraxial effective focal length of the native Project.",
    "engine_value_mm": 25.81842245208171
   },
   "back_focal_length_mm": {
    "value": 16.886287657501313,
    "basis": "ENGINE_COMPUTED",
-   "definition": "Paraxial distance from the exit vertex to the rear focal point",
    "conditions": {
-    "distance_kind": "paraxial_focal_distance",
+    "wavelength_nm": 587.722066,
     "from": "final_optical_surface_vertex",
     "to": "paraxial_rear_focal_point",
-    "wavelength_nm": 587.722066
-   }
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "total_track_mm": {
-   "value": 35.164729,
-   "basis": "DERIVED",
-   "definition": "Sum of the tabulated thicknesses from the first lens surface to the image plane; the eye-pupil standoff in front of the first surface is not part of it"
+   "value": 53.18628765750131,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   },
+   "definition": "Axial distance from the first optical surface to the image plane."
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -152,6 +159,13 @@
      "basis": "The source prints no back focal length, so this quantity has no source value."
     }
    }
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 25.79,
+   "basis": "SOURCE_STATED",
+   "definition": "Effective focal length as printed for the example",
+   "conditions": "Reference wavelength (587.562 nm in air); object at infinity.",
+   "engine_value_mm": 25.81842245208171
   }
  },
  "aperture": {
@@ -160,6 +174,18 @@
    "basis": "DERIVED",
    "definition": "Diameter of the nominal 4 mm eye pupil plane placed 18 mm in front of the first surface. The publication states no pupil size, so this is the modelling choice the aperture basis describes, not a source value.",
    "system_aperture": true
+  },
+  "entrance_pupil_f_number": {
+   "value": 6.454605613020431,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.722066
+   },
+   "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter."
   }
  },
  "field": {
@@ -254,6 +280,6 @@
    "DUMMY_SURFACE"
   ]
  },
- "record_hash": "8936f2d95188fb3a46ac8c501a54090b3b64ebb3cd118a95b8a253ee0c57c3f3",
+ "record_hash": "5f921568a633b2a62a09b874cb30fb1f1b64649d26a44ff0ccb82775569f0bba",
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline"
 }

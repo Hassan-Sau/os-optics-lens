@@ -28,7 +28,7 @@ MANIFEST = json.loads((COLLECTION / "batch-telescope-observation-1.json").read_t
 RECORD_DIRS = sorted(p for p in COLLECTION.iterdir() if (p / "record.json").is_file())
 RECORDS = {p.name: json.loads((p / "record.json").read_text(encoding="utf-8")) for p in RECORD_DIRS}
 
-BASES = {"SOURCE_STATED", "DERIVED", "ENGINE_COMPUTED"}
+BASES = {"SOURCE_STATED", "DERIVED", "ENGINE_COMPUTED", "PROJECT_DERIVED"}
 OUTCOMES = {"ACCEPTED", "DEFERRED", "CONVERSION_FAILED"}
 PARAXIAL_STATES = {"MATCHED", "DIFFERS", "NOT_CHECKED"}
 APERTURE_STATES = {"STOP_BLOCKING", "STOP_NOT_BLOCKING", "NO_STOP"}
@@ -365,7 +365,7 @@ class FamilyTest(unittest.TestCase):
         self.assertEqual(len(handbook), 9)
         fields = []
         for name, record in handbook.items():
-            self.assertEqual(record["first_order"]["effective_focal_length_mm"]["value"], 25.4, name)
+            self.assertEqual(record["first_order"]["nominal_effective_focal_length_mm"]["value"], 25.4, name)
             self.assertEqual(record["aperture"]["entrance_pupil_diameter_mm"]["value"], 5.0, name)
             self.assertEqual(record["design"]["design_type"], "eyepiece", name)
             fields.append(record["field"]["full_field_deg"])

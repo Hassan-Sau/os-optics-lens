@@ -1,5 +1,9 @@
 # Telescope and observation optics
 
+The Huygenian Project records its internal focus without absorbing the beam
+and monitors the beam downstream of the last element. The 48-inch objective
+uses millimetres for all native dimensions, converted with 25.4 mm per inch.
+
 Prescriptions for telescopic and observation imaging: classical eyepieces, refracting telescope
 objectives, and a small set of open sample designs. Part of the [expansion
 series](https://github.com/JunLin615/os-optics-lens/issues/36) "Telescope and observation optics".
@@ -26,7 +30,7 @@ catadioptric telescopes, prism erectors and afocal trains are deferred, not appr
 | `mil-hdbk-141-t14-9-wild` | Wild eyepiece | eyepiece | 5 | 25.4 | 5 mm pupil | 72° | `MATCHED` |
 | `optiland-telescope-doublet` | Telescope doublet, f/8 | telescope_objective | 2 | 48.05 | f/8 | 2° | `NOT_CHECKED`¹ |
 | `optiland-triplet-telescope-objective` | Air-spaced triplet, f/2.8 | telescope_objective | 3 | 100.12 | f/2.8 | 2° | `NOT_CHECKED`¹ |
-| `optiland-48-inch-telescope-objective` | 48-inch objective, f/6 | telescope_objective | 4 | 48.06 | f/6 | 20° | `NOT_CHECKED`¹ |
+| `optiland-48-inch-telescope-objective` | 48-inch objective, f/6 | telescope_objective | 4 | 1220.80 | f/6 | 20° | `NOT_CHECKED`¹ |
 | `optiland-erfle-eyepiece` | Erfle eyepiece, 4 mm pupil | eyepiece | 4 | 79.48 | 4 mm pupil | 40° | `NOT_CHECKED`¹ |
 | `patent-us10527839b2-ex01` | Nikon eyepiece optical system | eyepiece | 3 | 25.79 | 4 mm pupil | 52.44° | `MATCHED` |
 
