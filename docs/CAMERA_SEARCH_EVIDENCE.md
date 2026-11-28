@@ -15,12 +15,13 @@ intake context until the committed Project supports the corresponding fact.
 | CRA and distortion | Record the sampled field bounds and mapping. CRA requires an angle reference and the wavelength aggregation. Distortion requires the reference projection, wavelength and signed minimum and maximum. |
 | Sensor, spectral sampling and cost | `pixel_pitch_um` is the horizontal and vertical pitch in micrometers when a sampled receiver establishes it. P2b uses a continuous receiver, so the competition brief's pitch is unconfirmed for the Project. Keep discrete wavelength and weight arrays together. Compare proportional weight vectors for the same ordered wavelengths. Compare `cost_proxy` for the same element weights and scope. The contest gives spherical and aspheric powered glass elements weights of one and three and prefers lower cost. |
 
-The camera records use the [shared record format](RECORD_FORMAT.md). A native iris
-specifies its opening diameter as the system aperture. The separate
-`aperture.entrance_pupil_f_number` fact describes the f-number from EFL and the
-entrance pupil with its measurement convention. The case requires a blocking
-stop and comparable pupil-based evidence for f-number, MTF and relative
-illumination.
+The camera records use the [shared record format](RECORD_FORMAT.md). At the P2b
+Project's primary vacuum wavelength of 587 nm and infinity focus, the on-axis
+paraxial calculation finds that the iris limits the admitted cone. The effective
+focal length of 18.7261 mm and admitted
+entrance pupil diameter of 10.1215 mm give f/1.85013. The fixture pins these
+calculation conditions and requires a blocking stop. Its MTF and relative
+illumination constraints also use their own sampled Project evidence.
 
 `field.verification` points to the original fixed-plane chief-ray results and
 records the largest difference from the intended field heights. A reported
