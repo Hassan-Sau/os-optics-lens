@@ -1,5 +1,8 @@
 # os-optics-lens
 
+<!-- BEGIN INDEX COUNTS -->
+<!-- END INDEX COUNTS -->
+
 A searchable library of optical prescriptions for AI agents. Start with an optical design brief, inspect relevant facts and structural details, and retrieve an editable native Project to continue design in `os-optics`.
 
 ## Project rules
