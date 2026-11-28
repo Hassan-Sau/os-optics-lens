@@ -1,5 +1,9 @@
 # Dry microscope objectives, batch 1
 
+The accepted Projects model a finite specimen and collimated output. Two nonabsorbing
+planes beyond the objective monitor the output path. The manifest defers the
+80 mm prescription as a duplicate of the existing `lenslibrary-7643216c` record.
+
 This note records how the first dry-objective batch was prepared so a reviewer can repeat the
 conversion and check every claim. It covers the sources, the transcription rules, the aperture and
 object-plane decisions, the verification run, and what the records leave unconfirmed. The batch
@@ -12,7 +16,7 @@ Immersion objectives are series [#27](https://github.com/JunLin615/os-optics-len
 - **Engine:** public `os-optics` **0.14.0**, no catalog release (every material is defined in the
   Project)
 - **Format:** `csv-surface-table/1`
-- **Records:** 11 accepted, 8 deferred, 0 conversion failures
+- **Records:** 10 accepted, 9 deferred, 0 conversion failures
 
 ## What the batch contains
 

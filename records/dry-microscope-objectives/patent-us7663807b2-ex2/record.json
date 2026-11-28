@@ -44,7 +44,7 @@
    "fixed_focal_length"
   ],
   "immersion": "AIR",
-  "conjugate": "INFINITE_TO_FINITE",
+  "conjugate": "FINITE_TO_INFINITE",
   "cover_glass": {
    "thickness_mm": 0.1757,
    "basis": "SOURCE_STATED"
@@ -66,7 +66,7 @@
  },
  "native_project": {
   "path": "records/dry-microscope-objectives/patent-us7663807b2-ex2/project.json",
-  "sha256": "66a9a00374e26b95924c67d4183adaf76d68c8c880b1da539b2c46b06673c3c9",
+  "sha256": "05f0867de7e161f6b2480f64a78ed118b974314b943c886bf0f34bc655b73db7",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -105,29 +105,31 @@
  },
  "first_order": {
   "effective_focal_length_mm": {
-   "value": 17.95,
-   "basis": "SOURCE_STATED",
-   "definition": "Effective focal length as printed for the example",
-   "conditions": "Reference wavelength; the stated object distance.",
-   "engine_value_mm": 17.939698242671643
+   "value": 17.939698242743898,
+   "basis": "ENGINE_COMPUTED",
+   "conditions": {
+    "wavelength_nm": 587.720066
+   },
+   "definition": "Signed paraxial effective focal length of the native Project."
   },
   "back_focal_length_mm": {
-   "value": -58.92452223472582,
+   "value": -58.92452223046371,
    "basis": "ENGINE_COMPUTED",
-   "definition": "Paraxial distance from the exit vertex to the rear focal point, positive downstream",
-   "conditions": "Vacuum wavelength 587.720066 nm."
-  },
-  "total_track_mm": {
-   "value": 83.5434,
-   "basis": "ENGINE_COMPUTED",
-   "definition": "First surface vertex to the exit vertex along the axis, from the committed Project"
+   "conditions": {
+    "wavelength_nm": 587.720066,
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "distance_kind": "paraxial_focal_distance",
+    "conjugate": "infinite_to_finite"
+   },
+   "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point for collimated input."
   },
   "engine_check": {
    "engine_version": "0.14.0",
    "basis": "ENGINE_COMPUTED",
    "method": "Thick-lens ABCD through the committed Project at the reference wavelength.",
-   "effective_focal_length_mm": 17.939698242671643,
-   "back_focal_length_mm": -58.92452223472582,
+   "effective_focal_length_mm": 17.939698242743898,
+   "back_focal_length_mm": -58.92452223046371,
    "wavelength_nm": 587.720066,
    "comparison": {
     "rule": "|engine - source| <= atol + rtol * |source|. atol covers the printed focal length; rtol covers the prescription printed to three or four decimals in radius, thickness and index together with the engine's air-referenced index convention.",
@@ -149,6 +151,31 @@
      "basis": "The publication prints no magnification, or the output is collimated and a magnification needs a tube lens that this record does not carry."
     }
    }
+  },
+  "nominal_effective_focal_length_mm": {
+   "value": 17.95,
+   "basis": "SOURCE_STATED",
+   "definition": "Effective focal length as printed for the example",
+   "conditions": "Reference wavelength; the stated object distance.",
+   "engine_value_mm": 17.939698242671643
+  },
+  "optical_length_mm": {
+   "value": 83.5434,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "First surface vertex to the exit vertex along the axis, from the committed Project",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "final_optical_surface_vertex"
+   }
+  },
+  "object_to_first_optical_surface_mm": {
+   "value": 1.4974165341521,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "from": "specimen_waist",
+    "to": "first_optical_surface_vertex"
+   },
+   "definition": "Distance from the configured specimen to the first native optical surface, including a cover-glass face when present."
   }
  },
  "aperture": {
@@ -436,6 +463,6 @@
    }
   ]
  },
- "record_hash": "048da357d63abb2607077dba18303d4139690b747c7f7828293688af0626e855",
+ "record_hash": "ecfa4de067fcbab9eb0676acd11766b99372df9fbaef96911162c00477a630ce",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }

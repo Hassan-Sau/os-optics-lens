@@ -46,8 +46,8 @@ class RecordFiles(unittest.TestCase):
     def test_pinned_hashes_match_the_committed_bytes(self):
         for d in record_dirs():
             rec = load(d / "record.json")
-            project = (d / "project.json").read_bytes()
-            evidence = (d / "evidence.json").read_bytes()
+            project = (d / "project.json").read_bytes().replace(b"\r\n", b"\n")
+            evidence = (d / "evidence.json").read_bytes().replace(b"\r\n", b"\n")
             self.assertEqual(hashlib.sha256(project).hexdigest(), rec["native_project"]["sha256"],
                              f"{d.name}: Project hash")
             self.assertEqual(hashlib.sha256(evidence).hexdigest(),
