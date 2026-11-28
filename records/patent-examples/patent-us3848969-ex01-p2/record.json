@@ -59,7 +59,7 @@
  },
  "native_project": {
   "path": "records/patent-examples/patent-us3848969-ex01-p2/project.json",
-  "sha256": "aa52c3e9c13e804b38986622dc9faf93088ac2c3a2afbc85869e310acb2e7eba",
+  "sha256": "c3be83fff7dbc22da3b0e876ea484e22dd83f71b2c11536066ff5eb7b418cff6",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -142,9 +142,13 @@
    }
   },
   "total_track_mm": {
-   "value": 127.20199999999998,
-   "basis": "DERIVED",
-   "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
+   "value": 132.16925895431277,
+   "basis": "PROJECT_DERIVED",
+   "definition": "Axial distance from the first optical surface vertex to the fixed observation plane in the native Project.",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "fixed_image_plane"
+   }
   },
   "engine_check": {
    "engine_version": "0.14.0",
@@ -444,6 +448,6 @@
   "height_mm": 24.0,
   "basis": "SOURCE_STATED: the stated image height is the 36 x 24 mm frame diagonal."
  },
- "record_hash": "1f63d0f0180bbe5e78c515095e9377956020af58804fe2cf87c3e17b7b3c504c",
+ "record_hash": "97dd43f15a2cba84ee5e8e14844935ef83efedaab64542edc0e317b461d7ac4b",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
