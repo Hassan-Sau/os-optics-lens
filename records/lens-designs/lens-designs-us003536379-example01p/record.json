@@ -125,9 +125,9 @@
    "conditions": "Primary wavelength (vacuum), object at infinity."
   },
   "back_focal_length_mm": {
-   "value": 265.9304912732917,
-   "basis": "ENGINE_COMPUTED",
-   "definition": "Paraxial distance from the final surface vertex to the rear focal point",
+   "value": 782.7304912732916,
+   "basis": "PROJECT_DERIVED",
+   "definition": "Signed axial distance from the final optical surface vertex to the paraxial rear focal point of the native Project.",
    "conditions": {
     "distance_kind": "paraxial_focal_distance",
     "from": "final_optical_surface_vertex",
@@ -159,6 +159,18 @@
    "basis": "PROJECT_DECLARED",
    "system_aperture": false,
    "definition": "Diameter of the aperture stop's clear opening as the file states it"
+  },
+  "entrance_pupil_f_number": {
+   "value": 5.941916909245707,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.721866
+   },
+   "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter."
   }
  },
  "field": {
@@ -216,5 +228,5 @@
   ]
  },
  "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline",
- "record_hash": "e4a383957c6cca6b1c550963e4a6fb520fc02040809ef4ccb285dc890a0e8a51"
+ "record_hash": "240e3508d52f1bd372a7d0d7ddd6fbd9327b0f93808d3a3107d7dace9f397464"
 }

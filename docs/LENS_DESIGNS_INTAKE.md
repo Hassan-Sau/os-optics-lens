@@ -111,9 +111,7 @@ supplies `total_track_mm` and `final_powered_vertex_to_sensor_mm`.
 
 The image plane is the paraxial conjugate of the committed Project, not the sum of the transcribed
 thicknesses: for a converging design it is the exit vertex plus the engine's back focal length, so a
-collimated input focuses exactly on the plane. The exit vertex is the compound's output port, and the
-back focal length is measured from it: a design that mounts a stop behind the last glass carries both
-there, not at the last glass surface. A design whose EFL or BFL is not positive has no real
+collimated input focuses exactly on the plane. A design whose EFL or BFL is not positive has no real
 rear focus; its observation stays at the file's own image distance, on the axis, and the record says
 that the focus is virtual.
 
