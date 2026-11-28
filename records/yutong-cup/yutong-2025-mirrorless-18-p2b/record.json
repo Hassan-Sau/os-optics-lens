@@ -2,7 +2,7 @@
   "schema": "opensci.lens.record",
   "record_schema_version": "1.0",
   "record_id": "yutong-2025-mirrorless-18-p2b",
-  "record_revision": 4,
+  "record_revision": 5,
   "title": "18 mm f/2 full-frame mirrorless P2b",
   "collection": {
     "collection_id": "yutong-cup",
@@ -204,12 +204,16 @@
   },
   "aperture": {
     "entrance_pupil_f_number": {
-      "value": 1.9789,
-      "basis": "SOURCE_STATED",
-      "definition": "Upper bracket of EFL divided by the physically admitted on-axis entrance-pupil diameter at infinity focus",
+      "value": 1.8501309236451922,
+      "basis": "PROJECT_DERIVED",
       "conditions": {
-        "convention": "efl_over_admitted_entrance_pupil_diameter"
+        "method": "axial_paraxial_clear_apertures",
+        "convention": "efl_over_admitted_entrance_pupil_diameter",
+        "conjugate": "infinite_to_finite",
+        "field": "on_axis",
+        "wavelength_nm": 587
       },
+      "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter.",
       "system_aperture": false
     },
     "stop_opening_diameter_mm": {
@@ -539,6 +543,6 @@
       "physical_validation": "unverified"
     }
   },
-  "record_hash": "214457088520434dd973701a9f539feb256e50a93a928c8d0f36751a6c21ec83",
+  "record_hash": "b6f04543fa0018070f87e7d17fea321a767d3fcf944692138df4ee0948b7f518",
   "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
