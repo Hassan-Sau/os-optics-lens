@@ -38,6 +38,8 @@ from os_optics_lens.store import ENV_VAR, Index, resolve_source_in  # noqa: E402
 from os_optics_lens.vocabulary import load_vocabulary  # noqa: E402
 
 P2B = "yutong-2025-mirrorless-18-p2b"
+P2B_REVISION = json.loads((ROOT / "acceptance/yutong-2025-mirrorless-problem-2.json").read_text(
+    encoding="utf-8"))["record"]["revision"]
 SONNAR = "portrait-85-sonnar-eight"
 
 
@@ -902,7 +904,7 @@ class StoreTests(unittest.TestCase):
         rows = list(self.index.iter_records())
         self.assertEqual([r["record_id"] for r in rows], sorted(r["record_id"] for r in rows))
         record = self.index.get_record(P2B)
-        self.assertEqual((record["revision"], record["record"]["record_id"]), (4, P2B))
+        self.assertEqual((record["revision"], record["record"]["record_id"]), (P2B_REVISION, P2B))
         with self.assertRaises(LensError) as ctx:
             self.index.get_record("yutong-2025-mirrorless-18")
         self.assertEqual((ctx.exception.code, ctx.exception.exit_code), ("RECORD_NOT_FOUND", 3))
@@ -910,7 +912,7 @@ class StoreTests(unittest.TestCase):
         with self.assertRaises(LensError) as ctx:
             self.index.get_record(P2B, revision=3)
         self.assertEqual(ctx.exception.code, "REVISION_NOT_AVAILABLE")
-        self.assertEqual(ctx.exception.details["available_revision"], 4)
+        self.assertEqual(ctx.exception.details["available_revision"], P2B_REVISION)
 
     def test_configurations_facts_and_facets(self):
         record = self.index.get_record(P2B)

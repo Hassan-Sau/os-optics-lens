@@ -30,8 +30,8 @@ Steps (each one is a check in the JSON report printed on stdout):
    ``inspect_evidence`` (``inspect --evidence back_focus`` of the same record returns that section
    of its bundled evidence extract, with every evidence reference RESOLVED),
    ``search_fixture`` (acceptance item (1) of spec §9 against the bundled index and the bundled
-   acceptance file, amendment 9.4: ``search --fixture`` returns the fixture's record at revision 4
-   (the fixture's revision) as MATCH with counts.MATCH equal to the confirmed constraints and every
+   acceptance file, amendment 9.4: ``search --fixture`` returns the fixture's record at its named
+   revision as MATCH with counts.MATCH equal to the confirmed constraints and every
    constraint MATCH; ``[0, expected.cost_proxy]`` is in ``rank.key``; the interval-MTF and
    corner-relative-illumination facts have source status RESOLVED; and ``inspect --fields
    performance.mtf_field_minimum`` shows the 11-sample grid equal to the fixture's
@@ -65,8 +65,6 @@ PROVENANCE_RECORD = "lenslibrary-528155"
 FIXTURE = "acceptance/yutong-2025-mirrorless-problem-2.json"
 EVIDENCE_PATH = f"records/yutong-cup/{INSPECT_RECORD}/evidence.json"
 EVIDENCE_SECTION = "back_focus"
-ACCEPTANCE_REVISION = 4
-"""Acceptance item (1): the fixture's record is found at revision 4."""
 RESOLVED_EVIDENCE_CONSTRAINTS = ("mtf_0_to_0p8", "corner_relative_illumination")
 """Acceptance item (1): constraints whose fact evidence must resolve (source.status RESOLVED)."""
 SAMPLED_GRID_CONSTRAINT = "mtf_0_to_0p8"
@@ -237,9 +235,8 @@ def acceptance_failures(fixture: dict[str, Any], candidate: dict[str, Any], grid
     else:
         expected_matches = len(constraints)
     fixture_revision = (fixture.get("record") or {}).get("revision")
-    if candidate.get("revision") != ACCEPTANCE_REVISION or candidate.get("revision") != fixture_revision:
-        failures.append(f"revision {candidate.get('revision')!r}, expected {ACCEPTANCE_REVISION} "
-                        f"(fixture names {fixture_revision!r})")
+    if type(fixture_revision) is not int or fixture_revision < 1 or candidate.get("revision") != fixture_revision:
+        failures.append(f"revision {candidate.get('revision')!r}, expected the fixture revision {fixture_revision!r}")
     if candidate.get("outcome") != "MATCH":
         failures.append(f"outcome {candidate.get('outcome')!r}, expected MATCH")
     counts = candidate.get("counts") or {}
