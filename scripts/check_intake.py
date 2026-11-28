@@ -18,7 +18,11 @@ sys.path.insert(0, str(CHECKOUT / "src"))
 from os_optics_lens.canonical import is_number  # noqa: E402
 from os_optics_lens.corpus import NormalizedRecord, load_corpus  # noqa: E402
 from os_optics_lens.errors import ERROR, Finding, finding  # noqa: E402
-from os_optics_lens.project_facts import _native_spectrum  # noqa: E402
+from os_optics_lens.normalize import configuration_views  # noqa: E402
+from os_optics_lens.paraxial_aperture import calculate  # noqa: E402
+from os_optics_lens.project_facts import (  # noqa: E402
+    PARAXIAL_F_NUMBER_CONVENTIONS, PROJECT_BASES, _basis, _native_spectrum, is_checked_paraxial_fact,
+)
 
 ENGINE_VERSION = "0.14.0"
 FIRST_ORDER = {"effective_focal_length_mm": "efl_mm", "back_focal_length_mm": "bfl_mm"}
@@ -26,6 +30,9 @@ WAVELENGTH_TOLERANCE_NM = 1e-6
 RELATIVE_TOLERANCE = 1e-6
 ABSOLUTE_TOLERANCE_MM = 1e-7
 CHECKER_FILES = {"scripts/check_intake.py", ".github/workflows/intake.yml", "pyproject.toml"}
+NOMINAL_F_NUMBER_FIELDS = {
+    *PARAXIAL_F_NUMBER_CONVENTIONS, "nominal_f_number", "f_number", "image_space_f_number", "working_f_number",
+}
 
 
 def changed_paths(root: Path, base: str) -> set[str]:
@@ -149,7 +156,80 @@ def native_first_order(project: Any, payload: dict[str, Any], configuration_id: 
     return results
 
 
-def check_native(record: NormalizedRecord) -> tuple[dict[str, Any], list[Finding]]:
+def check_aperture(record: NormalizedRecord, configuration_id: str | None, raw_view: dict,
+                   report: dict, require_fact: bool) -> list[Finding]:
+    aperture = raw_view.get("aperture") or {}
+    prefix = f"configuration {configuration_id}: " if configuration_id is not None else ""
+    nominal = {key: fact["value"] for key, fact in aperture.items() if key in NOMINAL_F_NUMBER_FIELDS
+               and isinstance(fact, dict) and _basis(fact.get("basis")) == "SOURCE_STATED"
+               and is_number(fact.get("value")) and fact["value"] > 0}
+    if nominal:
+        report["nominal_f_numbers"] = nominal
+    samples = report.get("samples", [])
+    comparisons = []
+    for key, value in nominal.items():
+        declared = aperture[key].get("conditions")
+        if not isinstance(declared, dict):
+            continue
+        for sample in samples:
+            data = sample["data"]
+            comparable = {k: v for k, v in data["conditions"].items() if k != "method"}
+            if comparable.keys() <= declared.keys() and same_aperture_conditions(
+                comparable, {k: declared[k] for k in comparable},
+            ):
+                comparisons.append({"nominal_field": key, "fact": sample["fact"], "conditions": comparable,
+                                    "nominal": value, "computed": data["value"]})
+    if comparisons:
+        report["nominal_comparisons"] = comparisons
+    indexed = {item["fact_key"]: item for item in record.facts.get(configuration_id or "", ())
+               if is_number(item["value_num"]) and item["eligible_for"] != "DISCOVERY_ONLY"}
+    problems = []
+    verified = set()
+    for key in PARAXIAL_F_NUMBER_CONVENTIONS:
+        fact = aperture.get(key)
+        if not isinstance(fact, dict) or _basis(fact.get("basis")) not in PROJECT_BASES:
+            continue
+        field = f"{prefix}aperture.{key}"
+        sample = None
+        fact_key = f"aperture.{key}"
+        if fact_key in indexed and is_checked_paraxial_fact(fact_key, fact):
+            conditions = fact["conditions"]
+            sample = next((s for s in samples if s["fact"] == key
+                           and same_aperture_conditions(s["data"]["conditions"], conditions)), None)
+        if sample is None:
+            problems.append(finding(ERROR, "PARAXIAL_F_NUMBER_UNCONFIRMED", record.record_id, record.file, field,
+                                    "No searchable native f-number under these conditions. "
+                                    "Use a supported paraxial_aperture sample from the report or omit the value."))
+        elif not math.isclose(sample["data"]["value"], fact["value"], rel_tol=RELATIVE_TOLERANCE, abs_tol=1e-8):
+            problems.append(finding(ERROR, "PARAXIAL_F_NUMBER_MISMATCH", record.record_id, record.file, field,
+                                    "The stored f-number differs from the admitted paraxial cone of the native Project.",
+                                    expected=sample["data"]["value"], actual=fact["value"]))
+        else:
+            verified.add(key)
+    if require_fact and nominal and samples and not verified and not problems:
+        key = samples[0]["fact"]
+        problems.append(finding(ERROR, "PARAXIAL_F_NUMBER_REQUIRED", record.record_id, record.file,
+                                f"{prefix}aperture.{key}",
+                                "The Project has a supported f-number calculation. Store its per-configuration "
+                                "paraxial_aperture sample under the matching aperture field."))
+    return problems
+
+
+def same_aperture_conditions(expected: dict, actual: dict) -> bool:
+    if expected.keys() != actual.keys():
+        return False
+    for key, value in expected.items():
+        other = actual[key]
+        if key in ("wavelength_nm", "object_distance_mm"):
+            tolerance = WAVELENGTH_TOLERANCE_NM if key == "wavelength_nm" else ABSOLUTE_TOLERANCE_MM
+            if not is_number(other) or not math.isclose(value, other, rel_tol=0, abs_tol=tolerance):
+                return False
+        elif value != other:
+            return False
+    return True
+
+
+def check_native(record: NormalizedRecord, *, require_aperture_fact: bool = False) -> tuple[dict[str, Any], list[Finding]]:
     from os_optics.local import load_project
     from os_optics.local.json_api import check_project, paraxial_analysis
 
@@ -161,6 +241,7 @@ def check_native(record: NormalizedRecord) -> tuple[dict[str, Any], list[Finding
                                 "Engine refused the native Project. See the engine error in the report.")]
     problems = []
     project = load_project(result["project"])
+    raw_views = {view.configuration_id: view.view for view in configuration_views(record.record, project.payload())}
     for state in result.get("configurations", [result]):
         cid = state.get("configuration_id")
         solids = state.get("optical_solids")
@@ -172,11 +253,18 @@ def check_native(record: NormalizedRecord) -> tuple[dict[str, Any], list[Finding
                                     cid or "", "Engine did not accept this configuration and its optical solids."))
             continue
         configured = project.configured(cid) if cid is not None else project
-        samples = native_first_order(project, configured.payload(), cid, paraxial_analysis)
+        payload = configured.payload()
+        samples = native_first_order(project, payload, cid, paraxial_analysis)
         row["first_order"] = samples
         if not samples:
             row["first_order_unconfirmed"] = "Expected one lens component and at least one native source wavelength."
         problems.extend(compare_first_order(record, cid, samples))
+        raw_view = raw_views.get(cid, {})
+        conjugate = raw_view.get("design", {}).get("conjugate") or ""
+        wavelengths = _native_spectrum(payload, None).get("sampling_wavelengths_nm", [])
+        aperture = calculate(configured, payload, conjugate.lower(), wavelengths)
+        row["paraxial_aperture"] = aperture
+        problems.extend(check_aperture(record, cid, raw_view, aperture, require_aperture_fact))
     return report, problems
 
 
@@ -201,7 +289,7 @@ def run(root: Path, paths: set[str] | None) -> dict[str, Any]:
     reports = []
     for record in selected:
         findings.extend(intake_metadata(record))
-        report, problems = check_native(record)
+        report, problems = check_native(record, require_aperture_fact=paths is not None and record.project_path in paths)
         reports.append(report)
         findings.extend(problems)
     errors = sum(item.severity == ERROR for item in findings)
