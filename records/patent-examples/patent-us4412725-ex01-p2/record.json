@@ -59,7 +59,7 @@
  },
  "native_project": {
   "path": "records/patent-examples/patent-us4412725-ex01-p2/project.json",
-  "sha256": "50cc79ed94ba76432925f0342398cce0c32789d29282564bcbc3eeb8cd15dee6",
+  "sha256": "4a92a629c924d3118f01816d4d76fa6926e8f8552231b4bea3ce766d03b97170",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -105,7 +105,7 @@
   "source_sha256": "34fa278b762fe07b58714b9a59f4b0f5b7cc223decd82ab7b0af14775c787db1",
   "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8 with LF line endings.",
   "intermediate_sha256": null,
-  "image_plane_z_mm": 77.78,
+  "image_plane_z_mm": 77.836327,
   "counts": {
    "surfaces": 17,
    "elements": 8,
@@ -131,8 +131,8 @@
    }
   },
   "back_focal_length_mm": {
-   "value": 22.446326715576188,
-   "basis": "ENGINE_COMPUTED",
+   "value": 27.366327,
+   "basis": "PROJECT_DERIVED",
    "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
    "conditions": {
     "distance_kind": "paraxial_focal_distance",
@@ -142,7 +142,7 @@
    }
   },
   "total_track_mm": {
-   "value": 77.78,
+   "value": 77.836327,
    "basis": "DERIVED",
    "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
   },
@@ -320,7 +320,8 @@
   "evidence_notes": [
    "Engine paraxial EFL 28.000760 mm against the source's printed 28 mm.",
    "Engine paraxial back focal length 22.446327 mm against the source's printed 22.39 mm.",
-   "The engine values and the printed values disagree beyond the intake tolerance."
+   "The engine values and the printed values disagree beyond the intake tolerance.",
+   "The modelled stop sits downstream of the last glass surface, so the Engine reports its back focal distance from the stop plane. The stored value is that distance re-referenced to the last glass surface vertex."
   ],
   "paraxial": "DIFFERS"
  },
@@ -331,6 +332,6 @@
   "basis": "SOURCE_STATED",
   "definition": "Half angle of view as printed for the example"
  },
- "record_hash": "81ae0934debc3b807155b3155a687d34b02e14c088f0b720644957de6bfb1f77",
+ "record_hash": "b276c254ed0cec9fd60a1f152fa5df8061b16a18fbf34691d6a27232f8847ac8",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }

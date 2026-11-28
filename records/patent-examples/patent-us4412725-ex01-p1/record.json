@@ -59,7 +59,7 @@
  },
  "native_project": {
   "path": "records/patent-examples/patent-us4412725-ex01-p1/project.json",
-  "sha256": "cd214a03c5f7cb34db22db8171b8cef12a97fe094710ef9f9e7e54c21d8000a1",
+  "sha256": "0405c947d49d65cc0504757e36f3697d29830b780bb325977b1235405f7b31d1",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -105,7 +105,7 @@
   "source_sha256": "e4e8bad1636e4d5693448b9bc10de70fbbbbee04905b1f9e2157bf0c4660762b",
   "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8 with LF line endings.",
   "intermediate_sha256": null,
-  "image_plane_z_mm": 90.80000000000001,
+  "image_plane_z_mm": 90.801605,
   "counts": {
    "surfaces": 17,
    "elements": 8,
@@ -131,8 +131,8 @@
    }
   },
   "back_focal_length_mm": {
-   "value": 22.391605297028292,
-   "basis": "ENGINE_COMPUTED",
+   "value": 23.221605,
+   "basis": "PROJECT_DERIVED",
    "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
    "conditions": {
     "distance_kind": "paraxial_focal_distance",
@@ -142,7 +142,7 @@
    }
   },
   "total_track_mm": {
-   "value": 90.80000000000001,
+   "value": 90.801605,
    "basis": "DERIVED",
    "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
   },
@@ -319,7 +319,8 @@
   "solids_findings": [],
   "evidence_notes": [
    "Engine paraxial EFL 20.599482 mm against the source's printed 20.6 mm.",
-   "Engine paraxial back focal length 22.391605 mm against the source's printed 22.39 mm."
+   "Engine paraxial back focal length 22.391605 mm against the source's printed 22.39 mm.",
+   "The modelled stop sits downstream of the last glass surface, so the Engine reports its back focal distance from the stop plane. The stored value is that distance re-referenced to the last glass surface vertex."
   ],
   "paraxial": "MATCHED"
  },
@@ -330,6 +331,6 @@
   "basis": "SOURCE_STATED",
   "definition": "Half angle of view as printed for the example"
  },
- "record_hash": "8c19b5e381501ce6fb7a4d2cb150eef9ca582e62ae2521fc6724b2ad6760f0e8",
+ "record_hash": "c2743bc1c4ac203c093298bad52a047ec0f2d74fbc3ad6bdc14fe7391f519383",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }

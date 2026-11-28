@@ -58,7 +58,7 @@
  },
  "native_project": {
   "path": "records/patent-examples/patent-us4289385-ex01/project.json",
-  "sha256": "5eb7fb304ce37dd95aa11e1e994255423bc82bd729d5be831ca9e2e96955d088",
+  "sha256": "fe505c5980e0540136f318a0a4eab9ece64a51936ec5846ad6dc293f334f2290",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -104,7 +104,7 @@
   "source_sha256": "3bd8a16ef142a3862763f30f94551d871dbf601bdbf06782df88acb217cba348",
   "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8 with LF line endings.",
   "intermediate_sha256": null,
-  "image_plane_z_mm": 51.186,
+  "image_plane_z_mm": 51.188318,
   "counts": {
    "surfaces": 11,
    "elements": 5,
@@ -130,8 +130,8 @@
    }
   },
   "back_focal_length_mm": {
-   "value": 20.01231822944181,
-   "basis": "ENGINE_COMPUTED",
+   "value": 23.401318,
+   "basis": "PROJECT_DERIVED",
    "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
    "conditions": {
     "distance_kind": "paraxial_focal_distance",
@@ -141,7 +141,7 @@
    }
   },
   "total_track_mm": {
-   "value": 51.186,
+   "value": 51.188318,
    "basis": "DERIVED",
    "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
   },
@@ -319,7 +319,8 @@
   "evidence_notes": [
    "Engine paraxial EFL 48.966577 mm against the source's printed 50 mm.",
    "Engine paraxial back focal length 20.012318 mm against the source's printed 20.01 mm.",
-   "The engine values and the printed values disagree beyond the intake tolerance."
+   "The engine values and the printed values disagree beyond the intake tolerance.",
+   "The modelled stop sits downstream of the last glass surface, so the Engine reports its back focal distance from the stop plane. The stored value is that distance re-referenced to the last glass surface vertex."
   ],
   "paraxial": "DIFFERS"
  },
@@ -330,6 +331,6 @@
   "basis": "SOURCE_STATED",
   "definition": "Half angle of view as printed for the example"
  },
- "record_hash": "dd1b73f5b994de00dec53f970cf523d86326eb55be80ee0a7064601d05d563c4",
+ "record_hash": "5f63fb1a19998ee13e947c7d180ddb9e50fdc1538619b92fa443600acd2650e6",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }

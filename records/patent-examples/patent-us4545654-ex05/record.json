@@ -58,7 +58,7 @@
  },
  "native_project": {
   "path": "records/patent-examples/patent-us4545654-ex05/project.json",
-  "sha256": "1c289a44e5fe09ee5294e4ec3799c301c141460bbbf60cd655d98130978db13b",
+  "sha256": "b8320d0dae558b3f7a28889c0e850fe71eace67b3657fb7751a6e570eea3f03a",
   "engine_version": "0.14.0",
   "catalog_version": null,
   "instance_id": "LENS",
@@ -104,7 +104,7 @@
   "source_sha256": "22df91f168873267f004ec612cee2bf4443209239456938d5036e5f91b53f374",
   "source_sha256_method": "SHA-256 over the surface table imported into the engine, UTF-8 with LF line endings.",
   "intermediate_sha256": null,
-  "image_plane_z_mm": 366.591,
+  "image_plane_z_mm": 360.746029,
   "counts": {
    "surfaces": 17,
    "elements": 8,
@@ -130,8 +130,8 @@
    }
   },
   "back_focal_length_mm": {
-   "value": 111.54502856114874,
-   "basis": "ENGINE_COMPUTED",
+   "value": 117.380029,
+   "basis": "PROJECT_DERIVED",
    "definition": "Signed paraxial distance from the last optical surface vertex to the rear focal point, positive downstream.",
    "conditions": {
     "distance_kind": "paraxial_focal_distance",
@@ -141,7 +141,7 @@
    }
   },
   "total_track_mm": {
-   "value": 366.591,
+   "value": 360.746029,
    "basis": "DERIVED",
    "definition": "Sum of the tabulated thicknesses from the first surface to the image plane in the committed Project."
   },
@@ -361,7 +361,9 @@
   "evidence_notes": [
    "Engine paraxial EFL 388.846426 mm against the source's printed 389 mm.",
    "Engine paraxial back focal length 111.545029 mm against the source's printed 117.39 mm.",
-   "The engine values and the printed values disagree beyond the intake tolerance."
+   "The engine values and the printed values disagree beyond the intake tolerance.",
+   "The tabulated spacings put the image plane 366.591 mm from the first vertex; the Engine's paraxial rear focal point is 360.746 mm. The receiver is that focal point.",
+   "The modelled stop sits downstream of the last glass surface, so the Engine reports its back focal distance from the stop plane. The stored value is that distance re-referenced to the last glass surface vertex."
   ],
   "paraxial": "DIFFERS"
  },
@@ -380,6 +382,6 @@
   "height_mm": 24.0,
   "basis": "SOURCE_STATED: the stated image height is the 36 x 24 mm frame diagonal."
  },
- "record_hash": "ecb7039839bec2be1829f72de64257083ed5879232a883e8b0284a03a0e27f4e",
+ "record_hash": "1050eb82d1698baec9fbf5146eff9ab955c0bf7e4b144c76dae0851f6a9b23ec",
  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline."
 }
