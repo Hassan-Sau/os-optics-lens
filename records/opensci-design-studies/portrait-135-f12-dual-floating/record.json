@@ -1,0 +1,450 @@
+{
+  "schema": "opensci.lens.record",
+  "record_schema_version": "1.1",
+  "record_id": "portrait-135-f12-dual-floating",
+  "record_revision": 1,
+  "title": "135 mm f/1.2 full-frame dual-floating internal-focus portrait lens",
+  "collection": {
+    "collection_id": "opensci-design-studies",
+    "source": "OpenSci camera lens design studies",
+    "source_input": "portrait135_dual/camera.json",
+    "source_input_sha256": "227ba2eb98a73cf8913686102ffa2fc9db5f524153c19f7aa345450961699ced",
+    "attribution": "OpenSci 135 mm portrait lens design study, re-optimized from Sigma patent example 1.",
+    "contributor": "JunLin615",
+    "redistribution": "Native design study contributed under the repository MIT License.",
+    "license": {
+      "spdx": "MIT",
+      "notice_path": "LICENSE",
+      "copyright": "Copyright (c) 2026 JunLin615"
+    },
+    "original_publication": {
+      "id": "CN121704039A",
+      "reference": "Sigma, Example 1 (starting prescription), U.S. family publication US20260086332A1.",
+      "url": "https://patents.google.com/patent/US20260086332A1/en"
+    }
+  },
+  "design": {
+    "design_scope": "COMPLETE_SYSTEM",
+    "lens_type": "camera_lens",
+    "design_family_id": "portrait-135-f12",
+    "function_tags": [
+      "imaging"
+    ],
+    "application_tags": [
+      "photography"
+    ],
+    "structure_tags": [
+      "fixed_focal_length",
+      "refractive",
+      "cemented_group"
+    ],
+    "configuration_count": 12,
+    "powered_element_count": 17,
+    "powered_group_count": 13
+  },
+  "image_format": {
+    "format_facets": [
+      "full_frame"
+    ],
+    "width_mm": 36,
+    "height_mm": 24,
+    "basis": "PROJECT_DECLARED rectangular sensor aperture, full width and height."
+  },
+  "configurations": [
+    {
+      "configuration_id": "FocusInfinity",
+      "label": "Infinity",
+      "conjugate": "INFINITE_TO_FINITE",
+      "aperture": {
+        "nominal_f_number": {
+          "value": 1.2,
+          "basis": "SOURCE_STATED",
+          "definition": "Design target at infinity, full opening.",
+          "system_aperture": true
+        },
+        "entrance_pupil_f_number": {
+          "value": 1.2912639017383791,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "efl_over_admitted_entrance_pupil_diameter",
+            "conjugate": "infinite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183
+          },
+          "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter.",
+          "system_aperture": true
+        }
+      },
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 135.0003774550462,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus15000",
+      "label": "15 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 134.96408937747466,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.3014209942382147,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 14780.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus7000",
+      "label": "7 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 134.8900852245989,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.3138228006935393,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 6780.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus4500",
+      "label": "4.5 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 134.7731481200783,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.3272536048081303,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 4280.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus3000",
+      "label": "3 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 134.52339247372998,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.3469998438140238,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 2780.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus2407",
+      "label": "2.407 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 134.2573092146058,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.3623301197159638,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 2187.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus1800",
+      "label": "1.8 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 133.59588069128444,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.3901035781644486,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 1580.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus1500",
+      "label": "1.5 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 132.83224203619508,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.413645358966002,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 1280.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus1300",
+      "label": "1.3 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 131.88700154775415,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.436673331183411,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 1080.182080875502
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus1100",
+      "label": "1.1 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 130.1244402567599,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.4702803667361015,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 880.1820808755019
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus1050",
+      "label": "1.05 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 129.4454799144372,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.4812364734522236,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 830.1820808755019
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    },
+    {
+      "configuration_id": "Focus1000",
+      "label": "1 m from sensor",
+      "conjugate": "FINITE_TO_FINITE",
+      "first_order": {
+        "effective_focal_length_mm": {
+          "value": 128.61400011824054,
+          "basis": "PROJECT_DERIVED",
+          "definition": "Native d-line paraxial effective focal length",
+          "conditions": {
+            "wavelength_nm": 587.7218659920183
+          }
+        }
+      },
+      "aperture": {
+        "paraxial_working_f_number": {
+          "value": 1.493624737515381,
+          "basis": "PROJECT_DERIVED",
+          "conditions": {
+            "method": "axial_paraxial_clear_apertures",
+            "convention": "paraxial_image_space_marginal_ray",
+            "conjugate": "finite_to_finite",
+            "field": "on_axis",
+            "wavelength_nm": 587.7218659920183,
+            "object_distance_mm": 780.1820808755019
+          },
+          "definition": "Reciprocal of twice the admitted axial marginal ray's reduced image angle.",
+          "system_aperture": true
+        }
+      }
+    }
+  ],
+  "native_project": {
+    "path": "records/opensci-design-studies/portrait-135-f12-dual-floating/project.json",
+    "sha256": "cd6ed42312f6349541b795aa3ff68d72bc18c8245cdc6f76e0eb8085dc27216c",
+    "engine_version": "0.14.0",
+    "opening_outcome": "ACCEPTED"
+  },
+  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline.",
+  "record_hash": "3d0b6c30bd8b5b8ae4eb5e25b6990ab6ebe1d5ab9956bdc2357e832471c888dd",
+  "spectrum": {
+    "primary_wavelength_nm": 587.7218659920183,
+    "sampling_wavelengths_nm": [
+      587.7218659920183
+    ],
+    "band_facets": [
+      "visible"
+    ],
+    "sampling_wavelengths_basis": "Native d-line probe wavelength in vacuum."
+  }
+}
