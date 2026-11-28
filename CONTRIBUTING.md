@@ -23,6 +23,14 @@ python scripts/check_intake.py --base origin/main --output intake-report.json
 
 The check validates the collection's record, Project and evidence references, then opens each affected Project and checks all its native configurations. For supported single-lens configurations, the report contains EFL and BFL recomputed at the native vacuum wavelengths. For those configurations, the check verifies indexable `ENGINE_COMPUTED` EFL and BFL against its results. Leave unsupported metrics absent. Run without `--base` to check all Projects.
 
+### Model and check aperture
+
+When a source gives an f-number, use it to model the stop and clear apertures of the relevant native configuration. Account for pupil magnification and any surface that limits the admitted cone. Keep the printed number as a `SOURCE_STATED` `aperture.nominal_f_number`, with its convention and conditions when known.
+
+For each new or revised Project with a nominal f-number, use the intake report's `paraxial_aperture.samples`. Copy one applicable sample's `data` object under its named aperture field in the matching configuration. Use the relevant native vacuum wavelength. The checker recomputes the value from the submitted Project and reports differences from nominal values when the comparison conditions are known. An unsupported path or an indeterminate conjugate reports `UNCONFIRMED`. Leave the numerical fact absent and describe the modeling limit in the PR.
+
+The initial calculation covers forward, coaxial sequential imaging with centered circular clear apertures. It uses the admitted entrance pupil for an infinite object and the admitted marginal-ray angle at the native object conjugate for a finite object. Use the configured Gaussian waist as the finite object plane. See the [record format](docs/RECORD_FORMAT.md#axial-paraxial-aperture) for the field names and conditions.
+
 ## Open a pull request
 
 A single record or correction can come directly in a focused pull request. Describe the intended change. For a new collection, bulk import, or change to the record format or retrieval interface, first check the issue tracker and use the relevant issue to coordinate the scope.

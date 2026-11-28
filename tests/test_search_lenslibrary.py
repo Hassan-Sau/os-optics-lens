@@ -162,8 +162,16 @@ class BatchBudget(unittest.TestCase):
             pending = still
         self.assertEqual(pending, [])
         for i, q in enumerate(self.QUERIES):
-            full = query.search(INDEX, dict(q, limit=50, max_output_bytes=262144))["result"]["candidates"]
-            self.assertEqual(collected[i], [c["record_id"] for c in full])
+            full = []
+            request = dict(q, limit=50, max_output_bytes=262144)
+            while True:
+                result = query.search(INDEX, request)["result"]
+                full.extend(candidate["record_id"] for candidate in result["candidates"])
+                cursor = result["page"]["next_cursor"]
+                if cursor is None:
+                    break
+                request["cursor"] = cursor
+            self.assertEqual(collected[i], full)
 
 
 if __name__ == "__main__":
