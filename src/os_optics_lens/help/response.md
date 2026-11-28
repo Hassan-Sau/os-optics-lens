@@ -44,7 +44,7 @@ ordered list being paged; `excluded` says why the others are absent (`outcome`: 
 A candidate (one record, at its best configuration):
 
 ```
-{"record_id": "yutong-2025-mirrorless-18-p2b", "revision": 4, "title": "...",
+{"record_id": "yutong-2025-mirrorless-18-p2b", "revision": 5, "title": "...",
  "collection": "yutong-cup", "family": "yutong-2025-mirrorless-18",
  "configuration_id": null,                     null = the Project as written
  "outcome": "MATCH",
