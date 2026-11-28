@@ -1,0 +1,287 @@
+{
+ "schema": "opensci.lens.record",
+ "record_schema_version": "1.0",
+ "record_id": "lens-designs-us003740120-example03p",
+ "record_revision": 1,
+ "title": "Leica Elmarit-R 28mm F2.8",
+ "collection": {
+  "collection_id": "lens-designs",
+  "source": "lens-designs.com, Dan Reiley's collection of optical designs in Zemax format",
+  "source_basis": "The .zmx file is the direct source for the surface table: radii, thicknesses, glasses, clear semi-diameters, conic constants and aspheric terms are read from it. The collection's summary sheet, where it lists this input, is the independent check of the first-order values.",
+  "source_revision": "site snapshot read on 2026-11-27; the collection states no version of its own",
+  "source_input": "photographic-primes/US003740120_Example03P.zmx",
+  "source_input_sha256": "5ef8341d767e1e664df233c8539e98ff3462571c39e9d30d47a62a2f61adc7d6",
+  "source_links": {
+   "source_file_url": "https://drive.google.com/file/d/1r5Qo9O58B9e14lOowfpFytKC4nv2G26g/view",
+   "license_url": "https://www.lens-designs.com/note-on-ip"
+  },
+  "original_publication": null,
+  "attribution": "Prescription from lens-designs.com (photographic-primes), file US003740120_Example03P.zmx. The collection states that every file carries the MIT licence unless its own Notes section says otherwise; this file carries no Notes section.",
+  "contributor": "Prepared for the lens-designs collection through JunLin615",
+  "redistribution": "The collection states the MIT licence for its files (note-on-ip page) and that the designs themselves are public domain, being transcriptions of patent or journal publications. The notice is committed at licenses/LensDesigns-MIT.txt.",
+  "license": {
+   "spdx": "MIT",
+   "notice_path": "licenses/LensDesigns-MIT.txt",
+   "copyright": "Copyright (c) Dan Reiley, lens-designs.com"
+  },
+  "source_summary": {
+   "basis": "US003740120 Example03P",
+   "program": "zemax",
+   "sheet": "photographic-primes"
+  }
+ },
+ "design": {
+  "source_reference": "US003740120_Example03P",
+  "lens_type": "camera_lens",
+  "design_family_id": "us003740120",
+  "design_scope": "COMPLETE_SYSTEM",
+  "function_tags": [
+   "imaging"
+  ],
+  "application_tags": [
+   "photography"
+  ],
+  "structure_tags": [
+   "fixed_focal_length",
+   "refractive"
+  ],
+  "conjugate": "INFINITE_TO_FINITE",
+  "configuration_count": 1,
+  "powered_element_count": 8,
+  "powered_group_count": 8,
+  "aspheric_element_count": 0,
+  "aperture_validity": {
+   "state": "STOP_BLOCKING",
+   "stop_blocks_light": true,
+   "basis": "The file marks this surface as the stop and its clear semi-diameter is the smallest of the system, so the plate limits the beam.",
+   "consequence": "The Project is eligible for stop-dependent evaluation, but no pupil sample or illumination result is recorded, so no stop-dependent match is claimed.",
+   "eligible_for_stop_dependent_evaluation": true,
+   "satisfies_stop_dependent_constraints": false,
+   "satisfaction_basis": "No pupil sample or illumination measurement is recorded."
+  }
+ },
+ "native_project": {
+  "path": "records/lens-designs/lens-designs-us003740120-example03p/project.json",
+  "sha256": "75df12c8f2c80df630c7f6ae490477bfafaf4d86148d8d09cc2ea507a9e6abfe",
+  "engine_version": "0.14.0"
+ },
+ "spectrum": {
+  "sampling_wavelengths_nm": [
+   486.266178,
+   550.150192,
+   587.721866,
+   656.450688
+  ],
+  "sampling_wavelengths_basis": "DERIVED: the file's WAVM lines are air wavelengths at the reference environment; each is converted once to vacuum with the engine's own air model",
+  "sampling_wavelengths_air_nm": [
+   486.1327,
+   587.5618000000001,
+   656.2725,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0,
+   550.0
+  ],
+  "primary_wavelength_nm": 587.721866,
+  "band_facets": [
+   "visible"
+  ],
+  "wavelength_precision": "Vacuum nanometres, full precision, as the engine evaluates them.",
+  "sampling_span_nm": {
+   "min_nm": 486.266178,
+   "max_nm": 656.450688,
+   "basis": "SPAN_OF_STATED_SAMPLING_WAVELENGTHS",
+   "eligible_for": "DISCOVERY_ONLY"
+  },
+  "continuous_coverage_nm": {
+   "state": "UNCONFIRMED",
+   "min_nm": null,
+   "max_nm": null,
+   "note": "The file states its sampling wavelengths only; it states no operating band."
+  }
+ },
+ "first_order": {
+  "effective_focal_length_mm": {
+   "value": 28.02765203850729,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Paraxial EFL at 587.721866 nm",
+   "conditions": "Primary wavelength (vacuum), object at infinity."
+  },
+  "back_focal_length_mm": {
+   "value": 38.468033446328995,
+   "basis": "ENGINE_COMPUTED",
+   "definition": "Paraxial distance from the final surface vertex to the rear focal point",
+   "conditions": {
+    "distance_kind": "paraxial_focal_distance",
+    "from": "final_optical_surface_vertex",
+    "to": "paraxial_rear_focal_point",
+    "wavelength_nm": 587.721866
+   }
+  },
+  "total_track_mm": {
+   "value": 86.56363344632899,
+   "basis": "DERIVED",
+   "definition": "First surface vertex to the image plane along the axis",
+   "conditions": {
+    "from": "first_optical_surface_vertex",
+    "to": "image_plane"
+   }
+  },
+  "engine_check": {
+   "engine_version": "0.14.0",
+   "basis": "ENGINE_COMPUTED",
+   "method": "Thick-lens ABCD through the committed Project at the primary wavelength",
+   "effective_focal_length_mm": 28.02765203850729,
+   "back_focal_length_mm": 38.468033446328995,
+   "wavelength_nm": 587.721866,
+   "comparison": {
+    "rule": "per quantity: |engine - source| <= atol + rtol * scale, raised to half a printed unit where the source prints fewer digits than that rule can resolve",
+    "atol_mm": 1e-05,
+    "rtol": 0.0001,
+    "effective_focal_length": {
+     "source_mm": 28.0,
+     "engine_mm": 28.02765203850729,
+     "difference_mm": 0.027652038507291365,
+     "scale_mm": 28.02765203850729,
+     "series_tolerance_mm": 0.0028127652038507293,
+     "tolerance_mm": 0.5,
+     "tolerance_basis": "SOURCE_PRINTED_PRECISION",
+     "fraction_of_tolerance": 0.05530407701458273,
+     "fraction_of_series_tolerance": 9.830908911072704
+    }
+   }
+  },
+  "source_stated_first_order": {
+   "effective_focal_length_mm": {
+    "value": 28.0,
+    "printed": "28",
+    "resolution_mm": 1.0,
+    "basis": "SOURCE_STATED: the collection's summary sheet for this input"
+   }
+  }
+ },
+ "aperture": {
+  "f_number": {
+   "value": 2.8,
+   "basis": "SOURCE_STATED",
+   "system_aperture": true,
+   "definition": "Image-space f-number, from the file's FNUM line with type flag 0"
+  },
+  "stop_opening_diameter_mm": {
+   "value": 13.502,
+   "basis": "PROJECT_DECLARED",
+   "system_aperture": false,
+   "definition": "Diameter of the aperture stop's clear opening as the file states it"
+  },
+  "entrance_pupil_f_number": {
+   "value": 2.6939280448591245,
+   "basis": "PROJECT_DERIVED",
+   "conditions": {
+    "method": "axial_paraxial_clear_apertures",
+    "convention": "efl_over_admitted_entrance_pupil_diameter",
+    "conjugate": "infinite_to_finite",
+    "field": "on_axis",
+    "wavelength_nm": 587.721866
+   },
+   "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter."
+  }
+ },
+ "field": {
+  "basis": "SOURCE_STATED",
+  "field_type_flag": 3,
+  "kind": "IMAGE_HEIGHT",
+  "max_image_height_mm": 21.6,
+  "image_height_kind": "REAL",
+  "field_points_mm": [
+   15.12,
+   21.6
+  ],
+  "definition": "Image-space field heights, from the file's FTYP and YFLN lines"
+ },
+ "materials": {
+  "policy": "Glasses the file names are taken from the published catalog when the engine resolves the name; a name it does not resolve, and a ___BLANK glass, are modelled from the nd and vd the file states, as recorded here.",
+  "model_glasses": [
+   {
+    "material_id": "MODEL_ND1P48914_VD70P22",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P67133_VD41P64",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P67341_VD46P82",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P69401_VD54P48",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   },
+   {
+    "material_id": "MODEL_ND1P7918_VD25P87",
+    "written_as": "___BLANK (nd, vd)",
+    "dispersion_model": "SELLMEIER",
+    "basis": "SOURCE_STATED (nd, vd). The file states only nd and vd, so the record solves a three-term Sellmeier through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60."
+   }
+  ]
+ },
+ "approximations": [
+  {
+   "code": "GLASS_ND_VD_SELLMEIER",
+   "description": "The file states model glasses by nd and vd only. Each is modelled as a three-term Sellmeier solved through the vacuum C, d and F lines with the stated Abbe number and a normal-glass partial dispersion of 0.60; the d-line index is exact."
+  },
+  {
+   "code": "CLEAR_APERTURE_TRIMMED",
+   "description": "The stated outlines of ['surface 12', 'surface 13', 'surface 14', 'surface 15'] overlap by the engine's own check at radius 8.33765625 mm; they are trimmed to 8.170903125 mm (98 % of that radius), and a surface already smaller keeps its stated value.",
+   "surfaces": [
+    "surface 12",
+    "surface 13",
+    "surface 14",
+    "surface 15"
+   ],
+   "overlap_radius_mm": 8.33765625,
+   "trimmed_semi_diameter_mm": 8.170903125
+  }
+ ],
+ "unsupported_constructs": [],
+ "validation": {
+  "conversion": "PASSED",
+  "project_check": "ACCEPTED",
+  "optical_solids": "VALID",
+  "paraxial": "MATCHED",
+  "engine_version": "0.14.0",
+  "solids_findings": [],
+  "evidence_notes": [
+   "The file states 17 surfaces in 8 elements and 1 aperture stop(s); the import reproduces that decomposition.",
+   "The collection's summary prints an EFL of 28 mm against the engine's 28.027652 mm; the comparison and its tolerance are in first_order.engine_check.comparison.",
+   "The 4 sources sit on the lens axis 100 mm before the first vertex and emit along it; the image plane is at 86.563633 mm from that vertex, the paraxial rear focal point of the committed Project (exit vertex 48.095600 mm plus a back focal length of 38.468033 mm)."
+  ]
+ },
+ "record_hash_method": "SHA-256 over this record's JSON with the record_hash and record_hash_method members removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline",
+ "record_hash": "8cb2ad027ca7883a99bf82bfd6d936f07a0d4b0a65e414a677b279db1b5e19e9"
+}

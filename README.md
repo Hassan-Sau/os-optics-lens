@@ -1,5 +1,9 @@
 # os-optics-lens
 
+<!-- BEGIN INDEX COUNTS -->
+**2,453 searchable records · 2,464 configurations**
+<!-- END INDEX COUNTS -->
+
 A searchable library of optical prescriptions for AI agents. Start with an optical design brief, inspect relevant facts and structural details, and retrieve an editable native Project to continue design in `os-optics`.
 
 ## Project rules

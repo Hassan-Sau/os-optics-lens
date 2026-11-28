@@ -187,6 +187,19 @@ documented here for the contract's sake and does not occur in the data. The prop
 `property_list_comparison` only. A record with no stated aperture leaves every system-aperture field
 out rather than inferring one.
 
+### Axial paraxial aperture
+
+The intake report's `paraxial_aperture.samples` supplies `PROJECT_DERIVED` f-numbers per native configuration. Copy the sample's `data` under the named `aperture` field. In schema 1.1, put it in the matching `configurations[].aperture`. The calculation traces an on-axis paraxial ray through the Engine-resolved surfaces and materials and finds the tightest clear aperture along that path.
+
+| Configured conjugate | Search field | Convention |
+| --- | --- | --- |
+| `infinite_to_finite` | `aperture.entrance_pupil_f_number` | `efl_over_admitted_entrance_pupil_diameter` |
+| `finite_to_finite` | `aperture.paraxial_working_f_number` | `paraxial_image_space_marginal_ray` |
+
+Both facts carry `conditions.method: axial_paraxial_clear_apertures`, `field: on_axis`, the `conjugate`, `convention` and numerical vacuum `wavelength_nm`. The finite-conjugate fact also gives `object_distance_mm`, from the configured axial Gaussian waist to the first optical surface vertex. Its f-number is the reciprocal of twice the magnitude of the reduced paraxial image-space marginal-ray angle. A centered lens rim can limit the admitted cone and support these two facts.
+
+Record printed targets as `aperture.nominal_f_number` with `basis: SOURCE_STATED`. Supply a verified per-configuration fact for new or changed native Projects when the checker can compute it and a nominal value is recorded. If the checker reports `UNCONFIRMED`, leave the calculated field absent. The printed value remains available as provenance, and hard f-number constraints stay unconfirmed. The checker compares a stored Project fact with the recomputed result under the same conditions.
+
 ### Historical dump f-number entries
 
 The dump prints several f-number conventions side by side. The seed records preserve them for
