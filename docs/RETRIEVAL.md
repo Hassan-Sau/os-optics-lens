@@ -133,7 +133,7 @@ os-optics-lens project yutong-2025-mirrorless-18-p2b --out work/p2b.project.json
 ```
 
 ```
-{"ok":true,"snapshot":{...},"result":{"record_id":"yutong-2025-mirrorless-18-p2b","revision":4,
+{"ok":true,"snapshot":{...},"result":{"record_id":"yutong-2025-mirrorless-18-p2b","revision":5,
  "sha256":"14090b01fe27afcd61f8a3e111b4e8a9bdf5e726237a2f822a07a88d1176cbe2","size_bytes":75650,
  "native_configuration_ids":[],"configurations":[...],"engine_version":"0.14.0",
  "next":"...","path":"/abs/path/work/p2b.project.json",
@@ -403,7 +403,7 @@ a cursor. See [Reader compatibility](INDEX_SCHEMA.md#reader-compatibility).
  "total": {"evaluated": 22, "MATCH": 1, "UNCONFIRMED": 0, "DOES_NOT_MATCH": 21, "listed": 1,
            "excluded": {"filters": 19, "missing_fact": 0, "out_of_range": 0, "hard_shortfall": 0, "outcome": 21}},
  "candidates": [
-  {"record_id": "yutong-2025-mirrorless-18-p2b", "revision": 4,
+  {"record_id": "yutong-2025-mirrorless-18-p2b", "revision": 5,
    "title": "18 mm f/2 full-frame mirrorless P2b", "collection": "yutong-cup",
    "family": "yutong-2025-mirrorless-18", "configuration_id": null, "outcome": "MATCH",
    "counts": {"MATCH": 2, "UNCONFIRMED": 0, "DOES_NOT_MATCH": 0},
@@ -587,6 +587,13 @@ Use the Project fact for the aperture convention in your brief.
 - an entrance pupil diameter;
 - an object-side numerical aperture;
 - a stop opening diameter.
+
+For ordinary on-axis infinite-conjugate imaging, filter with `aperture.entrance_pupil_f_number`.
+For finite-conjugate imaging, use `aperture.paraxial_working_f_number` and pin `object_distance_mm`
+in the constraint's `conditions` when the brief specifies it. These checked facts can be limited
+by a modeled stop or a lens surface's clear aperture. They remain scoped to their native
+configuration and vacuum wavelength. A source-stated nominal target supplies no searchable
+value on its own.
 
 The `system_aperture` facet names the aperture the design file declares. Constrain the quantity
 the brief means. A record without it is FACT_MISSING, and `available_alternatives` shows which

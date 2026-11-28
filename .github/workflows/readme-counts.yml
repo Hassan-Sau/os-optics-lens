@@ -1,0 +1,72 @@
+name: README index counts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/readme-counts.yml
+      - scripts/update_readme_counts.py
+      - tests/test_readme_counts.py
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify README index counts
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m unittest discover -s tests -p test_readme_counts.py
+      - run: python scripts/update_readme_counts.py
+
+  publish:
+    name: Refresh README index counts
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: readme-index-counts-main
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Publish changed counts
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch --no-tags origin main
+          for attempt in 1 2 3; do
+            # A newer main push can arrive while the index is building.
+            git switch --detach FETCH_HEAD
+            base=$(git rev-parse HEAD)
+            python scripts/update_readme_counts.py
+            if git diff --quiet -- README.md; then
+              exit 0
+            fi
+            git add -- README.md
+            git commit -m 'Update README collection counts'
+            if git push origin HEAD:refs/heads/main; then
+              exit 0
+            fi
+            git fetch --no-tags origin main
+            if [ "$(git rev-parse FETCH_HEAD)" = "$base" ]; then
+              exit 1
+            fi
+          done
+          exit 1

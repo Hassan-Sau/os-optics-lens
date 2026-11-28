@@ -1,0 +1,100 @@
+{
+  "schema": "opensci.lens.record",
+  "record_schema_version": "1.0",
+  "record_id": "portrait-135-f12-infinity",
+  "record_revision": 1,
+  "title": "135 mm f/1.2 full-frame infinity-optimized portrait lens",
+  "collection": {
+    "collection_id": "opensci-design-studies",
+    "source": "OpenSci camera lens design studies",
+    "source_input": "portrait135_f12/camera.json",
+    "source_input_sha256": "38eb731c0bb38b51d5d35e5997868789d5b15624fc28f4083126a6c7d8656e44",
+    "attribution": "OpenSci 135 mm portrait lens design study, infinity design.",
+    "contributor": "JunLin615",
+    "redistribution": "Native design study contributed under the repository MIT License.",
+    "license": {
+      "spdx": "MIT",
+      "notice_path": "LICENSE",
+      "copyright": "Copyright (c) 2026 JunLin615"
+    }
+  },
+  "design": {
+    "design_scope": "COMPLETE_SYSTEM",
+    "lens_type": "camera_lens",
+    "design_family_id": "portrait-135-f12",
+    "function_tags": [
+      "imaging"
+    ],
+    "application_tags": [
+      "photography"
+    ],
+    "structure_tags": [
+      "fixed_focal_length",
+      "refractive",
+      "cemented_group"
+    ],
+    "configuration_count": 1,
+    "powered_element_count": 11,
+    "powered_group_count": 8,
+    "conjugate": "INFINITE_TO_FINITE"
+  },
+  "image_format": {
+    "format_facets": [
+      "full_frame"
+    ],
+    "width_mm": 36,
+    "height_mm": 24,
+    "basis": "PROJECT_DECLARED rectangular sensor aperture, full width and height."
+  },
+  "aperture": {
+    "nominal_f_number": {
+      "value": 1.2,
+      "basis": "SOURCE_STATED",
+      "definition": "Design target at infinity, full opening.",
+      "system_aperture": true
+    },
+    "entrance_pupil_f_number": {
+      "value": 1.1781486636871938,
+      "basis": "PROJECT_DERIVED",
+      "conditions": {
+        "method": "axial_paraxial_clear_apertures",
+        "convention": "efl_over_admitted_entrance_pupil_diameter",
+        "conjugate": "infinite_to_finite",
+        "field": "on_axis",
+        "wavelength_nm": 587.7218659920183
+      },
+      "definition": "Magnitude of effective focal length divided by the admitted axial entrance pupil diameter.",
+      "system_aperture": true
+    }
+  },
+  "first_order": {
+    "effective_focal_length_mm": {
+      "value": 134.99946319282574,
+      "basis": "ENGINE_COMPUTED",
+      "definition": "Native d-line paraxial effective focal length",
+      "conditions": {
+        "wavelength_nm": 587.7218659920183
+      }
+    }
+  },
+  "native_project": {
+    "path": "records/opensci-design-studies/portrait-135-f12-infinity/project.json",
+    "sha256": "262ad4a991e18be75a77919b5ee4eb4c59da6d7e4d4681eba691b1d8470e635f",
+    "engine_version": "0.14.0",
+    "opening_outcome": "ACCEPTED",
+    "instance_id": "P135",
+    "model_id": "P135"
+  },
+  "record_hash_method": "SHA-256 over parsed JSON with record_hash and record_hash_method removed: json.dumps(body, sort_keys=True, ensure_ascii=False) encoded as UTF-8, no trailing newline.",
+  "record_hash": "d2e3b571c6a46710260d9f15edd1f22bade5d3f804455fe456a47c98c8287627",
+  "spectrum": {
+    "primary_wavelength_nm": 587.7218659920183,
+    "sampling_wavelengths_nm": [
+      587.7218659920183
+    ],
+    "band_facets": [
+      "visible"
+    ],
+    "sampling_wavelengths_basis": "Native d-line probe wavelength in vacuum."
+  }
+}
