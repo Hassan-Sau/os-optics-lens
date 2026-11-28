@@ -58,6 +58,10 @@ For an eligible stop, the requested fact still needs comparable conditions and a
 evidence. Targets and preferences use the same stop eligibility check. The `stop_state` facet
 shows the state per record.
 
+Intake-checked axial paraxial f-numbers directly establish the admitted cone from native clear
+apertures. They can match through a limiting lens rim. An explicit
+`requires_blocking_stop: true` still requires a blocking stop.
+
 ## Spectral coverage versus discovery span
 
 * `spectrum.sampling_span_nm` is the span of the sampled design wavelengths: discovery only.
