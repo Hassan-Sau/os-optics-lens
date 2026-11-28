@@ -155,7 +155,6 @@ class Base(unittest.TestCase):
         candidate = candidates[0]
         self.assertEqual(candidate["record_id"], P2B)
         self.assertEqual(candidate["revision"], CASE["record"]["revision"])
-        self.assertEqual(candidate["revision"], 4)
         self.assertEqual(candidate["outcome"], "MATCH")
         self.assertEqual(candidate["counts"]["MATCH"], 16)
         self.assertEqual(candidate["counts"]["MATCH"], CASE["expected"]["confirmed_constraints"])
@@ -177,6 +176,20 @@ class Base(unittest.TestCase):
 
     def test_query_search(self) -> None:
         self.check_fixture_response(query.search(INDEX, query.fixture_to_request(CASE)))
+
+    def test_paraxial_f_number_search_uses_the_recomputed_value(self) -> None:
+        cases = ((1.9, 587, "MATCH"), (1.8, 587, "DOES_NOT_MATCH"), (1.9, 486, "UNCONFIRMED"))
+        for limit, wavelength_nm, expected in cases:
+            with self.subTest(limit=limit, wavelength_nm=wavelength_nm):
+                constraint = copy.deepcopy(CONSTRAINTS["f_number"])
+                constraint["predicates"][0]["value"] = limit
+                constraint["conditions"]["wavelength_nm"] = wavelength_nm
+                [candidate] = query.search(INDEX, single_constraint_request(constraint))["result"]["candidates"]
+                self.assertEqual(candidate["outcome"], expected)
+                if expected == "MATCH":
+                    fact = candidate["constraints"]["f_number"]["fact"]
+                    self.assertAlmostEqual(fact["value"], 1.8501309236451922)
+                    self.assertEqual(fact["basis"], "PROJECT_DERIVED")
 
     def test_eleven_sample_mtf_grid(self) -> None:
         inspected = query.inspect(INDEX, P2B, fields=["performance.mtf_field_minimum"])["result"]
@@ -206,7 +219,7 @@ class Base(unittest.TestCase):
                 "key", ["MATCH", [1, None], P2B, 0])),
             "evidence unresolved": broken(lambda c: c["constraints"]["corner_relative_illumination"]["fact"][
                 "source"].__setitem__("status", "HASH_MISMATCH")),
-            "other revision": broken(lambda c: c.__setitem__("revision", 5)),
+            "other revision": broken(lambda c: c.__setitem__("revision", CASE["record"]["revision"] + 1)),
             "one constraint unconfirmed": broken(lambda c: c["constraints"].__setitem__(
                 "mtf_0_to_0p8", {"outcome": "UNCONFIRMED", "reason": "SAMPLING_DIFFERS"})),
         }
